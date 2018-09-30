@@ -1,0 +1,17 @@
+.container{
+	margin-top:10px;
+	filter: drop-shadow(10px -10px 10px grey);
+	border-radius: 10px;
+	border:1px solid grey;
+	height:500px;
+}
+#imgBuffList{
+	border: 1px solid red;
+	height:200px;
+}
+#imgBuffList dl{
+	display: inline-block;
+}
+#imgBuffList dt{
+	text-align: center;
+}

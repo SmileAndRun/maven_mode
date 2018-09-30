@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="#{login}"></title>
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery.cookie.js}" type="text/javascript"></script>
+<script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/login.js}" type="text/javascript"></script>
+
+
+
+
+
+
+</head>
+<body>
+	<div class="container">
+		<div class="bg">
+			<embed class="swf" th:src="@{/swf/login.swf}" width="100%"  type="application/x-shockwave-flash" />
+		</div>
+		<div class="login_bg"></div>
+		<div class="login">
+			<table>
+				<tr>
+					<td th:text="#{login}">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group">
+							<span class="input-group-addon" th:text="#{pet.name}"></span> <input type="text"
+								class="form-control" id="userName" th:placeholder="#{lovey}">
+								 </input>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="input-group">
+							<span class="input-group-addon" th:text="#{password}" ></span> <input type="password"
+								class="form-control" id="userPwd" th:placeholder="#{secret}" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<font class="checkbox">
+							<input class="remember" type="checkbox" name="remember"  th:text="#{free.login.for.7days}"></input>
+						</font>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="#" class="forgetPwd" th:text="#{forget.pwd}"></a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button type="button" id="login_bt" class="btn btn-primary" th:text="#{login}"></button>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-primary" th:text="#{register}"></button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="language"><a onclick="changeLanguage('CHINESE')"  th:text="#{language.zh}"></a> 
+			&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="changeLanguage('ENGLISH')"  th:text="#{language.en}"></a>
+		</div>
+	</div>
+</div>
+
+<div style="display:none;">
+	<span class="tip1" th:text="#{please.input.account.password}"></span>
+	<span class="tip2" th:text="#{authentication.failure}"></span>
+	<span class="tip3" th:text="#{error.cookie}"></span>
+</div>
+<script th:src="@{/js/common.js}" type="text/javascript"></script>
+
+</body>
+</html>

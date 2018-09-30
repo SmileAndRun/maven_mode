@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdcom.hws.mapper.UserMapper">
+	<sql id="user">userId,userName,userPwd,uIsLock,uSalt</sql>
+	<!-- 查询数据 -->
+	<select id="getSaltByUname" parameterType="String" resultType="com.bdcom.hws.model.User">
+		select uSalt from t_user where userName = #{userName}
+	</select>
+	<resultMap type="com.bdcom.hws.model.User" id="userMap">
+		<id column="userId" jdbcType="INTEGER" property="userId"/>
+		<result column="userName" jdbcType="VARCHAR" property="userName"/>
+		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
+		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
+		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
+		<collection  property="roleList" ofType="com.bdcom.hws.model.Role">
+			<result column="role" jdbcType="VARCHAR" property="role"/>
+			<collection property="permissionList" ofType="com.bdcom.hws.model.Permission">
+				<result column="permission" jdbcType="VARCHAR" property="permission"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
+		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+		r.roleId = p.roleId where u.userId = #{userName}
+	</select>
+	<select id="getUserByUid" parameterType="Integer" resultType="com.bdcom.hws.model.User">
+		select <include refid="user"></include> from t_user where userId = #{userId}
+	</select>
+	<select id="getUserByUname" parameterType="String" resultType="com.bdcom.hws.model.User">
+		select <include refid="user"></include> from t_user where userName = #{userName}
+	</select>
+	<select id="getUsers"  resultType="com.bdcom.hws.model.User">
+		select <include refid="user"></include> from t_user 
+	</select>
+	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
+		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+		r.roleId = p.roleId where userName = #{userName}
+	</select>
+	<!-- 插入数据 -->
+	<insert id="registerUser" parameterType="com.bdcom.hws.model.User">
+		insert   into t_user( <include refid="user"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
+	</insert>
+	<!-- 修改数据 -->
+	<update id="changeUser" parameterType="com.bdcom.hws.model.User">
+		update t_user set userName = #{userName} and userPwd = #{userPwd}
+	</update>
+	<!-- 删除数据 -->
+	<delete id="deleteUserByUid" parameterType="Integer">
+		delete from t_user where uId = #{userId}
+	</delete>
+	<delete id="deleteUserByUname" parameterType="String">
+		delete from t_user where userName = #{userName}
+	</delete>
+	
+</mapper>

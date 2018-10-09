@@ -51,17 +51,19 @@ $(function(){
     
     //回车移动指针
 	$(".panel").keydown(function(event) {
+		
          if (event.keyCode == "13") {//keyCode=13是回车键
 			  var count = $(".num li").length;
 			  count++;
               $(".num").append("<li>"+count+"</li>");
-			  $(this).append("<input  type=\"text\"/>");
+			  $(this).append("<div  contenteditable=\"true\"></div>");
 			  var li = $(".num").find(".libg").next();
 			  var input = $(this).find(".inputBg").next();
 			  $(".libg").removeClass();
 			  $(".inputBg").removeClass();
 			  li.addClass("libg");
 			  input.addClass("inputBg");
+			  $(".inputBg").empty();
 			  $(".inputBg").focus(); //获取焦点
          }
 		 if(event.keyCode == "8"){ //退格键
@@ -92,7 +94,7 @@ $(function(){
 		$(".num").scrollTop($(this).scrollTop()); 
 	});
 	//鼠标移动指针
-	$(".panel").on("focus","input",function(){
+	$(".panel").on("focus","div",function(){
 		$(".inputBg").removeClass();
 		$(this).addClass("inputBg");
 		var currentIndex = $(this).index();

@@ -83,7 +83,7 @@ ul li{
 	float: left;
 	overflow: auto;
 }
-.panel input{
+.panel div{
 	border: none;
 	width: 100%;
 	outline: none;/* 取消选中时边框样式 */

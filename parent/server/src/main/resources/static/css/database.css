@@ -68,8 +68,51 @@ ul li{
 }
 .right .middle{
 	border-top: 1px solid #CCCCCC;
-	height:300px;
+	height:330px;
 	margin-top: 0px;
-	contenteditable: true;
+	
+}
+.panel{
+	margin-top: 20px;
+	width: 90%;
+	height:300px;
+	border-radius: 0px;
+	border-right:1px solid #AED0EA;
+	border-top:1px solid #AED0EA;
+	border-bottom:1px solid #AED0EA;
+	float: left;
+	overflow: auto;
+}
+.panel input{
+	border: none;
+	width: 100%;
+	outline: none;/* 取消选中时边框样式 */
+	padding-left: 10px;
+}
+.inputBg{
+	background-color: #ECFFFF;
+}
+.num{
+	border-radius: 0px;
+	border-left:1px solid #AED0EA;
+	border-top:1px solid #AED0EA;
+	border-bottom:1px solid #AED0EA;
+	border-right:1px solid grey;
+	margin-top: 20px;
+	margin-left: 20px;
+	height:300px;
+	width: 50px;
+	background-color: #EBEBEB;
+	text-align: center;
+	float: left;
+	overflow-y: hidden;
+}
+.num li{
+	height: 20px;
+	border-bottom: none;
+	color: grey;
+}
+.libg{
+	background-color: #DADADA;
 }
 

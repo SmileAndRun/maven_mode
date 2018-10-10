@@ -66,14 +66,21 @@ $(function(){
 		 var lastContent = divContent.substring(rangeStartOffset,divContent.length);
 		 
          if (event.keyCode == "13") {//keyCode=13是回车键
-				
 			  event.preventDefault();//阻止默认事件样式发生
 			  var count = $(".num li").length;
 			  count++;
               $(".num").append("<li>"+count+"</li>");
-			  $(this).append("<div  contenteditable=\"true\"></div>");
+			
+			  if($(".libg").text()==1 || $(".libg").text() == $(".num li").length){
+				  $(this).append("<div  contenteditable=\"true\"></div>");
+              }else{
+            	  $(".inputBg").after("<div  contenteditable=\"true\"></div>");
+              }
+
+			  
 			  var li = $(".num").find(".libg").next();
 			  var input = $(this).find(".inputBg").next();
+			  
 			  
 			  
 			  $(".inputBg").html(firstContent);
@@ -84,8 +91,6 @@ $(function(){
 			  input.addClass("inputBg");
 			  $(".inputBg").focus(); //获取焦点
 			  $(".inputBg").html(lastContent);
-			 
-			  
 			  
 			  
          }
@@ -110,9 +115,11 @@ $(function(){
 						  nLi.addClass("libg");
 						  nInput.addClass("inputBg");
 					  }
-					  po_Last_Div($(".inputBg")[0]);
-					  $(".inputBg").after(delContent);
-				  }
+					  $(".inputBg").focus();
+					  //po_Last_Div($(".inputBg")[0]);
+					  $(".inputBg").html($(".inputBg").html()+delContent);
+					  //range.setStart($(".inputBg")[0],2);	
+				 }
 				  
 			 }
 		 }
@@ -148,7 +155,7 @@ $(function(){
             obj.focus(); //解决ff不获取焦点无法定位问题
             var range = window.getSelection();//创建range
             range.selectAllChildren(obj);//range 选择obj下所有子内容
-            range.collapseToEnd();//光标移至最后
+            range.setStart(obj,3);//光标移至最后
         }
         else if (document.selection) {//ie10 9 8 7 6 5
             var range = document.selection.createRange();//创建选择对象

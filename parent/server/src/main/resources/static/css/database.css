@@ -87,7 +87,6 @@ ul li{
 	border: none;
 	width: 100%;
 	outline: none;/* 取消选中时边框样式 */
-	padding-left: 10px;
 }
 .inputBg{
 	background-color: #ECFFFF;
@@ -114,5 +113,13 @@ ul li{
 }
 .libg{
 	background-color: #DADADA;
+}
+.divFlag{
+	position: absolute;
+}
+.database-content{
+	word-wrap: break-word;  
+	word-break: break-all;
+	padding-left: 10px;
 }
 

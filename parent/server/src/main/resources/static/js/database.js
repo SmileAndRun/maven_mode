@@ -48,11 +48,7 @@ $(function(){
         return false;
     };*/
     
-    
-    //回车移动指针
-	function enterKey(event){
-		
-	}
+	//replace( /<[^>]*>/g, "" );清除粘贴样式
 	
 	$(".panel").keydown(function(event) {
 		
@@ -62,40 +58,35 @@ $(function(){
 		 var range = selection.getRangeAt(0); 
 		 // 获取光标位置
 		 var rangeStartOffset = range.startOffset;
-		 var firstContent = divContent.substring(0,rangeStartOffset);
-		 var lastContent = divContent.substring(rangeStartOffset,divContent.length);
+		
 		 
          if (event.keyCode == "13") {//keyCode=13是回车键
-			  event.preventDefault();//阻止默认事件样式发生
+			  //event.preventDefault();//阻止默认事件样式发生
 			  var count = $(".num li").length;
 			  count++;
               $(".num").append("<li>"+count+"</li>");
 			
-			  if($(".libg").text()==1 || $(".libg").text() == $(".num li").length){
-				  $(this).append("<div  contenteditable=\"true\"></div>");
-              }else{
-            	  $(".inputBg").after("<div  contenteditable=\"true\"></div>");
-              }
-
+			 
 			  
 			  var li = $(".num").find(".libg").next();
 			  var input = $(this).find(".inputBg").next();
 			  
 			  
-			  
-			  $(".inputBg").html(firstContent);
+			  //var firstContent = divContent.substring(0,rangeStartOffset);
+			 // var lastContent = divContent.substring(rangeStartOffset,divContent.length);
+			  //$(".inputBg").html(firstContent);
 			  
 			  $(".libg").removeClass();
 			  $(".inputBg").removeClass();
 			  li.addClass("libg");
 			  input.addClass("inputBg");
-			  $(".inputBg").focus(); //获取焦点
-			  $(".inputBg").html(lastContent);
+			  //$(".inputBg").focus(); //获取焦点
+			  //(".inputBg").html(lastContent);
 			  
 			  
          }
 		 
-		 if(event.keyCode == "8"){ //退格键
+		 /*if(event.keyCode == "8"){ //退格键
 			 if(rangeStartOffset == 0){ //当input框中没有数据的时候使用退格键则返回上一个input
 				 if($(".num li").length != 1){
 					  event.preventDefault();//阻止默认事件样式发生
@@ -148,9 +139,15 @@ $(function(){
 			 }
 		 }
 		 
+		 if(event.keyCode == "32"){//空格
+			 event.preventDefault();//阻止默认事件样式发生
+			 //$(".inputBg").html($(".inputBg").html()+"&nbsp;");
+			 	
+		 }*/
+		 
     });
 	//解决光标不能显示在最后面的问题
-	function po_Last_Div(obj) {
+	/*function po_Last_Div(obj) {
         if (window.getSelection) {//ie11 10 9 ff safari
             obj.focus(); //解决ff不获取焦点无法定位问题
             var range = window.getSelection();//创建range
@@ -163,14 +160,20 @@ $(function(){
             range.collapse(false);//光标移至最后
             range.select();
         }
-    }
+    }*/
 	
 	// 纵向滚动条
 	$(".panel").scroll(function(){
 		$(".num").scrollTop($(this).scrollTop()); 
 	});
 	//鼠标移动指针
+	var rowflag = 1;
 	$(".panel").on("focus","div",function(){
+		//解决开始获取焦点时div第一行不会产生一个子div,当按下回车时候才会产生,但是一般人要输入数据后才会按回车
+		if(rowflag == 1){
+			$(".database-content").append("<div><br/></div>");
+		}
+		rowflag++;
 		$(".inputBg").removeClass();
 		$(this).addClass("inputBg");
 		var currentIndex = $(this).index();
@@ -187,5 +190,6 @@ $(function(){
 		return false; 
 	};
 	
+
 });
 

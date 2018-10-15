@@ -52,13 +52,23 @@ $(function(){
 	
 	$(".panel").keydown(function(event) {
 		var obj = $(".inputBg");
-		if($(".database-content div").hasClass("inputBg")){
-			if(obj.text().indexOf(" ")== -1){
-				console.log(isKeyWord(obj.text()));
-			}else{
-				
+		var t2 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
+			if($(".database-content div").hasClass("inputBg")){
+				$(".inputBg").html("<font color='#FF0000'>select" 
+						+"</font> * <font color='#FF0000'>from</font> t_user");
+				if(obj.text().indexOf(" ")== -1){
+					if(isKeyWord(obj.text())){
+						
+					}
+				}else{
+					
+				}
 			}
-		}
+			  clearInterval(t2);
+						
+			},10);
+		
+		
 		
 		
          if (event.keyCode == "13") {//keyCode=13是回车键

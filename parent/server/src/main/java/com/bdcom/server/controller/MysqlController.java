@@ -9,6 +9,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bdcom.server.lucene.SearchMethod;
@@ -21,6 +22,7 @@ public class MysqlController extends SearchMethod{
 	List<Document> docList = null;
 	
 	@RequestMapping(value="/suggestion")
+	@ResponseBody
 	public List<String> getSuggestion(String context){
 		
 		try {
@@ -34,11 +36,18 @@ public class MysqlController extends SearchMethod{
 				for(Document doc:docList){
 					if(null == doc) return null;
 					String[] temp = doc.get("keyword").split(context);
-					String text = "<font style='font-weight:bold;'>" + context + "</font>" +temp[1];
+					String text = "";
+					if(doc.get("keyword").equals(context.trim())){
+						text = "<font style='font-weight:bold;'>" + context + "</font>";
+					}else{
+						text = "<font style='font-weight:bold;'>" + context + "</font>" +temp[1];
+					}
+					
 					strList.add(text);
 				}
 			}
 		} catch (IOException e) {
+			strList = null;
 			e.printStackTrace();
 		}
 		return strList;

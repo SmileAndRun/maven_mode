@@ -107,20 +107,39 @@ ul li{
 	overflow-y: hidden;
 }
 .num li{
-	height: 20px;
+	height: 22px;
 	border-bottom: none;
 	color: grey;
 }
 .libg{
 	background-color: #DADADA;
 }
-.divFlag{
-	position: absolute;
-}
 .database-content{
 	word-wrap: break-word;  
 	word-break: break-all;
 	padding-left: 10px;
+	position: absolute;
+}
+.database-content div{
+	font-size: 16px;
+	width: 89.7%;
+}
+.suggestion{
+	position: absolute;
+	display: none;
+	overflow-x: hidden;
+	border: 1px solid grey;
+	width: 200px;
+	height:100px;
+}
+.suggestion li{
+	padding-left: 10px;
+	height: 22px;
+	line-height: 22px;
+}
+.suggestion li:hover{
+	background-color: grey;
+	cursor: pointer;
 }
 
 

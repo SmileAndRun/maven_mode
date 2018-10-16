@@ -51,25 +51,6 @@ $(function(){
 	//replace( /<[^>]*>/g, "" );清除粘贴样式
 	
 	$(".panel").keydown(function(event) {
-		var obj = $(".inputBg");
-		var t2 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
-			if($(".database-content div").hasClass("inputBg")){
-				$(".inputBg").html("<font color='#FF0000'>select" 
-						+"</font> * <font color='#FF0000'>from</font> t_user");
-				if(obj.text().indexOf(" ")== -1){
-					if(isKeyWord(obj.text())){
-						
-					}
-				}else{
-					
-				}
-			}
-			  clearInterval(t2);
-						
-			},10);
-		
-		
-		
 		
          if (event.keyCode == "13") {//keyCode=13是回车键
 			  //event.preventDefault();//阻止默认事件样式发生
@@ -80,6 +61,9 @@ $(function(){
 			  $(".libg").removeClass();
 			  li.addClass("libg");
 			  var t =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
+				 $(".suggestion").empty();
+				 $(".suggestion").css("display","none");
+				  
 				  var inputBg = $(".inputBg:eq(1)");
 				  $(".inputBg").removeClass();
 				  inputBg.addClass("inputBg");
@@ -87,16 +71,21 @@ $(function(){
 							
 				},10);
 			  
-         }
-		 
-		 if(event.keyCode == "8"){ //退格键
-			$(".inputBg").prev().addClass("inputBg");
+			  
+			  
+         }else if(event.keyCode == "8"){ //退格键
+			//$(".inputBg").prev().addClass("inputBg");
 			if($(".num li").length == 1){
-				if($(".database-content").find("div").text() == ""){
+				if($(".database-content").find("div").text().replace(/\s+/g,"") == ""){
 					 event.preventDefault();//阻止默认事件样式发生
 				 }
 			}
-			var t =  setInterval(function(){//database-content=true比较特殊，因此需要在退格键事件完成后才执行
+			var t1 =  setInterval(function(){//database-content=true比较特殊，因此需要在退格键事件完成后才执行
+				if($(".inputBg").text().replace(/\s+/g,"") == ""){
+					 $(".suggestion").empty();
+					 $(".suggestion").css("display","none");
+				 }
+				
 				if($(".num li").length != 1){
 					  var divLength = $(".database-content").find("div").length;
 					  if(divLength < $(".num li").length){
@@ -104,20 +93,25 @@ $(function(){
 			 			$(".libg").removeClass();
 			 			$(".num li:last-child").remove();
 			 			prevLi.addClass("libg");
-			 		  }
+			 			//console.log($(".libg").text());
+			 			$(".database-content div:eq("+parseInt($(".libg").text()-1)+")").addClass("inputBg");
+					  }
 				 }
-				 clearInterval(t);
+				 clearInterval(t1);
 			},10);
-		 }
-		 if(event.keyCode == "46"){//del键
-		   var t =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
+			
+			
+		 }else if(event.keyCode == "46"){//del键
+		   var t2 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
 			  var divLength = $(".database-content").find("div").length;
 			  if(divLength < $(".num li").length){
 	 			$(".num li:last-child").remove();
 	 		  }
-				clearInterval(t);
+				clearInterval(t2);
 						
 			},10);
+		  
+		   
 		 }
 		 if(event.keyCode == "38"){ //上箭头
 			 if($(".libg").text() != 1){
@@ -128,8 +122,10 @@ $(function(){
 				 $(".inputBg").removeClass();
 				 preInputBg.addClass("inputBg");
 			 }
-		 }
-		 if(event.keyCode == "40"){ //下箭头
+			 
+			 //$(".suggestion").empty();
+			 //$(".suggestion").css("display","none");
+		 }else if(event.keyCode == "40"){ //下箭头
 			 if($(".num li").length != $(".libg").text()){
 				 var nLi = $(".num").find(".libg").next();
 				  $(".libg").removeClass();
@@ -138,6 +134,62 @@ $(function(){
 				  $(".inputBg").removeClass();
 				  nInputBg.addClass("inputBg");
 			 }
+			 //$(".suggestion").empty();
+			 //$(".suggestion").css("display","none");
+		 }else{
+			 var t3 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
+				 
+				 var url = "/mysql/suggestion";
+				 var index = $(".inputBg").text().lastIndexOf(" ");
+				 var data = {
+						 context: $(".inputBg").text().substring(index + 1),
+				 };
+				 var rs_function = function(result){
+					 if(null != result && result.length >0){
+						 $(".suggestion").empty();
+						 $(".suggestion").css("display","block");
+						 $(".suggestion").css("marginLeft",getSelectionCoords(window).x-312);
+						 $(".suggestion").css("marginTop",getSelectionCoords(window).y-83);
+						 $.each(result,function(index,value){
+							 $(".suggestion").append("<li>"+value+"</li>");
+						 });
+					 }else{
+						 $(".suggestion").empty();
+						 $(".suggestion").css("display","none");
+					 }
+						
+				}
+				var re_function = function(result){
+					layer.msg("The Server is error!");
+				}
+				if($(".inputBg").text().replace(/\s+/g,"") == ""){
+				}else{
+					$.commonAjax(url,data,rs_function,re_function);
+				}
+				clearInterval(t3);
+				 			
+			},10);
+			 
+			 
+			 
+			 //待开发
+			/* var selection= window.getSelection();
+			 var range = selection.getRangeAt(0);
+			 var obj = $(".inputBg");
+			 var t2 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
+				 if($(".database-content div").hasClass("inputBg")){
+					 if(obj.text().indexOf(" ")== -1){
+						 if(isKeyWord(obj.text())){
+							//$(".inputBg").html("<font color='#FF0000'>"+obj.text() +"</font>");
+							//po_Last_Div($(".inputBg")[0]);
+						 }
+					 }else{
+						
+					 }
+				 }
+				   clearInterval(t2);
+				 			
+				 },10);*/
 		 }
 		 
 		 /*if(event.keyCode == "32"){//空格
@@ -146,13 +198,21 @@ $(function(){
 		 }*/
 		 
     });
+	//提示框li的点击事件
+	$(".suggestion").on("click","li",function(){
+		 var index = $(".inputBg").text().lastIndexOf(" ");
+		 var temp = $(".inputBg").text().substring(index + 1);
+		 $(".inputBg").append($(this).text().split(temp));
+		 $(".suggestion").empty();
+		 $(".suggestion").css("display","none");
+	});
 	//解决光标不能显示在最后面的问题 (nouse)
 	function po_Last_Div(obj) {
         if (window.getSelection) {//ie11 10 9 ff safari
             obj.focus(); //解决ff不获取焦点无法定位问题
             var range = window.getSelection();//创建range
             range.selectAllChildren(obj);//range 选择obj下所有子内容
-            range.setStart(obj,3);//光标移至最后
+            range.collapseToEnd();//光标移至最后
         }
         else if (document.selection) {//ie10 9 8 7 6 5
             var range = document.selection.createRange();//创建选择对象
@@ -167,10 +227,10 @@ $(function(){
 		$(".num").scrollTop($(this).scrollTop()); 
 	});
 	//获取焦点
-	$(".panel").on("click","div",function(){
+	$(".panel").on("click",".database-content",function(){
 		
 		var height = getSelectionCoords(window).y;
-		var num = (height - 105)/20;
+		var num = parseInt((height - 105)/20);
 		if(num < 0){
 			num = 0;
 		}

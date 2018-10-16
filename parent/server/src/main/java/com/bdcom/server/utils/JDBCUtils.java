@@ -1,6 +1,7 @@
 package com.bdcom.server.utils;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class JDBCUtils {
 	
 	private static String DRIVER = "com.mysql.jdbc.Driver";
 	private static String USERNAME = "root";
-	private static String USERPWD = "root";
+	private static String USERPWD = "123";
 	
 	static{
 		try {
@@ -36,9 +37,9 @@ public class JDBCUtils {
 	}
 	private static Connection conn;
 	
-	public static Connection getConnection(String url){
+	public static Connection getConnection(String url,String userName,String userPwd){
 		try {
-			conn = DriverManager.getConnection(url,USERNAME,USERPWD);
+			conn = DriverManager.getConnection(url,userName,userPwd);
 		} catch (SQLException e) {
 			logger.error("Mysql数据库连接异常", e);
 		}
@@ -46,10 +47,10 @@ public class JDBCUtils {
 	}
 	private static PreparedStatement pre;
 	private static ResultSet rs;
-	public static MysqlModel excuteSql(String url,String sql){
+	public static MysqlModel excuteSql(String url,String userName,String userPwd,String sql){
 		MysqlModel model = new MysqlModel();
 		try {
-			pre = getConnection(url).prepareStatement(sql);
+			pre = getConnection(url,userName,userPwd).prepareStatement(sql);
 			boolean flag = pre.execute();
 			int count = pre.getUpdateCount();
 			model.setFlag(flag);
@@ -90,8 +91,11 @@ public class JDBCUtils {
 		}
 		return model;
 	}
-	public static JSONObject getMysqlDataBase(String url) throws SQLException{
-		 rs = getConnection(url).getMetaData().getTables(null, null, null,new String[] { "TABLE" });
+	public static JSONObject getMysqlDataBase(String url,String userName,String userPwd) throws SQLException{
+		 //conn = getConnection(url);
+		 //DatabaseMetaData dmData = conn.getMetaData();
+		 //rs = dmData.getTables(null, null, null,new String[] { "TABLE" });
+		 rs = getConnection(url,userName,userPwd).getMetaData().getTables(null, null, null,new String[] { "TABLE" });
 		 JSONObject obj = new JSONObject();
 		 Set<String> tables = new HashSet<String>(); 
 		 Set<String> databaseName = new HashSet<String>();

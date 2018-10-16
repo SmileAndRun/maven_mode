@@ -21,6 +21,10 @@ public class RootController {
 	
 	@Value("${spring.datasource.url}")
 	String databaseUrl;
+	@Value("${spring.datasource.username}")
+	String userName;
+	@Value("${spring.datasource.password}")
+	String userPwd;
 	
 	@RequestMapping(value="/index")
 	public String initRootPage(HttpServletRequest req){
@@ -31,7 +35,7 @@ public class RootController {
 		JSONObject obj = null;
 		
 		try {
-			obj = JDBCUtils.getMysqlDataBase(databaseUrl);
+			obj = JDBCUtils.getMysqlDataBase(databaseUrl,userName,userPwd);
 		} catch (SQLException e) {
 			obj = null;
 			e.printStackTrace();

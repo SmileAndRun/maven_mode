@@ -1,13 +1,19 @@
 package com.bdcom.server.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+
+
+
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +26,8 @@ public class MysqlController extends SearchMethod{
 	Map<List<Document>, Query> map = null;
 	List<String> strList = null;
 	List<Document> docList = null;
+	
+	
 	
 	@RequestMapping(value="/suggestion")
 	@ResponseBody

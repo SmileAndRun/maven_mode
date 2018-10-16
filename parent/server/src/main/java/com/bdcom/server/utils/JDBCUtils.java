@@ -8,10 +8,15 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.model.MysqlModel;
 
 
@@ -84,6 +89,45 @@ public class JDBCUtils {
 			logger.error("sql语句异常", e);
 		}
 		return model;
+	}
+	public static JSONObject getMysqlDataBase(String url) throws SQLException{
+		 rs = getConnection(url).getMetaData().getTables(null, null, null,new String[] { "TABLE" });
+		 JSONObject obj = new JSONObject();
+		 Set<String> tables = new HashSet<String>(); 
+		 Set<String> databaseName = new HashSet<String>();
+		 Map<String, List<String>> colums = new LinkedHashMap<String,List<String>>();
+		 while (rs.next()) {
+			 //表名
+			 tables.add(rs.getString("TABLE_NAME"));
+			 //表类型
+			 //rs.getString("TABLE_TYPE");
+			 //数据库名
+			 databaseName.add(rs.getString("TABLE_CAT"));
+			 //用户名
+			 //rs.getString("TABLE_SCHEM");
+			 //表备注
+			 //rs.getString("REMARKS");
+         }
+		 obj.put("tables", tables);
+		 obj.put("databaseName",databaseName);
+		 //遍历表名获取表字段
+		 for(String tableName:tables){
+			 String sql = "select * from " + tableName;
+			 pre=conn.prepareStatement(sql);
+			 rs = pre.executeQuery();
+			 ResultSetMetaData mData = rs.getMetaData();
+			 //无字段名则进行下一次循环
+			 if(mData.getColumnCount()<=0) continue;
+			 List<String> list = new ArrayList<String>();
+			 for(int i=1;i<mData.getColumnCount();i++){
+				 
+				 list.add(mData.getColumnName(i));
+			 }
+			 colums.put(tableName, list);
+		 }
+		 obj.put("colums", colums);
+		 
+		return obj;
 	}
 
 }

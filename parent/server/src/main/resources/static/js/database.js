@@ -70,9 +70,6 @@ $(function(){
 				  clearInterval(t);
 							
 				},10);
-			  
-			  
-			  
          }else if(event.keyCode == "8"){ //退格键
 			//$(".inputBg").prev().addClass("inputBg");
 			if($(".num li").length == 1){
@@ -170,8 +167,6 @@ $(function(){
 				 			
 			},10);
 			 
-			 
-			 
 			 //待开发
 			/* var selection= window.getSelection();
 			 var range = selection.getRangeAt(0);
@@ -191,11 +186,6 @@ $(function(){
 				 			
 				 },10);*/
 		 }
-		 
-		 /*if(event.keyCode == "32"){//空格
-			 event.preventDefault();//阻止默认事件样式发生
-			 //$(".inputBg").html($(".inputBg").html()+"&nbsp;");
-		 }*/
 		 
     });
 	//提示框li的点击事件
@@ -312,7 +302,7 @@ $(function(){
 	    }
 	    return { x: x, y: y };
 	}
-	//关键字变色
+	//关键字变色 （待定）
 	var keyword = ["add", "all", "alter", "analyze", "and", "as", "asc", "asensitive",
 			"before", "between", "bigint", "binary", "blob", "both", "by", "call", "cascade", 
 			"case",	"change", "char", "character", "check", "collate", "column", "condition",

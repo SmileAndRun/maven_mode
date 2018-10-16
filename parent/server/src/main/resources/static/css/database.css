@@ -141,5 +141,7 @@ ul li{
 	background-color: grey;
 	cursor: pointer;
 }
-
+.tables{
+	display: inline-block;
+}
 

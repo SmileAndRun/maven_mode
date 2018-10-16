@@ -13,6 +13,7 @@
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
 <script th:src="@{/layer/layer.js}" type="text/javascript"></script>
 <script th:src="@{/js/database.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
 </head>
 <body>
 	<div class="container">
@@ -21,13 +22,12 @@
 				<label th:text="#{database}"></label>
 			</div>
 			<div class="resource">
-				<ul>
-					<li class="bli">
+				<ul id="tree">
+					<li class="bli" th:each="dName : ${database.databaseName}">
 						<i class="fa fa-caret-right rarrows"></i>
 						<i class="fa fa-database database"></i>
-						<label class="rtext">test</lable>
+						<label class="rtext" th:text="${dName}"></lable><!-- th:each="tName : ${database.tables}" -->
 					</li>
-					
 				</ul>
 				
 			</div>

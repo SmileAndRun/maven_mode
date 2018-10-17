@@ -11,9 +11,10 @@
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
 <script th:src="@{/layer/layer.js}" type="text/javascript"></script>
 <script th:src="@{/js/database.js}" type="text/javascript"></script>
-<script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
+
 </head>
 <body>
 	<div class="container">
@@ -22,20 +23,22 @@
 				<label th:text="#{database}"></label>
 			</div>
 			<div class="resource">
-				<ul id="tree">
-					<li class="bli" th:each="dName : ${database.databaseName}">
+				<input class="databaseData" type="hidden" th:value="${database}"/>
+				<div id="tree">
+					<!-- <li class="bli" th:each="dName : ${database.databaseName}">
 						<i class="fa fa-caret-right rarrows"></i>
 						<i class="fa fa-database database"></i>
-						<label class="rtext" th:text="${dName}"></label><!-- th:each="tName : ${database.tables}" -->
-					</li>
-				</ul>
+						<label class="rtext" th:text="${dName}"></label>th:each="tName : ${database.tables}"
+					</li> -->
+				</div>
 				
 			</div>
 		</div>
 		<div class="right">
-			<div class="top">
-			ss
-			</div>
+			<!-- <div class="top">
+				<div class="runButton"><i class="fa fa-caret-right runIcon" aria-hidden="true"></i></div>
+				<font class="run" th:text="#{run}"></font>
+			</div> -->
 			<ul id="myTab" class="nav nav-tabs">
 					<li class="active">
 						<a href="#edit" style="color:#72A7CF;" data-toggle="tab" th:text="#{editor}"></a>
@@ -56,7 +59,7 @@
 					
 				</div>
 			</div>
-			<div draggable="true" class="fa fa-arrows-v handler"></div>
+			<!-- <div draggable="true" class="fa fa-arrows-v handler"></div> -->
 			<div class="bottom">
 				<div  contenteditable="true" ></div>
 			</div>

@@ -1,8 +1,44 @@
 $(function(){
 	var height = $(window).height();
 	$(".left").css("height",height);
-	
-	$(".resource ul").on("click",".bli,.ali",function(){
+	//后台直接跳转页面携带了数据，将它储存在html，js进行处理。此时需要转换为json数据
+	var databaseData = eval("("+$(".databaseData").val()+")");
+	var tree = [];
+	$.each(databaseData.databaseName,function(index,value){
+		var parent = {};
+		parent["text"] = "<i class='fa fa-database database' style='margin-right:10px;margin-left:-10px;'/>" + value;
+		parent["color"] = "#636363";
+		var temp = [];
+		$.each(databaseData.tables,function(i,v){
+			
+			var jsonTemp = {};
+			jsonTemp["text"] = v;
+			jsonTemp["icon"] = "glyphicon glyphicon-th";
+			jsonTemp["color"] = "#636363";
+			var temp1 = [];
+			$.each(databaseData.colums[v],function(key,value){
+				var jsonTemp1 = {};
+				jsonTemp1["text"] = value;
+				jsonTemp1["icon"] = "glyphicon glyphicon-menu-hamburger";
+				jsonTemp1["color"] = "#636363";
+				temp1.push(jsonTemp1);
+			});
+			jsonTemp["nodes"] = temp1;
+			temp.push(jsonTemp);
+			
+		});
+		parent["nodes"] = temp;
+		tree.push(parent);
+	});
+	//初始化数据源tree结构
+	$('#tree').treeview({
+		  data: tree,         // data is not optional
+		  levels: databaseData.databaseName.length,
+		  collapseIcon: "glyphicon glyphicon-triangle-bottom",
+		  expandIcon: "glyphicon glyphicon-triangle-right",
+	});
+	//使用bootstrap-treeview代替
+	/*$(".resource ul").on("click",".bli,.ali",function(){
 		var thisName = $(this).attr("class");
 		if(thisName == "bli"){
 			$(".ali").find(".rarrows").attr("class", "fa fa-caret-right rarrows");
@@ -15,47 +51,10 @@ $(function(){
 			$(this).find(".rarrows").attr("class", "fa fa-caret-right rarrows");
 		}else{
 			$(this).find(".rarrows").attr("class", "fa fa-caret-down rarrows");
-			var tree = [
-				  {
-				    text:"Parent 1",
-				    nodes: [
-				      {
-				        text:"Child 1",
-				        nodes: [
-				          {
-				            text:"Grandchild 1"
-				          },
-				          {
-				            text:"Grandchild 2"
-				          }
-				        ]
-				      },
-				      {
-				        text:"Child 2"
-				      }
-				    ]
-				  },
-				  {
-				    text:"Parent 2"
-				  },
-				  {
-				    text:"Parent 3"
-				  },
-				  {
-				    text:"Parent 4"
-				  },
-				  {
-				    text:"Parent 5"
-				  }
-				];
-			$('#tree').treeview({
-				  data: tree,         // data is not optional
-				  levels: 5,
-				  backColor:'green'
-				});  
+			
+			
 		}
-	});
-	
+	});*/
 	//拖拽 html 元素浮动了所以移动不了
 	/*var doc = $(document), dl = $("div.middle"), dc = $("div.bottom");
     var sum = dl.height() + dc.height() + 
@@ -268,12 +267,17 @@ $(function(){
 		$(".database-content div:eq("+ num +")").addClass("inputBg");
 		
 	});
-
-	
-	// 禁止粘贴
-	document.onpaste = function(){ 
-		return false; 
-	};
+	// 禁止粘贴 未解决粘贴bug
+	$('.database-content').bind('paste',function(e){
+		e.preventDefault();//阻止默认事件样式发生
+        /*var pastedText = undefined;
+        if (window.clipboardData && window.clipboardData.getData) { // IE
+            pastedText = window.clipboardData.getData('Text');
+          } else {
+            pastedText = e.originalEvent.clipboardData.getData('Text');//e.clipboardData.getData('text/plain');
+            document.execCommand('insertText', false, pastedText.replace(/<[^>]+>/g,""));
+          }*/
+    });
 	//获取光标在input框中的位置(nouse)
 	$.fn.getCursorPosition = function () {
         var el = $(this).get(0);
@@ -341,7 +345,7 @@ $(function(){
 	    return { x: x, y: y };
 	}
 	//关键字变色 （待定）
-	var keyword = ["add", "all", "alter", "analyze", "and", "as", "asc", "asensitive",
+	/*var keyword = ["add", "all", "alter", "analyze", "and", "as", "asc", "asensitive",
 			"before", "between", "bigint", "binary", "blob", "both", "by", "call", "cascade", 
 			"case",	"change", "char", "character", "check", "collate", "column", "condition",
 			"connection","constraint", "continue", "convert", "create", "cross", "current_date",
@@ -372,7 +376,13 @@ $(function(){
 			return false;
 		}
 		return true;
-	}
+	}*/
+	//右键事件
+	/*$("#tree").bind("contextmenu",function(e){
+		//阻止默认事件发生
+		e.preventDefault();
+		//alert($(this).attr('class'));
+	});*/
 	
 
 });

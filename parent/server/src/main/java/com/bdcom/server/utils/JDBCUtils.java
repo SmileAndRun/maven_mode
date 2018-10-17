@@ -1,7 +1,6 @@
 package com.bdcom.server.utils;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +24,6 @@ public class JDBCUtils {
 	private static Logger logger = Logger.getLogger(JDBCUtils.class.getClass());
 	
 	private static String DRIVER = "com.mysql.jdbc.Driver";
-	private static String USERNAME = "root";
-	private static String USERPWD = "123";
 	
 	static{
 		try {
@@ -92,10 +89,8 @@ public class JDBCUtils {
 		return model;
 	}
 	public static JSONObject getMysqlDataBase(String url,String userName,String userPwd) throws SQLException{
-		 //conn = getConnection(url);
-		 //DatabaseMetaData dmData = conn.getMetaData();
-		 //rs = dmData.getTables(null, null, null,new String[] { "TABLE" });
-		 rs = getConnection(url,userName,userPwd).getMetaData().getTables(null, null, null,new String[] { "TABLE" });
+
+		rs = getConnection(url,userName,userPwd).getMetaData().getTables(null, null, null,new String[] { "TABLE" });
 		 JSONObject obj = new JSONObject();
 		 Set<String> tables = new HashSet<String>(); 
 		 Set<String> databaseName = new HashSet<String>();

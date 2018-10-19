@@ -1,10 +1,13 @@
 package com.bdcom.server.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+
+
+
 
 
 
@@ -18,7 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.lucene.SearchMethod;
+import com.bdcom.server.model.MysqlModel;
+import com.bdcom.server.utils.JDBCUtils;
 
 @RestController
 @RequestMapping(value="/mysql")
@@ -26,7 +32,12 @@ public class MysqlController extends SearchMethod{
 	Map<List<Document>, Query> map = null;
 	List<String> strList = null;
 	List<Document> docList = null;
-	
+	@Value("${spring.datasource.url}")
+	String databaseUrl;
+	@Value("${spring.datasource.username}")
+	String userName;
+	@Value("${spring.datasource.password}")
+	String userPwd;
 	
 	
 	@RequestMapping(value="/suggestion")
@@ -59,5 +70,32 @@ public class MysqlController extends SearchMethod{
 			e.printStackTrace();
 		}
 		return strList;
+	}
+	@RequestMapping(value="/getMysqlReturnData")
+	@ResponseBody
+	public JSONObject getMysqlReturnData(String sql){
+		//清除特殊符号
+		sql = sql.replaceAll("\t", "");
+		sql = sql.replaceAll("\n", "");
+		JSONObject obj = new JSONObject();
+		MysqlModel model = null;
+		try{
+			model = JDBCUtils.excuteSql(databaseUrl, userName, userPwd, sql);
+			
+		}catch(NullPointerException e){
+			obj.put("message", "已经停止");
+			e.printStackTrace();
+		}catch(Exception e){
+			model = null;
+			e.printStackTrace();
+		}
+		obj.put("model", model);
+		return obj;
+	}
+	@RequestMapping(value="/stopMysql")
+	@ResponseBody
+	public boolean stopMysql(){
+		boolean flag = JDBCUtils.close();
+		return flag;
 	}
 }

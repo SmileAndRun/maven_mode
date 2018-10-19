@@ -257,7 +257,7 @@ $(function(){
 	$(".panel").on("click",".database-content",function(){
 		
 		var height = getSelectionCoords(window).y;
-		var num = parseInt((height - 105)/20);
+		var num = parseInt((height - 133)/20);
 		if(num < 0){
 			num = 0;
 		}
@@ -377,13 +377,35 @@ $(function(){
 		}
 		return true;
 	}*/
-	//右键事件
+	//右键事件 待定
 	/*$("#tree").bind("contextmenu",function(e){
 		//阻止默认事件发生
 		e.preventDefault();
 		//alert($(this).attr('class'));
 	});*/
 	
+	//runButton
+	$(".top").on("click",".runButton",function(){
+		var sql = $(".database-content").text();
+		var url = "/mysql/getMysqlReturnData";
+		 var data = {
+				 sql: sql,
+		 };
+		 var rs_function = function(result){
+			 if(result.model != null){
+				 
+			 }
+				
+		}
+		var re_function = function(result){
+			layer.msg("The Server is error!");
+		}
+		$.commonAjax(url,data,rs_function,re_function);
+	
+	});
+	$("").on("click","",function(){
+		
+	})
 
 });
 

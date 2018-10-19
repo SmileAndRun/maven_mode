@@ -128,5 +128,26 @@ public class JDBCUtils {
 		 
 		return obj;
 	}
-
+	/**
+	 * 关闭数据库连接
+	 * @return
+	 */
+	public static boolean close(){
+		try {
+			if(null != rs){
+				rs.close();
+				if(null != pre){
+					pre.close();
+					if(null != conn){
+						conn.close();
+					}
+				}
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

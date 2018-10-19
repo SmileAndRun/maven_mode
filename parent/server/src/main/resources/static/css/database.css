@@ -71,15 +71,46 @@ ul li{
 	margin-top: 10px;
 }
 .runIcon{
-	font-size: 40px;
+	font-size: 30px;
 	line-height: 30px;
 }
-.top .run{
+.stopIcon,.rollBackIcon{
+	line-height: 30px;
+}
+
+.top .run,.top .stop,.top .rollBack{
 	color: #7F7F7F;
 	display: inline-block;
 	vertical-align: middle;
 	height: 30px;
-	margin-top: -10px;
+}
+.stopButton{
+	color: red;
+	display: inline-block;
+	border: 1px solid #CCCCCC;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-left: 10px;
+	vertical-align: middle;
+	margin-top: -12px;
+}
+.rollBackButton{
+	color: #006600;
+	display: inline-block;
+	border: 1px solid #CCCCCC;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 20px;
+	border-radius: 5px;
+	cursor: pointer;
+	margin-left: 10px;
+	vertical-align: middle;
+	margin-top: -12px;
 }
 .handler{
 	border:1px solid #CCCCCC;
@@ -164,4 +195,24 @@ ul li{
 .tables{
 	display: inline-block;
 }
+.panel .bottom{
+	position: absolute;
+	width: 95%;
+	top: 410px;
+	height: 150px;
+	border: 1px solid grey;
+	margin-left: -50px;
+}
+.console{
+	display: block;
+	width: 50px;
+	background-color: #00FF00;
+	float: left;
+}
+.consoleContent{
+	display: block;
+	width: 90%;
+	float: left;
+}
+
 

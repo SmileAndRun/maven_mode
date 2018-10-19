@@ -38,8 +38,10 @@
 			<div class="top">
 				<div class="runButton"><i class="fa fa-caret-right runIcon" aria-hidden="true"></i></div>
 				<div class="run" th:text="#{run}"></div>
-				<div class="stopButton"><i class="fa fa-stop" aria-hidden="true"></i></div>
-				<div><i class="fa fa-reply" aria-hidden="true"></i></div>
+				<div class="stopButton"><i class="fa fa-stop stopIcon" aria-hidden="true"></i></div>
+				<div class="stop" th:text="#{stop}"></div>
+				<!-- <div class="rollBackButton"><i class="fa fa-reply rollBackIcon" aria-hidden="true"></i></div>
+				<div class="rollBack" th:text="#{rollBack}"></div> -->
 			</div>
 			<ul id="myTab" class="nav nav-tabs">
 					<li class="active">
@@ -58,13 +60,32 @@
 						<div><br/></div>
 					</div>
 					<ul class="suggestion"></ul>
+					<!-- <div draggable="true" class="fa fa-arrows-v handler"></div> -->
+					<div class="bottom">
+						<div class="console">s</div>
+						<div class="consoleContent" >
+							<ul id="myTab" class="nav nav-tabs">
+									<li class="active">
+										<a href="#info" style="color:#72A7CF;" data-toggle="tab" th:text="#{editor}"></a>
+									</li>
+									<li >
+										<a href="#result" style="color:#72A7CF;" data-toggle="tab" th:text="#{editor}"></a>
+									</li>
+							</ul>
+							<div class="tab-content">
+								<div id="info" class="tab-pane fade in active">
+								
+								</div>
+								<div id="result" class="tab-pane fade">
+								
+								</div>
+							</div>
+						</div>
+					</div>
 					
 				</div>
 			</div>
-			<!-- <div draggable="true" class="fa fa-arrows-v handler"></div> -->
-			<div class="bottom">
-				<div  contenteditable="true" ></div>
-			</div>
+			
 		</div>
 	</div>
 </body>

@@ -181,9 +181,14 @@ $(function(){
 				 var rs_function = function(result){
 					 if(null != result && result.length >0){
 						 $(".suggestion").empty();
-						 $(".suggestion").css("display","block");
-						 $(".suggestion").css("marginLeft",getSelectionCoords(window).x-312);
-						 $(".suggestion").css("marginTop",getSelectionCoords(window).y-83);
+						 $(".suggestion").css("display","inline-block");
+						 //$(".suggestion").css("position","absolute");0-getSelectionCoords(window).x
+						 var p_width = $(".panel").width()-1;
+						 $(".suggestion").css("marginLeft",0-p_width);
+						 var e_temp = $(".inputBg").index()*22 + 45;
+						 $(".suggestion").css("marginTop",e_temp);
+						 //$(".suggestion").css("marginLeft",event.x);
+						 //$(".suggestion").css("marginTop",event.y);
 						 $.each(result,function(index,value){
 							 $(".suggestion").append("<li>"+value+"</li>");
 						 });
@@ -204,24 +209,6 @@ $(function(){
 				 			
 			},10);
 			 
-			 //待开发
-			/* var selection= window.getSelection();
-			 var range = selection.getRangeAt(0);
-			 var obj = $(".inputBg");
-			 var t2 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
-				 if($(".database-content div").hasClass("inputBg")){
-					 if(obj.text().indexOf(" ")== -1){
-						 if(isKeyWord(obj.text())){
-							//$(".inputBg").html("<font color='#FF0000'>"+obj.text() +"</font>");
-							//po_Last_Div($(".inputBg")[0]);
-						 }
-					 }else{
-						
-					 }
-				 }
-				   clearInterval(t2);
-				 			
-				 },10);*/
 		 }
 		 
     });
@@ -233,7 +220,7 @@ $(function(){
 		 $(".suggestion").empty();
 		 $(".suggestion").css("display","none");
 	});
-	//解决光标不能显示在最后面的问题 (nouse)
+	//解决光标不能显示在最后面的问题 (no use)
 	function po_Last_Div(obj) {
         if (window.getSelection) {//ie11 10 9 ff safari
             obj.focus(); //解决ff不获取焦点无法定位问题
@@ -254,13 +241,8 @@ $(function(){
 		$(".num").scrollTop($(this).scrollTop()); 
 	});
 	//获取焦点
-	$(".panel").on("click",".database-content",function(){
-		
-		var height = getSelectionCoords(window).y;
-		var num = parseInt((height - 133)/20);
-		if(num < 0){
-			num = 0;
-		}
+	$(".panel").on("click",".database-content div",function(){
+		var num = $(this).index();
 		$(".libg").removeClass();
 		$(".num li:eq("+ num +")").addClass("libg");
 		$(".inputBg").removeClass();
@@ -278,7 +260,7 @@ $(function(){
             document.execCommand('insertText', false, pastedText.replace(/<[^>]+>/g,""));
           }*/
     });
-	//获取光标在input框中的位置(nouse)
+	//获取光标在input框中的位置(no use)
 	$.fn.getCursorPosition = function () {
         var el = $(this).get(0);
         var pos = 0;
@@ -393,7 +375,13 @@ $(function(){
 		 };
 		 var rs_function = function(result){
 			 if(result.model != null){
-				 
+				 if(result.model.error != null){
+					 var info = result.model.error;
+					 $("#info").html("[SQL]:"+sql+"<br/>[ERROR]:"+info);
+				 }else{
+					 
+					 $("#info").html();
+				 }
 			 }
 				
 		}

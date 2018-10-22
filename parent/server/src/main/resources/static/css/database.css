@@ -51,11 +51,11 @@ ul li{
 
 .right{
 	border:1px solid #CCCCCC;
-	position:absolute; 
+	position: absolute; 
 	left:225px; 
 	top:0px; 
 	width:80%;
-	height:93%
+	height: 100%
 }
 .runButton{
 	color: #7CFC00;
@@ -136,7 +136,7 @@ ul li{
 	float: left;
 	overflow: auto;
 }
-.panel div{
+.panel .database-content{
 	border: none;
 	width: 100%;
 	outline: none;/* 取消选中时边框样式 */
@@ -169,7 +169,6 @@ ul li{
 }
 .database-content{
 	padding-left: 10px;
-	position: absolute;
 }
 .database-content div{
 	font-size: 16px;
@@ -192,27 +191,31 @@ ul li{
 	background-color: grey;
 	cursor: pointer;
 }
-.tables{
-	display: inline-block;
-}
-.panel .bottom{
+.bottom{
 	position: absolute;
 	width: 95%;
 	top: 410px;
-	height: 150px;
-	border: 1px solid grey;
-	margin-left: -50px;
+	height: 120px;
+	border: 1px solid #AED0EA;
+	margin-left: 20px;
+	overflow: auto;
 }
 .console{
 	display: block;
 	width: 50px;
 	background-color: #00FF00;
 	float: left;
+	text-align: center;
+	color: white;
+	border-radius: 5px;
+	font-size: 10px;
 }
 .consoleContent{
 	display: block;
 	width: 90%;
 	float: left;
+	margin-left: 10px;
+	margin-top: 5px;
 }
 
 

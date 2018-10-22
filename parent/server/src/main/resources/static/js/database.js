@@ -379,8 +379,23 @@ $(function(){
 					 var info = result.model.error;
 					 $("#info").html("[SQL]:"+sql+"<br/>[ERROR]:"+info);
 				 }else{
-					 
-					 $("#info").html();
+					 $("#info").html("[SQL]:"+sql+"<br/>[Affected rows]:"+result.model.affectRow);
+					 if(null != result.model.title){
+						 var title = "<tr>";
+						 for(var i=0;i<result.model.title.length;i++){
+							 title += "<td>" + result.model.title[i] +"</td>"
+						 }
+						 title += "</tr>";
+						 var content = "";
+						 for(var j=0;j<result.model.content.length;j++){
+							 content += "<tr>";
+							 for(var k=0;k<result.model.content[j].length;k++){
+								 content +=  "<td>"+result.model.content[j][k]+"</td>";
+							 }
+							 content += "</tr>";
+						 }
+						 $("#result table").html(title+content);
+					 }
 				 }
 			 }
 				

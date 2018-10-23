@@ -224,4 +224,11 @@ ul li{
 	border: 1px solid #AED0EA;
 	text-align: center;
 }
+.loading{
+	color: #AED0EA;
+	position: absolute;
+	top: 40%;
+	left: 50%;
+	display: none;
+}
 

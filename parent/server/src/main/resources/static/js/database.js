@@ -367,8 +367,10 @@ $(function(){
 	});*/
 	
 	//runButton
-	$(".top").on("click",".runButton",function(){
+	$(".right .top").on("click",".runButton",function(){
+		$(".loading").css("display","block");
 		var sql = $(".database-content").text();
+		sql = sql.replace(/\s+/g, ' ');
 		var url = "/mysql/getMysqlReturnData";
 		 var data = {
 				 sql: sql,
@@ -397,18 +399,40 @@ $(function(){
 						 $("#result table").html(title+content);
 					 }
 				 }
+				 if(result.message != null){
+					 layer.msg(result.message);
+				 }
 			 }
 				
 		}
 		var re_function = function(result){
 			layer.msg("The Server is error!");
 		}
+		//globalLoading();
 		$.commonAjax(url,data,rs_function,re_function);
+		$(".loading").css("display","none");
+		//layer.close(loadingIndex);//执行完关闭loading
 	
 	});
-	$("").on("click","",function(){
-		
-	})
+	$(".right .top").on("click",".stopButton",function(){
+		var url = "/mysql/stopMysql";
+		 var data = {};
+		 var rs_function = function(result){
+			 layer.msg("The process is stoped!");
+		}
+		var re_function = function(result){
+			layer.msg("The Server is error!");
+		}
+		$.commonAjax(url,data,rs_function,re_function);
+	});
+	// no use
+	var loadingIndex = -1;
+	function globalLoading(num){
+		if( loadingIndex == -1 ){
+			//支持0-2,0和2还可以
+			loadingIndex = layer.load(num);
+		}
+	}
 
 });
 

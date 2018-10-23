@@ -360,27 +360,54 @@ $(function(){
 		return true;
 	}*/
 	//右键事件 
-	/*$(".node-tree").bind("contextmenu",function(e){
+	context.init({ preventDoubleContext: false });//初始化
+    context.settings({ compress: true });
+	$("#tree").on("contextmenu","li",function(e){
 		//阻止默认事件发生
 		e.preventDefault();
-		alert($(this).attr('class'));
-	});*/
-	context.init({ preventDoubleContext: false });//初始化
-	 
-    context.settings({ compress: true });
- 
-    context.attach('#tree .node-selected', [
-        { header: '执行操作' },
-        {
-            text: '修改', action: function (e) {
-                revi();
-            }
-        },
-        { text: '删除', href: '#' },
-        { text: '新建下级', href: '#' },
-        { text: '新建同级', href: '#' },
- 
-    ]);
+		//0表示当前右键的是数据库
+		//1表示表
+		//2表示字段
+		var i_length = $(this).find(".indent").length;
+		console.log(i_length);
+		if(i_length == 0){
+			context.attach('#tree', [
+		       /* { header: '执行操作' },*/
+		        {
+		            text: '修改', action: function (e) {
+		                revi();
+		            }
+		        },
+		        { text: '删除数据库', href: '#' },
+			        
+			    ]);
+		}else if(i_length == 1){
+			context.attach('#tree', [
+			       /* { header: '执行操作' },*/
+			        {
+			            text: '修改', action: function (e) {
+			                revi();
+			            }
+			        },
+			        { text: '删除表', href: '#' },
+				        
+				    ]);
+			
+		}else if(i_length == 2){
+			context.attach('#tree', [
+			       /* { header: '执行操作' },*/
+			        {
+			            text: '修改', action: function (e) {
+			                revi();
+			            }
+			        },
+			        { text: '删除字段', href: '#' },
+				        
+				    ]);
+		}
+	    
+	});
+	
     
 	//runButton
 	$(".right .top").on("click",".runButton",function(){

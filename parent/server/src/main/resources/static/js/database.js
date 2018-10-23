@@ -359,13 +359,29 @@ $(function(){
 		}
 		return true;
 	}*/
-	//右键事件 待定
-	/*$("#tree").bind("contextmenu",function(e){
+	//右键事件 
+	/*$(".node-tree").bind("contextmenu",function(e){
 		//阻止默认事件发生
 		e.preventDefault();
-		//alert($(this).attr('class'));
+		alert($(this).attr('class'));
 	});*/
-	
+	context.init({ preventDoubleContext: false });//初始化
+	 
+    context.settings({ compress: true });
+ 
+    context.attach('#tree .node-selected', [
+        { header: '执行操作' },
+        {
+            text: '修改', action: function (e) {
+                revi();
+            }
+        },
+        { text: '删除', href: '#' },
+        { text: '新建下级', href: '#' },
+        { text: '新建同级', href: '#' },
+ 
+    ]);
+    
 	//runButton
 	$(".right .top").on("click",".runButton",function(){
 		$(".loading").css("display","block");
@@ -434,5 +450,7 @@ $(function(){
 		}
 	}
 
+	
+	
 });
 

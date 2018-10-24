@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +30,7 @@ import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.springframework.core.io.ClassPathResource;
-import org.wltea.analyzer.lucene.IKAnalyzer;
-
 import org.apache.lucene.document.Field.Store;
 
 public class IndexUtils {
@@ -47,7 +46,7 @@ public class IndexUtils {
 
 	public static Analyzer analyzer;
 	static Directory fsd;
-	static File path;
+	static Path path;
 
 	// 静态资源加载，当类加载的时候运行(因为只要加载一次)
 	static {
@@ -59,7 +58,7 @@ public class IndexUtils {
 			// new IKAnalyzer(true)表示智能分词
 			// new IKAnalyzer(false)表示最细粒度分词(默认也是这个)
 			analyzer = new StandardAnalyzer();
-			path = new File("mysql/keyword");// 磁盘索引库路径(相对路径)
+			path =  Paths.get("mysql/keyword");// 磁盘索引库路径(相对路径)
 			fsd = FSDirectory.open(path);// 创建磁盘目录
 
 		} catch (IOException e) {
@@ -162,7 +161,7 @@ public class IndexUtils {
 			// 为什么使用这种new匿名方式创建该对象 IndexWriterConfig(Version.LUCENE_4_10_3,
 			// analyzer)
 			// 因为IndexWriterConfig对象只能使用一次、一次、一次
-			writer = new IndexWriter(fsd, new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer));
+			writer = new IndexWriter(fsd, new IndexWriterConfig(analyzer));
 		}
 		return writer;
 	}

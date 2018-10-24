@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/context.standalone.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/generator.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
+<script th:src="@{/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/context.js}" type="text/javascript"></script>
+<script th:src="@{/js/generator.js}" type="text/javascript"></script>
+</head>
+<body>
+	<div class="container"> 
+		<div class="addTable">
+			<button class="addButton"><i class="fa fa-plus fa-3x" aria-hidden="true"></i> </button>
+		</div>
+		<div class="table">
+			<table class="table table-bordered">
+				<thead><tr>
+					<td th:text="#{clumn.name}"></td>
+					<td th:text="#{type}"></td>
+				</tr></thead>
+			</table>
+		</div>
+	</div>
+	<div class="i18n">
+		<input class="createTable" type="hidden" th:value="#{create.table}"/>
+	</div>
+</body>
+</html>

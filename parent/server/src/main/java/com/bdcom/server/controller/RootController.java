@@ -30,8 +30,8 @@ public class RootController {
 	public String initRootPage(HttpServletRequest req){
 		return "manage";
 	}
-	@RequestMapping(value="/url")
-	public String getPage(String url,HttpServletRequest request){
+	@RequestMapping(value="/database")
+	public String getDatabasePage(String url,HttpServletRequest request){
 		JSONObject obj = null;
 		
 		try {
@@ -41,6 +41,11 @@ public class RootController {
 			e.printStackTrace();
 		}
 		request.setAttribute("database", obj);
+		return url;
+	}
+	@RequestMapping(value="/generator")
+	public String getGeneratorPage(String url,HttpServletRequest request){
+		
 		return url;
 	}
 }

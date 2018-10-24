@@ -65,9 +65,6 @@ $(function(){
                 - 
                 (parseFloat(me.css("top")) || parseFloat(me.prop("clientTop")));
         doc.mousemove(function (e){
-        	
-        	
-        	
             var lt = e.clientY - deltaY; 
             lt = lt < 0 ? 0 : lt;
             lt = lt > sum - me.height() ? sum - me.height() : lt;
@@ -143,8 +140,6 @@ $(function(){
 				clearInterval(t2);
 						
 			},10);
-		  
-		   
 		 }
 		 if(event.keyCode == "38"){ //上箭头
 			 if($(".libg").text() != 1){

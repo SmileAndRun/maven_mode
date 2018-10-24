@@ -1,0 +1,15 @@
+.addButton{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 5px;
+	border: 1px solid #DDDDDD;
+	width: 100px;
+	height: 100px;
+}
+.addButton i{
+	color: #969696;
+}
+.table{
+	display: none;
+}

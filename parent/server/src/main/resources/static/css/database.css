@@ -231,4 +231,22 @@ ul li{
 	left: 50%;
 	display: none;
 }
+.rightHand{
+	position : absolute;
+	display: none;
+	border: 1px solid #DDDDDD;
+	width: 150px;
+	border-radius: 5px;
+	z-index: 1000;
+}
+.rightHand li{
+	text-align: center;
+	background-color: white;
+	color: grey;
+	line-height: 40px;
+	cursor: pointer;
+}
+.table-bordered tr td{
+	text-align: center;
+}
 

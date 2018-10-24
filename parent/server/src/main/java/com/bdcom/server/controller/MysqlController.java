@@ -98,4 +98,19 @@ public class MysqlController extends SearchMethod{
 		boolean flag = JDBCUtils.close();
 		return flag;
 	}
+	
+	@RequestMapping(value="/getTableStructureData")
+	@ResponseBody
+	public JSONObject getTableStructureData(String tableName){
+		//清除特殊符号
+		JSONObject obj = new JSONObject();
+		try{
+			obj = JDBCUtils.getTableStructureData(databaseUrl, userName, userPwd, tableName);
+			
+		}catch(Exception e){
+			obj.put("error", "The server is error!");
+			e.printStackTrace();
+		}
+		return obj;
+	}
 }

@@ -87,8 +87,7 @@ $(function(){
     
 	//replace( /<[^>]*>/g, "" );清除粘贴样式
 	
-	$(".panel").keydown(function(event) {
-		
+	$(".panel").keydown(function(event) {		
          if (event.keyCode == "13") {//keyCode=13是回车键
 			  //event.preventDefault();//阻止默认事件样式发生
 			  var count = $(".num li").length;
@@ -171,6 +170,7 @@ $(function(){
 			 //$(".suggestion").empty();
 			 //$(".suggestion").css("display","none");
 		 }else{
+			 
 			 var t3 =  setInterval(function(){//database-content=true比较特殊，因此需要事件完成后才执行
 				 
 				 var url = "/mysql/suggestion";
@@ -360,8 +360,108 @@ $(function(){
 		return true;
 	}*/
 	//右键事件 
-	context.init({ preventDoubleContext: false });//初始化
-    context.settings({ compress: true });
+	//context.init({ preventDoubleContext: false });//初始化
+    //context.settings({ compress: true });
+	$(this).click(function(){
+		$(".rightHand").css("display","none");
+	});
+	$(".rightHand").on("click","li",function(e){
+		var iconClass = $(this).find("i").attr("class");
+		var tableName = $(this).find("input").val();
+		
+		if(iconClass == undefined){
+		}else if(iconClass.indexOf("search") != -1){
+			var sql = "select * from "+tableName;
+			var url = "/mysql/getMysqlReturnData";
+			 var data = {
+					 sql: sql,
+			 };
+			 var rs_function = function(result){
+				 if(result.model != null){
+					 if(null != result.model.title){
+						 var title = "<thead><tr>";
+						 for(var i=0;i<result.model.title.length;i++){
+							 title += "<td>" + result.model.title[i] +"</td>";
+						 }
+						 title += "</tr></thead>";
+						 var content = "<tbody>";
+						 for(var j=0;j<result.model.content.length;j++){
+							 content += "<tr>";
+							 for(var k=0;k<result.model.content[j].length;k++){
+								 content +=  "<td>"+result.model.content[j][k]+"</td>";
+							 }
+							 content += "</tr>";
+						 }
+						 content += "</tbody>"
+					 }
+					 var data = "<table class='table table-bordered' style='overflow: auto;'>" + title + content +"</table>"; 
+					 layer.open({
+						  type: 1 //Page层类型
+						  //,area: ['500px', '300px']
+						  ,title: tableName
+						  ,shade: 0.6 //遮罩透明度
+						  ,maxmin: true //允许全屏最小化
+						  ,anim: 1 //0-6的动画形式，-1不开启
+						  ,content: data
+						});
+				 }
+			}
+			var re_function = function(result){
+				layer.msg("The Server is error!");
+			}
+			globalLoading();
+			$.commonAjax(url,data,rs_function,re_function);
+			layer.close(loadingIndex);//执行完关闭loading
+			
+		}else if(iconClass.indexOf("fa-pencil-square-o") != -1){
+			var tableName = tableName;
+			var url = "/mysql/getTableStructureData";
+			 var data = {
+					 tableName: tableName,
+			 };
+			 var rs_function = function(result){
+				if(result.error ==null){
+					var primaryKey = [];
+					for(var i = 0;i<result.primaryKey.length;i++){
+						primaryKey.push(result.primaryKey[i]);
+					}
+					var title = "<thead><tr><td>"+$(".clumnName").val()+"</td><td>"+$(".type").val()+"</td><td>"+$(".length").val()+"</td><td>"+$(".isAllowNull").val()+"</td><td>"+$(".isPrimaryKey").val()+"</td><thead>"
+					var content = "<tbody><tr>";
+					for(var i = 0;i<result.list.length;i++){
+						for(var j=0;j<result.list[i].length;j++){
+							content += "<td>" + result.list[i][j] +"</td>";
+						}
+						if(primaryKey.indexOf(result.list[i][0])!= -1){
+							content += "<td><i class='fa fa-key' aria-hidden='true'></i></td>";
+						}
+						content += "</tr>";
+					}
+					content += "</tbody>";
+					var data = "<table class='table table-bordered' style='overflow: auto;'>" + title + content +"</table>"; 
+					 layer.open({
+						  type: 1 //Page层类型
+						  //,area: ['500px', '300px']
+						  ,title: tableName
+						  ,shade: 0.6 //遮罩透明度
+						  ,maxmin: true //允许全屏最小化
+						  ,anim: 1 //0-6的动画形式，-1不开启
+						  ,content: data
+						});
+					
+				}else{
+					layer.msg(result.error);
+				}
+			}
+			var re_function = function(result){
+				layer.msg("The Server is error!");
+			}
+			globalLoading();
+			$.commonAjax(url,data,rs_function,re_function);
+			layer.close(loadingIndex);//执行完关闭loading
+		}else if(iconClass.indexOf("fa-plus") != -1){
+			
+		}
+	});
 	$("#tree").on("contextmenu","li",function(e){
 		//阻止默认事件发生
 		e.preventDefault();
@@ -369,41 +469,29 @@ $(function(){
 		//1表示表
 		//2表示字段
 		var i_length = $(this).find(".indent").length;
-		console.log(i_length);
-		if(i_length == 0){
-			context.attach('#tree', [
-		       /* { header: '执行操作' },*/
-		        {
-		            text: '修改', action: function (e) {
-		                revi();
-		            }
-		        },
-		        { text: '删除数据库', href: '#' },
-			        
-			    ]);
+		var tableName = $(this).text();
+		if(i_length == 0){ // 待定
+			/*$(".rightHand").empty();
+			$(".rightHand").append("<li></i>"+$(".menu").val()+"</li>");
+			$(".rightHand").append("<li><input type='hidden' value='"+ tableName+ "'/><i class='fa fa-plus' aria-hidden='true'>&nbsp;&nbsp;"+$(".createTable").val()+"</li>");
+			$(".rightHand").css({
+				   top: e.pageY,
+				   left: e.pageX,
+				   display: "block"
+				  });*/
 		}else if(i_length == 1){
-			context.attach('#tree', [
-			       /* { header: '执行操作' },*/
-			        {
-			            text: '修改', action: function (e) {
-			                revi();
-			            }
-			        },
-			        { text: '删除表', href: '#' },
-				        
-				    ]);
+			$(".rightHand").empty();
+			$(".rightHand").append("<li></i>"+$(".menu").val()+"</li>");
+			$(".rightHand").append("<li><input type='hidden' value='"+ tableName+ "'/><i class='fa fa-search' aria-hidden='true'></i>&nbsp;&nbsp;"+$(".checkData").val()+"</li>")
+			$(".rightHand").append("<li><input type='hidden' value='"+ tableName+ "'/><i class='fa fa-pencil-square-o' aria-hidden='true'></i>&nbsp;&nbsp;"+$(".checkDesign").val()+"</li>")
+			$(".rightHand").css({
+				   top: e.pageY,
+				   left: e.pageX,
+				   display: "block"
+				  });
 			
 		}else if(i_length == 2){
-			context.attach('#tree', [
-			       /* { header: '执行操作' },*/
-			        {
-			            text: '修改', action: function (e) {
-			                revi();
-			            }
-			        },
-			        { text: '删除字段', href: '#' },
-				        
-				    ]);
+			
 		}
 	    
 	});

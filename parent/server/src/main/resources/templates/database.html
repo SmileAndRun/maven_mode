@@ -27,14 +27,13 @@
 			<div class="resource">
 				<input class="databaseData" type="hidden" th:value="${database}"/>
 				<div id="tree">
-					<!-- <li class="bli" th:each="dName : ${database.databaseName}">
-						<i class="fa fa-caret-right rarrows"></i>
-						<i class="fa fa-database database"></i>
-						<label class="rtext" th:text="${dName}"></label>th:each="tName : ${database.tables}"
-					</li> -->
+					
 				</div>
+				<ul class="rightHand">
 				
+				</ul>
 			</div>
+			
 		</div>
 		<div class="right">
 			<div class="top">
@@ -90,8 +89,18 @@
 					</div>
 				</div>
 			</div>
-			
 		</div>
+	</div>
+	<div class="i18n">
+		<input class="createTable" type="hidden" th:value="#{create.table}"/>
+		<input class="checkDesign" type="hidden" th:value="#{check.table.design}"/>
+		<input class="checkData" type="hidden" th:value="#{check.table.data}"/>
+		<input class="menu" type="hidden" th:value="#{menu}"/>
+		<input class="clumnName" type="hidden" th:value="#{clumn.name}"/>
+		<input class="type" type="hidden" th:value="#{type}"/>
+		<input class="length" type="hidden" th:value="#{length}"/>
+		<input class="isAllowNull" type="hidden" th:value="#{isAllowNull}"/>
+		<input class="isPrimaryKey" type="hidden" th:value="#{isPrimaryKey}"/>
 	</div>
 </body>
 </html>

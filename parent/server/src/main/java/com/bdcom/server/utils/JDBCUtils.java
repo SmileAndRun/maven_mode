@@ -47,7 +47,7 @@ public class JDBCUtils {
 	public static MysqlModel excuteSql(String url,String userName,String userPwd,String sql){
 		MysqlModel model = new MysqlModel();
 		try {
-			pre = getConnection(url,userName,userPwd).prepareStatement(sql);
+			
 			boolean flag = pre.execute();
 			int count = pre.getUpdateCount();
 			model.setFlag(flag);
@@ -126,6 +126,37 @@ public class JDBCUtils {
 		 }
 		 obj.put("colums", colums);
 		 
+		return obj;
+	}
+	public static JSONObject getTableStructureData(String url,String userName,String userPwd,String tableName) throws SQLException{
+		JSONObject obj = new JSONObject();
+		conn = getConnection(url,userName,userPwd);
+		pre = conn.prepareStatement("select * from "+tableName);
+		rs= pre.executeQuery();
+		ResultSetMetaData mData = rs.getMetaData();
+		if(mData.getColumnCount()<=0) return obj = null;
+		List<List<String>> list = new ArrayList<List<String>>();
+		List<String> rowList = null;
+		for(int i=1;i<mData.getColumnCount();i++){
+			 rowList = new ArrayList<String>();
+			 rowList.add(mData.getColumnName(i)) ;
+			 rowList.add(mData.getColumnTypeName(i));
+			 rowList.add(mData.getColumnDisplaySize(i)+"");
+			 rowList.add(mData.isNullable(i)+"");
+			 list.add(rowList);
+		 }
+		pre = conn.prepareStatement("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_NAME <> 'dtproperties' "
+				+ "and table_name ='"+tableName+"'");
+		rs= pre.executeQuery();
+		List<String> primaryKey = new ArrayList<String>();
+		while(rs.next()){
+			primaryKey.add(rs.getString(1));
+		}
+		if(primaryKey.size() == 0){
+			primaryKey = null;
+		}
+		obj.put("primaryKey", primaryKey);
+		obj.put("list", list);
 		return obj;
 	}
 	/**

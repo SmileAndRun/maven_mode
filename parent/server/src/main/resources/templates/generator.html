@@ -22,17 +22,12 @@
 		<div class="addTable">
 			<button class="addButton"><i class="fa fa-plus fa-3x" aria-hidden="true"></i> </button>
 		</div>
-		<div class="table">
-			<table class="table table-bordered">
-				<thead><tr>
-					<td th:text="#{clumn.name}"></td>
-					<td th:text="#{type}"></td>
-				</tr></thead>
-			</table>
-		</div>
+		
 	</div>
 	<div class="i18n">
 		<input class="createTable" type="hidden" th:value="#{create.table}"/>
+		<input class="clumnName" type="hidden" th:value="#{clumn.name}"/>
+		<input class="type" type="hidden" th:value="#{type}"/>
 	</div>
 </body>
 </html>

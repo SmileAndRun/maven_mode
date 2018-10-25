@@ -10,6 +10,34 @@
 .addButton i{
 	color: #969696;
 }
-.table{
-	display: none;
+.data button{
+	border: none;
+	background-color: white;
+	outline: none;
+}
+.data button i{
+	color: #969696;
+	vertical-align: middle;
+}
+.tableData{
+	overflow: auto;
+}
+.tableData tr td{
+	text-align: center;
+	width: 210px;
+}
+.tableData tr td input{
+	width: 100%;
+	height: 25px;
+	
+}
+.tableData tr td select{
+	width: 100%;
+	height: 25px;
+}
+.data .add{
+	margin-left: 10px;
+}
+.data .del{
+	margin-left: 10px;
 }

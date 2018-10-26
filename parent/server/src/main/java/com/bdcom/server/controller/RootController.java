@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.utils.JDBCUtils;
@@ -44,8 +46,17 @@ public class RootController {
 		return url;
 	}
 	@RequestMapping(value="/generator")
-	public String getGeneratorPage(String url,HttpServletRequest request){
-		
+	public String getGeneratorPage(String url){
 		return url;
+	}
+	@RequestMapping(value="/generator/code")
+	@ResponseBody
+	public JSONObject getGeneratorCode(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		String tableName = request.getParameter("tableName");
+		String[] colums = request.getParameterValues("columnArray");
+		String[] types = request.getParameterValues("typeArray");
+		
+		return obj;
 	}
 }

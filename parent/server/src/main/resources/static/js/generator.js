@@ -12,7 +12,7 @@ $(function(){
 			  ,maxmin: true //允许全屏最小化
 			  ,anim: 1 //0-6的动画形式，-1不开启
 			  ,content: data
-			  ,btn: ['确定', '取消'] //按钮组
+			  ,btn: [$(".confirm").val(), $(".cancel").val()] //按钮组
 		 	  ,yes: function(index, layero){
 		 		  if($(".tableData").find("input")[0] == null || $(".tableData").find("input")[0] == undefined){
 		 			  layer.msg("table is null,please add clumn!")
@@ -20,7 +20,33 @@ $(function(){
 		 			  if($(".rowSelected").val() == ""){
 		 				 layer.msg("please add completed!")
 		 			  }else{
-		 				 layer.close();
+		 				 layer.prompt(
+		 						 {title: $(".pitn").val()}	 
+		 					,function(value, index, elem){
+		 						var url = "/server/generator/code";
+		 						var columnArray = [];
+		 						var typeArray = [];
+		 						for(var i=1;i<=$(".tableData").find("tr").length;i++){
+		 							var columnName = $(".tableData").find("tr").eq(i).find("input").val();
+		 							var columnType = $(".tableData").find("tr").eq(i).find("select").val();
+		 							columnArray.push(columnName);
+		 							typeArray.push(columnType);
+		 						}
+				 				var data = {
+				 						tableName : value,
+				 						columnArray : columnArray,
+				 						typeArray : typeArray
+				 				};
+				 				var rs_function = function(result){
+				 					 
+				 				}
+				 				 var re_function = function(result){
+				 					
+				 				}
+				 				$.arrayAjax(url,data,rs_function,re_function);
+				 				layer.closeAll();
+		 					});
+		 				 
 		 			  }
 		 		  }
 			  }

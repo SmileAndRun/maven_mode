@@ -75,7 +75,7 @@ $(function(){
 				 						}
 				 						for(var i=0;i<result.mapperXml.length;i++){
 				 							var jsonMapperXml = {};
-				 							jsonMapperXml["text"] = result.mapperXml[i]+".xml";
+				 							jsonMapperXml["text"] = "<i class='fa fa-file-excel-o xml' aria-hidden='true'></i>"+result.mapperXml[i]+".xml";
 				 							mapperXml.push(jsonMapperXml);
 				 						}
 				 						

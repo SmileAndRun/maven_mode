@@ -37,45 +37,46 @@ $(function(){
 				 						columnArray : columnArray,
 				 						typeArray : typeArray
 				 				};
-				 				var rs_function = function(result){
+				 				var rs_function = function(data){
 				 					$(".addTable").css("display","none");
 				 					$(".treeData").css("display","block");
-				 					
+				 					var result = data.result;
 				 					var mapper = [];
 				 					var model = [];
 				 					var service = [];
 				 					var serviceImpl = [];
 				 					var mapperXml = [];
 				 					if(null != result){
+				 						console.log(result.service);
 				 						for(var i = 0;i<result.mapper.length;i++){
 				 							var jsonMapper = {};
-				 							jsonMapper["text"] = result.mapper[i] + ".java";
+				 							jsonMapper["text"] = "<i class='fa fa-file-code-o treeIcon' aria-hidden='true'></i>"+result.mapper[i] ;
 				 							mapper.push(jsonMapper);
 				 						}
 				 						for(var i = 0;i<result.model.length;i++){
 				 							var jsonModel = {};
-				 							jsonModel["text"] = result.model[i] + ".java";
+				 							jsonModel["text"] = "<i class='fa fa-file-code-o treeIcon' aria-hidden='true'></i>"+result.model[i] ;
 				 							model.push(jsonModel);
 				 						}
 				 						for(var i=0;i<result.serviceImpl.length;i++){
 				 							var jsonServiceImpl = {};
-				 							jsonServiceImpl["text"] = result.serviceImpl[i]+".java";
+				 							jsonServiceImpl["text"] = "<i class='fa fa-file-code-o treeIcon' aria-hidden='true'></i>"+result.serviceImpl[i];
 				 							serviceImpl.push(jsonServiceImpl);
 				 						}
 				 						for(var i=0;i<result.service.length;i++){
 				 							var jsonService = {};
 				 							if(result.service[i] != "impl"){
-				 								jsonService["text"] = result.service[i]+".java";
+				 								jsonService["text"] = "<i class='fa fa-file-code-o treeIcon' aria-hidden='true'></i>"+result.service[i];
 				 								service.push(jsonService);
 				 							}else{
-				 								jsonService["text"] = result.service[i];
+				 								jsonService["text"] = "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>"+result.service[i];
 				 								jsonService["nodes"] = serviceImpl;
 				 								service.push(jsonService);
 				 							}
 				 						}
 				 						for(var i=0;i<result.mapperXml.length;i++){
 				 							var jsonMapperXml = {};
-				 							jsonMapperXml["text"] = "<i class='fa fa-file-excel-o xml' aria-hidden='true'></i>"+result.mapperXml[i]+".xml";
+				 							jsonMapperXml["text"] = "<i class='fa fa-file-excel-o treeIcon' aria-hidden='true'></i>"+result.mapperXml[i];
 				 							mapperXml.push(jsonMapperXml);
 				 						}
 				 						
@@ -86,31 +87,31 @@ $(function(){
 				 					var tree = [{
 				 						text: "model1",
 				 						nodes:  [{
-				 							text: "src",
+				 							text: "<i class='fa fa-folder treeIcon' aria-hidden='true'></i>src",
 				 							nodes: [{
-				 								text: "main",
+				 								text: "<i class='fa fa-folder treeIcon' aria-hidden='true'></i>main",
 				 								nodes: [{
-				 									text: "java",
+				 									text: "<i class='fa fa-folder treeIcon' aria-hidden='true'></i>java",
 				 									nodes: [{
-				 										text: "com",
+				 										text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>com",
 				 										nodes: [{
-				 											text: "example",
+				 											text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>example",
 				 											nodes: [{
-				 												text: "demo",
+				 												text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>demo",
 				 												nodes: [
 				 												{
-				 													text: "controller"
+				 													text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>controller"
 				 												},
 				 												{
-				 													text: "mapper",
+				 													text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>mapper",
 				 													nodes: mapper
 				 												},
 				 												{
-				 													text: "model",
+				 													text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>model",
 				 													nodes: model
 				 												},
 				 												{
-				 													text: "service",
+				 													text: "<i class='fa fa-th-large treeIcon' aria-hidden='true'></i>service",
 				 													nodes: service
 				 												},
 				 												{
@@ -122,13 +123,13 @@ $(function(){
 				 									}],
 				 								},
 				 								{
-				 									text: "resources",
+				 									text: "<i class='fa fa-folder treeIcon' aria-hidden='true'></i>resources",
 				 									nodes: [{
-				 										text: "mapper",
+				 										text: "<i class='fa fa-folder treeIcon' aria-hidden='true'></i>mapper",
 				 										nodes: mapperXml
 				 									},
 				 									{
-				 										text: "application.properties"
+				 										text: "<i class='fa fa-file-powerpoint-o treeIcon' aria-hidden='true'></i>application.properties"
 				 									}
 				 									],
 				 								}
@@ -136,7 +137,7 @@ $(function(){
 				 								],
 				 							},
 				 							{
-				 								text: "pom.xml",
+				 								text: "<i class='fa fa-file-excel-o treeIcon' aria-hidden='true'></i>pom.xml",
 				 							}
 				 							],
 				 						}],

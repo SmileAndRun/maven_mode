@@ -4,6 +4,7 @@ package com.bdcom.server.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -57,11 +58,12 @@ public class RootController {
 		String tableName = request.getParameter("tableName");
 		String[] colums = request.getParameterValues("columnArray");
 		String[] types = request.getParameterValues("typeArray");
-		try {
+		/*try {
 			FileWriterUtils.writerData(tableName, colums, types);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
+		Map<String,String[]> map = FileWriterUtils.getFileInfo();
 		obj.put("result", FileWriterUtils.getFileInfo());
 		return obj;
 	}

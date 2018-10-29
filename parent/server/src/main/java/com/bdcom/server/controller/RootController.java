@@ -2,6 +2,7 @@ package com.bdcom.server.controller;
 
 
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.utils.FileWriterUtils;
 import com.bdcom.server.utils.JDBCUtils;
 
 
@@ -56,7 +57,12 @@ public class RootController {
 		String tableName = request.getParameter("tableName");
 		String[] colums = request.getParameterValues("columnArray");
 		String[] types = request.getParameterValues("typeArray");
-		
+		try {
+			FileWriterUtils.writerData(tableName, colums, types);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		obj.put("result", FileWriterUtils.getFileInfo());
 		return obj;
 	}
 }

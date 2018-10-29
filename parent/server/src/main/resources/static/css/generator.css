@@ -41,3 +41,6 @@
 .data .del{
 	margin-left: 10px;
 }
+.treeData{
+	display: none;
+}

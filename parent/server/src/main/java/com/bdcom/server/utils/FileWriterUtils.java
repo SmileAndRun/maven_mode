@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
@@ -12,7 +14,9 @@ import com.alibaba.fastjson.JSONObject;
 
 
 public class FileWriterUtils {
-
+    private static String pathJava = "model/model1/src/main/java/com/example/demo";
+    private static String pathC = "model/model1/src/main/java/com/example/demo/controller";
+    private static String pathResources = "model/model1/src/main/resources";
 	private static String pathMa= "model/model1/src/main/java/com/example/demo/mapper/";
 	private static String pathS= "model/model1/src/main/java/com/example/demo/service/";
 	private static String pathMo= "model/model1/src/main/java/com/example/demo/model/";
@@ -129,5 +133,41 @@ public class FileWriterUtils {
 			data = data.toUpperCase();
 		}
 		return data;
+	}
+	public static Map<String, String[]> getFileInfo(){
+		File path = new File(pathJava);
+		String[] dirDemo = null;
+		if(path.exists()&&path.isDirectory())dirDemo = path.list();
+		path = new File(pathC);
+		String[] dirController = null;
+		if(path.exists()&&path.isDirectory())dirController = path.list();
+		String[] dirService = null;
+		path = new File(pathS);
+		if(path.exists()&&path.isDirectory())dirService = path.list();
+		String[] dirServiceImpl = null;
+		path = new File(pathSI);
+		if(path.exists()&&path.isDirectory())dirServiceImpl = path.list();
+		String[] dirModel = null;
+		path = new File(pathMo);
+		if(path.exists()&&path.isDirectory())dirModel = path.list();
+		String[] dirMapper = null;
+		path = new File(pathMa);
+		if(path.exists()&&path.isDirectory())dirMapper = path.list();
+		String[] dirResourceMapper = null;
+		path = new File(pathSM);
+		if(path.exists()&&path.isDirectory())dirResourceMapper = path.list();
+		String[] dirReasources = null;
+		path = new File(pathResources);
+		if(path.exists()&&path.isDirectory())dirReasources = path.list();
+		Map<String, String[]> map = new HashMap<String,String[]>();
+		map.put("demo", dirDemo);
+		map.put("controller", dirController);
+		map.put("service", dirService);
+		map.put("serviceImpl", dirServiceImpl);
+		map.put("model", dirModel);
+		map.put("mapper", dirMapper);
+		map.put("mapperXml", dirResourceMapper);
+		map.put("resources", dirReasources);
+		return map;
 	}
 }

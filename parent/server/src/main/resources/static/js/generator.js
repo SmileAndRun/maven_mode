@@ -38,10 +38,120 @@ $(function(){
 				 						typeArray : typeArray
 				 				};
 				 				var rs_function = function(result){
-				 					 
+				 					$(".addTable").css("display","none");
+				 					$(".treeData").css("display","block");
+				 					
+				 					var mapper = [];
+				 					var model = [];
+				 					var service = [];
+				 					var serviceImpl = [];
+				 					var mapperXml = [];
+				 					if(null != result){
+				 						for(var i = 0;i<result.mapper.length;i++){
+				 							var jsonMapper = {};
+				 							jsonMapper["text"] = result.mapper[i] + ".java";
+				 							mapper.push(jsonMapper);
+				 						}
+				 						for(var i = 0;i<result.model.length;i++){
+				 							var jsonModel = {};
+				 							jsonModel["text"] = result.model[i] + ".java";
+				 							model.push(jsonModel);
+				 						}
+				 						for(var i=0;i<result.serviceImpl.length;i++){
+				 							var jsonServiceImpl = {};
+				 							jsonServiceImpl["text"] = result.serviceImpl[i]+".java";
+				 							serviceImpl.push(jsonServiceImpl);
+				 						}
+				 						for(var i=0;i<result.service.length;i++){
+				 							var jsonService = {};
+				 							if(result.service[i] != "impl"){
+				 								jsonService["text"] = result.service[i]+".java";
+				 								service.push(jsonService);
+				 							}else{
+				 								jsonService["text"] = result.service[i];
+				 								jsonService["nodes"] = serviceImpl;
+				 								service.push(jsonService);
+				 							}
+				 						}
+				 						for(var i=0;i<result.mapperXml.length;i++){
+				 							var jsonMapperXml = {};
+				 							jsonMapperXml["text"] = result.mapperXml[i]+".xml";
+				 							mapperXml.push(jsonMapperXml);
+				 						}
+				 						
+				 					}else{
+				 						return ;
+				 					}
+				 					
+				 					var tree = [{
+				 						text: "model1",
+				 						nodes:  [{
+				 							text: "src",
+				 							nodes: [{
+				 								text: "main",
+				 								nodes: [{
+				 									text: "java",
+				 									nodes: [{
+				 										text: "com",
+				 										nodes: [{
+				 											text: "example",
+				 											nodes: [{
+				 												text: "demo",
+				 												nodes: [
+				 												{
+				 													text: "controller"
+				 												},
+				 												{
+				 													text: "mapper",
+				 													nodes: mapper
+				 												},
+				 												{
+				 													text: "model",
+				 													nodes: model
+				 												},
+				 												{
+				 													text: "service",
+				 													nodes: service
+				 												},
+				 												{
+				 													text: "DemoApplication.java",
+				 												}
+				 												],
+				 											}],
+				 										}],
+				 									}],
+				 								},
+				 								{
+				 									text: "resources",
+				 									nodes: [{
+				 										text: "mapper",
+				 										nodes: mapperXml
+				 									},
+				 									{
+				 										text: "application.properties"
+				 									}
+				 									],
+				 								}
+				 								
+				 								],
+				 							},
+				 							{
+				 								text: "pom.xml",
+				 							}
+				 							],
+				 						}],
+				 					}];
+				 					
+				 					//初始化数据源tree结构
+				 					$('#tree').treeview({
+				 						  data: tree,         // data is not optional
+				 						  levels: 1,
+				 						  collapseIcon: "glyphicon glyphicon-triangle-bottom",
+				 						  expandIcon: "glyphicon glyphicon-triangle-right",
+				 					});
 				 				}
 				 				 var re_function = function(result){
-				 					
+				 					layer.msg("The server is error!!!")
 				 				}
 				 				$.arrayAjax(url,data,rs_function,re_function);
 				 				layer.closeAll();

@@ -3,10 +3,12 @@ package com.bdcom.server.controller;
 
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.SQLException;
-import java.util.Map;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.utils.DownUtils;
 import com.bdcom.server.utils.FileWriterUtils;
 import com.bdcom.server.utils.JDBCUtils;
 
@@ -48,7 +51,10 @@ public class RootController {
 		return url;
 	}
 	@RequestMapping(value="/generator")
-	public String getGeneratorPage(String url){
+	public String getGeneratorPage(String url,HttpServletRequest request){
+		String path = "model/model1/src/main/java/com/example/demo/model/";
+		boolean flag = FileWriterUtils.isExist(path);
+		request.setAttribute("flag", flag);
 		return url;
 	}
 	@RequestMapping(value="/generator/code")
@@ -58,13 +64,38 @@ public class RootController {
 		String tableName = request.getParameter("tableName");
 		String[] colums = request.getParameterValues("columnArray");
 		String[] types = request.getParameterValues("typeArray");
-		/*try {
+		try {
 			FileWriterUtils.writerData(tableName, colums, types);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
-		Map<String,String[]> map = FileWriterUtils.getFileInfo();
+		}
 		obj.put("result", FileWriterUtils.getFileInfo());
 		return obj;
+	}
+	@RequestMapping(value="/generator/init")
+	@ResponseBody
+	public JSONObject generatorInit(){
+		JSONObject obj = new JSONObject();
+		obj.put("result", FileWriterUtils.getFileInfo());
+		return obj;
+	}
+	@RequestMapping(value="/downloadModel")
+	public void downloadModel(HttpServletRequest request,HttpServletResponse response){
+		
+		response.setContentType("application/zip");
+		response.setHeader("Content-Disposition", "attachment; filename=model.zip");  
+		
+		String filePath = "model/model1";
+		String temp = "model/temp";
+		String name = "model";
+		OutputStream out = null;
+		try {
+			out = response.getOutputStream();
+			ZipOutputStream zos = new ZipOutputStream(out);
+			DownUtils.download(filePath,zos,name, temp);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 }

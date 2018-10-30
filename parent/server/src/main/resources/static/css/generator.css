@@ -42,9 +42,22 @@
 	margin-left: 10px;
 }
 .treeData{
-	display: none;
+	/* display: none; */
 }
 .treeIcon{
 	padding-left: 10px;
 	padding-right: 10px;
+}
+.buttonMenu{
+	/* display: none; */
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.createTable,.download{
+	width: 100px;
+	height: 42px;
+	line-height: 42px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	background-color: white;
 }

@@ -19,10 +19,19 @@
 </head>
 <body>
 	<div class="container"> 
-		<div class="addTable">
+		<div th:if="${!flag}" class="addTable">
 			<button class="addButton"><i class="fa fa-plus fa-3x" aria-hidden="true"></i> </button>
 		</div>
-		<ul id="tree" class="treeData"></ul>
+		<div th:if="${flag}" class="buttonMenu">
+			<button class="createTable" th:text="#{create.table}"></button>
+			<a style="text-decoration:underline;" href="/server/downloadModel" target="_blank">
+				<button class="download" th:text="#{download}"></button>
+			</a>
+		</div>
+		<div th:if="${flag}" class="data">
+			<ul id="tree" class="treeData"></ul>
+		</div>
+		
 	</div>
 	<div class="i18n">
 		<input class="createTable" type="hidden" th:value="#{create.table}"/>
@@ -33,6 +42,7 @@
 		<input class="confirm" type="hidden" th:value="#{confirm}"/>
 		<input class="cancel" type="hidden" th:value="#{cancel}"/>
 		<input class="pitn" type="hidden" th:value="#{please.input.table.name}"/>
+		<input class="flag" type="hidden" th:value="${flag}"
 	</div>
 </body>
 </html>

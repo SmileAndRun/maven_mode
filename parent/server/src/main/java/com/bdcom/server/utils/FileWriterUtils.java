@@ -170,4 +170,11 @@ public class FileWriterUtils {
 		map.put("resources", dirReasources);
 		return map;
 	}
+	
+	public static boolean isExist(String path){
+		boolean flag = false;
+		File file = new File(path);
+		if(file.list().length>0) flag = true;
+		return flag;
+	}
 }

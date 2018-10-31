@@ -109,4 +109,7 @@
       logTime = #{logtime,jdbcType=TIMESTAMP}
     where logId = #{logid,jdbcType=VARCHAR}
   </update>
+  <select id="getLastMaxId" resultType="String">
+  	select max(logId) logId from t_log 
+  </select>
 </mapper>

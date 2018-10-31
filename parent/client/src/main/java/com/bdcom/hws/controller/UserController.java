@@ -3,6 +3,8 @@ package com.bdcom.hws.controller;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,8 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bdcom.hws.model.Barrage;
+import com.bdcom.hws.model.Log;
 import com.bdcom.hws.model.User;
 import com.bdcom.hws.service.BarrageService;
+import com.bdcom.hws.service.LogService;
 import com.bdcom.hws.service.UserService;
 import com.bdcom.hws.utils.CookieUtils;
 import com.bdcom.hws.utils.EncryptionUtils;
@@ -36,9 +40,11 @@ import com.bdcom.hws.utils.UploadUtils;
 @RequestMapping(value="/user")
 public class UserController {
 	@Autowired
-	UserService us;
+	private UserService us;
 	@Autowired
 	private BarrageService barService;
+	@Autowired
+	private LogService logService;
 
 	@ApiOperation(value = "get User by uId", notes = "通过用户id获取该用户", response = User.class)
 	@RequestMapping(value="getUserByUid",method=RequestMethod.GET)
@@ -58,7 +64,6 @@ public class UserController {
 			}catch(Exception e){
 				return "false";
 			}
-			return "true";
 		}else{
 			byte[] salt = null;
 			User saltUser = us.getUserSalt(user.getUserName());
@@ -80,6 +85,16 @@ public class UserController {
 				CookieUtils.setCookies(request,response, user.getUserName(), pwd);
 			}
 		}
+		//插入log日志,暂定type=1为账号登录日志
+		User userInfo = us.getUserByUname(user.getUserName());
+		Log log = new Log();
+		Date date = new Date();
+		log.setUserid(userInfo.getUserId());
+		log.setLogtype("login");
+		log.setLogmessage("登录");
+		log.setLogtime(new Timestamp(date.getTime()));
+		log.setLogiserror("0");
+		logService.insertLog(log);
 		return "true";
 	}
 	

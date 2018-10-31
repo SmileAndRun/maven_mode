@@ -38,7 +38,7 @@
 <script type="text/javascript" th:src="@{/assets/js/config-min.js}"></script>
 <script>
     BUI.use('common/main',function(){
-        var config = [{id:'1',menu:[{text:'系统管理',items:[{id:'12',text:'机构管理',href:'Node/index.html'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'User/index.html'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'开发者工具',items:[{id:'9',text:'代码生成器',href:'/server/generator?url=generator'},{id:'10',text:'数据库维护',href:'/server/database?url=database'}]}]}];
+        var config = [{id:'1',menu:[{text:'系统管理',items:[{id:'12',text:'用户管理',href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'User/index.html'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'开发者工具',items:[{id:'9',text:'代码生成器',href:'/server/generator?url=generator'},{id:'10',text:'数据库维护',href:'/server/database?url=database'}]}]}];
         new PageUtil.MainPage({
             modulesConfig : config
         });

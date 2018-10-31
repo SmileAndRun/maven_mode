@@ -1,21 +1,26 @@
 package com.bdcom.server.controller;
 
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.model.User;
+import com.bdcom.server.service.ManagerService;
 import com.bdcom.server.utils.DownUtils;
 import com.bdcom.server.utils.FileWriterUtils;
 import com.bdcom.server.utils.JDBCUtils;
@@ -96,6 +101,16 @@ public class RootController {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
+	}
+	@Autowired
+	ManagerService ms;
+	
+	@RequestMapping(value="initUserManager")
+	public ModelAndView initUserManager(){
+		HashMap<String, List<User>> map = new HashMap<String,List<User>>();
+		List<User> users = ms.getUsers();
+		map.put("users", users);
+		ModelAndView model = new ModelAndView("usermanage",map);
+		return model;
 	}
 }

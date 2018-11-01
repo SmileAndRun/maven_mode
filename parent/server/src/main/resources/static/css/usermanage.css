@@ -43,3 +43,11 @@
 	margin-top: 40px;
 	display: none;
 }
+.showEdit input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+.showEdit{
+	display: none;
+	margin-top: 40px;
+}

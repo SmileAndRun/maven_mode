@@ -47,9 +47,10 @@ $(function(){
 		$(".showADD").css("display","block");
 		
 	});
-	$(".addTable").on("click",".return",function(){
+	$(".addTable,.editTable").on("click",".return",function(){
 		$(".showTab").css("display","block");
 		$(".showADD").css("display","none");
+		$(".showEdit").css("display","none");
 	});
 	$(".addTable").on("click",".save",function(){
 		
@@ -80,5 +81,22 @@ $(function(){
 			$.commonAjax(url,data,s_function,e_function);
 			$(".showTab").css("display","block");
 		}
+	});
+	$(".data tbody tr").on("click","td:last-child",function(){
+		$(".showTab").css("display","none");
+		$(".showADD").css("display","none");
+		var islock = $(this).prev().prev().text();
+		
+		var name = $(this).prev().prev().prev().text();
+		var num = $(this).prev().prev().prev().prev().text();
+		$(".showEdit").css("display","block");
+		$(".editTable").find("tr").eq(0).find("input").val(num);
+		$(".editTable").find("tr").eq(1).find("input").val(name);
+		if(islock=$(".lock").val()){
+			$(".editTable").find("tr").eq(2).find("input").attr("checked", true);
+		}else{
+			$(".editTable").find("tr").eq(2).find("input").attr("checked", false);
+		}
+		
 	});
 })

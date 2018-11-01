@@ -71,6 +71,29 @@
 				</tr>
 			</table>
 		</div>
+		<div class="showEdit">
+			<table class="table table-bordered table-hover definewidth m10 editTable">
+				<tr>
+					<td th:text="#{serial.number}"></td>
+					<td><input type="text" readonly="readonly"/></td>
+				</tr>
+				<tr>
+					<td th:text="#{name}"></td>
+					<td><input type="text"/></td>
+				</tr>
+				<tr>
+					<td th:text="#{isLock}"></td>
+					<td><input type="checkbox"/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="button" class="btn btn-primary saveChange" th:text="#{save}"></button>
+						<button type="button" class="btn btn-success return" th:text="#{return.list}"></button>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<div class="i18n">
 		<input class="lock" type="hidden" th:value="#{lock}">

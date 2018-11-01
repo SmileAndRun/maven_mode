@@ -1,4 +1,4 @@
-package com.bdcom.hws.model;
+package com.bdcom.server.model;
 
 import java.sql.Timestamp;
 import java.util.Date;

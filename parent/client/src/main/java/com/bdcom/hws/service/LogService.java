@@ -4,6 +4,6 @@ import com.bdcom.hws.model.Log;
 
 
 public interface LogService {
-	public String getLastMaxId();
+	public int getLastMaxId();
 	public int insertLog(Log log);
 }

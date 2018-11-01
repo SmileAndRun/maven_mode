@@ -3,7 +3,11 @@ package com.bdcom.server.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipOutputStream;
@@ -19,10 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.model.Log;
 import com.bdcom.server.model.User;
 import com.bdcom.server.service.ManagerService;
 import com.bdcom.server.utils.DownUtils;
+import com.bdcom.server.utils.EncryptionUtils;
 import com.bdcom.server.utils.FileWriterUtils;
+import com.bdcom.server.utils.FontColourUtils;
 import com.bdcom.server.utils.JDBCUtils;
 
 
@@ -105,12 +112,61 @@ public class RootController {
 	@Autowired
 	ManagerService ms;
 	
-	@RequestMapping(value="initUserManager")
+	@RequestMapping(value="/initUserManager")
 	public ModelAndView initUserManager(){
 		HashMap<String, List<User>> map = new HashMap<String,List<User>>();
 		List<User> users = ms.getUsers();
 		map.put("users", users);
 		ModelAndView model = new ModelAndView("usermanage",map);
 		return model;
+	}
+	@RequestMapping(value="/user/search")
+	@ResponseBody
+	public JSONObject searchUsers(String content,String type){
+		JSONObject obj = new JSONObject();
+		String color = "red";
+		List<User> list = null;
+		if(type.equals("1")){
+			list = ms.getFuzzyUsersByUid(content);
+			for(User user : list){
+				user.setuId(FontColourUtils.colour(String.valueOf(user.getUserId()), color, content));
+			}
+		}else{
+			list = ms.getFuzzyUserByUname(content);
+			for(User user : list){
+				user.setUserName(FontColourUtils.colour(user.getUserName(), color, content));
+			}
+		}
+		obj.put("users", list);
+		return obj;
+	}
+	@RequestMapping(value="/addUser")
+	@ResponseBody
+	public JSONObject addUser(User user){
+		JSONObject obj = new JSONObject();
+		User temp = new User();
+		temp.setUserName(user.getUserName());
+		temp.setuIsLock('0');
+		byte[] key;
+		try {
+			byte[] salt = EncryptionUtils.getRandomNum(16);
+			key = EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt);
+			temp.setUserPwd(EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(key, null)));
+			temp.setuSalt(salt);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		Log log = new Log();
+		Date date = new Date();
+		log.setLogtype("register");
+		log.setLogmessage("注册");
+		log.setLogiserror("0");
+		log.setLogtime(new Timestamp(date.getTime()));
+		int num = ms.registerUser(temp,log);
+		obj.put("addFlag", false);
+		if(num>0)obj.put("addFlag", true);
+		return obj;
 	}
 }

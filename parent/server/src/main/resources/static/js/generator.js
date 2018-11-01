@@ -150,9 +150,6 @@ $(function(){
 				  expandIcon: "glyphicon glyphicon-triangle-right",
 			});
 		}
-	
-	
-	
 	function createTable(){
 		var data ="<div class='data'>";
 		var button = "<div><button class='add'><i class='fa fa-plus-square fa-2x' aria-hidden='true'></i>"+$(".add").val()+"</button><button class='del'><i class='fa fa-minus-square fa-2x' aria-hidden='true'></i>"+$(".delete").val()+"</button></div>";

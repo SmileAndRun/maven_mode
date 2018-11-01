@@ -17,14 +17,13 @@ public class LogServiceImpl implements LogService {
 	@Override
 	@Transactional(rollbackFor ={IllegalArgumentException.class})
 	public int insertLog(Log log) {
-		String temp = logMapper.getLastMaxId();
-		if(temp == null) temp = "0";
-		int id = Integer.parseInt(temp)+1;
-		log.setLogid(String.valueOf(id));
+		int temp = logMapper.getLastMaxId();
+		int id = temp+1;
+		log.setLogid(id);
 		return logMapper.insertSelective(log);
 	}
 	@Override
-	public String getLastMaxId() {
+	public int getLastMaxId() {
 		
 		return logMapper.getLastMaxId();
 	}

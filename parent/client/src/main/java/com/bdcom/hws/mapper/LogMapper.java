@@ -9,5 +9,5 @@ public interface LogMapper {
    public Log selectByPrimaryKey(String logid);
    public int updateByPrimaryKeySelective(Log record);
    public int updateByPrimaryKey(Log record);
-   public String getLastMaxId();
+   public int getLastMaxId();
 }

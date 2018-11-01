@@ -2,6 +2,7 @@ package com.bdcom.server.service;
 
 import java.util.List;
 
+import com.bdcom.server.model.Log;
 import com.bdcom.server.model.User;
 
 public interface ManagerService {
@@ -11,9 +12,14 @@ public interface ManagerService {
 	public User getUserByUname(String uName);
 	public User getUserInfoByUname(String uName);
 	public List<User> getUser(User user);
-	public int registerUser(User user);
+	public int registerUser(User user,Log log);
 	public int changeUser(User user);
 	public int deleteUserByUid(int userId);
 	public int deleteUserByUname(String uName);
 	public User getSaltByUname(String uName);
+	public List<User> getFuzzyUsersByUid(String searchValue);
+	public List<User> getFuzzyUserByUname(String searchValue);
+	public int getLastMaxId();
+	public int insertLog(Log record);
+	public int getLogLastMaxId();
 }

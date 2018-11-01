@@ -8,18 +8,73 @@
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/context.standalone.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/usermanage.css}" rel="stylesheet" type="text/css">
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
 <script th:src="@{/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/usermanage.js}" type="text/javascript"></script>
 </head>
 <body>
-	<div class="container"> 
-		<div class="data"></div>
+	<div class="container">
+		<div class="showTab">
+			<div class="title">
+				<select class="type">
+					<option th:value="1" th:text="#{serial.number}"></option>
+					<option th:value="2" th:text="#{name}"></option>
+				</select>
+				<input type="text"/>
+				<button th:text="#{search}" class="search"></button>
+				<button th:text="#{add}" class="add"></button>
+			</div> 
+			<div class="data">
+				<table class="table table-bordered table-hover definewidth m10 dataTable" >
+					<thead>
+						<tr>
+							<th th:text="#{serial.number}"></th>
+							<th th:text="#{name}"></th>
+							<th th:text="#{isLock}"></th>
+							<th th:text="#{last.login.time}"></th>
+							<th th:text="#{operater}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${users}">
+							<td th:text="${user.userId}"></td>
+							<td th:text="${user.userName}"></td>
+							<td th:text="${user.flag}?#{lock}:''"></td>
+							<td th:text="${user.time}"></td>
+							<td th:text="#{edit}"></td>
+						</tr>
+					</tbody>
+					
+				</table>
+			</div>
+		</div>
+		<div class="showADD">
+			<table class="table table-bordered table-hover definewidth m10 addTable">
+				<tr>
+					<td th:text="#{name}"></td>
+					<td><input type="text" class="addName"/></td>
+				</tr>
+				<tr>
+					<td th:text="#{password}"></td>
+					<td><input type="text" class="addPwd"/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<button type="button" class="btn btn-primary save" th:text="#{save}"></button>
+						<button type="button" class="btn btn-success return" th:text="#{return.list}"></button>
+					</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	<div class="i18n">
-		
+		<input class="lock" type="hidden" th:value="#{lock}">
+		<input class="edit" type="hidden" th:value="#{edit}">
 	</div>
 </body>
 </html>

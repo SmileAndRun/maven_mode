@@ -2,6 +2,7 @@ package com.bdcom.server.mapper;
 
 import java.util.List;
 
+import com.bdcom.server.model.Log;
 import com.bdcom.server.model.User;
 
 
@@ -18,4 +19,9 @@ public interface ManagerMapper {
 	public int deleteUserByUid(int userId);
 	public int deleteUserByUname(String uName);
 	public User getSaltByUname(String uName);
+	public List<User> getFuzzyUsersByUid(String searchValue);
+	public List<User> getFuzzyUserByUname(String searchValue);
+	public int getLastMaxId();
+	public int insertLog(Log record);
+	public int getLogLastMaxId();
 }

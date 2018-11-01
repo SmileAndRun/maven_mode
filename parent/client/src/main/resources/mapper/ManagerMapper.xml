@@ -4,6 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.server.mapper.ManagerMapper">
 	<sql id="user">u.userId,userName,userPwd,uIsLock,uSalt</sql>
+	<sql id="insertuser">userId,userName,userPwd,uIsLock,uSalt</sql>
 	<!-- 查询数据 -->
 	<select id="getSaltByUname" parameterType="String" resultType="com.bdcom.server.model.User">
 		select uSalt from t_user where userName = #{userName}
@@ -25,25 +26,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
 		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId}
+		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
 	<select id="getUserByUid" parameterType="Integer" resultType="com.bdcom.server.model.User">
-		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userId = #{userId}
+		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userId = #{userId} GROUP BY u.userId
 	</select>
 	<select id="getUserByUname" parameterType="String" resultType="com.bdcom.server.model.User">
-		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userName = #{userName}
+		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userName = #{userName} GROUP BY u.userId
 	</select>
 	<select id="getUsers"  resultType="com.bdcom.server.model.User">
-		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId 
+		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId GROUP BY u.userId
 	</select>
 	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
 		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId where userName = #{userName}
+		r.roleId = p.roleId where userName = #{userName} GROUP BY u.userId
 	</select>
 	<!-- 插入数据 -->
 	<insert id="registerUser" parameterType="com.bdcom.server.model.User">
-		insert   into t_user( <include refid="user"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
+		insert   into t_user( <include refid="insertuser"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
 	</insert>
 	<!-- 修改数据 -->
 	<update id="changeUser" parameterType="com.bdcom.server.model.User">
@@ -56,5 +57,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteUserByUname" parameterType="String">
 		delete from t_user where userName = #{userName}
 	</delete>
-	
+	<select id="getFuzzyUsersByUid" parameterType="String" resultType="com.bdcom.server.model.User">
+		SELECT <include refid="user"></include>,max(logTime)logTime FROM t_user u,t_log l WHERE LOCATE(#{value}, u.userId)>0 and u.userId = l.userId GROUP BY u.userId
+	</select>
+	<select id="getFuzzyUserByUname" parameterType="String" resultType="com.bdcom.server.model.User">
+		SELECT <include refid="user"></include>,max(logTime)logTime FROM t_user u,t_log l WHERE LOCATE(#{value}, u.userName)>0 and u.userId = l.userId GROUP BY u.userId
+	</select>
+	<select id="getLastMaxId" resultType="Integer">
+		select max(userId) from t_user
+	</select>
+	<select id="getLogLastMaxId" resultType="Integer">
+	  	select max(logId) logId from t_log 
+	 </select>
+	 
+	 <insert id="insertLog" parameterType="com.bdcom.server.model.Log">
+   
+	    insert into t_log (logId, userId, logType, 
+	      logMessage, logIsError, logTime
+	      )
+	    values (#{logid,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{logtype,jdbcType=VARCHAR}, 
+	      #{logmessage,jdbcType=VARCHAR}, #{logiserror,jdbcType=CHAR}, #{logtime,jdbcType=TIMESTAMP}
+	      )
+	 </insert>
 </mapper>

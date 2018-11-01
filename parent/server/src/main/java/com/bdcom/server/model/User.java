@@ -1,6 +1,8 @@
 package com.bdcom.server.model;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -12,11 +14,38 @@ public class User {
 	private int userId;
 	private byte[] uSalt;
 	private Timestamp logTime;
-	public Timestamp getLoginTime() {
+	private String time;
+	//主要为了前台显示
+	private boolean flag;
+	//为了前台字符上色
+	private String uId;
+	
+	
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
+	}
+	public boolean isFlag() {
+		return flag;
+	}
+	public void setFlag(boolean flag) {
+		this.flag = flag;
+	}
+	public Timestamp getLogTime() {
 		return logTime;
 	}
-	public void setLoginTime(Timestamp loginTime) {
-		this.logTime = loginTime;
+	public void setLogTime(Timestamp logTime) {
+		this.logTime = logTime;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		time = sdf.format(new Date(logTime.getTime()));
+	}
+	public String getTime() {
+		return time;
+	}
+	public void setTime(String time) {
+		this.time = time;
 	}
 	private List<Role> roleList;
 	
@@ -50,6 +79,8 @@ public class User {
 	}
 	public void setuIsLock(char uIsLock) {
 		this.uIsLock = uIsLock;
+		flag = true;
+		if(uIsLock == '0')flag = false;
 	}
 	public int getUserId() {
 		return userId;

@@ -27,12 +27,10 @@ $(function(){
 								"<td>"+result.users[i].userName+"</td>" +
 								"<td>"+temp+"</td>" +
 								"<td>"+result.users[i].time+"</td>" +
-								"<td>"+$(".edit").val()+"</td>" +
+								"<td class='edit'>"+$(".edit").val()+"</td>" +
 								"</tr>");
 					}
 				}
-				
-				
 			}
 			var e_function = function(){
 				layer.msg("The server is error!!!");
@@ -71,7 +69,7 @@ $(function(){
 					"<td>"+name+"</td>" +
 					"<td></td>" +
 					"<td></td>" +
-					"<td>"+$(".edit").val()+"</td>" +
+					"<td class='edit'>"+$(".edit").val()+"</td>" +
 					"</tr>");
 				}
 			}
@@ -82,21 +80,60 @@ $(function(){
 			$(".showTab").css("display","block");
 		}
 	});
-	$(".data tbody tr").on("click","td:last-child",function(){
+	$(".dataTable").on("click",".edit",function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
 		var islock = $(this).prev().prev().text();
-		
 		var name = $(this).prev().prev().prev().text();
 		var num = $(this).prev().prev().prev().prev().text();
-		$(".showEdit").css("display","block");
+		
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
-		if(islock=$(".lock").val()){
+		if(islock==$(".lock").val()){
 			$(".editTable").find("tr").eq(2).find("input").attr("checked", true);
 		}else{
-			$(".editTable").find("tr").eq(2).find("input").attr("checked", false);
+			$(".editTable").find("tr").eq(2).find("input").removeAttr("checked");;
 		}
-		
+		$(".showEdit").css("display","block");
 	});
+	$(".showEdit").on("click",".saveChange",function(){
+		var num = $(".editTable").find("tr").eq(0).find("input").val();
+		var name = $(".editTable").find("tr").eq(1).find("input").val();
+		var islock = $(".editTable").find("tr").eq(2).find("input").is(':checked');
+		if(islock){
+			islock = '1';
+		}else{
+			islock = '0';
+		}
+		var url = "/server/changeUser";
+		var data = {
+				userId: num,
+				userName: name,
+				uIsLock: islock
+		};
+		var s_function = function(result){
+			if(result.changeFlag){
+				$(".dataTable tbody").find("tr").each(function(){
+					var serial = $(this).find("td").eq(0).text();
+					console.log(serial);
+					if(serial == num){
+						console.log($(this).find("td").eq(1).text());
+						$(this).find("td").eq(1).text(name);
+						if(islock=='1'){
+							$(this).find("td").eq(2).text($(".lock").val());
+						}else{
+							$(this).find("td").eq(2).text("");
+						}
+					}
+				});
+				$(".showTab").css("display","block");
+				$(".showADD").css("display","none");
+				$(".showEdit").css("display","none");
+			}
+		}
+		var e_function = function(){
+			layer.msg("The server is error!!!");
+		}
+		$.commonAjax(url,data,s_function,e_function);
+	})
 })

@@ -169,4 +169,13 @@ public class RootController {
 		if(num>0)obj.put("addFlag", true);
 		return obj;
 	}
+	@RequestMapping(value="/changeUser")
+	@ResponseBody
+	public JSONObject changeUser(User user){
+		JSONObject obj = new JSONObject();
+		int flag = ms.changeUser(user);
+		obj.put("changeFlag", false);
+		if(flag > 0)obj.put("changeFlag", true);
+		return obj;
+	}
 }

@@ -98,13 +98,13 @@ public class RootController {
 		response.setHeader("Content-Disposition", "attachment; filename=model.zip");  
 		
 		String filePath = "model/model1";
-		String temp = "model/temp";
+		//String temp = "model/temp";
 		String name = "model";
 		OutputStream out = null;
 		try {
 			out = response.getOutputStream();
 			ZipOutputStream zos = new ZipOutputStream(out);
-			DownUtils.download(filePath,zos,name, temp);
+			DownUtils.download(filePath,zos,name);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

@@ -47,7 +47,7 @@ public class JDBCUtils {
 	public static MysqlModel excuteSql(String url,String userName,String userPwd,String sql){
 		MysqlModel model = new MysqlModel();
 		try {
-			
+			pre = conn.prepareStatement(sql);
 			boolean flag = pre.execute();
 			int count = pre.getUpdateCount();
 			model.setFlag(flag);
@@ -62,7 +62,7 @@ public class JDBCUtils {
 			if(null != warning) model.setWarning(warning.getMessage());
 			
 			if(flag){
-				rs = pre.executeQuery();
+				rs = pre.executeQuery(sql);
 				ResultSetMetaData data = pre.getMetaData();
 				//从1开始,获取列名
 				int columnCount = data.getColumnCount();

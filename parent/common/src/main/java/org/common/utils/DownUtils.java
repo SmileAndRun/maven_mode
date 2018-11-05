@@ -38,7 +38,7 @@ public class DownUtils {
              }
 		 }
     }
-	public static void download(String path,ZipOutputStream zos,String name,String temp) throws FileNotFoundException, IOException{
+	public static void download(String path,ZipOutputStream zos,String name) throws FileNotFoundException, IOException{
 		//OutputStream out = new FileOutputStream(new File("model/temp/model.zip"));
 		//ZipOutputStream zos = new ZipOutputStream(out);
 		//File tempFile = new File(temp);

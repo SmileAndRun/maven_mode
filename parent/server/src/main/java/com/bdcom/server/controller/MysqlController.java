@@ -5,17 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
-
-
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
+import org.common.model.server.MysqlModel;
+import org.common.utils.JDBCUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.lucene.SearchMethod;
-import com.bdcom.server.model.MysqlModel;
-import com.bdcom.server.utils.JDBCUtils;
 
 @RestController
 @RequestMapping(value="/mysql")

@@ -2,7 +2,8 @@ package com.bdcom.hws.mapper;
 
 import java.util.List;
 
-import com.bdcom.hws.model.User;
+import org.common.model.client.User;
+
 
 public interface UserMapper {
 

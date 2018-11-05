@@ -2,11 +2,11 @@ package com.bdcom.hws.service.impl;
 
 import java.util.List;
 
+import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bdcom.hws.mapper.UserMapper;
-import com.bdcom.hws.model.User;
 import com.bdcom.hws.service.UserService;
 
 @Service

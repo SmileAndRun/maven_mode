@@ -3,11 +3,11 @@ package com.bdcom.hws.service.impl;
 import java.sql.Date;
 import java.util.List;
 
+import org.common.model.Barrage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bdcom.hws.mapper.BarrageMapper;
-import com.bdcom.hws.model.Barrage;
 import com.bdcom.hws.service.BarrageService;
 
 @Service

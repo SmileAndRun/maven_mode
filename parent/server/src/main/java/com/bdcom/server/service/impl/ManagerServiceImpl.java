@@ -2,13 +2,13 @@ package com.bdcom.server.service.impl;
 
 import java.util.List;
 
+import org.common.model.Log;
+import org.common.model.server.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bdcom.server.mapper.ManagerMapper;
-import com.bdcom.server.model.Log;
-import com.bdcom.server.model.User;
 import com.bdcom.server.service.ManagerService;
 
 @Service

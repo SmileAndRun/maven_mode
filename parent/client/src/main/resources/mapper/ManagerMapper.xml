@@ -6,19 +6,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<sql id="user">u.userId,userName,userPwd,uIsLock,uSalt</sql>
 	<sql id="insertuser">userId,userName,userPwd,uIsLock,uSalt</sql>
 	<!-- 查询数据 -->
-	<select id="getSaltByUname" parameterType="String" resultType="com.bdcom.server.model.User">
+	<select id="getSaltByUname" parameterType="String" resultType="org.common.model.server.User">
 		select uSalt from t_user where userName = #{userName}
 	</select>
-	<resultMap type="com.bdcom.server.model.User" id="userMap">
+	<resultMap type="org.common.model.server.User" id="userMap">
 		<id column="userId" jdbcType="INTEGER" property="userId"/>
 		<result column="userName" jdbcType="VARCHAR" property="userName"/>
 		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
 		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
 		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
 		<result column="logTime" jdbcType="TIMESTAMP" property="loginTime"/>
-		<collection  property="roleList" ofType="com.bdcom.server.model.Role">
+		<collection  property="roleList" ofType="org.common.model.Role">
 			<result column="role" jdbcType="VARCHAR" property="role"/>
-			<collection property="permissionList" ofType="com.bdcom.server.model.Permission">
+			<collection property="permissionList" ofType="org.common.model.Permission">
 				<result column="permission" jdbcType="VARCHAR" property="permission"/>
 			</collection>
 		</collection>
@@ -28,13 +28,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
-	<select id="getUserByUid" parameterType="Integer" resultType="com.bdcom.server.model.User">
+	<select id="getUserByUid" parameterType="Integer" resultType="org.common.model.server.User">
 		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userId = #{userId} GROUP BY u.userId
 	</select>
-	<select id="getUserByUname" parameterType="String" resultType="com.bdcom.server.model.User">
+	<select id="getUserByUname" parameterType="String" resultType="org.common.model.server.User">
 		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userName = #{userName} GROUP BY u.userId
 	</select>
-	<select id="getUsers"  resultType="com.bdcom.server.model.User">
+	<select id="getUsers"  resultType="org.common.model.server.User">
 		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId GROUP BY u.userId
 	</select>
 	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
@@ -43,11 +43,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		r.roleId = p.roleId where userName = #{userName} GROUP BY u.userId
 	</select>
 	<!-- 插入数据 -->
-	<insert id="registerUser" parameterType="com.bdcom.server.model.User">
+	<insert id="registerUser" parameterType="org.common.model.server.User">
 		insert   into t_user( <include refid="insertuser"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
 	</insert>
 	<!-- 修改数据 -->
-	<update id="changeUser" parameterType="com.bdcom.server.model.User">
+	<update id="changeUser" parameterType="org.common.model.server.User">
 		update t_user set userName = #{userName},uIsLock = #{uIsLock} where userId = #{userId}
 	</update>
 	<!-- 删除数据 -->
@@ -57,10 +57,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteUserByUname" parameterType="String">
 		delete from t_user where userName = #{userName}
 	</delete>
-	<select id="getFuzzyUsersByUid" parameterType="String" resultType="com.bdcom.server.model.User">
+	<select id="getFuzzyUsersByUid" parameterType="String" resultType="org.common.model.server.User">
 		SELECT <include refid="user"></include>,max(logTime)logTime FROM t_user u,t_log l WHERE LOCATE(#{value}, u.userId)>0 and u.userId = l.userId GROUP BY u.userId
 	</select>
-	<select id="getFuzzyUserByUname" parameterType="String" resultType="com.bdcom.server.model.User">
+	<select id="getFuzzyUserByUname" parameterType="String" resultType="org.common.model.server.User">
 		SELECT <include refid="user"></include>,max(logTime)logTime FROM t_user u,t_log l WHERE LOCATE(#{value}, u.userName)>0 and u.userId = l.userId GROUP BY u.userId
 	</select>
 	<select id="getLastMaxId" resultType="Integer">
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  	select max(logId) logId from t_log 
 	 </select>
 	 
-	 <insert id="insertLog" parameterType="com.bdcom.server.model.Log">
+	 <insert id="insertLog" parameterType="org.common.model.Log">
    
 	    insert into t_log (logId, userId, logType, 
 	      logMessage, logIsError, logTime

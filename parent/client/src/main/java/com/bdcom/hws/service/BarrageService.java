@@ -3,8 +3,9 @@ package com.bdcom.hws.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.common.model.Barrage;
 
-import com.bdcom.hws.model.Barrage;
+
 
 
 public interface BarrageService {

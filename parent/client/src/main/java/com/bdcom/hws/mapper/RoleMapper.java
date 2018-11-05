@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import com.bdcom.hws.model.Role;
+import org.common.model.Role;
+
 
 public interface RoleMapper {
    public int deleteByPrimaryKey(Integer roleid);

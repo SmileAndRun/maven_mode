@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import com.bdcom.hws.model.Permission;
+import org.common.model.Permission;
+
 
 public interface PermissionMapper {
     int deleteByPrimaryKey(Integer pid);

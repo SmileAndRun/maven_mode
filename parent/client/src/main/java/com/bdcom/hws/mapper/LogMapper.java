@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import com.bdcom.hws.model.Log;
+import org.common.model.Log;
+
 
 public interface LogMapper {
    public int deleteByPrimaryKey(String logid);

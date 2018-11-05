@@ -3,7 +3,8 @@ package com.bdcom.hws.mapper;
 import java.sql.Date;
 import java.util.List;
 
-import com.bdcom.hws.model.Barrage;
+import org.common.model.Barrage;
+
 
 public interface BarrageMapper {
 	/**

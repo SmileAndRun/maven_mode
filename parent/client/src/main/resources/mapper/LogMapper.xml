@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.hws.mapper.LogMapper">
-  <resultMap id="BaseResultMap" type="com.bdcom.hws.model.Log">
+  <resultMap id="BaseResultMap" type="org.common.model.Log">
     
     <id column="logId" jdbcType="VARCHAR" property="logid" />
     <result column="userId" jdbcType="INTEGER" property="userid" />
@@ -26,7 +26,7 @@
     delete from t_log
     where logId = #{logid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.bdcom.hws.model.Log">
+  <insert id="insert" parameterType="org.common.model.Log">
    
     insert into t_log (logId, userId, logType, 
       logMessage, logIsError, logTime
@@ -35,7 +35,7 @@
       #{logmessage,jdbcType=VARCHAR}, #{logiserror,jdbcType=CHAR}, #{logtime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.bdcom.hws.model.Log">
+  <insert id="insertSelective" parameterType="org.common.model.Log">
    
     insert into t_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -79,7 +79,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bdcom.hws.model.Log">
+  <update id="updateByPrimaryKeySelective" parameterType="org.common.model.Log">
     update t_log
     <set>
       <if test="userid != null">
@@ -100,7 +100,7 @@
     </set>
     where logId = #{logid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.bdcom.hws.model.Log">
+  <update id="updateByPrimaryKey" parameterType="org.common.model.Log">
     update t_log
     set userId = #{userid,jdbcType=INTEGER},
       logType = #{logtype,jdbcType=VARCHAR},

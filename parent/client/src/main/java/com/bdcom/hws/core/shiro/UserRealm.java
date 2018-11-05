@@ -8,11 +8,11 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.common.model.Permission;
+import org.common.model.Role;
+import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.bdcom.hws.model.Permission;
-import com.bdcom.hws.model.Role;
-import com.bdcom.hws.model.User;
 import com.bdcom.hws.service.UserService;
 
 

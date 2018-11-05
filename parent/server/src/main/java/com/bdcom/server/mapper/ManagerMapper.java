@@ -2,8 +2,9 @@ package com.bdcom.server.mapper;
 
 import java.util.List;
 
-import com.bdcom.server.model.Log;
-import com.bdcom.server.model.User;
+import org.common.model.Log;
+import org.common.model.server.User;
+
 
 
 public interface ManagerMapper {

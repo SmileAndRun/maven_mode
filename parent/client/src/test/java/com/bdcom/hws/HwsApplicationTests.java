@@ -3,6 +3,9 @@ package com.bdcom.hws;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import org.common.model.Role;
+import org.common.model.client.User;
+import org.common.utils.EncryptionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bdcom.hws.mapper.RoleMapper;
 import com.bdcom.hws.mapper.UserMapper;
-import com.bdcom.hws.model.Role;
-import com.bdcom.hws.model.User;
-import com.bdcom.hws.utils.EncryptionUtils;
 import com.hws.mybatisgenerator.core.CodeGenerator;
 
 @RunWith(SpringRunner.class)

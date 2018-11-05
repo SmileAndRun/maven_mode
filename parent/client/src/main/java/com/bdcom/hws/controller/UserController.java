@@ -17,6 +17,12 @@ import io.swagger.annotations.ApiParam;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.common.model.Barrage;
+import org.common.model.Log;
+import org.common.model.client.User;
+import org.common.utils.CookieUtils;
+import org.common.utils.EncryptionUtils;
+import org.common.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,15 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bdcom.hws.model.Barrage;
-import com.bdcom.hws.model.Log;
-import com.bdcom.hws.model.User;
 import com.bdcom.hws.service.BarrageService;
 import com.bdcom.hws.service.LogService;
 import com.bdcom.hws.service.UserService;
-import com.bdcom.hws.utils.CookieUtils;
-import com.bdcom.hws.utils.EncryptionUtils;
-import com.bdcom.hws.utils.UploadUtils;
 
 @Api(value="用户模块")
 @Controller

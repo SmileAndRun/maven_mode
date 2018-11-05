@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.hws</groupId>
@@ -14,12 +14,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.0.3.RELEASE</version>
-		<relativePath /> 
+		<relativePath/> 
 	</parent>
 	<modules>
 		<module>client</module>
 		<module>server</module>
-	</modules>
+    <module>common</module>
+  </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,7 +40,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!--常用库依赖 -->
+		<!--常用库依�? -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -54,7 +55,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!--MyBatis 及 插件依赖 -->
+		<!--MyBatis �? 插件依赖 -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -127,7 +128,7 @@
             <version>1.4.0</version>
         </dependency>
        
-       <!-- 依赖自己写的jar包 -->
+       <!-- 依赖自己写的jar�? -->
       <dependency>
 			<groupId>com.hws</groupId>
 			<artifactId>MybatisGenerator</artifactId>
@@ -143,7 +144,7 @@
             <artifactId>druid</artifactId>
             <version>1.1.6</version>
       </dependency>
-      <!--上传文件相关的jar包  -->
+      <!--上传文件相关的jar�?  -->
       <dependency>
          <groupId>commons-io</groupId>
          <artifactId>commons-io</artifactId>
@@ -165,7 +166,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注释
+	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
   		<repository>
 		  <id>PersonalDependencyLibrary</id> 仓库名称
 		  <name>PersonalDependencyLibrary</name>仓库名称

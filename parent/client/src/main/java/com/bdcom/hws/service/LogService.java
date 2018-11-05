@@ -1,6 +1,7 @@
 package com.bdcom.hws.service;
 
-import com.bdcom.hws.model.Log;
+import org.common.model.Log;
+
 
 
 public interface LogService {

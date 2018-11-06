@@ -32,17 +32,28 @@
     <ul id="J_NavContent" class="dl-tab-conten">
     </ul>
 </div>
+<div class="il18">
+	<input type="hidden" th:value="#{usermanage}" class="usermanage"/>
+	<input type="hidden" th:value="#{systemmanage}" class="systemmanage"/>
+	<input type="hidden" th:value="#{programtool}" class="programtool"/>
+	<input type="hidden" th:value="#{generatecode}" class="generatecode"/>
+	<input type="hidden" th:value="#{database.maintenance}" class="databaseMaintenance"/>
+</div>
 <script type="text/javascript" th:src="@{/assets/js/jquery-1.8.1.min.js}"></script>
 <script type="text/javascript" th:src="@{/assets/js/bui-min.js}"></script>
 <script type="text/javascript" th:src="@{/assets/js/common/main-min.js}"></script>
 <script type="text/javascript" th:src="@{/assets/js/config-min.js}"></script>
 <script>
-    BUI.use('common/main',function(){
-        var config = [{id:'1',menu:[{text:'系统管理',items:[{id:'12',text:'用户管理',href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'User/index.html'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:'开发者工具',items:[{id:'9',text:'代码生成器',href:'/server/generator?url=generator'},{id:'10',text:'数据库维护',href:'/server/database?url=database'}]}]}];
-        new PageUtil.MainPage({
-            modulesConfig : config
-        });
-    });
+	$(function(){
+		console.log($(".systemmanage").val());
+		BUI.use('common/main',function(){
+	        var config = [{id:'1',menu:[{text:$(".systemmanage").val(),items:[{id:'12',text:$(".usermanage").val(),href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:'用户管理',href:'User/index.html'},{id:'6',text:'菜单管理',href:'Menu/index.html'}]}]},{id:'7',homePage : '9',menu:[{text:$(".programtool").val(),items:[{id:'9',text:$(".generatecode").val(),href:'/server/generator?url=generator'},{id:'10',text:$(".databaseMaintenance").val(),href:'/server/database?url=database'}]}]}];
+	        new PageUtil.MainPage({
+	            modulesConfig : config
+	        });
+	    });
+	})
+    
 </script>
 </body>
 </html>

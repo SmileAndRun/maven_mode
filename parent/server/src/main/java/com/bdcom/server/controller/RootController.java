@@ -178,4 +178,8 @@ public class RootController {
 		if(flag > 0)obj.put("changeFlag", true);
 		return obj;
 	}
+	@RequestMapping(value="/graphAnalysis")
+	public String initGraphAnalysis(){
+		return "graphAnalysis";
+	}
 }

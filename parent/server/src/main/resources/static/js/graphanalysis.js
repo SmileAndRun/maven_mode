@@ -1,4 +1,18 @@
+var count;
 $(function(){
+	getCount();
+	function getCount(){
+    	var url = "/grapha/getPageView";
+		var data = {
+		};
+		var s_function = function(result){
+			count = result.count;
+		}
+		var e_function = function(){
+			layer.msg("The server is error!!!");
+		}
+		$.commonAjax(url,data,s_function,e_function);
+	}
 	var chart = {
 		      type: 'spline',
 		      animation: Highcharts.svg, // don't animate in IE < IE 10.
@@ -7,16 +21,18 @@ $(function(){
 		         load: function () {
 		            // set up the updating of the chart each second
 		            var series = this.series[0];
+		            getCount();
 		            setInterval(function () {
+		               getCount();
 		               var x = (new Date()).getTime(), // current time
-		               y = Math.random();
+		               y = count;
 		               series.addPoint([x, y], true, true);
 		            }, 1000);
 		         }
 		      }
 		   };
 		   var title = {
-		      text: $(".onlineUsers").val()   
+		      text: $(".CurrentPpageView").val()   
 		   };   
 		   var xAxis = {
 		      type: 'datetime',
@@ -24,19 +40,20 @@ $(function(){
 		   };
 		   var yAxis = {
 		      title: {
-		         text: $(".peopleNums").val()
+		         text: $(".pageView").val()
 		      },
 		      plotLines: [{
 		         value: 0,
 		         width: 1,
 		         color: '#808080'
-		      }]
+		      }],
+		      tickInterval: 1
 		   };
 		   var tooltip = {
 		      formatter: function () {
 		      return '<b>' + this.series.name + '</b><br/>' +
 		         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-		         Highcharts.numberFormat(this.y, 2);
+		         Highcharts.numberFormat(this.y, 0);
 		      }
 		   };
 		   var plotOptions = {
@@ -61,20 +78,18 @@ $(function(){
 		      enabled: false
 		   };
 		   var series= [{
-		      name: $(".onlineUsers").val(),
-		      data: (function () {
-		         // generate an array of random data
-		         var data = [],time = (new Date()).getTime(),i;
-		         for (i = -19; i <= 0; i += 1) {
-		            data.push({
-		               x: time + i * 1000,
-		               y: Math.random()
-		            });
-		         }
-		         return data;
-		      }())    
-		   }];     
-		      
+			      name: $(".pageView").val(),
+			      data: (function () {
+			         var data = [],time = (new Date()).getTime(),i;
+			         for (i = -19; i <= 0; i += 1) {
+			            data.push({
+			               x: time + i * 1000,
+			               y: count
+			            });
+			         }
+			         return data;
+			      }())    
+			   }];     
 		   var json = {};   
 		   json.chart = chart; 
 		   json.title = title;     
@@ -93,4 +108,36 @@ $(function(){
 		      }
 		   });
 		   $('.userNums').highcharts(json);
+		   
+		   function create() {
+			    var series = new Array();
+				var url = "/grapha/getPageView";
+    			var data = {
+    			};
+    			var e_function = function(){
+    				layer.msg("The server is error!!!");
+    			}
+			    function s_function(result){
+			    	count = result.count;
+				    var data = function() {
+				    var data = [],
+		            time = (new Date()).getTime(),
+		              i;
+		            for (i = -19; i <= 0; i += 1) {
+		              data.push({
+		                x: time + i * 1000,
+		                y: count
+		              });
+		            }
+		            return data;
+		          }();
+		          series.push({"name": $(".pageView").val(), "data": data});
+			    }
+			    $.commonAjax(url,data,s_function,e_function);
+			    return series;
+			    
+			  }
+		   
+		   
+		   
 })

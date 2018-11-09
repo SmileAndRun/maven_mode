@@ -10,7 +10,6 @@ public class CookieUtils {
 	public static void setCookies(HttpServletRequest request,HttpServletResponse response,String name,String pwd){
 		
 		//设置账号
-		request.getSession().setMaxInactiveInterval(60*60*24*7);
 		Cookie u_Cookie = new Cookie("SESSION_USERNAME",name);
 		u_Cookie.setPath("/");
 		u_Cookie.setMaxAge(60*60*24*7);

@@ -48,7 +48,7 @@
 <script>
 	$(function(){
 		BUI.use('common/main',function(){
-	        var config = [{id:'1',menu:[{text:$(".systemmanage").val(),items:[{id:'12',text:$(".usermanage").val(),href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:$(".timedTask").val(),href:'User/index.html'},{id:'6',text:$(".graphAnalysis").val(),href:'/server/graphAnalysis'}]}]},{id:'7',homePage : '9',menu:[{text:$(".programtool").val(),items:[{id:'9',text:$(".generatecode").val(),href:'/server/generator?url=generator'},{id:'10',text:$(".databaseMaintenance").val(),href:'/server/database?url=database'}]}]}];
+	        var config = [{id:'1',menu:[{text:$(".systemmanage").val(),items:[{id:'12',text:$(".usermanage").val(),href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:$(".timedTask").val(),href:'User/index.html'},{id:'6',text:$(".graphAnalysis").val(),href:'/grapha/graphAnalysis'}]}]},{id:'7',homePage : '9',menu:[{text:$(".programtool").val(),items:[{id:'9',text:$(".generatecode").val(),href:'/server/generator?url=generator'},{id:'10',text:$(".databaseMaintenance").val(),href:'/server/database?url=database'}]}]}];
 	        new PageUtil.MainPage({
 	            modulesConfig : config
 	        });

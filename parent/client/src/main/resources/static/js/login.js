@@ -42,7 +42,7 @@ $(function(){
 					};
 				var s_function = function(data){
 					if(data == true){
-						window.location.href = "/user/index";
+						window.location.href = "/server/index";
 					}else{
 						layer.msg($(".tip2").text());
 					}

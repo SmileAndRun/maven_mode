@@ -1,12 +1,12 @@
 var count;
 $(function(){
-	getCount();
+
 	function getCount(){
     	var url = "/grapha/getPageView";
 		var data = {
 		};
 		var s_function = function(result){
-			count = result.count;
+			count = result.activeSessions;
 		}
 		var e_function = function(){
 			layer.msg("The server is error!!!");
@@ -19,7 +19,6 @@ $(function(){
 		      marginRight: 10,
 		      events: {
 		         load: function () {
-		            // set up the updating of the chart each second
 		            var series = this.series[0];
 		            getCount();
 		            setInterval(function () {
@@ -80,16 +79,24 @@ $(function(){
 		   var series= [{
 			      name: $(".pageView").val(),
 			      data: (function () {
+			    	 var initData = $(".initData").val();
+			    	 var counts = initData.split(",");
+			    	 console.log(counts);
 			         var data = [],time = (new Date()).getTime(),i;
-			         for (i = -19; i <= 0; i += 1) {
-			            data.push({
-			               x: time + i * 1000,
-			               y: count
-			            });
+			         for (i = 0; i <= 19; i += 1) {
+	     				data.push({
+				               x: time + i * 1000,
+				               y: parseInt(counts[i])
+				            });
+			           
 			         }
 			         return data;
 			      }())    
-			   }];     
+			   }];  
+		   
+		   var credits = {//去掉默认的highcharts.com
+               enabled: false
+           }
 		   var json = {};   
 		   json.chart = chart; 
 		   json.title = title;     
@@ -100,7 +107,7 @@ $(function(){
 		   json.exporting = exporting;   
 		   json.series = series;
 		   json.plotOptions = plotOptions;
-		   
+		   json.credits = credits;
 		   
 		   Highcharts.setOptions({
 		      global: {
@@ -108,36 +115,6 @@ $(function(){
 		      }
 		   });
 		   $('.userNums').highcharts(json);
-		   
-		   function create() {
-			    var series = new Array();
-				var url = "/grapha/getPageView";
-    			var data = {
-    			};
-    			var e_function = function(){
-    				layer.msg("The server is error!!!");
-    			}
-			    function s_function(result){
-			    	count = result.count;
-				    var data = function() {
-				    var data = [],
-		            time = (new Date()).getTime(),
-		              i;
-		            for (i = -19; i <= 0; i += 1) {
-		              data.push({
-		                x: time + i * 1000,
-		                y: count
-		              });
-		            }
-		            return data;
-		          }();
-		          series.push({"name": $(".pageView").val(), "data": data});
-			    }
-			    $.commonAjax(url,data,s_function,e_function);
-			    return series;
-			    
-			  }
-		   
-		   
+		  
 		   
 })

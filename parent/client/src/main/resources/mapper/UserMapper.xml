@@ -46,7 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<!-- 修改数据 -->
 	<update id="changeUser" parameterType="org.common.model.client.User">
-		update t_user set userName = #{userName} and userPwd = #{userPwd}
+		update t_user set userName = #{userName},userPwd = #{userPwd} where userId = #{userId}
 	</update>
 	<!-- 删除数据 -->
 	<delete id="deleteUserByUid" parameterType="Integer">

@@ -19,6 +19,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.common.model.Barrage;
 import org.common.model.Log;
+import org.common.model.client.SessionModel;
 import org.common.model.client.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.EncryptionUtils;
@@ -33,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.bdcom.hws.service.BarrageService;
 import com.bdcom.hws.service.LogService;
+import com.bdcom.hws.service.SessionService;
 import com.bdcom.hws.service.UserService;
 
 @Api(value="用户模块")
@@ -45,6 +47,8 @@ public class UserController {
 	private BarrageService barService;
 	@Autowired
 	private LogService logService;
+	@Autowired
+	private SessionService sessionService;
 
 	@ApiOperation(value = "get User by uId", notes = "通过用户id获取该用户", response = User.class)
 	@RequestMapping(value="getUserByUid",method=RequestMethod.GET)
@@ -85,10 +89,23 @@ public class UserController {
 				CookieUtils.setCookies(request,response, user.getUserName(), pwd);
 			}
 		}
+		//更新sessionID
+		Date date = new Date();
+		User temp = us.getUserByUname(user.getUserName());
+		SessionModel model = new SessionModel();
+		model.setUserId(temp.getUserId());
+		model.setSessionId(request.getSession().getId());
+		model.setUpdateTime(new Timestamp(date.getTime()));
+		if(sessionService.findId(temp.getUserId()) == null){
+			sessionService.insert(model);
+		}else{
+			sessionService.update(model);
+		}
+		
 		//插入log日志,暂定type=1为账号登录日志
 		User userInfo = us.getUserByUname(user.getUserName());
 		Log log = new Log();
-		Date date = new Date();
+		
 		log.setUserid(userInfo.getUserId());
 		log.setLogtype("login");
 		log.setLogmessage("登录");

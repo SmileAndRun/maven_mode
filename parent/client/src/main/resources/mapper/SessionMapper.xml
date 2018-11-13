@@ -7,6 +7,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="findId" resultType="org.common.model.client.SessionModel">
 		select <include refid="session"></include> from t_session where userId = #{userId,jdbcType=INTEGER}
 	</select>
+	<select id="fingIdBySessionName" resultType="org.common.model.client.SessionModel">
+		select <include refid="session"></include> from t_session where sessionId = #{sessionId,jdbcType=VARCHAR}
+	</select>
 	<insert id="insert">
 		insert   into t_session(<include refid="session"></include> ) values(#{userId},#{sessionId},#{updateTime})
 	</insert>

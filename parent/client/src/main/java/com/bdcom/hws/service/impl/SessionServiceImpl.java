@@ -2,10 +2,12 @@ package com.bdcom.hws.service.impl;
 
 import org.common.model.client.SessionModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bdcom.hws.mapper.SessionMapper;
 import com.bdcom.hws.service.SessionService;
 
+@Service
 public class SessionServiceImpl implements SessionService{
 
 	@Autowired
@@ -24,6 +26,11 @@ public class SessionServiceImpl implements SessionService{
 	@Override
 	public SessionModel findId(int sessioinId) {
 		return sessionMapper.findId(sessioinId);
+	}
+
+	@Override
+	public SessionModel fingIdBySessionName(String sessionName) {
+		return sessionMapper.fingIdBySessionName(sessionName);
 	}
 
 }

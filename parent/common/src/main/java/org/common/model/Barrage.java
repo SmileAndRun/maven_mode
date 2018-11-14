@@ -6,6 +6,14 @@ public class Barrage {
 	private String contentId;//防止超出长度
 	private String content;
 	private Timestamp time;
+	private int imageId;
+	
+	public int getImageId() {
+		return imageId;
+	}
+	public void setImageId(int imageId) {
+		this.imageId = imageId;
+	}
 	public String getContentId() {
 		return contentId;
 	}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/context.standalone.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap-treeview.min.js}" type="text/javascript"></script>
+<script th:src="@{/layer/layer.js}" type="text/javascript"></script>
+<script th:src="@{/js/context.js}" type="text/javascript"></script>
+
+</head>
+<body>
+	<div class="container">
+		<div>
+			<input class="createButton" type="button" th:value="#{add}"/>
+			<input class="deleteButton" type="button" th:value="#{delete}"/>
+		</div>
+		<div class="data">
+				<table class="table table-bordered table-hover definewidth m10 dataTable" >
+					<thead>
+						<tr>
+							<th th:text="#{task.name}"></th>
+							<th th:text="#{create.time}"></th>
+							<th th:text="#{finished.time}"></th>
+							<th th:text="#{run.status}"></th>
+							<th th:text="#{operater}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <tr th:each="user : ${users}">
+							<td th:text="${user.userId}"></td>
+							<td th:text="${user.userName}"></td>
+							<td th:text="${user.flag}?#{lock}:''"></td>
+							<td th:text="${user.time}"></td>
+							<td th:text="#{edit}" class="edit"></td>
+						</tr> -->
+					</tbody>
+					
+				</table>
+			</div>
+	</div>
+	<div class="i18n">
+		<input class="createTable" type="hidden" th:value="#{create.table}"/>
+		<input class="checkDesign" type="hidden" th:value="#{check.table.design}"/>
+		<input class="checkData" type="hidden" th:value="#{check.table.data}"/>
+		<input class="menu" type="hidden" th:value="#{menu}"/>
+		<input class="clumnName" type="hidden" th:value="#{clumn.name}"/>
+		<input class="type" type="hidden" th:value="#{type}"/>
+		<input class="length" type="hidden" th:value="#{length}"/>
+		<input class="isAllowNull" type="hidden" th:value="#{isAllowNull}"/>
+		<input class="isPrimaryKey" type="hidden" th:value="#{isPrimaryKey}"/>
+	</div>
+</body>
+</html>

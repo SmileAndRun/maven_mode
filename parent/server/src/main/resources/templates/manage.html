@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>后台管理系统</title>
+    <title th:text="#{backstage.management.system}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link th:href="@{/assets/css/dpl-min.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/assets/css/bui-min.css}" rel="stylesheet" type="text/css" />
@@ -16,15 +16,15 @@
        <!--  <img src="/assets/img/top.png"> -->
     </div>
 
-    <div class="dl-log">欢迎您，<span class="dl-log-user">root</span><a href="/chinapost/index.php?m=Public&a=logout" title="退出系统" class="dl-log-quit">[退出]</a>
+    <div class="dl-log"><span th:text=#{welcome.to.you}></span>，<span class="dl-log-user">root</span><a href="/chinapost/index.php?m=Public&a=logout"  class="dl-log-quit" th:text="#{exit.1}"></a>
     </div>
 </div>
 <div class="content">
     <div class="dl-main-nav">
         <div class="dl-inform"><div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s></div></div>
         <ul id="J_Nav"  class="nav-list ks-clear">
-            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home">系统管理</div></li>		
-            <li class="nav-item dl-selected"><div class="nav-item-inner tool">开发者工具</div></li>
+            <li class="nav-item dl-selected"><div class="nav-item-inner nav-home" th:text="#{systemmanage}"></div></li>		
+            <li class="nav-item dl-selected"><div class="nav-item-inner tool" th:text="#{programtool}"></div></li>
 		
         </ul>
     </div>
@@ -48,7 +48,7 @@
 <script>
 	$(function(){
 		BUI.use('common/main',function(){
-	        var config = [{id:'1',menu:[{text:$(".systemmanage").val(),items:[{id:'12',text:$(".usermanage").val(),href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:$(".timedTask").val(),href:'User/index.html'},{id:'6',text:$(".graphAnalysis").val(),href:'/grapha/graphAnalysis'}]}]},{id:'7',homePage : '9',menu:[{text:$(".programtool").val(),items:[{id:'9',text:$(".generatecode").val(),href:'/server/generator?url=generator'},{id:'10',text:$(".databaseMaintenance").val(),href:'/server/database?url=database'}]}]}];
+	        var config = [{id:'1',menu:[{text:$(".systemmanage").val(),items:[{id:'12',text:$(".usermanage").val(),href:'/server/initUserManager'},{id:'3',text:'角色管理',href:'Role/index.html'},{id:'4',text:$(".timedTask").val(),href:'/timedtask/initPage'},{id:'6',text:$(".graphAnalysis").val(),href:'/grapha/graphAnalysis'}]}]},{id:'7',homePage : '9',menu:[{text:$(".programtool").val(),items:[{id:'9',text:$(".generatecode").val(),href:'/server/generator?url=generator'},{id:'10',text:$(".databaseMaintenance").val(),href:'/server/database?url=database'}]}]}];
 	        new PageUtil.MainPage({
 	            modulesConfig : config
 	        });

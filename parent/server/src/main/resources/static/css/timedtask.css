@@ -1,0 +1,31 @@
+.clear{
+	clear: both;
+}
+.titleButton{
+	margin-top: 20px;
+	margin-bottom: 5px;
+	float: right;
+}
+.dataTable thead tr:FIRST-CHILD{
+	background-color: #EAEAEA;
+	
+}
+.dataTable tbody tr td:last-child{
+	color: #005580;
+	cursor: pointer;
+}
+.createButton,.deleteButton{
+	height: 30px;
+	width: 54px;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+.createButton{
+	background-color: #5bb75b;
+	color: white;
+}
+.deleteButton{
+	background-color: red;
+	color: white;
+}

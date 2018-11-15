@@ -101,7 +101,7 @@ public class UserController {
 		}else{
 			sessionService.update(model);
 		}
-		subject.getSession().setTimeout(60*60*10);
+		//subject.getSession().setTimeout(60*60*10);
 		//插入log日志,暂定type=1为账号登录日志
 		User userInfo = us.getUserByUname(user.getUserName());
 		Log log = new Log();

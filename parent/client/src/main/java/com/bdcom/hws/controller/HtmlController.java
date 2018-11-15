@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.common.core.datasource.DatabaseContextHolder;
+import org.common.core.datasource.DatabaseType;
 import org.common.core.quartz.ScheduleConfig;
 import org.common.core.quartz.model.BarrageJob;
 import org.common.model.Barrage;
@@ -50,8 +52,9 @@ public class HtmlController {
 	}
 	@RequestMapping(value="/test")
 	public String test(){
+		DatabaseContextHolder.setDatabaseType(DatabaseType.quartz);
 		ScheduleConfig config = new ScheduleConfig();
-		QuartzNameModel qModel = new QuartzNameModel("test","test","testT","testT");
+		QuartzNameModel qModel = new QuartzNameModel("test3","test3","testT3","testT3");
 		CronScheduleModel model = new CronScheduleModel();
 		model.setSecond("0/5");
 		model.setMinute("0/1");
@@ -60,8 +63,8 @@ public class HtmlController {
 		model.setMonth("all");
 		model.setWeek("?");
 		model.setYear("all");
-		model.setStartDate("2018-9-21 09:05:00");
-		model.setEndDate("2018-09-21 09:08:00");
+		model.setStartDate("2018-11-15 09:05:00");
+		model.setEndDate("2018-11-15 16:44:50");
 		try {
 			config.addJobDetails(BarrageJob.class, model, qModel);
 		} catch (SchedulerException e) {

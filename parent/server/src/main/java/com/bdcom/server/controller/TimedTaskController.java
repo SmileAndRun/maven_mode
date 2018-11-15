@@ -11,6 +11,7 @@ public class TimedTaskController {
 	@RequestMapping(value="/initPage")
 	public ModelAndView initPage(){
 		ModelAndView model = new ModelAndView("timedtask");
+		
 		return model;
 	}
 }

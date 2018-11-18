@@ -64,7 +64,7 @@ public class HtmlController {
 		model.setWeek("?");
 		model.setYear("all");
 		model.setStartDate("2018-11-15 09:05:00");
-		model.setEndDate("2018-11-15 16:44:50");
+		model.setEndDate("2018-11-18 20:44:50");
 		try {
 			config.addJobDetails(BarrageJob.class, model, qModel);
 		} catch (SchedulerException e) {

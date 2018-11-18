@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdcom.server.mapper.QuartzMapper">
+	<sql id="common">d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE</sql>
+	<select id="getJobDetails" resultType="org.common.model.QrtzJobDetails">
+		select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE from qrtz_job_details d,qrtz_triggers t
+		where d.JOB_NAME = t.JOB_NAME
+	</select>
+</mapper>

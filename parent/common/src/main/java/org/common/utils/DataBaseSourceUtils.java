@@ -5,6 +5,7 @@ import org.common.core.datasource.DatabaseType;
 
 public class DataBaseSourceUtils {
 	public static void switchDataSource(){
+		//
 		DatabaseType dataType = DatabaseContextHolder.getDatabaseType();
 		if(null == dataType){
 			DatabaseContextHolder.setDatabaseType(DatabaseType.quartz);

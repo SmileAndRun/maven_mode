@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.common.core.datasource.DatabaseContextHolder;
+import org.common.core.datasource.DatabaseType;
 import org.common.model.QrtzJobDetails;
 import org.common.utils.DataBaseSourceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,10 @@ public class TimedTaskController {
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
 	public ModelAndView initPage(){
-		DataBaseSourceUtils.switchDataSource();
+		String type = DataBaseSourceUtils.getDataSourceType();
+		if(type.equals("xlt")){
+			DatabaseContextHolder.setDatabaseType(DatabaseType.quartz);
+		}
 		Map<String,List<QrtzJobDetails>> map = new HashMap<String,List<QrtzJobDetails>>();
 		List<QrtzJobDetails> list = quartzService.getJobDetails();
 		map.put("result", list);

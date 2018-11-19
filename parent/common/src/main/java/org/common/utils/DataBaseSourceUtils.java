@@ -4,15 +4,13 @@ import org.common.core.datasource.DatabaseContextHolder;
 import org.common.core.datasource.DatabaseType;
 
 public class DataBaseSourceUtils {
-	public static void switchDataSource(){
-		//
+	public static String getDataSourceType(){
+		//刚开始进来是空值所以需要进行默认设置
 		DatabaseType dataType = DatabaseContextHolder.getDatabaseType();
 		if(null == dataType){
 			DatabaseContextHolder.setDatabaseType(DatabaseType.quartz);
-		}else{
-			String name = dataType.name();
-			System.out.println();
+			dataType = DatabaseContextHolder.getDatabaseType();
 		}
-		
+		return dataType.name();
 	}
 }

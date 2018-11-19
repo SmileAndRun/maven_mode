@@ -11,6 +11,14 @@ public class QrtzJobDetails {
 	private String IS_UPDATE_DATA;
 	private String REQUESTS_RECOVERY;
 	private byte[] JOB_DATA;
+	private QrtzTriggers qrtzTriggers;
+	
+	public QrtzTriggers getQrtzTriggers() {
+		return qrtzTriggers;
+	}
+	public void setQrtzTriggers(QrtzTriggers qrtzTriggers) {
+		this.qrtzTriggers = qrtzTriggers;
+	}
 	public String getSCHED_NAME() {
 		return SCHED_NAME;
 	}

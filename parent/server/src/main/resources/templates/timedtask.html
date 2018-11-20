@@ -36,13 +36,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<!-- <tr th:each="user : ${users}">
-							<td th:text="${user.userId}"></td>
-							<td th:text="${user.userName}"></td>
-							<td th:text="${user.flag}?#{lock}:''"></td>
-							<td th:text="${user.time}"></td>
+						<tr th:if="${result}" th:each="model : ${result}">
+							<td th:text="${model.JOB_NAME}"></td>
+							<td th:text="${model.qrtzTriggers.START_TIME"></td>
+							<td th:text="${model.qrtzTriggers.END_TIME}"></td>
+							<td th:text="${model.qrtzTriggers.TRIGGER_STATE}"></td>
 							<td th:text="#{edit}" class="edit"></td>
-						</tr> -->
+						</tr>
+						<tr th:unless="${result}">
+							<td colspan="5" th:text="#{no.data}"></td>
+						</tr>
 					</tbody>
 					
 				</table>

@@ -4,7 +4,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.server.mapper.QuartzMapper">
 	<sql id="common">d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE</sql>
-	<select id="getJobDetails" resultType="org.common.model.QrtzJobDetails">
+	
+	<resultMap type="org.common.model.QrtzJobDetails" id="jobDetails">
+		<id column="JOB_NAME" property="JOB_NAME"></id>
+		<association property="qrtzTriggers" javaType="org.common.model.QrtzTriggers">
+			<result column="START_TIME" property="START_TIME"/>
+			<result column="END_TIME" property="END_TIME"/>
+			<result column="TRIGGER_STATE" property="TRIGGER_STATE"/>
+		</association>
+		
+	</resultMap>
+	<select id="getJobDetails" resultMap="jobDetails">
 		select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE from qrtz_job_details d,qrtz_triggers t
 		where d.JOB_NAME = t.JOB_NAME
 	</select>

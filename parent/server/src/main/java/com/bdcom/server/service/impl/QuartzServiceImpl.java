@@ -19,7 +19,9 @@ public class QuartzServiceImpl implements QuartzService {
 	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
 	public List<QrtzJobDetails> getJobDetails() {
-		return quartzMapper.getJobDetails();
+		List<QrtzJobDetails> list = quartzMapper.getJobDetails();
+		if(list.size()<=0)return null;
+		return list;
 	}
 
 }

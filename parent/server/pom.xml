@@ -19,7 +19,7 @@
 		   <groupId>com.hws</groupId>
 		   <artifactId>common</artifactId>       
 		   <version>0.0.1-SNAPSHOT</version>
-		</dependency>	
+		</dependency>
 		<!-- lucene依赖 -->
         <dependency>		
         	<groupId>org.apache.lucene</groupId>		

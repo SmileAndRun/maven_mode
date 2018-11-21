@@ -33,14 +33,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-		<!--常用库依�? -->
+		<!--常用库依�? -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -55,7 +58,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!--MyBatis �? 插件依赖 -->
+		<!--MyBatis �? 插件依赖 -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -128,7 +131,7 @@
             <version>1.4.0</version>
         </dependency>
        
-       <!-- 依赖自己写的jar�? -->
+       <!-- 依赖自己写的jar�? -->
       <dependency>
 			<groupId>com.hws</groupId>
 			<artifactId>MybatisGenerator</artifactId>
@@ -144,7 +147,7 @@
             <artifactId>druid</artifactId>
             <version>1.1.6</version>
       </dependency>
-      <!--上传文件相关的jar�?  -->
+      <!--上传文件相关的jar�?  -->
       <dependency>
          <groupId>commons-io</groupId>
          <artifactId>commons-io</artifactId>
@@ -166,7 +169,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
+	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
   		<repository>
 		  <id>PersonalDependencyLibrary</id> 仓库名称
 		  <name>PersonalDependencyLibrary</name>仓库名称

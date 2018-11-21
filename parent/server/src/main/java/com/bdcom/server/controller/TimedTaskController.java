@@ -23,10 +23,7 @@ public class TimedTaskController {
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
 	public ModelAndView initPage(){
-		String type = DataBaseSourceUtils.getDataSourceType();
-		if(type.equals("xlt")){
-			DatabaseContextHolder.setDatabaseType(DatabaseType.quartz);
-		}
+		
 		Map<String,List<QrtzJobDetails>> map = new HashMap<String,List<QrtzJobDetails>>();
 		List<QrtzJobDetails> list = quartzService.getJobDetails();
 		map.put("result", list);

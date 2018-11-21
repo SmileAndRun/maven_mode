@@ -38,7 +38,7 @@
 					<tbody>
 						<tr th:if="${result}" th:each="model : ${result}">
 							<td th:text="${model.JOB_NAME}"></td>
-							<td th:text="${model.qrtzTriggers.START_TIME"></td>
+							<td th:text="${model.qrtzTriggers.START_TIME}"></td>
 							<td th:text="${model.qrtzTriggers.END_TIME}"></td>
 							<td th:text="${model.qrtzTriggers.TRIGGER_STATE}"></td>
 							<td th:text="#{edit}" class="edit"></td>

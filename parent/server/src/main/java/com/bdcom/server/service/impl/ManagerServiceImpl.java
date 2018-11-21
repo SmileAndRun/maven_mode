@@ -2,6 +2,8 @@ package com.bdcom.server.service.impl;
 
 import java.util.List;
 
+import org.common.core.annotation.TargetDataSource;
+import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
 import org.common.model.server.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +19,37 @@ public class ManagerServiceImpl implements ManagerService {
 
 	@Autowired
 	ManagerMapper mp;
-	
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserByUid(int userId) {
 		return mp.getUserByUid(userId);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserInfoByUid(int userId) {
 		return mp.getUserInfoByUid(userId);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUsers() {
 		return mp.getUsers();
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserByUname(String uName) {
 		return mp.getUserByUname(uName);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserInfoByUname(String uName) {
 		return mp.getUserInfoByUname(uName);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUser(User user) {
 		return mp.getUser(user);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int registerUser(User user,Log log) {
 		int id = getLastMaxId()+1;
@@ -53,22 +61,27 @@ public class ManagerServiceImpl implements ManagerService {
 		mp.insertLog(log);
 		return row;
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int changeUser(User user) {
 		return mp.changeUser(user);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int deleteUserByUid(int userId) {
 		return mp.deleteUserByUid(userId);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int deleteUserByUname(String uName) {
 		return mp.deleteUserByUname(uName);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getSaltByUname(String uName) {
 		return mp.getSaltByUname(uName);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getFuzzyUsersByUid(String searchValue) {
 		return mp.getFuzzyUsersByUid(searchValue);
@@ -76,14 +89,17 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<User> getFuzzyUserByUname(String searchValue){
 		return mp.getFuzzyUserByUname(searchValue);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int getLastMaxId() {
 		return mp.getLastMaxId();
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int insertLog(Log record) {
 		return mp.insertLog(record);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int getLogLastMaxId() {
 		return mp.getLogLastMaxId();

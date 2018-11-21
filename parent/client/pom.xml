@@ -19,13 +19,13 @@
 	<dependencies>
 		<dependency>
 		   <groupId>com.hws</groupId>
-		   <artifactId>server</artifactId>       
+		   <artifactId>common</artifactId>       
 		   <version>0.0.1-SNAPSHOT</version>
 		</dependency>	
 		<dependency>
 		   <groupId>com.hws</groupId>
-		   <artifactId>common</artifactId>       
+		   <artifactId>server</artifactId>       
 		   <version>0.0.1-SNAPSHOT</version>
-		</dependency>	
+		</dependency>
 	</dependencies>
 </project>

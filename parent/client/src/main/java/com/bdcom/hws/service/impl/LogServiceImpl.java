@@ -1,5 +1,7 @@
 package com.bdcom.hws.service.impl;
 
+import org.common.core.annotation.TargetDataSource;
+import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ public class LogServiceImpl implements LogService {
 	@Autowired
 	LogMapper logMapper;
 	
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	@Transactional(rollbackFor ={IllegalArgumentException.class})
 	public int insertLog(Log log) {
@@ -22,6 +25,7 @@ public class LogServiceImpl implements LogService {
 		log.setLogid(id);
 		return logMapper.insertSelective(log);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int getLastMaxId() {
 		

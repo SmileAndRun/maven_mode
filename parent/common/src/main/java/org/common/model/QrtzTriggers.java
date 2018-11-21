@@ -2,6 +2,8 @@ package org.common.model;
 
 import java.math.BigInteger;
 
+import org.common.utils.TimeUtisl;
+
 public class QrtzTriggers {
 	private String SCHED_NAME;
 	private String TRIGGER_NAME;
@@ -9,13 +11,13 @@ public class QrtzTriggers {
 	private String JOB_NAME;
 	private String JOB_GROUP;
 	private String DESCRIPTION;
-	private BigInteger NEXT_FIRE_TIME;
-	private BigInteger PREV_FIRE_TIME;
+	private String NEXT_FIRE_TIME;
+	private String PREV_FIRE_TIME;
 	private int PRIORITY;
 	private String TRIGGER_STATE;
 	private String TRIGGER_TYPE;
-	private BigInteger START_TIME;
-	private BigInteger END_TIME;
+	private String START_TIME;
+	private String END_TIME;
 	private String CALENDAR_NAME;
 	private int MISFIRE_INSTR;
 	private byte[] JOB_DATA;
@@ -55,17 +57,17 @@ public class QrtzTriggers {
 	public void setDESCRIPTION(String dESCRIPTION) {
 		DESCRIPTION = dESCRIPTION;
 	}
-	public BigInteger getNEXT_FIRE_TIME() {
+	public String getNEXT_FIRE_TIME() {
 		return NEXT_FIRE_TIME;
 	}
 	public void setNEXT_FIRE_TIME(BigInteger nEXT_FIRE_TIME) {
-		NEXT_FIRE_TIME = nEXT_FIRE_TIME;
+		NEXT_FIRE_TIME = TimeUtisl.get(null).format(nEXT_FIRE_TIME.longValue());
 	}
-	public BigInteger getPREV_FIRE_TIME() {
+	public String getPREV_FIRE_TIME() {
 		return PREV_FIRE_TIME;
 	}
 	public void setPREV_FIRE_TIME(BigInteger pREV_FIRE_TIME) {
-		PREV_FIRE_TIME = pREV_FIRE_TIME;
+		PREV_FIRE_TIME = TimeUtisl.get(null).format(pREV_FIRE_TIME.longValue());
 	}
 	public int getPRIORITY() {
 		return PRIORITY;
@@ -85,17 +87,17 @@ public class QrtzTriggers {
 	public void setTRIGGER_TYPE(String tRIGGER_TYPE) {
 		TRIGGER_TYPE = tRIGGER_TYPE;
 	}
-	public BigInteger getSTART_TIME() {
+	public String getSTART_TIME() {
 		return START_TIME;
 	}
 	public void setSTART_TIME(BigInteger sTART_TIME) {
-		START_TIME = sTART_TIME;
+		START_TIME = TimeUtisl.get(null).format(sTART_TIME.longValue());
 	}
-	public BigInteger getEND_TIME() {
+	public String getEND_TIME() {
 		return END_TIME;
 	}
 	public void setEND_TIME(BigInteger eND_TIME) {
-		END_TIME = eND_TIME;
+		END_TIME = TimeUtisl.get(null).format(eND_TIME.longValue());
 	}
 	public String getCALENDAR_NAME() {
 		return CALENDAR_NAME;

@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.common.core.datasource.DatabaseContextHolder;
-import org.common.core.datasource.DatabaseType;
+import org.common.model.CronScheduleModel;
 import org.common.model.QrtzJobDetails;
-import org.common.utils.DataBaseSourceUtils;
+import org.common.model.QuartzNameModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.service.QuartzService;
 
 @Controller
@@ -29,5 +29,11 @@ public class TimedTaskController {
 		map.put("result", list);
 		ModelAndView model = new ModelAndView("timedtask",map);
 		return model;
+	}
+	public JSONObject addNewJob(QuartzNameModel nameModel,CronScheduleModel timeModel){
+		JSONObject obj = new JSONObject();
+		
+		
+		return obj;
 	}
 }

@@ -29,3 +29,65 @@
 	background-color: red;
 	color: white;
 }
+.shadeDiv{
+	position: absolute;
+	top: 0px;
+	background-color: #333;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	display: none;
+}
+.addDiv{
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	position: absolute;
+	z-index: 1000;
+	top: 50px;
+	left: 10%;
+	width: 900px;
+	height: 350px;
+	display: none;
+}
+.addJobTable{
+	margin-left: 20px;
+}
+.addJobTable tr:first{
+	margin-top: 20px;
+}
+.addJobTable tr lable{
+	font-weight: bold;
+}
+.addJobTable tr td{
+	height: 32px;
+}
+.addJobTable tr input{
+	border-radius: 5px;
+	border: 1px solid #c0c0c0;
+	height: 32px;
+	padding-left: 5px;
+}
+.addJobTable tr{
+	display: block;
+	margin-top: 20px;
+}
+.taskNameVal,.jobTypeVal,.createTimeVal,.finishedTimeVal,.executionFrequencyVal{
+	margin-left: 60px;
+	width: 650px;
+}
+.hws-icon{
+	margin-left: 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.confirm,.cancel{
+	border-radius: 5px;
+	width: 70px;
+	height: 30px;
+	margin-left: 200px;
+}
+.confirm{
+	background-color: #179ee8;
+	color: white;
+}

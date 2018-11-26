@@ -48,16 +48,17 @@ $(function(){
 		//数据处理
 		var type = $("#activeBtn").val();
 		var select_type = $(".executionTitle input:checked").val();
-		var value;
+		var value="";
 		if(select_type == 1){
+			
+			$("[id=activeBut-1]").each(function(){
+				value += $(this).val()+",";
+			});
 			if(value.length <= 0){
 				value= "*";
-				return panel;
+			}else{
+				value = value.substr(0, value.length-1);
 			}
-			$("#activeBut-1").each(function(i,v){
-				value += v+",";
-			});
-			value = value.indexOf(0, value.length-1);
 			
 		}else if(select_type == 2){
 			value = $(".executionTitle select:first").val() + "/" + $(".executionTitle select:last").val();
@@ -68,7 +69,6 @@ $(function(){
 		
 		//cronExpression[type]=
 		//界面样式处理
-	panel:	
 		$("#activeBtn").removeAttr("id");
 		$(this).prop('id',"activeBtn");
 		var flag = $(this).val();
@@ -140,12 +140,34 @@ $(function(){
 		$(".executionFrequencyDiv").css("display","none");
 	});
 	$(".executionFrequencyDiv").on("click",".confirm-common-btn",function(){
-		var resultExpression;
-		for(var i=0;i<6;i++){
-			if(cronExpression[0] == undefined){
-				
+		var resultExpression="";
+		if($.isEmptyObject(cronExpression)){
+			if($(".executionTitle input:checked").val() == 1){
+				$("[id=activeBut-1]").each(function(){
+					resultExpression += $(this).val()+",";
+				});
+				if(resultExpression.length>0){
+					resultExpression = resultExpression.substr(0,resultExpression.length-1);
+					resultExpression += " * * * * *"
+				}else{
+					resultExpression = "* * * * * *";
+				}
+			}else if($(".executionTitle input:checked").val() == 2){
+				resultExpression = $(".executionTitle select:first").val() + "/" + $(".executionTitle select:last").val()
+				+" * * * *　*";
+			}else{
+				resultExpression = "* * * * *　*";
 			}
-			resultExpression = cronExpression["0"]
+			$(".executionFrequencyVal").val(resultExpression);
+			return ;
 		}
+		for(var i=0;i<6;i++){
+			if(cronExpression[i.toString()] == undefined){
+				resultExpression += "* ";
+			}
+			resultExpression += cronExpression[i.toString()] + " ";
+		}
+		resultExpression = resultExpression.substr(0,resultExpression.length-1);
+		$(".executionFrequencyVal").val(resultExpression);
 	});
 })

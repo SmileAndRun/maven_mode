@@ -91,3 +91,70 @@
 	background-color: #179ee8;
 	color: white;
 }
+.executionFrequencyDiv .executionType button{
+	width: 40px;
+	height: 40px;
+	color: #179ee8;
+	background-color: white;
+	border: none;
+}
+#activeBtn{
+	background-color: #179ee8;
+	border-radius: 5px;
+	color: white;
+	outline: none;
+}
+.executionSelect{
+	width: 450px;
+}
+.executionSelect input{
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	color: #179ee8;
+	cursor: pointer;
+	outline: none;
+	border: none;
+}
+#activeBut-1{
+	background-color: #179ee8;
+	color: white;
+}
+.unactiveBut{
+	background-color: #ddd;
+}
+.confirm-common-btn{
+	width: 50px;
+	height: 30px;
+	color: white;
+	outline: none;
+	border-radius: 5px;
+	background-color: #179ee8;
+}
+.cancel-common-btn{
+	width: 50px;
+	height: 30px;
+	color: grey;
+	outline: none;
+	border-radius: 5px;
+	background-color: white;
+}
+.executionFrequencyDiv{
+	border: 1px solid #ddd;
+	background-color: white;
+	position: absolute;
+	top: 265px;
+	left: 140px;
+	z-index: 1001;
+	padding: 15px;
+}
+.location-right{
+	float: right;
+}
+.executionSelect{
+	margin-top: 10px;
+}
+.executionFrequencyDiv{
+	display: none;
+}
+

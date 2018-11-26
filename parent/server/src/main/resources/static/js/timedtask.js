@@ -51,17 +51,20 @@ $(function(){
 		var value;
 		if(select_type == 1){
 			if(value.length <= 0){
+				value= "*";
 				return panel;
 			}
 			$("#activeBut-1").each(function(i,v){
 				value += v+",";
 			});
 			value = value.indexOf(0, value.length-1);
-			cronExpression[type]=value;
+			
 		}else if(select_type == 2){
 			value = $(".executionTitle select:first").val() + "/" + $(".executionTitle select:last").val();
-			cronExpression[type]=value;
+		}else{
+			value = "*";
 		}
+		cronExpression[type]=value;
 		
 		//cronExpression[type]=
 		//界面样式处理
@@ -135,5 +138,14 @@ $(function(){
 	});
 	$(".executionFrequencyDiv").on("click",".cancel-common-btn",function(){
 		$(".executionFrequencyDiv").css("display","none");
+	});
+	$(".executionFrequencyDiv").on("click",".confirm-common-btn",function(){
+		var resultExpression;
+		for(var i=0;i<6;i++){
+			if(cronExpression[0] == undefined){
+				
+			}
+			resultExpression = cronExpression["0"]
+		}
 	});
 })

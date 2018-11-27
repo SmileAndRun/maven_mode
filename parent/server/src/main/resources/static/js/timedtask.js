@@ -228,12 +228,13 @@ $(function(){
 		var url = "/timedtask/addNewTask";
 		var s_function = function(data){
 			if(data.flag){
+				console.log(data.result);
 				$(".nodata").remove();
 				$(".dataTable tbody").append("<tr> " +
-						"<td>"+data.result.JOB_NAME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.START_TIME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.END_TIME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.TRIGGER_STATE+"</td>" +
+						"<td>"+data.result.job_NAME+"</td>" +
+						"<td>"+data.result.qrtzTriggers.start_TIME+"</td>" +
+						"<td>"+data.result.qrtzTriggers.end_TIME+"</td>" +
+						"<td>"+data.result.qrtzTriggers.trigger_STATE+"</td>" +
 						"<td class='edit'>"+$(".edit-il8n").val()+"</td></tr>");
 			}else{
 				layer.msg("The server is error!!!");

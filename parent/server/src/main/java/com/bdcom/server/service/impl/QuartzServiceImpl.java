@@ -30,4 +30,9 @@ public class QuartzServiceImpl implements QuartzService {
 		if(list.size()<=0)return null;
 		return list;
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public int setPermanentStorage(String jobName) {
+		return quartzMapper.setPermanentStorage(jobName);
+	}
 }

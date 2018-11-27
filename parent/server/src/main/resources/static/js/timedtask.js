@@ -4,19 +4,22 @@ $(function(){
 		$(".addDiv").css("display","block");
 	});
 	$(".addJobTable").on("click",".cancel",function(){
+		removeAddPanel();
+	})
+	initDateTimePicker(".startTimeDiv");
+	initDateTimePicker(".endTimeDiv");
+	function removeAddPanel(){
 		$(".shadeDiv").css("display","none");
 		$(".addDiv").css("display","none");
 		$(".taskNameVal").val("");
 		$(".finishedTimeVal").val("");
 		$(".createTimeVal").val("");
 		$(".executionFrequencyVal").val("");
-	})
-	initDateTimePicker(".startTimeDiv");
-	initDateTimePicker(".endTimeDiv");
+	}
 	//bootstrap时间控件方法
 	function initDateTimePicker(id){
 		$(id).datetimepicker({
-	        format: "yyyy-mm-dd  hh:mm:ss",
+	        format: "yyyy-mm-dd  hh:ii:ss",
 	        showMeridian: true,
 	        autoclose: true,
 	        todayBtn: true,
@@ -231,7 +234,7 @@ $(function(){
 						"<td>"+data.result.qrtzTriggers.START_TIME+"</td>" +
 						"<td>"+data.result.qrtzTriggers.END_TIME+"</td>" +
 						"<td>"+data.result.qrtzTriggers.TRIGGER_STATE+"</td>" +
-						"<td class='"+$(".edit-il8n").val()+"'></td></tr>");
+						"<td class='edit'>"+$(".edit-il8n").val()+"</td></tr>");
 			}else{
 				layer.msg("The server is error!!!");
 			}
@@ -240,5 +243,6 @@ $(function(){
 			layer.msg("The server is error!!!");
 		}
 		$.commonAjax(url,data,s_function,e_function);
+		removeAddPanel();
 	});
 })

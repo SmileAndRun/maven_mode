@@ -22,4 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE from qrtz_job_details d,qrtz_triggers t
 		where d.JOB_NAME = t.JOB_NAME and d.JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR}
 	</select>
+	<update id="setPermanentStorage" parameterType="String">
+		update qrtz_job_details set IS_DURABLE = 1 where JOB_NAME = #{value,jdbcType=VARCHAR}
+	</update>
 </mapper>

@@ -61,6 +61,7 @@ public class TimedTaskController {
 			model.setTriggerGroup(model.getJobName());
 			model.setTriggerName(model.getJobName());
 			config.addJobDetails( Class.forName((String)model.getUndetermined()), model);
+			quartzService.setPermanentStorage(model.getJobName());
 		} catch (SchedulerException e) {
 			obj.put("flag", false);
 		} catch (ParseException e) {
@@ -68,6 +69,7 @@ public class TimedTaskController {
 		} catch (ClassNotFoundException e) {
 			obj.put("flag", false);
 		}
+		
 		List<QrtzJobDetails> list = quartzService.getJobDetailForJobName(model.getJobName());
 		if(null != list)obj.put("result", list.get(0));
 		obj.put("flag", true);

@@ -62,7 +62,7 @@
 .addJobTable tr td{
 	height: 32px;
 }
-.addJobTable tr input{
+.addJobTable tr input,.addJobTable tr select{
 	border-radius: 5px;
 	border: 1px solid #c0c0c0;
 	height: 32px;

@@ -45,20 +45,26 @@
 							<td th:text="${model.qrtzTriggers.TRIGGER_STATE}"></td>
 							<td th:text="#{edit}" class="edit"></td>
 						</tr>
-						<tr th:unless="${result}">
-							<td colspan="5" align="center" th:text="#{no.data}"></td>
-						</tr>
 					</tbody>
-					
 				</table>
+				<div th:unless="${result}" class="nodata" th:text="#{no.data}" align="center">
+				
+				</div>
 			</div>
 	</div>
 	<div class="shadeDiv"></div>
 	<div class="addDiv">
 		<table class='addJobTable'>
-			<tr><td><lable for='taskNameVal' th:text="#{task.name}"></lable></td><td><input type='text' class='taskNameVal'/></td></tr>
+			<tr><td><lable for='taskNameVal' th:text="#{task.name}"></lable></td>
+				<td><input type='text' class='taskNameVal'/></td>
+			</tr>
 			<tr><td><lable for='jobTypeVal' th:text="#{create.time}"></lable></td>
-				<td><input type='text' class='jobTypeVal'/></td></tr>
+				<td>
+					<select type='text' class='jobTypeVal'>
+						<option th:each="type:${typeList}" th:value="${type.class}" th:text="#{${type.name}}"></option>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td><lable for='createTimeVal' th:text="#{create.time}"></lable></td>
 				<td>
@@ -127,14 +133,8 @@
 		</div>
 	</div>
 	<div class="i18n">
-		<!-- <input class="add" type="hidden" th:value="#{add}"/>
-		<input class="taskName" type="hidden" th:value="#{task.name}"/>
-		<input class="createTime" type="hidden" th:value="#{create.time}"/>
-		<input class="finishedTime" type="hidden" th:value="#{finished.time}"/>
-		<input class="jobType" type="hidden" th:value="#{job.type}"/>
-		<input class="executionFrequency" type="hidden" th:value="#{execution.frequency}"/>
-		<input class="confirm" type="hidden" th:value="#{confirm}"/>
-		<input class="cancel" type="hidden" th:value="#{cancel}"/> -->
+		<input class="edit-il8n" type="hidden" th:value="#{edit}"/>
+		
 	</div>
 </body>
 </html>

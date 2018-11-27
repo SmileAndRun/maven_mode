@@ -23,5 +23,11 @@ public class QuartzServiceImpl implements QuartzService {
 		if(list.size()<=0)return null;
 		return list;
 	}
-
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public List<QrtzJobDetails> getJobDetailForJobName(String jobName){
+		List<QrtzJobDetails> list = quartzMapper.getJobDetailForJobName(jobName);
+		if(list.size()<=0)return null;
+		return list;
+	}
 }

@@ -3,8 +3,7 @@ package org.common.core.quartz;
 import java.text.ParseException;
 import java.util.List;
 
-import org.common.model.CronScheduleModel;
-import org.common.model.QuartzNameModel;
+import org.common.model.QuartzModel;
 import org.common.utils.MyQuartzUtils;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -24,11 +23,11 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 * @throws ParseException
 	 */
-	public void addJobDetails(@SuppressWarnings("rawtypes") Class name,CronScheduleModel model,QuartzNameModel nameModel) throws SchedulerException, ParseException{
+	public void addJobDetails(@SuppressWarnings("rawtypes") Class name,QuartzModel model) throws SchedulerException, ParseException{
 		Scheduler scheduler = MyQuartzUtils.getScheduler();
 		@SuppressWarnings("unchecked")
-		JobDetail myjob = JobBuilder.newJob(name).withIdentity(nameModel.getJobName(), nameModel.getJobGroup()).build();
-		scheduler.scheduleJob(myjob, MyQuartzUtils.getCronTrigger(model,nameModel));
+		JobDetail myjob = JobBuilder.newJob(name).withIdentity(model.getJobName(), model.getJobGroup()).build();
+		scheduler.scheduleJob(myjob, MyQuartzUtils.getCronTrigger(model));
 		
 		scheduler.start();
 		
@@ -40,9 +39,9 @@ public class ScheduleConfig {
 	 * @return
 	 * @throws SchedulerException
 	 */
-	public boolean deleJobDetails(CronScheduleModel model,QuartzNameModel nameModel) throws SchedulerException{
+	public boolean deleJobDetails(QuartzModel model) throws SchedulerException{
 		Scheduler scheduler = MyQuartzUtils.getScheduler();
-		boolean flag = scheduler.deleteJob(JobKey.jobKey(nameModel.getJobName(), nameModel.getJobGroup()));
+		boolean flag = scheduler.deleteJob(JobKey.jobKey(model.getJobName(), model.getJobGroup()));
 		return flag;
 	}
 	/**

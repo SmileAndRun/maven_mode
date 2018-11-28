@@ -26,11 +26,11 @@ public class MyQuartzUtils {
 	
 	public static CronTrigger getCronTrigger(QuartzModel model) throws ParseException{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date startTime= sdf.parse(model.getStartDate());
-		Date endTime = sdf.parse(model.getEndDate());
+		Date startTime= sdf.parse(model.getSTART_TIME());
+		Date endTime = sdf.parse(model.getEND_TIME());
 				
 		CronTrigger trigger = TriggerBuilder.newTrigger().
-                withSchedule(CronScheduleBuilder.cronSchedule(model.getExpression())).withIdentity(model.getTriggerName(), model.getTriggerGroup()).startAt(startTime).endAt(endTime).build();
+                withSchedule(CronScheduleBuilder.cronSchedule(model.getCRON_EXPRESSION())).withIdentity(model.getTRIGGER_NAME(), model.getTRIGGER_GROUP()).startAt(startTime).endAt(endTime).build();
 		
 		return trigger;
 	}

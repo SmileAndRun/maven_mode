@@ -15,14 +15,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</resultMap>
 	<select id="getJobDetails" resultMap="jobDetails">
-		select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE from qrtz_job_details d,qrtz_triggers t
+		select <include refid="common"></include> from qrtz_job_details d,qrtz_triggers t
 		where d.JOB_NAME = t.JOB_NAME
 	</select>
 	<select id="getJobDetailForJobName" parameterType="String" resultMap="jobDetails">
-		select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE from qrtz_job_details d,qrtz_triggers t
+		select <include refid="common"></include> from qrtz_job_details d,qrtz_triggers t
 		where d.JOB_NAME = t.JOB_NAME and d.JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR}
 	</select>
 	<update id="setPermanentStorage" parameterType="String">
 		update qrtz_job_details set IS_DURABLE = 1 where JOB_NAME = #{value,jdbcType=VARCHAR}
 	</update>
+	<select id="getJobData" parameterType="String" resultType="org.common.model.QrtzJobDetails">
+		select JOB_DATA from qrtz_job_details where JOB_NAME = #{JOB_NAME}
+	</select>
+	<sql id="difined">JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE</sql>
+	<insert id="insertSelfDifined" parameterType="org.common.model.QuartzModel">
+		insert into qrtz_self_defined(<include refid="difined"></include>) values(#{JOB_NAME},#{START_TIME},#{END_TIME},#{CRON_EXPRESSION},#{TRIGGER_STATE})
+	</insert>
+	<select id="getALlFromMyDefine" resultType="org.common.model.QuartzModel">
+		select <include refid="difined"></include> from qrtz_self_defined
+	</select>
+	<delete id="deleteJobDetails">
+		delete from qrtz_self_defined where JOB_NAME = #{JOB_NAME} 
+	</delete>
 </mapper>

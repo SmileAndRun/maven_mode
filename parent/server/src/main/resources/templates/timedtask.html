@@ -40,9 +40,9 @@
 					<tbody>
 						<tr th:if="${result}" th:each="model : ${result}">
 							<td th:text="${model.JOB_NAME}"></td>
-							<td th:text="${model.qrtzTriggers.START_TIME}"></td>
-							<td th:text="${model.qrtzTriggers.END_TIME}"></td>
-							<td th:text="${model.qrtzTriggers.TRIGGER_STATE}"></td>
+							<td th:text="${model.START_TIME}"></td>
+							<td th:text="${model.END_TIME}"></td>
+							<td th:text="#{${model.TRIGGER_STATE}}"></td>
 							<td th:text="#{edit}" class="edit"></td>
 						</tr>
 					</tbody>
@@ -134,6 +134,16 @@
 	</div>
 	<div class="i18n">
 		<input class="edit-il8n" type="hidden" th:value="#{edit}"/>
+		<input class="name_already_exists-il8n" type="hidden" th:value="#{task.name.already.exists}"/>
+		<input class="add_failed-il8n" type="hidden" th:value="#{add.failure}"/>
+		<input class="tip1-il8n" type="hidden" th:value="#{Please.fill.in.the.data.completely}"/>
+		<input class="ACQUIRED-il8n" type="hidden" th:value="#{ACQUIRED}"/>
+		<input class="WAITING-il8n" type="hidden" th:value="#{WAITING}"/>
+		<input class="PAUSED-il8n" type="hidden" th:value="#{PAUSED}"/>
+		<input class="BLOCKED-il8n" type="hidden" th:value="#{BLOCKED}"/>
+		<input class="ERROR-il8n" type="hidden" th:value="#{ERROR}"/>
+		<input class="deleteFailure-il8n" type="hidden" th:value="#{delete.failure}"/>
+		<input class="pSelectTask-il8n" type="hidden" th:value="#{please.select.task}"/>
 		
 	</div>
 </body>

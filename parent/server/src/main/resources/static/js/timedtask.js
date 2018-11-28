@@ -217,27 +217,35 @@ $(function(){
 		
 	});
 	$(".addJobTable").on("click",".confirm",function(){
+		if($(".taskNameVal").val()==""||$(".jobTypeVal").val()==""||$(".createTimeVal").val()==""||
+				$(".finishedTimeVal").val()==""||$(".executionFrequencyVal").val()==""){
+			layer.msg($(".tip1-il8n").val());
+			return;
+		}
 		var data = {
-			jobName:$(".taskNameVal").val(),
-			undetermined:$(".jobTypeVal").val(),
-			startDate:$(".createTimeVal").val(),
-			endDate:$(".finishedTimeVal").val(),
-			expression:$(".executionFrequencyVal").val(),
+			JOB_NAME:$(".taskNameVal").val(),
+			UNDETERMINED:$(".jobTypeVal").val(),
+			START_TIME:$(".createTimeVal").val(),
+			END_TIME:$(".finishedTimeVal").val(),
+			CRON_EXPRESSION:$(".executionFrequencyVal").val(),
 		};
 		
 		var url = "/timedtask/addNewTask";
 		var s_function = function(data){
 			if(data.flag){
-				console.log(data.result);
 				$(".nodata").remove();
 				$(".dataTable tbody").append("<tr> " +
 						"<td>"+data.result.job_NAME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.start_TIME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.end_TIME+"</td>" +
-						"<td>"+data.result.qrtzTriggers.trigger_STATE+"</td>" +
+						"<td>"+data.result.start_TIME+"</td>" +
+						"<td>"+data.result.end_TIME+"</td>" +
+						"<td>"+$("."+data.result.trigger_STATE+"-il8n").val()+"</td>" +
 						"<td class='edit'>"+$(".edit-il8n").val()+"</td></tr>");
 			}else{
-				layer.msg("The server is error!!!");
+				if(null != data.message){
+					layer.msg($("."+data.message+"-il8n").val());
+				}else{
+					layer.msg("The server is error!!!");
+				}
 			}
 		}
 		var e_function = function(){
@@ -245,5 +253,46 @@ $(function(){
 		}
 		$.commonAjax(url,data,s_function,e_function);
 		removeAddPanel();
+	});
+	//edit function
+	$(".dataTable").on("click",".edit",function(e){
+		$(".container").append("<ul class='editMenu'>" +
+				"<li></li>" +
+				"<li></li>" +
+				"<li></li>" +
+				"</ul>");
+	});
+	$(".dataTable tbody").on("click","tr",function(){
+		if($(this).attr("class")!="active-tr"){
+			$(this).addClass("active-tr");
+		}else{
+			$(this).removeClass();
+		}
+	});
+	$(".titleButton").on("click",".deleteButton",function(){
+		var temp = [];
+		$(".active-tr").each(function(){
+			temp.push($(this).find("td:first").text());
+		});
+		if(temp.length == 0){
+			layer.msg($(".pSelectTask-il8n").val());
+			return;
+		}
+		var data = {
+				names: temp
+			};
+			
+			var url = "/timedtask/deleteTask";
+			var s_function = function(data){
+				if(data.flag){
+					$(".active-tr").remove();
+				}else{
+					layer.msg($(".deleteFailure-il8n").val());
+				}
+			}
+			var e_function = function(){
+				layer.msg("The server is error!!!");
+			}
+			$.arrayAjax(url,data,s_function,e_function);
 	});
 })

@@ -157,4 +157,6 @@
 .executionFrequencyDiv{
 	display: none;
 }
-
+.active-tr{
+	background-color: #ddd;
+}

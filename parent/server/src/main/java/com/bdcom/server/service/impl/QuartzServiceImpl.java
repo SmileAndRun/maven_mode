@@ -4,7 +4,11 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
+import org.common.core.quartz.ScheduleConfig;
 import org.common.model.QrtzJobDetails;
+import org.common.model.QuartzModel;
+import org.common.utils.MyCacheUtils;
+import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,14 +29,51 @@ public class QuartzServiceImpl implements QuartzService {
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
-	public List<QrtzJobDetails> getJobDetailForJobName(String jobName){
+	public QuartzModel getJobDetailForJobName(String jobName){
 		List<QrtzJobDetails> list = quartzMapper.getJobDetailForJobName(jobName);
 		if(list.size()<=0)return null;
-		return list;
+		QuartzModel quartzModel = new QuartzModel();
+		quartzModel.setJOB_NAME(list.get(0).getJOB_NAME());
+		quartzModel.setSTART_TIME(list.get(0).getQrtzTriggers().getSTART_TIME());
+		quartzModel.setEND_TIME(list.get(0).getQrtzTriggers().getEND_TIME());
+		quartzModel.setTRIGGER_STATE(list.get(0).getQrtzTriggers().getTRIGGER_STATE());
+		return quartzModel;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
-	public int setPermanentStorage(String jobName) {
-		return quartzMapper.setPermanentStorage(jobName);
+	public boolean setPermanentStorage(String jobName) {
+		return quartzMapper.setPermanentStorage(jobName)==0?false:true;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public QrtzJobDetails getJobData(String jobName) {
+		return quartzMapper.getJobData(jobName);
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public boolean insertSelfDifined(QuartzModel model) {
+		return quartzMapper.insertSelfDifined(model)==0?false:true;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public List<QuartzModel> getALlFromMyDefine() {
+		List<QuartzModel> list = quartzMapper.getALlFromMyDefine();
+		for(QuartzModel model:list){
+			MyCacheUtils.addItem(model.getJOB_NAME());
+		}
+		return list;
+	}
+	@Override
+	public boolean deleteTasks(String[] names) throws SchedulerException {
+		ScheduleConfig config = new ScheduleConfig();
+		for(String name:names){
+			MyCacheUtils.removeItem(name);
+			if(config.deleJobDetails(new QuartzModel(name,name))){
+				if(quartzMapper.deleteJobDetails(name)==0)
+					return false;
+			}
+				
+		}
+		return true;
 	}
 }

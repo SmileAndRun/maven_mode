@@ -9,8 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.common.core.quartz.ScheduleConfig;
-import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
+import org.common.utils.MyCacheUtils;
 import org.common.utils.ReadResourceUtils;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -18,6 +18,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
@@ -33,7 +34,7 @@ public class TimedTaskController {
 	public String initPage(HttpServletRequest request){
 		
 		//获取已经存在的job
-		List<QrtzJobDetails> list = quartzService.getJobDetails();
+		List<QuartzModel> list = quartzService.getALlFromMyDefine();
 		request.setAttribute("result", list);
 		//获取job类型
 		String path = "JobType.xml";
@@ -55,13 +56,28 @@ public class TimedTaskController {
 	@ResponseBody
 	public JSONObject addNewJob(QuartzModel model){
 		JSONObject obj = new JSONObject();
+		obj.put("flag", false);
+		if(MyCacheUtils.isContain(model.getJOB_NAME())){
+			obj.put("message", "name_already_exists");
+			return obj;
+		}
 		ScheduleConfig config = new ScheduleConfig();
 		try {
-			model.setJobGroup(model.getJobName());
-			model.setTriggerGroup(model.getJobName());
-			model.setTriggerName(model.getJobName());
-			config.addJobDetails( Class.forName((String)model.getUndetermined()), model);
-			quartzService.setPermanentStorage(model.getJobName());
+			model.setJOB_GROUP(model.getJOB_NAME());
+			model.setTRIGGER_NAME(model.getJOB_NAME());
+			model.setTRIGGER_GROUP(model.getJOB_NAME());
+			config.addJobDetails( Class.forName((String)model.getUNDETERMINED()), model);
+			//设置任务永久存储
+			quartzService.setPermanentStorage(model.getJOB_NAME());
+			QuartzModel quartzModel = quartzService.getJobDetailForJobName(model.getJOB_NAME());
+			if(null == quartzModel){
+				obj.put("message", "add_failed");
+			}else{
+				quartzModel.setCRON_EXPRESSION(model.getCRON_EXPRESSION());
+				quartzService.insertSelfDifined(quartzModel);
+				obj.put("flag", true);
+				obj.put("result", quartzModel);
+			}
 		} catch (SchedulerException e) {
 			obj.put("flag", false);
 		} catch (ParseException e) {
@@ -70,9 +86,19 @@ public class TimedTaskController {
 			obj.put("flag", false);
 		}
 		
-		List<QrtzJobDetails> list = quartzService.getJobDetailForJobName(model.getJobName());
-		if(null != list)obj.put("result", list.get(0));
-		obj.put("flag", true);
+		return obj;
+	}
+	@RequestMapping(value="/deleteTask")
+	@ResponseBody
+	public JSONObject deleteTask(@RequestParam String[] names ){
+		JSONObject obj = new JSONObject();
+		boolean flag = false;
+		try {
+			flag = quartzService.deleteTasks(names);
+		} catch (SchedulerException e) {
+			flag = false;
+		}
+		obj.put("flag", flag);
 		return obj;
 	}
 }

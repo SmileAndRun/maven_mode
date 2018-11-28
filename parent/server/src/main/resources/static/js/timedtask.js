@@ -257,10 +257,14 @@ $(function(){
 	//edit function
 	$(".dataTable").on("click",".edit",function(e){
 		$(".container").append("<ul class='editMenu'>" +
-				"<li></li>" +
-				"<li></li>" +
-				"<li></li>" +
+				"<li>暂停</li>" +
+				"<li>删除</li>" +
+				"<li>开启</li>" +
 				"</ul>");
+		$(".editMenu").css({
+			   top: e.pageY,
+			   left: e.pageX,
+			  });
 	});
 	$(".dataTable tbody").on("click","tr",function(){
 		if($(this).attr("class")!="active-tr"){

@@ -160,3 +160,20 @@
 .active-tr{
 	background-color: #ddd;
 }
+.editMenu{
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ddd;
+	width: 100px;
+	z-index: 1001;
+	border-radius: 5px;
+}
+.editMenu li{
+	list-style: none;
+	text-align: center;
+	line-height: 25px;
+	cursor: pointer;
+}
+.editMenu li:hover{
+	background-color: #ddd;
+}

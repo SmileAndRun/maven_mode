@@ -38,7 +38,7 @@ public class OnLineCount implements HttpSessionListener{
 	public synchronized void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
 		System.out.println("SessionCounter sessionDestroyed!");
 		activeSessions--;
-		Date date = new Date();
+		/*Date date = new Date();
 		Log log = new Log();
 		SessionModel model = sessionService.fingIdBySessionName(httpSessionEvent.getSession().getId());
 		log.setUserid(model.getUserId());
@@ -46,7 +46,7 @@ public class OnLineCount implements HttpSessionListener{
 		log.setLogmessage("退出登录");
 		log.setLogtime(new Timestamp(date.getTime()));
 		log.setLogiserror("0");
-		logService.insertLog(log);
+		logService.insertLog(log);*/
 		httpSessionEvent.getSession().getServletContext().setAttribute("activeSessions", activeSessions);
  
  

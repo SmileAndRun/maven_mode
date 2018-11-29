@@ -74,6 +74,4 @@ public class QuartzModel {
 	public QuartzModel() {
 		super();
 	}
-	
-	
 }

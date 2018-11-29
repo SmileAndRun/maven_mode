@@ -63,6 +63,7 @@ public class QuartzServiceImpl implements QuartzService {
 		}
 		return list;
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
 	public boolean deleteTasks(String[] names) throws SchedulerException {
 		ScheduleConfig config = new ScheduleConfig();
@@ -75,5 +76,10 @@ public class QuartzServiceImpl implements QuartzService {
 				
 		}
 		return true;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public boolean updateSelfDefined(QuartzModel model) {
+		return quartzMapper.updateSelfDefined(model)==0?false:true;
 	}
 }

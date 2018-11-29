@@ -40,5 +40,29 @@ public class CookieUtils {
 		}
 		return isExist;
 	}
+	/**
+	 * 设置一次会话cookie
+	 * 当浏览器关闭时cookie消失
+	 * @param request
+	 * @param response
+	 * @param name
+	 * @param pwd
+	 */
+	public static void setOneconversationCookies(HttpServletRequest request,HttpServletResponse response,String name,String pwd){
+		
+		//设置账号
+		Cookie u_Cookie = new Cookie("SESSION_USERNAME",name);
+		u_Cookie.setPath("/");
+		u_Cookie.setDomain(request.getServerName());
+		u_Cookie.setComment("USER");
+		//设置密码
+		Cookie p_Cookie = new Cookie("SESSION_PASSWORD", pwd);
+		p_Cookie.setPath("/");
+		p_Cookie.setDomain(request.getServerName());
+		p_Cookie.setComment("USER");
+		response.addCookie(p_Cookie);
+		response.addCookie(u_Cookie);
+	}
+	
 
 }

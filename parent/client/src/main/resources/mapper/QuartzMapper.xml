@@ -38,4 +38,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deleteJobDetails">
 		delete from qrtz_self_defined where JOB_NAME = #{JOB_NAME} 
 	</delete>
+	<update id="updateSelfDefined" parameterType="org.common.model.QuartzModel">
+		update qrtz_self_defined
+	    <set>
+	      <if test="JOB_NAME != null">
+	        JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR},
+	      </if>
+	      <if test="START_TIME != null">
+	        START_TIME = #{START_TIME,jdbcType=VARCHAR},
+	      </if>
+	      <if test="END_TIME != null">
+	        END_TIME = #{END_TIME,jdbcType=VARCHAR},
+	      </if>
+	      <if test="CRON_EXPRESSION != null">
+	        CRON_EXPRESSION = #{CRON_EXPRESSION,jdbcType=VARCHAR},
+	      </if>
+	      <if test="TRIGGER_STATE != null">
+	        TRIGGER_STATE = #{TRIGGER_STATE,jdbcType=VARCHAR},
+	      </if>
+	    </set>
+    	where JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR}
+	</update>
 </mapper>

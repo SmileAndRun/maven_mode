@@ -14,4 +14,5 @@ public interface QuartzMapper {
 	public int insertSelfDifined(QuartzModel model);
 	public List<QuartzModel> getALlFromMyDefine();
 	public int deleteJobDetails(String name);
+	public int updateSelfDefined(QuartzModel model);
 }

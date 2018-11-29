@@ -14,4 +14,5 @@ public interface QuartzService {
 	public boolean insertSelfDifined(QuartzModel model);
 	public List<QuartzModel> getALlFromMyDefine();
 	public boolean deleteTasks(String[] names)throws SchedulerException;
+	public boolean updateSelfDefined(QuartzModel model);
 }

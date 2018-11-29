@@ -12,7 +12,7 @@ $(function(){
 				isCookie:true
 				};
 			var rs_function = function(result){
-				if(result == true){
+				if(result){
 					window.location.href = "/server/index";
 				}else{
 					layer.msg($(".tip3").text());
@@ -41,7 +41,7 @@ $(function(){
 					isCookie:false
 					};
 				var s_function = function(data){
-					if(data == true){
+					if(data.flag){
 						window.location.href = "/server/index";
 					}else{
 						layer.msg($(".tip2").text());

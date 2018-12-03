@@ -1,7 +1,7 @@
 package org.common.core.websocket;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Component;
 @Component
 @ServerEndpoint(value="/websocket")
 public class WebSocketServer {
-	private static ConcurrentHashMap<String, WebSocketServer> webSocketServers = new ConcurrentHashMap<String,WebSocketServer>();
+	private static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<WebSocketServer>();
 	private Session session;
 	/**客服端连接的时候触发*/
 	@OnOpen
     public void onOpen(Session session) {
         this.session = session;
-        webSocketServers.put(session.getId(), this);
+        webSocketServers.add(this);
         System.out.println("sessionID："+session.getId()+",Open触发");
     }
 	/**当客服端断开连接时触发*/
@@ -49,11 +49,11 @@ public class WebSocketServer {
 	public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
     }
-	public static ConcurrentHashMap<String, WebSocketServer> getWebSocketServers() {
+	public static CopyOnWriteArraySet< WebSocketServer> getWebSocketServers() {
 		return webSocketServers;
 	}
 	public static void setWebSocketServers(
-			ConcurrentHashMap<String, WebSocketServer> webSocketServers) {
+			CopyOnWriteArraySet<WebSocketServer> webSocketServers) {
 		WebSocketServer.webSocketServers = webSocketServers;
 	}
 }

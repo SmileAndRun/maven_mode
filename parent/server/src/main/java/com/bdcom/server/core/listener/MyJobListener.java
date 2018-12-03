@@ -2,14 +2,8 @@ package com.bdcom.server.core.listener;
 
 
 import java.io.IOException;
-import java.net.URI;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 
-import org.common.core.websocket.WebSocketClient;
 import org.common.core.websocket.WebSocketServer;
 import org.common.model.QuartzModel;
 import org.quartz.JobExecutionContext;
@@ -33,8 +27,6 @@ public class MyJobListener implements JobListener {
 	}
 	@Autowired
 	QuartzService quartzService;
-	@Autowired
-	WebSocketServer webSocketServer;
 	@Override
 	public void jobToBeExecuted(JobExecutionContext context) {
 		System.out.println("start:jobToBeExecuted");
@@ -45,10 +37,10 @@ public class MyJobListener implements JobListener {
 		quartzService.updateSelfDefined(model);
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
 		try {
-			for(WebSocketServer socketServer:webSocketServer.getWebSocketServers().values()){
-				
+			for(WebSocketServer socketServer:WebSocketServer.getWebSocketServers()){
+				if(null !=socketServer ) 	
+				socketServer.sendMessage(message);
 			}
-			webSocketServer.sendMessage(message);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -76,7 +68,10 @@ public class MyJobListener implements JobListener {
 		}
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
 		try {
-			webSocketServer.sendMessage(message);
+			for(WebSocketServer socketServer:WebSocketServer.getWebSocketServers()){
+				if(null !=socketServer )
+				socketServer.sendMessage(message);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

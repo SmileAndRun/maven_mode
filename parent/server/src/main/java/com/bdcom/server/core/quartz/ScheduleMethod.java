@@ -1,20 +1,38 @@
-package org.common.core.quartz;
+package com.bdcom.server.core.quartz;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.common.model.QuartzModel;
-import org.common.utils.MyQuartzUtils;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
+public class ScheduleMethod {
 
-public class ScheduleConfig {
-	
+	@Autowired
+	Scheduler myScheduler;
+	public  CronTrigger getCronTrigger(QuartzModel model) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date startTime= sdf.parse(model.getSTART_TIME());
+		Date endTime = sdf.parse(model.getEND_TIME());
+				
+		CronTrigger trigger = TriggerBuilder.newTrigger().
+                withSchedule(CronScheduleBuilder.cronSchedule(model.getCRON_EXPRESSION())).withIdentity(model.getTRIGGER_NAME(), model.getTRIGGER_GROUP()).startAt(startTime).endAt(endTime).build();
+		
+		return trigger;
+	}
 	/**
 	 * 添加一个任务
 	 * @param name
@@ -24,10 +42,10 @@ public class ScheduleConfig {
 	 * @throws ParseException
 	 */
 	public void addJobDetails(@SuppressWarnings("rawtypes") Class name,QuartzModel model) throws SchedulerException, ParseException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		@SuppressWarnings("unchecked")
 		JobDetail myjob = JobBuilder.newJob(name).withIdentity(model.getJOB_NAME(), model.getJOB_GROUP()).build();
-		scheduler.scheduleJob(myjob, MyQuartzUtils.getCronTrigger(model));
+		scheduler.scheduleJob(myjob, getCronTrigger(model));
 		
 		scheduler.start();
 		
@@ -40,7 +58,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public boolean deleJobDetails(QuartzModel model) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		boolean flag = scheduler.deleteJob(JobKey.jobKey(model.getJOB_NAME(), model.getJOB_GROUP()));
 		return flag;
 	}
@@ -51,7 +69,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public boolean deleAllJobDetails(List<JobKey> jobKeys) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		boolean flag = scheduler.deleteJobs(jobKeys);
 		return flag;
 	}
@@ -60,7 +78,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void stopAllJobDetails() throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.pauseAll();
 	}
 	/**
@@ -69,7 +87,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void stopJobDetails(JobKey jobKey) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.pauseJob(jobKey);
 	}
 	/**
@@ -78,7 +96,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void stopJobGroup(GroupMatcher<JobKey> jobGroup) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.pauseJobs(jobGroup);
 	}
 	/**
@@ -86,7 +104,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void recoverAllJobDetails() throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.resumeAll();
 	}
 	/**
@@ -95,7 +113,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void recoverJobDetails(JobKey jobKey) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.resumeJob(jobKey);
 	}
 	/**
@@ -104,7 +122,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void recoverJobGroup(GroupMatcher<JobKey> jobGroup) throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.resumeJobs(jobGroup);
 	}
 	/**
@@ -112,7 +130,7 @@ public class ScheduleConfig {
 	 * @throws SchedulerException
 	 */
 	public void stopScheduler() throws SchedulerException{
-		Scheduler scheduler = MyQuartzUtils.getScheduler();
+		Scheduler scheduler = myScheduler;
 		scheduler.shutdown();
 	}
 }

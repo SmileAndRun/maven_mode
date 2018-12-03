@@ -15,6 +15,11 @@ import javax.websocket.server.ServerEndpoint;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * 不加@Component注解会报路径错误
+ * @author Administrator
+ *
+ */
 @Component
 @ServerEndpoint(value="/websocket/{id}")
 public class WebSocketServer {

@@ -1,4 +1,4 @@
-package org.common.core.quartz.model;
+package com.bdcom.server.core.quartz.model;
 
 import java.util.Date;
 

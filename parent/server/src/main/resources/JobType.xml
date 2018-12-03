@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <types>
-	<type name="barrage"  class="org.common.core.quartz.model.BarrageJob"></type>
+	<type name="barrage"  class="com.bdcom.server.core.quartz.model.BarrageJob"></type>
 </types>

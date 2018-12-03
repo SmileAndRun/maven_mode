@@ -12,7 +12,9 @@ $(function(){
 	    //连接成功建立的回调方法
 	    websocket.onopen = function(event){
 	    }
-	    
+	    websocket.onmessage = function(event){
+	    	alert(alert(event.data))
+	    }
 	    //连接关闭的回调方法
 	    websocket.onclose = function(){
 	    }

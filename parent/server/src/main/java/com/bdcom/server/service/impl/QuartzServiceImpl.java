@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.core.quartz.ScheduleConfig;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
@@ -12,6 +11,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.mapper.QuartzMapper;
 import com.bdcom.server.service.QuartzService;
 
@@ -63,13 +63,14 @@ public class QuartzServiceImpl implements QuartzService {
 		}
 		return list;
 	}
+	@Autowired
+	ScheduleMethod scheduleMethod;
 	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
 	public boolean deleteTasks(String[] names) throws SchedulerException {
-		ScheduleConfig config = new ScheduleConfig();
 		for(String name:names){
 			MyCacheUtils.removeItem(name);
-			if(config.deleJobDetails(new QuartzModel(name,name))){
+			if(scheduleMethod.deleJobDetails(new QuartzModel(name,name))){
 				if(quartzMapper.deleteJobDetails(name)==0)
 					return false;
 			}

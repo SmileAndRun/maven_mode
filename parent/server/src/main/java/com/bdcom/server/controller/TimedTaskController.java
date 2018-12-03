@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.common.core.quartz.ScheduleConfig;
 import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
 import org.common.utils.ReadResourceUtils;
@@ -22,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.service.QuartzService;
 
 @Controller
@@ -32,7 +32,6 @@ public class TimedTaskController {
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
 	public String initPage(HttpServletRequest request){
-		
 		//获取已经存在的job
 		List<QuartzModel> list = quartzService.getALlFromMyDefine();
 		request.setAttribute("result", list);
@@ -52,6 +51,9 @@ public class TimedTaskController {
 		}
 		return "timedtask";
 	}
+	@Autowired
+	ScheduleMethod scheduleMethod ;
+	
 	@RequestMapping(value="/addNewTask")
 	@ResponseBody
 	public JSONObject addNewJob(QuartzModel model){
@@ -61,12 +63,12 @@ public class TimedTaskController {
 			obj.put("message", "name_already_exists");
 			return obj;
 		}
-		ScheduleConfig config = new ScheduleConfig();
+		
 		try {
 			model.setJOB_GROUP(model.getJOB_NAME());
 			model.setTRIGGER_NAME(model.getJOB_NAME());
 			model.setTRIGGER_GROUP(model.getJOB_NAME());
-			config.addJobDetails( Class.forName((String)model.getUNDETERMINED()), model);
+			scheduleMethod.addJobDetails( Class.forName((String)model.getUNDETERMINED()), model);
 			//设置任务永久存储
 			quartzService.setPermanentStorage(model.getJOB_NAME());
 			QuartzModel quartzModel = quartzService.getJobDetailForJobName(model.getJOB_NAME());
@@ -79,6 +81,7 @@ public class TimedTaskController {
 				obj.put("result", quartzModel);
 			}
 		} catch (SchedulerException e) {
+			e.printStackTrace();
 			obj.put("flag", false);
 		} catch (ParseException e) {
 			obj.put("flag", false);

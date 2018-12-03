@@ -10,6 +10,7 @@ import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
 
 import org.common.core.websocket.WebSocketClient;
+import org.common.core.websocket.WebSocketServer;
 import org.common.model.QuartzModel;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -32,8 +33,8 @@ public class MyJobListener implements JobListener {
 	}
 	@Autowired
 	QuartzService quartzService;
-	/*@Autowired
-	WebSocketServer webSocketServer;*/
+	@Autowired
+	WebSocketServer webSocketServer;
 	@Override
 	public void jobToBeExecuted(JobExecutionContext context) {
 		System.out.println("start:jobToBeExecuted");
@@ -41,19 +42,16 @@ public class MyJobListener implements JobListener {
 		QuartzModel model = new QuartzModel();
 		model.setJOB_NAME(jobName);
 		model.setTRIGGER_STATE("SCHEDULING");
-		WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-		//WebSocketClient client = new WebSocketClient();
 		quartzService.updateSelfDefined(model);
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
 		try {
-			Session session = container.connectToServer(WebSocketClient.class, URI.create("ws://localhost:8089/websocket"));
-			session.getAsyncRemote().sendText(message);
-			//client.sendMessage(message);
+			for(WebSocketServer socketServer:webSocketServer.getWebSocketServers().values()){
+				
+			}
+			webSocketServer.sendMessage(message);
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (DeploymentException e) {
-			e.printStackTrace();
-		}
+		} 
 		System.out.println("end:jobToBeExecuted");
 	}
 
@@ -77,7 +75,11 @@ public class MyJobListener implements JobListener {
 			quartzService.updateSelfDefined(model);
 		}
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
-		
+		try {
+			webSocketServer.sendMessage(message);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.out.println("end:jobWasExecuted");
 	}
 

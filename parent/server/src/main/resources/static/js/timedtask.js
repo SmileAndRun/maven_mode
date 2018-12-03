@@ -299,7 +299,7 @@ $(function(){
 			}
 			$.arrayAjax(url,data,s_function,e_function);
 	});
-	websocket.onmessage = function(event){
-		
-    }
+	/*websocket.onmessage = function(event){
+		alert(event.data);
+    }*/
 })

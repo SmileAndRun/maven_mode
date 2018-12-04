@@ -67,7 +67,7 @@ public class TimedTaskController {
 			model.setJOB_GROUP(model.getJOB_NAME());
 			model.setTRIGGER_NAME(model.getJOB_NAME());
 			model.setTRIGGER_GROUP(model.getJOB_NAME());
-			scheduleMethod.addJobDetails( Class.forName((String)model.getUNDETERMINED()), model);
+			scheduleMethod.addJobDetails( Class.forName(model.getJOB_CLASS_NAME()), model);
 			//设置任务永久存储
 			quartzService.setPermanentStorage(model.getJOB_NAME());
 			QuartzModel quartzModel = quartzService.getJobDetailForJobName(model.getJOB_NAME());

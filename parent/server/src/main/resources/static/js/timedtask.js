@@ -225,7 +225,7 @@ $(function(){
 		}
 		var data = {
 			JOB_NAME:$(".taskNameVal").val(),
-			UNDETERMINED:$(".jobTypeVal").val(),
+			JOB_CLASS_NAME:$(".jobTypeVal").val(),
 			START_TIME:$(".createTimeVal").val(),
 			END_TIME:$(".finishedTimeVal").val(),
 			CRON_EXPRESSION:$(".executionFrequencyVal").val(),
@@ -236,6 +236,7 @@ $(function(){
 			if(data.flag){
 				$(".nodata").css("display","none");
 				$(".dataTable tbody").append("<tr> " +
+						"<td style='display:none;'>"+data.result.job_CLASS_NAME+"</td>" +
 						"<td>"+data.result.job_NAME+"</td>" +
 						"<td>"+data.result.start_TIME+"</td>" +
 						"<td>"+data.result.end_TIME+"</td>" +
@@ -323,7 +324,7 @@ $(function(){
 	$(".titleButton").on("click",".deleteButton",function(){
 		var temp = [];
 		$(".active-tr").each(function(){
-			temp.push($(this).find("td:first").text());
+			temp.push($(this).find("td:nth-child(2)").text());
 		});
 		if(temp.length == 0){
 			layer.msg($(".pSelectTask-il8n").val());

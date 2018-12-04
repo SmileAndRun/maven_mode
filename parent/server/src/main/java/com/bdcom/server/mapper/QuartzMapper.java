@@ -2,6 +2,7 @@ package com.bdcom.server.mapper;
 
 import java.util.List;
 
+import org.common.model.QrtzJobData;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 
@@ -15,4 +16,5 @@ public interface QuartzMapper {
 	public List<QuartzModel> getALlFromMyDefine();
 	public int deleteJobDetails(String name);
 	public int updateSelfDefined(QuartzModel model);
+	public int insertJobData(QrtzJobData model);
 }

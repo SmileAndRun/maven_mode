@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
+import org.common.model.QrtzJobData;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
@@ -38,6 +39,7 @@ public class QuartzServiceImpl implements QuartzService {
 		quartzModel.setSTART_TIME(list.get(0).getQrtzTriggers().getSTART_TIME());
 		quartzModel.setEND_TIME(list.get(0).getQrtzTriggers().getEND_TIME());
 		quartzModel.setTRIGGER_STATE(list.get(0).getQrtzTriggers().getTRIGGER_STATE());
+		quartzModel.setJOB_CLASS_NAME(list.get(0).getJOB_CLASS_NAME());
 		return quartzModel;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.quartz)
@@ -104,5 +106,10 @@ public class QuartzServiceImpl implements QuartzService {
 	@Override
 	public QrtzJobDetails seeTasksDetais(String name) {
 		return quartzMapper.getJobData(name);
+	}
+	@Override
+	public boolean insertJobData(QrtzJobData model) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

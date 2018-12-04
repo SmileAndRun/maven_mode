@@ -2,6 +2,7 @@ package com.bdcom.server.service;
 
 import java.util.List;
 
+import org.common.model.QrtzJobData;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 import org.quartz.SchedulerException;
@@ -18,4 +19,5 @@ public interface QuartzService {
 	public void openTasks(String name) throws SchedulerException;
 	public QrtzJobDetails seeTasksDetais(String name) throws SchedulerException;
 	public boolean updateSelfDefined(QuartzModel model);
+	public boolean insertJobData(QrtzJobData model);
 }

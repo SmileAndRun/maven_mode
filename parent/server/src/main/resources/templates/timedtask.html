@@ -40,6 +40,7 @@
 					</thead>
 					<tbody>
 						<tr th:if="${result}" th:each="model : ${result}">
+							<td style="display:none;" th:text="${model.JOB_CLASS_NAME}"></td>
 							<td th:text="${model.JOB_NAME}"></td>
 							<td th:text="${model.START_TIME}"></td>
 							<td th:text="${model.END_TIME}"></td>

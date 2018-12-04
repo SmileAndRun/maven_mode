@@ -1,6 +1,7 @@
-package com.bdcom.hws.mapper;
+package com.bdcom.server.mapper;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.common.model.Barrage;
@@ -26,4 +27,10 @@ public interface BarrageMapper {
 	 * 模糊查询（待定）
 	 */
 	public List<Barrage> getListBarByLike(String content);
+	/**
+	 * 查询当前时间弹幕数量
+	 * @param time
+	 * @return
+	 */
+	public int getBarrageCount(Timestamp time);
 }

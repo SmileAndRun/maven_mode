@@ -39,7 +39,9 @@ public class MyJobListener implements JobListener {
 		try {
 			for(WebSocketServer socketServer:WebSocketServer.getWebSocketServers()){
 				if(null !=socketServer ) 	
-				socketServer.sendMessage(message);
+				synchronized (socketServer) {
+					socketServer.sendMessage(message);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,7 +72,9 @@ public class MyJobListener implements JobListener {
 		try {
 			for(WebSocketServer socketServer:WebSocketServer.getWebSocketServers()){
 				if(null !=socketServer )
-				socketServer.sendMessage(message);
+				synchronized (socketServer) {
+					socketServer.sendMessage(message);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

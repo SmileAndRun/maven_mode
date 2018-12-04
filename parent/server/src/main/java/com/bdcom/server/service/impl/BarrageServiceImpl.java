@@ -1,6 +1,7 @@
-package com.bdcom.hws.service.impl;
+package com.bdcom.server.service.impl;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
@@ -9,8 +10,9 @@ import org.common.model.Barrage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bdcom.hws.mapper.BarrageMapper;
-import com.bdcom.hws.service.BarrageService;
+import com.bdcom.server.mapper.BarrageMapper;
+import com.bdcom.server.service.BarrageService;
+
 
 @Service
 public class BarrageServiceImpl implements BarrageService{
@@ -44,6 +46,11 @@ public class BarrageServiceImpl implements BarrageService{
 	public List<Barrage> getListBarByLike(String content) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public int getBarrageCount(Timestamp time) {
+		return barrMapper.getBarrageCount(time);
 	}
 
 	

@@ -1,14 +1,10 @@
 package com.bdcom.hws.core.listener;
 
-import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.common.model.Log;
-import org.common.model.client.SessionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bdcom.hws.service.LogService;

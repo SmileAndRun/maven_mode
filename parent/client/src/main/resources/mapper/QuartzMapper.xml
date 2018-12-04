@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.server.mapper.QuartzMapper">
-	<sql id="common">d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE</sql>
+	<sql id="common">d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE,JOB_CLASS_NAME</sql>
 	
 	<resultMap type="org.common.model.QrtzJobDetails" id="jobDetails">
 		<id column="JOB_NAME" property="JOB_NAME"></id>
@@ -28,9 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getJobData" parameterType="String" resultType="org.common.model.QrtzJobDetails">
 		select JOB_DATA from qrtz_job_details where JOB_NAME = #{JOB_NAME}
 	</select>
-	<sql id="difined">JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE</sql>
+	<sql id="difined">JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME</sql>
 	<insert id="insertSelfDifined" parameterType="org.common.model.QuartzModel">
-		insert into qrtz_self_defined(<include refid="difined"></include>) values(#{JOB_NAME},#{START_TIME},#{END_TIME},#{CRON_EXPRESSION},#{TRIGGER_STATE})
+		insert into qrtz_self_defined(<include refid="difined"></include>) values(#{JOB_NAME},#{START_TIME},#{END_TIME},#{CRON_EXPRESSION},#{TRIGGER_STATE},#{JOB_CLASS_NAME})
 	</insert>
 	<select id="getALlFromMyDefine" resultType="org.common.model.QuartzModel">
 		select <include refid="difined"></include> from qrtz_self_defined
@@ -55,6 +55,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      </if>
 	      <if test="TRIGGER_STATE != null">
 	        TRIGGER_STATE = #{TRIGGER_STATE,jdbcType=VARCHAR},
+	      </if>
+	      <if test="JOB_CLASS_NAME != null">
+	        JOB_CLASS_NAME = #{JOB_CLASS_NAME,jdbcType=VARCHAR},
 	      </if>
 	    </set>
     	where JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR}

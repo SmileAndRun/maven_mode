@@ -234,7 +234,7 @@ $(function(){
 		var url = "/timedtask/addNewTask";
 		var s_function = function(data){
 			if(data.flag){
-				$(".nodata").remove();
+				$(".nodata").css("display","none");
 				$(".dataTable tbody").append("<tr> " +
 						"<td>"+data.result.job_NAME+"</td>" +
 						"<td>"+data.result.start_TIME+"</td>" +
@@ -255,18 +255,64 @@ $(function(){
 		$.commonAjax(url,data,s_function,e_function);
 		removeAddPanel();
 	});
+	//点击菜单外菜单消失
+	$(this).click(function(e){
+	 if(!$(e.target).is('.editMenu')&&!$(e.target).is('.edit')){
+		 $(".editMenu").remove();
+	    }
+	});
 	//edit function
+	var jobName;
 	$(".dataTable").on("click",".edit",function(e){
-		$(".container").append("<ul class='editMenu'>" +
-				"<li>暂停</li>" +
-				"<li>删除</li>" +
-				"<li>开启</li>" +
-				"</ul>");
+		$(".editMenu").remove();
+		var data = "<li value='1'>"+$(".seeDetails-il8n").val()+"</li>" +
+				"<li value='2'>"+$(".delete-il8n").val()+"</li>";
+		var menuItem = $(this).prev().text();
+		if(menuItem == $(".PAUSED-il8n").val()){
+			data+="<li value='4'>"+$(".open-il8n").val()+"</li>";
+		}else if(menuItem == $(".ACQUIRED-il8n").val()||menuItem==$(".SCHEDULING-il8n").val()){
+			data+="<li value='3'>"+$(".PAUSED-il8n").val()+"</li>";
+		}
+		$(".container").append("<ul class='editMenu'>"+data+"</ul>");
 		$(".editMenu").css({
 			   top: e.pageY,
 			   left: e.pageX,
 			  });
+		jobName = $(this).prev().prev().prev().prev().text();
 	});
+	//menu操作
+	$(this).on("click",".editMenu li",function(){
+		var operate = $(this).text();
+		var names = [jobName];
+		var type = $(this).val();
+		var data = {
+				names: names,
+				type: type
+			};
+		
+		var url = "/timedtask/menuOperate";
+		var s_function = function(data){
+			if(data.flag){
+				var obj = $(".dataTable tr td:contains('"+jobName+"')");
+				if(type=="2"){
+					obj.parent().remove();
+					if($(".dataTable tbody tr")== undefined){
+						$(".nodata").css("display","block");
+					}
+				}else if(type == "3"){
+					obj.next().next().next().text(operate);
+				} 
+			}else{
+				layer.msg(operate+$(".failure-il8n").val());
+			}
+		}
+		var e_function = function(){
+			layer.msg("The server is error!!!");
+		}
+		$.arrayAjax(url,data,s_function,e_function);
+		
+	});
+	//datatable 样式
 	$(".dataTable tbody").on("click","tr",function(){
 		if($(this).attr("class")!="active-tr"){
 			$(this).addClass("active-tr");
@@ -284,21 +330,25 @@ $(function(){
 			return;
 		}
 		var data = {
-				names: temp
+				names: temp,
+				type: "2"
 			};
 			
-			var url = "/timedtask/deleteTask";
-			var s_function = function(data){
-				if(data.flag){
-					$(".active-tr").remove();
-				}else{
-					layer.msg($(".deleteFailure-il8n").val());
+		var url = "/timedtask/menuOperate";
+		var s_function = function(data){
+			if(data.flag){
+				$(".active-tr").remove();
+				if($(".dataTable tbody tr")== undefined){
+					$(".nodata").css("display","block");
 				}
+			}else{
+				layer.msg($(".deleteFailure-il8n").val());
 			}
-			var e_function = function(){
-				layer.msg("The server is error!!!");
-			}
-			$.arrayAjax(url,data,s_function,e_function);
+		}
+		var e_function = function(){
+			layer.msg("The server is error!!!");
+		}
+		$.arrayAjax(url,data,s_function,e_function);
 	});
 	//websocket 初始化
 	if ("WebSocket" in window){
@@ -312,7 +362,7 @@ $(function(){
 	    }
 	    websocket.onmessage = function(event){
 	    	var json = eval("("+event.data+")");
-	    	$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text(json.state);
+	    	$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
 	    }
 	    //连接关闭的回调方法
 	    websocket.onclose = function(){

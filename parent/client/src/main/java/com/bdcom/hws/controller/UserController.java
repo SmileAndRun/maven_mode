@@ -34,10 +34,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bdcom.hws.service.BarrageService;
 import com.bdcom.hws.service.LogService;
 import com.bdcom.hws.service.SessionService;
 import com.bdcom.hws.service.UserService;
+import com.bdcom.server.service.BarrageService;
 
 @Api(value="用户模块")
 @Controller

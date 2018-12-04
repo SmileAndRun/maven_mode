@@ -7,6 +7,7 @@ import org.common.core.datasource.DatabaseType;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
+import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ public class QuartzServiceImpl implements QuartzService {
 		for(QuartzModel model:list){
 			MyCacheUtils.addItem(model.getJOB_NAME());
 		}
+		if(list.size()<=0)list = null;
 		return list;
 	}
 	@Autowired
@@ -73,6 +75,7 @@ public class QuartzServiceImpl implements QuartzService {
 			if(scheduleMethod.deleJobDetails(new QuartzModel(name,name))){
 				if(quartzMapper.deleteJobDetails(name)==0)
 					return false;
+				
 			}
 				
 		}
@@ -82,5 +85,24 @@ public class QuartzServiceImpl implements QuartzService {
 	@Override
 	public boolean updateSelfDefined(QuartzModel model) {
 		return quartzMapper.updateSelfDefined(model)==0?false:true;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public void pausedTasks(String name) throws SchedulerException {
+		scheduleMethod.stopJobDetails(new JobKey(name,name));
+		QuartzModel model = new QuartzModel();
+		model.setJOB_NAME(name);
+		model.setSTART_TIME("PAUSED");
+		quartzMapper.updateSelfDefined(model);
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public void openTasks(String name) throws SchedulerException {
+		scheduleMethod.recoverJobDetails(new JobKey(name,name));
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public QrtzJobDetails seeTasksDetais(String name) {
+		return quartzMapper.getJobData(name);
 	}
 }

@@ -63,7 +63,6 @@ public class TimedTaskController {
 			obj.put("message", "name_already_exists");
 			return obj;
 		}
-		
 		try {
 			model.setJOB_GROUP(model.getJOB_NAME());
 			model.setTRIGGER_NAME(model.getJOB_NAME());
@@ -84,24 +83,44 @@ public class TimedTaskController {
 			e.printStackTrace();
 			obj.put("flag", false);
 		} catch (ParseException e) {
+			e.printStackTrace();
 			obj.put("flag", false);
 		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 			obj.put("flag", false);
 		}
-		
 		return obj;
 	}
-	@RequestMapping(value="/deleteTask")
+	@RequestMapping(value="/menuOperate")
 	@ResponseBody
-	public JSONObject deleteTask(@RequestParam String[] names ){
+	public JSONObject menuOperate(@RequestParam String[] names,String type){
 		JSONObject obj = new JSONObject();
 		boolean flag = false;
 		try {
-			flag = quartzService.deleteTasks(names);
+			switch (type) {
+			case "1":
+				//QrtzJobDetails model = quartzService.seeTasksDetais(names[0]);
+				break;
+			case "2":
+				flag = quartzService.deleteTasks(names);
+				break;
+			case "3":
+				flag = true;
+				quartzService.pausedTasks(names[0]);
+				break;
+			case "4":
+				flag = true;
+				quartzService.openTasks(names[0]);
+				break;
+			default:
+				break;
+			}
+			
 		} catch (SchedulerException e) {
 			flag = false;
 		}
 		obj.put("flag", flag);
+		obj.put("type", type);
 		return obj;
 	}
 }

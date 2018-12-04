@@ -54,5 +54,23 @@ public class ReadResourceUtils {
 		}
 		return list;
 	}
-
+	/**
+	 * 读取整个properties文件
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	public static Properties getProperties(String path){
+		BufferedReader reader = null;
+		Properties properties = null;
+		try {
+			File file = new ClassPathResource("quartz.properties").getFile();
+			reader = new BufferedReader(new FileReader(file));
+			properties = new Properties();
+			properties.load(reader);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return properties;
+	}
 }

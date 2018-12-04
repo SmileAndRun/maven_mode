@@ -9,7 +9,8 @@ public class QuartzModel {
 	private String END_TIME;
 	private String CRON_EXPRESSION;
 	private String TRIGGER_STATE;
-	/*待定字段*/
+	private String JOB_CLASS_NAME;
+	/*备用字段*/
 	private Object UNDETERMINED;
 	public String getJOB_NAME() {
 		return JOB_NAME;
@@ -70,6 +71,12 @@ public class QuartzModel {
 	public QuartzModel(String jobName,String jobGroup) {
 		this.JOB_NAME = jobName;
 		this.JOB_GROUP = jobGroup;
+	}
+	public String getJOB_CLASS_NAME() {
+		return JOB_CLASS_NAME;
+	}
+	public void setJOB_CLASS_NAME(String jOB_CLASS_NAME) {
+		JOB_CLASS_NAME = jOB_CLASS_NAME;
 	}
 	public QuartzModel() {
 		super();

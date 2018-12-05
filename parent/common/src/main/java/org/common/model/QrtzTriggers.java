@@ -2,7 +2,8 @@ package org.common.model;
 
 import java.math.BigInteger;
 
-import org.common.utils.TimeUtisl;
+import org.common.utils.TimeUtils;
+
 
 public class QrtzTriggers {
 	private String SCHED_NAME;
@@ -61,13 +62,13 @@ public class QrtzTriggers {
 		return NEXT_FIRE_TIME;
 	}
 	public void setNEXT_FIRE_TIME(BigInteger nEXT_FIRE_TIME) {
-		NEXT_FIRE_TIME = TimeUtisl.get(null).format(nEXT_FIRE_TIME.longValue());
+		NEXT_FIRE_TIME = TimeUtils.get(null).format(nEXT_FIRE_TIME.longValue());
 	}
 	public String getPREV_FIRE_TIME() {
 		return PREV_FIRE_TIME;
 	}
 	public void setPREV_FIRE_TIME(BigInteger pREV_FIRE_TIME) {
-		PREV_FIRE_TIME = TimeUtisl.get(null).format(pREV_FIRE_TIME.longValue());
+		PREV_FIRE_TIME = TimeUtils.get(null).format(pREV_FIRE_TIME.longValue());
 	}
 	public int getPRIORITY() {
 		return PRIORITY;
@@ -91,13 +92,13 @@ public class QrtzTriggers {
 		return START_TIME;
 	}
 	public void setSTART_TIME(BigInteger sTART_TIME) {
-		START_TIME = TimeUtisl.get(null).format(sTART_TIME.longValue());
+		START_TIME = TimeUtils.get(null).format(sTART_TIME.longValue());
 	}
 	public String getEND_TIME() {
 		return END_TIME;
 	}
 	public void setEND_TIME(BigInteger eND_TIME) {
-		END_TIME = TimeUtisl.get(null).format(eND_TIME.longValue());
+		END_TIME = TimeUtils.get(null).format(eND_TIME.longValue());
 	}
 	public String getCALENDAR_NAME() {
 		return CALENDAR_NAME;

@@ -17,4 +17,7 @@ public interface QuartzMapper {
 	public int deleteJobDetails(String name);
 	public int updateSelfDefined(QuartzModel model);
 	public int insertJobData(QrtzJobData model);
+	public QrtzJobData getMaxDataId();
+	public int deleteDataByJobName(String name);
+	public List<QrtzJobData> getJobDataByJobName(String jobName);
 }

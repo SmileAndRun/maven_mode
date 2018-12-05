@@ -3,10 +3,18 @@ package org.common.model;
 import java.sql.Timestamp;
 
 public class QrtzJobData {
+	private int DATAID;
 	private String JOBNAME;
 	private Timestamp EXCUTETIME;
 	private String JOBDATA;
 	private String JOBCLASS;
+	
+	public int getDATAID() {
+		return DATAID;
+	}
+	public void setDATAID(int dATAID) {
+		DATAID = dATAID;
+	}
 	public String getJOBNAME() {
 		return JOBNAME;
 	}
@@ -34,8 +42,9 @@ public class QrtzJobData {
 	public QrtzJobData() {
 		super();
 	}
-	public QrtzJobData(String jOBNAME, Timestamp eXCUTETIME, String jOBDATA, String jOBCLASS) {
+	public QrtzJobData(int dATAId,String jOBNAME, Timestamp eXCUTETIME, String jOBDATA, String jOBCLASS) {
 		super();
+		DATAID = dATAId;
 		JOBNAME = jOBNAME;
 		EXCUTETIME = eXCUTETIME;
 		JOBDATA = jOBDATA;

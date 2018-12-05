@@ -63,4 +63,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    </set>
     	where JOB_NAME = #{JOB_NAME,jdbcType=VARCHAR}
 	</update>
+	<sql id="data">
+		DATAID,JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS
+	</sql>
+	<insert id="insertJobData" parameterType="org.common.model.QrtzJobData">
+		insert into qrtz_self_data(<include refid="data"></include>) values(#{DATAID},#{JOBNAME},#{EXCUTETIME},#{JOBDATA},#{JOBCLASS})
+	</insert>
+	<select id="getMaxDataId" resultType="org.common.model.QrtzJobData">
+		select max(DATAID)DATAID from qrtz_self_data
+	</select>
+	<delete id="deleteDataByJobName">
+		delete from qrtz_self_data where JOBNAME = #{JOBNAME} 
+	</delete>
+	<select id="getJobDataByJobName" resultType="org.common.model.QrtzJobData">
+		select <include refid="data"></include> from qrtz_self_data where JOBNAME = #{JOBNAME} GROUP BY EXCUTETIME
+	</select>
 </mapper>

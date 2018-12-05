@@ -7,12 +7,14 @@ import org.common.core.datasource.DatabaseType;
 import org.common.model.QrtzJobData;
 import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
+import org.common.utils.JobDataUtils;
 import org.common.utils.MyCacheUtils;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.mapper.QuartzMapper;
 import com.bdcom.server.service.QuartzService;
@@ -77,7 +79,7 @@ public class QuartzServiceImpl implements QuartzService {
 			if(scheduleMethod.deleJobDetails(new QuartzModel(name,name))){
 				if(quartzMapper.deleteJobDetails(name)==0)
 					return false;
-				
+				quartzMapper.deleteDataByJobName(name);
 			}
 				
 		}
@@ -107,9 +109,27 @@ public class QuartzServiceImpl implements QuartzService {
 	public QrtzJobDetails seeTasksDetais(String name) {
 		return quartzMapper.getJobData(name);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
 	public boolean insertJobData(QrtzJobData model) {
-		// TODO Auto-generated method stub
-		return false;
+		if(model.getDATAID()==-1){
+			QrtzJobData maxId = quartzMapper.getMaxDataId();
+			if(null == maxId){
+				System.out.println("NULL");
+				model.setDATAID(1);
+			}else{
+				model.setDATAID(maxId.getDATAID()+1);
+			}
+		}
+		return quartzMapper.insertJobData(model)==0?false:true;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
+	@Override
+	public JSONObject getJobDataByJobName(String jobName,String jobClass) {
+		List<QrtzJobData> list = quartzMapper.getJobDataByJobName(jobName);
+		if(list == null||list.size()==0)
+		return null;
+		JSONObject obj = (JSONObject)JobDataUtils.translate(jobClass, list);
+		return obj;
 	}
 }

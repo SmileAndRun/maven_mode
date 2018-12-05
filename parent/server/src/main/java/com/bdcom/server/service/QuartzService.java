@@ -7,6 +7,8 @@ import org.common.model.QrtzJobDetails;
 import org.common.model.QuartzModel;
 import org.quartz.SchedulerException;
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface QuartzService {
 	public List<QrtzJobDetails> getJobDetails();
 	public QuartzModel getJobDetailForJobName(String jobName);
@@ -20,4 +22,5 @@ public interface QuartzService {
 	public QrtzJobDetails seeTasksDetais(String name) throws SchedulerException;
 	public boolean updateSelfDefined(QuartzModel model);
 	public boolean insertJobData(QrtzJobData model);
+	public JSONObject getJobDataByJobName(String jobName,String jobClass);
 }

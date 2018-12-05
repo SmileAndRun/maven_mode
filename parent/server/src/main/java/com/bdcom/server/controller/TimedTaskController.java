@@ -93,13 +93,15 @@ public class TimedTaskController {
 	}
 	@RequestMapping(value="/menuOperate")
 	@ResponseBody
-	public JSONObject menuOperate(@RequestParam String[] names,String type){
+	public JSONObject menuOperate(@RequestParam String[] names,String type,String jobClass){
 		JSONObject obj = new JSONObject();
 		boolean flag = false;
 		try {
 			switch (type) {
 			case "1":
-				//QrtzJobDetails model = quartzService.seeTasksDetais(names[0]);
+				JSONObject dataJson = quartzService.getJobDataByJobName(names[0], jobClass);
+				obj.put("dataJson", dataJson);
+				flag = true;
 				break;
 			case "2":
 				flag = quartzService.deleteTasks(names);

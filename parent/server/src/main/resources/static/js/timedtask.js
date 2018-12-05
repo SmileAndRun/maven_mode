@@ -257,17 +257,16 @@ $(function(){
 		removeAddPanel();
 	});
 	//点击菜单外菜单消失
-	var jobName = null;
+	var jobName;
 	$(this).click(function(e){
 	 if(!$(e.target).is('.editMenu')&&!$(e.target).is('.edit')){
 		 $(".editMenu").remove();
-		 jobName = null;
 	    }
 	});
 	//edit function
 	
-	var jobClass = null;
-	var jobState = null;
+	var jobClass;
+	var jobState;
 	$(".dataTable").on("click",".edit",function(e){
 		$(".editMenu").remove();
 		var data = "<li value='1'>"+$(".seeDetails-il8n").val()+"</li>" +
@@ -288,7 +287,7 @@ $(function(){
 		jobState = $(this).prev().text();
 	});
 	//menu操作
-	var time = null;
+	//var time = null;
 	$(this).on("click",".editMenu li",function(){
 		var operate = $(this).text();
 		var names = [jobName];
@@ -298,7 +297,7 @@ $(function(){
 				type: type,
 				jobClass:jobClass
 			};
-		var openFlag = 0;
+		//var openFlag = 0;
 		var url = "/timedtask/menuOperate";
 		var s_function = function(data){
 			if(data.flag){
@@ -311,13 +310,13 @@ $(function(){
 				}else if(type == "3"){
 					obj.next().next().next().text(operate);
 				}else if(type == "1"){
-					openFlag++;
+					//openFlag++;
 					if(data.dataJson == null){
 						alert($(".nodata-il8n").val());
 						return;
 					}
 					var dataValue="<div style='margin-left:20px;' class='jobDataVal'></div>";
-					if(openFlag == 1){
+					//if(openFlag == 1){
 						layer.open({
 							  title: $(".dataDisplay-il8n").val(),
 							  content: dataValue,
@@ -327,11 +326,11 @@ $(function(){
 						  	  anim:3,                    //动画
 						  	  shade: [0.8, '#393D49'],//遮罩层
 						  	  cancel: function(index, layero){ 
-						  		jobName = null;
+						  		//jobName = null;
 						  	    layer.close(index);
 						  	  }
 							});
-					}
+					//}
 					var title = {
 						      text: $("."+data.dataJson.title+"-il8n").val()  
 						   };
@@ -378,7 +377,8 @@ $(function(){
 		var e_function = function(){
 			layer.msg("The server is error!!!");
 		}
-		if(type=="1"){
+		$.arrayAjax(url,data,s_function,e_function);
+		/*if(type=="1"){
 			if(jobState != $(".COMPLETE-il8n").val()){
 				//每隔一秒请求数据
 				time = setInterval(function(){
@@ -390,7 +390,7 @@ $(function(){
 			  			
 		}else{
 			$.arrayAjax(url,data,s_function,e_function);
-		}
+		}*/
 	});
 	//datatable 样式
 	$(".dataTable tbody").on("click","tr",function(){
@@ -443,14 +443,14 @@ $(function(){
 	    websocket.onmessage = function(event){
 	    	var json = eval("("+event.data+")");
 	    	$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
-	    	if(json.name==jobName&&json.state=="COMPLETE"){
+	    	/*if(json.name==jobName&&json.state=="COMPLETE"){
 	    		if(time != null){
 	    			clearInterval(time);
 	    		}
 	    	}
 	    	if(time != null&&jobName==null){
 	    		clearInterval(time);
-	    	}
+	    	}*/
 	    }
 	    //连接关闭的回调方法
 	    websocket.onclose = function(){

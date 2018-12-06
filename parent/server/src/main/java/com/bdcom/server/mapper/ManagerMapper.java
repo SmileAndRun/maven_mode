@@ -25,4 +25,5 @@ public interface ManagerMapper {
 	public int getLastMaxId();
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
+	public List<User> getAllUserInfo();
 }

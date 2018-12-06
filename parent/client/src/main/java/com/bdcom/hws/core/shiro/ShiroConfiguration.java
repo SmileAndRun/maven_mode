@@ -1,13 +1,16 @@
 package com.bdcom.hws.core.shiro;
 
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
+
 
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.apache.shiro.mgt.SecurityManager;
 
 @Configuration
@@ -27,7 +30,6 @@ public class ShiroConfiguration {
         securityManager.setRealm(myShiroRealm());
         return securityManager;
     }
-
     //Filter工厂，设置对应的过滤条件和跳转条件
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager) {
@@ -67,4 +69,14 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
+    @Bean
+    public SimpleMappingExceptionResolver unauthoriedCatch(){
+    	SimpleMappingExceptionResolver exceptionResolver = new SimpleMappingExceptionResolver();
+    	Properties exception = new Properties();
+    	//value 是页面的名称不是controller中的路径
+    	exception.setProperty("org.apache.shiro.authz.UnauthorizedException", "unauthorized");
+    	exceptionResolver.setExceptionMappings(exception);
+    	return exceptionResolver;
+    }
+   
 }

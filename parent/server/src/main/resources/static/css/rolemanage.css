@@ -1,0 +1,56 @@
+.dataTable{
+	margin-top: 20px;
+}
+.dataTable thead tr:FIRST-CHILD{
+	background-color: #EAEAEA;
+	
+}
+.dataTable tbody tr td:last-child{
+	color: #005580;
+	cursor: pointer;
+}
+.title{
+	margin-top: 40px;
+}
+.title input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.type{
+	height: 24px;
+	border-radius: 5px;
+	outline: none;
+}
+.add{
+	background-color: #5bb75b;
+}
+.search{
+	background-color: #0044cc;
+}
+.add,.search{
+	height: 30px;
+	width: 54px;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	color: white;
+}
+.addTable input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.showADD{
+	margin-top: 40px;
+	display: none;
+}
+.showEdit input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.showEdit{
+	display: none;
+	margin-top: 40px;
+}

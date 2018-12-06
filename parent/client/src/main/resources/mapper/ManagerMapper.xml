@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
 		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
 		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
-		<result column="logTime" jdbcType="TIMESTAMP" property="loginTime"/>
+		<result column="logTime" jdbcType="TIMESTAMP" property="logTime"/>
 		<collection  property="roleList" ofType="org.common.model.Role">
 			<result column="role" jdbcType="VARCHAR" property="role"/>
 			<collection property="permissionList" ofType="org.common.model.Permission">
@@ -27,6 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
+	</select>
+	<select id="getAllUserInfo"  resultMap="userMap">
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
+		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+		r.roleId = p.roleId left join t_log l on u.userId = l.userId  GROUP BY u.userId
 	</select>
 	<select id="getUserByUid" parameterType="Integer" resultType="org.common.model.server.User">
 		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userId = #{userId} GROUP BY u.userId

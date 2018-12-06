@@ -1,15 +1,24 @@
 package com.bdcom.server.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+
+
+
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
+import org.common.model.Permission;
+import org.common.model.Role;
 import org.common.model.server.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
 
@@ -103,6 +112,27 @@ public class ManagerServiceImpl implements ManagerService {
 	@Override
 	public int getLogLastMaxId() {
 		return mp.getLogLastMaxId();
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public JSONObject getAllUserInfo() {
+		JSONObject obj = new JSONObject();
+		List<User> userList = mp.getAllUserInfo();
+		if(null == userList||userList.size()==0)return null;
+		Map<Integer, String> roleMap = new HashMap<Integer,String>();
+		Map<Integer, String> permissionMap = new HashMap<Integer,String>();
+		for(User user:userList){
+			for(Role role:user.getRoleList()){
+				roleMap.put(user.getUserId(), role.getRole());
+				for(Permission permission: role.getPermissionList()){
+					permissionMap.put(user.getUserId(), permission.getPermission());
+				}
+			}
+		}
+		obj.put("userList", userList);
+		obj.put("roleMap", roleMap);
+		obj.put("permissionMap", permissionMap);
+		return obj;
 	}
 
 }

@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
 import org.common.utils.ReadResourceUtils;
@@ -25,6 +27,7 @@ import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.service.QuartzService;
 
 @Controller
+@RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)
 @RequestMapping(value="/timedtask")
 public class TimedTaskController {
 

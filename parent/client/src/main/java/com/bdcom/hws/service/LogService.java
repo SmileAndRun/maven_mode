@@ -5,6 +5,6 @@ import org.common.model.Log;
 
 
 public interface LogService {
-	public int getLastMaxId();
+	public Log getLastMaxId();
 	public int insertLog(Log log);
 }

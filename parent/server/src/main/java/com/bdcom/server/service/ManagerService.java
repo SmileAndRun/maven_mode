@@ -5,6 +5,8 @@ import java.util.List;
 import org.common.model.Log;
 import org.common.model.server.User;
 
+import com.alibaba.fastjson.JSONObject;
+
 
 public interface ManagerService {
 	public User getUserByUid(int userId);
@@ -23,4 +25,5 @@ public interface ManagerService {
 	public int getLastMaxId();
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
+	public JSONObject getAllUserInfo();
 }

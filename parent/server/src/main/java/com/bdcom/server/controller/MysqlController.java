@@ -8,6 +8,9 @@ import java.util.Map;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.common.model.server.MysqlModel;
 import org.common.utils.JDBCUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +22,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.lucene.SearchMethod;
 
 @RestController
+@RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)
+@RequiresPermissions("database")
 @RequestMapping(value="/mysql")
 public class MysqlController extends SearchMethod{
 	Map<List<Document>, Query> map = null;

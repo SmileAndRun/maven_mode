@@ -118,8 +118,8 @@ public class UserController {
 		Log log = new Log();
 		
 		log.setUserid(userInfo.getUserId());
-		log.setLogtype("login");
-		log.setLogmessage("登录");
+		log.setLogtype("1");
+		log.setLogmessage("login");
 		log.setLogtime(new Timestamp(date.getTime()));
 		log.setLogiserror("0");
 		logService.insertLog(log);
@@ -156,6 +156,4 @@ public class UserController {
 		}
 		return "true";
 	}
-	
-
 }

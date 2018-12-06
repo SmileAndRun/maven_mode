@@ -20,14 +20,19 @@ public class LogServiceImpl implements LogService {
 	@Override
 	@Transactional(rollbackFor ={IllegalArgumentException.class})
 	public int insertLog(Log log) {
-		int temp = logMapper.getLastMaxId();
-		int id = temp+1;
+		Log temp = logMapper.getLastMaxId();
+		int id = 0;
+		if(null == temp){
+			id = 1;
+		}else{
+			id = temp.getLogid() + 1;
+		}
 		log.setLogid(id);
 		return logMapper.insertSelective(log);
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public int getLastMaxId() {
+	public Log getLastMaxId() {
 		
 		return logMapper.getLastMaxId();
 	}

@@ -15,6 +15,8 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.common.model.Log;
 import org.common.model.server.User;
 import org.common.utils.DownUtils;
@@ -32,9 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.service.ManagerService;
 
-
-
 @Controller
+@RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)
 @RequestMapping(value="/server")
 public class RootController {
 	
@@ -44,6 +45,7 @@ public class RootController {
 	String userName;
 	@Value("${spring.datasource.password}")
 	String userPwd;
+	
 	
 	@RequestMapping(value="/index")
 	public String initRootPage(HttpServletRequest req){
@@ -160,8 +162,8 @@ public class RootController {
 		}
 		Log log = new Log();
 		Date date = new Date();
-		log.setLogtype("register");
-		log.setLogmessage("注册");
+		log.setLogtype("3");
+		log.setLogmessage("register");
 		log.setLogiserror("0");
 		log.setLogtime(new Timestamp(date.getTime()));
 		int num = ms.registerUser(temp,log);
@@ -177,6 +179,12 @@ public class RootController {
 		obj.put("changeFlag", false);
 		if(flag > 0)obj.put("changeFlag", true);
 		return obj;
+	}
+	@RequestMapping(value="/initRoleManager")
+	public ModelAndView initRolePage(){
+		JSONObject obj = ms.getAllUserInfo();
+		ModelAndView modelAndView = new ModelAndView("rolemanage",obj);
+		return modelAndView;
 	}
 	
 }

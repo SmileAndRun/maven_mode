@@ -26,7 +26,7 @@
 				</select>
 				<input type="text"/>
 				<button th:text="#{search}" class="search"></button>
-				<button th:text="#{add}" class="add"></button>
+				<!-- <button th:text="#{add}" class="add"></button> -->
 			</div> 
 			<div class="data">
 				<table class="table table-bordered table-hover definewidth m10 dataTable" >
@@ -52,25 +52,6 @@
 				</table>
 			</div>
 		</div>
-		<div class="showADD">
-			<table class="table table-bordered table-hover definewidth m10 addTable">
-				<tr>
-					<td th:text="#{name}"></td>
-					<td><input type="text" class="addName"/></td>
-				</tr>
-				<tr>
-					<td th:text="#{password}"></td>
-					<td><input type="text" class="addPwd"/></td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>
-						<button type="button" class="btn btn-primary save" th:text="#{save}"></button>
-						<button type="button" class="btn btn-success return" th:text="#{return.list}"></button>
-					</td>
-				</tr>
-			</table>
-		</div>
 		<div class="showEdit">
 			<table class="table table-bordered table-hover definewidth m10 editTable">
 				<tr>
@@ -82,8 +63,12 @@
 					<td><input type="text"/></td>
 				</tr>
 				<tr>
-					<td th:text="#{isLock}"></td>
-					<td><input type="checkbox"/></td>
+					<td th:text="#{role}"></td>
+					<td><input type="checkbox" th:value="${role}" th:text="${role}" th:each="role:${roleList}"/></td>
+				</tr>
+				<tr>
+					<td th:text="#{permission}"></td>
+					<td><input type="checkbox" th:value="${pre}" th:text="${pre}" th:each="pre:${permissionList}" /></td>
 				</tr>
 				<tr>
 					<td></td>

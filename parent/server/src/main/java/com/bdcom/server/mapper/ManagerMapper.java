@@ -26,4 +26,6 @@ public interface ManagerMapper {
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
 	public List<User> getAllUserInfo();
+	public List<User> getFuzzyRoleByUid(String searchValue);
+	public List<User> getFuzzyRoleByUname(String searchValue);
 }

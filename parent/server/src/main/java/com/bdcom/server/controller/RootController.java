@@ -7,9 +7,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,9 @@ import org.common.utils.EncryptionUtils;
 import org.common.utils.FileWriterUtils;
 import org.common.utils.FontColourUtils;
 import org.common.utils.JDBCUtils;
+import org.common.utils.ReadResourceUtils;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -183,8 +188,54 @@ public class RootController {
 	@RequestMapping(value="/initRoleManager")
 	public ModelAndView initRolePage(){
 		JSONObject obj = ms.getAllUserInfo();
+		//获取所有role和permission
+		String path = "UserRole.xml";
+		List<String> attribute = new ArrayList<String>();
+		attribute.add("name");
+		attribute.add("type");
+		List<String> roleList = new ArrayList<String>();
+		List<String> permissionList = new ArrayList<String>();
+		try {
+			Element rootElement = ReadResourceUtils.getXmlRootElement(ReadResourceUtils.getClassPathResource(path));
+			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
+			for(Map<String, String> map :typeList){
+				if(map.get("type").equals("role"))
+					roleList.add(map.get("name"));
+				if(map.get("type").equals("permission"))
+					permissionList.add(map.get("name"));
+				
+			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(roleList.size() != 0)obj.put("roleList", roleList);
+		if(permissionList.size() != 0)obj.put("permissionList", permissionList);
 		ModelAndView modelAndView = new ModelAndView("rolemanage",obj);
 		return modelAndView;
 	}
+	@RequestMapping(value="/user/searchRoleInfo")
+	@ResponseBody
+	public JSONObject searchRoleInfo(String content,String type){
+		JSONObject obj = new JSONObject();
+		String color = "red";
+		List<User> list = null;
+		if(type.equals("1")){
+			list = ms.getFuzzyRoleByUid(content);
+			for(User user : list){
+				user.setuId(FontColourUtils.colour(String.valueOf(user.getUserId()), color, content));
+			}
+		}else{
+			list = ms.getFuzzyRoleByUname(content);
+			for(User user : list){
+				user.setUserName(FontColourUtils.colour(user.getUserName(), color, content));
+			}
+		}
+		
+		obj.put("users", list);
+		return obj;
+	}
+	
 	
 }

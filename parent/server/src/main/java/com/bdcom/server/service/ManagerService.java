@@ -26,4 +26,6 @@ public interface ManagerService {
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
 	public JSONObject getAllUserInfo();
+	public List<User> getFuzzyRoleByUid(String searchValue);
+	public List<User> getFuzzyRoleByUname(String searchValue);
 }

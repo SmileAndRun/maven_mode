@@ -9,6 +9,9 @@
 	color: #005580;
 	cursor: pointer;
 }
+.dataTable tbody label{
+	font-weight: normal;
+}
 .title{
 	margin-top: 40px;
 }
@@ -53,4 +56,13 @@
 .showEdit{
 	display: none;
 	margin-top: 40px;
+}
+.addTable select{
+	width: 200px;
+}
+.addTable tr td:nth-child(1){
+	width: 200px;
+}
+.addTable tr td:nth-child(2){
+	width:250px;
 }

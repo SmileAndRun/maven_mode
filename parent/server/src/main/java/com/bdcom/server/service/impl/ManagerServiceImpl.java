@@ -95,8 +95,20 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<User> getFuzzyUsersByUid(String searchValue) {
 		return mp.getFuzzyUsersByUid(searchValue);
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
 	public List<User> getFuzzyUserByUname(String searchValue){
 		return mp.getFuzzyUserByUname(searchValue);
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public List<User> getFuzzyRoleByUid(String searchValue) {
+		return mp.getFuzzyRoleByUid(searchValue);
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public List<User> getFuzzyRoleByUname(String searchValue){
+		return mp.getFuzzyRoleByUname(searchValue);
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override

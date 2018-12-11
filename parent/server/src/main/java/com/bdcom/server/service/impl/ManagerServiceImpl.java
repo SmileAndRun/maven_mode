@@ -1,5 +1,6 @@
 package com.bdcom.server.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,15 +132,19 @@ public class ManagerServiceImpl implements ManagerService {
 		JSONObject obj = new JSONObject();
 		List<User> userList = mp.getAllUserInfo();
 		if(null == userList||userList.size()==0)return null;
-		Map<Integer, String> roleMap = new HashMap<Integer,String>();
-		Map<Integer, String> permissionMap = new HashMap<Integer,String>();
+		Map<Integer, List<String>> roleMap = new HashMap<Integer,List<String>>();
+		Map<Integer, List<String>> permissionMap = new HashMap<Integer,List<String>>();
 		for(User user:userList){
+			List<String> roles = new ArrayList<String>();
+			List<String> pres = new ArrayList<String>();
 			for(Role role:user.getRoleList()){
-				roleMap.put(user.getUserId(), role.getRole());
+				roles.add(role.getRole());
 				for(Permission permission: role.getPermissionList()){
-					permissionMap.put(user.getUserId(), permission.getPermission());
+					pres.add(permission.getPermission());
 				}
 			}
+			roleMap.put(user.getUserId(), roles);
+			permissionMap.put(user.getUserId(), pres);
 		}
 		obj.put("userList", userList);
 		obj.put("roleMap", roleMap);

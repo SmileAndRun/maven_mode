@@ -29,9 +29,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
 	<select id="getAllUserInfo"  resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId left join t_log l on u.userId = l.userId  GROUP BY u.userId
+		r.roleId = p.roleId 
 	</select>
 	<select id="getUserByUid" parameterType="Integer" resultType="org.common.model.server.User">
 		select <include refid="user"></include>,max(logTime)logTime from t_user u,t_log l where u.userId = l.userId and u.userId = #{userId} GROUP BY u.userId
@@ -87,11 +87,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 <select id="getFuzzyRoleByUid" resultMap="userMap" parameterType="String">
 	 	select u.userId,userName,role,permission 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId WHERE LOCATE(#{value}, u.userId)>0  GROUP BY u.userId
+		r.roleId = p.roleId WHERE LOCATE(#{value}, u.userId)>0 
 	 </select>
 	 <select id="getFuzzyRoleByUname" resultMap="userMap" parameterType="String">
 	 	select u.userId,userName,role,permission 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId WHERE LOCATE(#{value}, userName)>0  GROUP BY u.userId
+		r.roleId = p.roleId WHERE LOCATE(#{value}, userName)>0  
 	 </select>
 </mapper>

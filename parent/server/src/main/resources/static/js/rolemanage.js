@@ -1,3 +1,6 @@
+//用来统计
+var roleList = [];
+var preList = [];
 $(function(){
 	$(".title").on("click",".search",function(){
 		var content = $(".title input").val();
@@ -46,26 +49,85 @@ $(function(){
 	$(".editTable").on("click",".return",function(){
 		$(".showTab").css("display","block");
 		$(".showEdit").css("display","none");
+		$(".preCollection").css("display","none");
+		$(".roleCollection").css("display","none");
 	});
+	
 	
 	$(".dataTable").on("click",".edit",function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
-		var role = $(this).prev().prev().text();
-		var permission = $(this).prev().text();
+		var roleText = $(this).prev().prev().text();
+		var preText = $(this).prev().text();
 		var name = $(this).prev().prev().prev().text();
 		var num = $(this).prev().prev().prev().prev().text();
 		
+		var roleText = roleText.split("[")[1].split("]")[0];
+		if(roleText.indexOf(",")!=-1){
+			roleList = roleText.split(",");
+			roleText="";
+			for(var i = 0;i<roles.length;i++){
+				roleText += "<li class='fa fa-window-close'>"+roleList[i]+"</li>";
+			}
+		}else{
+			roleList[0] = roleText;
+			roleText = "<li class='fa fa-window-close'>" + roleText +"</li>";
+		}
+		var preText = preText.split("[")[1].split("]")[0];
 		
+		if(preText.indexOf(",") != -1){
+			preList = preText.split(",");
+			preText = "";
+			for(var i=0;i<preList.length;i++){
+				preText += "<li class='fa fa-window-close'>"+preList[i]+"</li>";
+			}
+		}else{
+			preList[0] = preText;
+			preText = "<li class='fa fa-window-close'>"+preText+"</li>";
+		}
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
-		/*if(islock==$(".lock").val()){
-			$(".editTable").find("tr").eq(2).find("input").attr("checked", true);
-		}else{
-			$(".editTable").find("tr").eq(2).find("input").removeAttr("checked");;
-		}*/
+		$(".roleList").empty();
+		$(".preList").empty();
+		$(".roleList").append(roleText);
+		$(".preList").append(preText);
+		$(".preList").css({
+			width: $(".editTable tr:first").find("td:last").attr("width"),
+			height: $(".editTable tr:first").find("td:last").attr("height")
+		});
 		$(".showEdit").css("display","block");
 	});
+	$(this).on("click",".roleList",function(e){
+		$(".preCollection").css("display","none");
+		$(".roleCollection").css({
+			   top: e.pageY,
+			   left: e.pageX,
+			   display:"block"
+			  });
+	});
+	$(this).on("click",".preList",function(e){
+		$(".roleCollection").css("display","none");
+		$(".preCollection").css({
+			   top: e.pageY,
+			   left: e.pageX,
+			   display:"block"
+			  });
+		
+	});
+	$(".roleCollection").on("click","li",function(){
+		if($.inArray($(this).text(),roleList)==-1){
+			$(".roleList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
+		}
+		$(".roleCollection").css("display","none");
+	});
+	$(".preCollection").on("click","li",function(){
+		if($.inArray($(this).text(),preList)==-1){
+			$(".preList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
+		}
+		$(".preCollection").css("display","none");
+	});
+	
+	
 	$(".showEdit").on("click",".saveChange",function(){
 		var num = $(".editTable").find("tr").eq(0).find("input").val();
 		var name = $(".editTable").find("tr").eq(1).find("input").val();

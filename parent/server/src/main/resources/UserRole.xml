@@ -2,4 +2,5 @@
 <Roles>
 	<Role name="SuperAdmin"  type="role" RoleId="1"></Role>
 	<Role name="DataBase"  type="permission" RoleId="1"></Role>
+	<Role name="See"  type="permission" RoleId="1"></Role>
 </Roles>

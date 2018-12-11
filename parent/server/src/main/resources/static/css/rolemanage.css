@@ -66,3 +66,15 @@
 .addTable tr td:nth-child(2){
 	width:250px;
 }
+.roleCollection,.preCollection{
+	height: 30px;
+	width: 200px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+}
+li{
+	list-style: none;
+	height: 30px;
+	text-align: center;
+	border-left-color: #ddd;
+}

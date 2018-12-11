@@ -64,11 +64,11 @@
 				</tr>
 				<tr>
 					<td th:text="#{role}"></td>
-					<td><input type="checkbox" th:value="${role}" th:text="${role}" th:each="role:${roleList}"/></td>
+					<td><ul></ul></td>
 				</tr>
 				<tr>
 					<td th:text="#{permission}"></td>
-					<td><input type="checkbox" th:value="${pre}" th:text="${pre}" th:each="pre:${permissionList}" /></td>
+					<td><ul></ul></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -78,6 +78,13 @@
 					</td>
 				</tr>
 			</table>
+			<ul class="roleCollection">
+				<li th:each="role:${roleList}" th:value="${role}" th:text="${role}"></li>
+			</ul>
+			<ul class="preCollection">
+				<li  th:value="${pre}" th:text="${pre}" th:each="pre:${permissionList}" ></li>
+			</ul>
+			
 		</div>
 	</div>
 	<div class="i18n">

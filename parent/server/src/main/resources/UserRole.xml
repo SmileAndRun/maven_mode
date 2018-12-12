@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Roles>
 	<Role name="SuperAdmin"  type="role" RoleId="1"></Role>
+	<Role name="Admin"  type="role" RoleId="2"></Role>
 	<Role name="DataBase"  type="permission" RoleId="1"></Role>
-	<Role name="See"  type="permission" RoleId="1"></Role>
+	<Role name="See"  type="permission" RoleId="1,2"></Role>
 </Roles>

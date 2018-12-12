@@ -1,6 +1,8 @@
 //用来统计
 var roleList = [];
 var preList = [];
+var roleListO = [] ;
+var preListO = [];
 $(function(){
 	$(".title").on("click",".search",function(){
 		var content = $(".title input").val();
@@ -73,6 +75,7 @@ $(function(){
 			roleList[0] = roleText;
 			roleText = "<li class='fa fa-window-close'>" + roleText +"</li>";
 		}
+		roleListO = roleList;
 		var preText = preText.split("[")[1].split("]")[0];
 		
 		if(preText.indexOf(",") != -1){
@@ -85,19 +88,24 @@ $(function(){
 			preList[0] = preText;
 			preText = "<li class='fa fa-window-close'>"+preText+"</li>";
 		}
+		preListO = preList;
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
 		$(".roleList").empty();
 		$(".preList").empty();
 		$(".roleList").append(roleText);
 		$(".preList").append(preText);
+		$(".roleList").css({
+			width: $(".editTable tr:first").find("td:last").attr("width"),
+			height: $(".editTable tr:first").find("td:last").attr("height")
+		});
 		$(".preList").css({
 			width: $(".editTable tr:first").find("td:last").attr("width"),
 			height: $(".editTable tr:first").find("td:last").attr("height")
 		});
 		$(".showEdit").css("display","block");
 	});
-	$(this).on("click",".roleList",function(e){
+	$(this).on("click",".roleTd",function(e){
 		$(".preCollection").css("display","none");
 		$(".roleCollection").css({
 			   top: e.pageY,
@@ -105,7 +113,7 @@ $(function(){
 			   display:"block"
 			  });
 	});
-	$(this).on("click",".preList",function(e){
+	$(this).on("click",".preTd",function(e){
 		$(".roleCollection").css("display","none");
 		$(".preCollection").css({
 			   top: e.pageY,
@@ -114,15 +122,26 @@ $(function(){
 			  });
 		
 	});
+	$(".roleList").on("click","li",function(){
+		$(this).remove();
+		roleList.splice(roleList.indexOf($(this).text().trim()), 1);
+	})
+	$(".preList").on("click","li",function(){
+		$(this).remove();
+		preList.splice(preList.indexOf($(this).text().trim()), 1);
+	})
 	$(".roleCollection").on("click","li",function(){
 		if($.inArray($(this).text(),roleList)==-1){
 			$(".roleList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
+			roleList.push($(this).text().trim());
 		}
+		
 		$(".roleCollection").css("display","none");
 	});
 	$(".preCollection").on("click","li",function(){
 		if($.inArray($(this).text(),preList)==-1){
 			$(".preList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
+			preList.push($(this).text().trim());
 		}
 		$(".preCollection").css("display","none");
 	});
@@ -130,18 +149,14 @@ $(function(){
 	
 	$(".showEdit").on("click",".saveChange",function(){
 		var num = $(".editTable").find("tr").eq(0).find("input").val();
-		var name = $(".editTable").find("tr").eq(1).find("input").val();
-		var islock = $(".editTable").find("tr").eq(2).find("input").is(':checked');
-		if(islock){
-			islock = '1';
-		}else{
-			islock = '0';
-		}
-		var url = "/server/changeUser";
+		
+		var url = "/server/changeUserRole";
 		var data = {
 				userId: num,
-				userName: name,
-				uIsLock: islock
+				roleList:roleList,
+				roleListO:roleListO
+				preList:preList,
+				preListO:preListO,
 		};
 		var s_function = function(result){
 			if(result.changeFlag){
@@ -166,6 +181,7 @@ $(function(){
 		var e_function = function(){
 			layer.msg("The server is error!!!");
 		}
-		$.commonAjax(url,data,s_function,e_function);
+		$.arrayAjax(url,data,s_function,e_function);
 	})
+	
 })

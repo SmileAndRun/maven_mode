@@ -100,3 +100,8 @@ li{
 	background-color: white;
 	cursor: pointer;
 }
+.preUl li,.roleUl li{
+	display: inline;
+	margin-left: 10px;
+	background-color: white;
+}

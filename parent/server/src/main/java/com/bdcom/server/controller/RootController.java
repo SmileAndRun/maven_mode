@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -236,6 +237,10 @@ public class RootController {
 		obj.put("users", list);
 		return obj;
 	}
-	
-	
+	@RequestMapping(value="/changeUserRole")
+	@ResponseBody
+	public JSONObject changeUserRole(String userId,String[] roleList,String [] roleListO,String[] preList,String[] preListO){
+		JSONObject obj = new JSONObject();
+		return obj;
+	}
 }

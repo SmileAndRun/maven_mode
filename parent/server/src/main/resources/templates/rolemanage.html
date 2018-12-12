@@ -43,8 +43,19 @@
 						 <tr th:each="user : ${userList}">
 							<td th:text="${user.userId}"></td>
 							<td th:text="${user.userName}"></td>
-							<td><label th:if="${roleObj.key} eq ${user.userId}" th:text="${roleObj.value}" th:each="roleObj:${roleMap}"></label></td>
-							<td><label th:if="${permissionObj.key} eq ${user.userId}" th:text="${permissionObj.value}" th:each="permissionObj:${permissionMap}"></label></td>
+							
+							<td>
+								<ul class="roleUl">
+									<li  th:text="${roleObj.role}" th:value="${roleObj.roleid}" th:each="roleObj:${user.roleList}"></li>
+								</ul>
+							<td>
+								<ul class="preUl">
+									<th:block th:each="roleObj:${user.roleList}">
+										<li th:value="${permissionObj.roleid}" th:text="${permissionObj.permission}" th:each="permissionObj:${roleObj.permissionList}"></li>
+									</th:block>
+								</ul>
+							</td>
+							
 							<td th:text="#{edit}" class="edit"></td>
 						</tr> 
 					</tbody>

@@ -1,6 +1,7 @@
 package com.bdcom.server.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -132,24 +133,34 @@ public class ManagerServiceImpl implements ManagerService {
 		JSONObject obj = new JSONObject();
 		List<User> userList = mp.getAllUserInfo();
 		if(null == userList||userList.size()==0)return null;
-		Map<Integer, List<String>> roleMap = new HashMap<Integer,List<String>>();
-		Map<Integer, List<String>> permissionMap = new HashMap<Integer,List<String>>();
-		for(User user:userList){
-			List<String> roles = new ArrayList<String>();
-			List<String> pres = new ArrayList<String>();
-			for(Role role:user.getRoleList()){
-				roles.add(role.getRole());
-				for(Permission permission: role.getPermissionList()){
-					pres.add(permission.getPermission());
-				}
-			}
-			roleMap.put(user.getUserId(), roles);
-			permissionMap.put(user.getUserId(), pres);
-		}
 		obj.put("userList", userList);
-		obj.put("roleMap", roleMap);
-		obj.put("permissionMap", permissionMap);
 		return obj;
+	}
+	@Override
+	public JSONObject changeUserRole(String userId, String[] roleList, String[] roleListO, String[] preList,
+			String[] preListO) {
+		List<String> roleTemp = Arrays.asList(roleList);
+		List<String> roleOTemp = Arrays.asList(roleListO);
+		List<String> addRoleList = new ArrayList<String>();
+		List<String> delRoleList = new ArrayList<String>();
+		for(String temp:roleList){
+			if(!roleOTemp.contains(temp))addRoleList.add(temp);
+		}
+		for(String temp:roleListO){
+			if(!roleTemp.contains(temp))delRoleList.add(temp);
+		}
+		List<String> preTemp = Arrays.asList(preList);
+		List<String> preOTemp = Arrays.asList(preListO);
+		List<String> addPreList = new ArrayList<String>();
+		List<String> delPreList = new ArrayList<String>();
+		for(String temp:preList){
+			if(!preOTemp.contains(temp))addPreList.add(temp);
+		}
+		for(String temp:preListO){
+			if(!preTemp.contains(temp))delPreList.add(temp);
+		}
+		
+		return null;
 	}
 
 }

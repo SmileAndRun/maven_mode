@@ -59,42 +59,23 @@ $(function(){
 	$(".dataTable").on("click",".edit",function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
-		var roleText = $(this).prev().prev().text();
-		var preText = $(this).prev().text();
+		$(".roleList").empty();
+		$(".preList").empty();
+		var roleUl = $(this).prev().prev().find("ul li");
+		var preUl = $(this).prev().find("ul li");
 		var name = $(this).prev().prev().prev().text();
 		var num = $(this).prev().prev().prev().prev().text();
 		
-		var roleText = roleText.split("[")[1].split("]")[0];
-		if(roleText.indexOf(",")!=-1){
-			roleList = roleText.split(",");
-			roleText="";
-			for(var i = 0;i<roles.length;i++){
-				roleText += "<li class='fa fa-window-close'>"+roleList[i]+"</li>";
-			}
-		}else{
-			roleList[0] = roleText;
-			roleText = "<li class='fa fa-window-close'>" + roleText +"</li>";
-		}
-		roleListO = roleList;
-		var preText = preText.split("[")[1].split("]")[0];
-		
-		if(preText.indexOf(",") != -1){
-			preList = preText.split(",");
-			preText = "";
-			for(var i=0;i<preList.length;i++){
-				preText += "<li class='fa fa-window-close'>"+preList[i]+"</li>";
-			}
-		}else{
-			preList[0] = preText;
-			preText = "<li class='fa fa-window-close'>"+preText+"</li>";
-		}
-		preListO = preList;
+		roleUl.each(function(){
+			$(".roleList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
+			roleList.push($(this).val());
+		});
+		preUl.each(function(){
+			$(".preList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
+			preList.push($(this).val());
+		});
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
-		$(".roleList").empty();
-		$(".preList").empty();
-		$(".roleList").append(roleText);
-		$(".preList").append(preText);
 		$(".roleList").css({
 			width: $(".editTable tr:first").find("td:last").attr("width"),
 			height: $(".editTable tr:first").find("td:last").attr("height")
@@ -124,12 +105,13 @@ $(function(){
 	});
 	$(".roleList").on("click","li",function(){
 		$(this).remove();
-		roleList.splice(roleList.indexOf($(this).text().trim()), 1);
+		roleList.splice(roleList.indexOf($(this).val().trim()), 1);
 	})
 	$(".preList").on("click","li",function(){
 		$(this).remove();
-		preList.splice(preList.indexOf($(this).text().trim()), 1);
+		preList.splice(preList.indexOf($(this).val().trim()), 1);
 	})
+	//待完善
 	$(".roleCollection").on("click","li",function(){
 		if($.inArray($(this).text(),roleList)==-1){
 			$(".roleList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
@@ -154,7 +136,7 @@ $(function(){
 		var data = {
 				userId: num,
 				roleList:roleList,
-				roleListO:roleListO
+				roleListO:roleListO,
 				preList:preList,
 				preListO:preListO,
 		};

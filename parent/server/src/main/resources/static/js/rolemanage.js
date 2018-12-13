@@ -1,7 +1,5 @@
 //用来统计
-var roleList = [];
 var preList = [];
-var roleListO = [] ;
 var preListO = [];
 $(function(){
 	$(".title").on("click",".search",function(){
@@ -59,21 +57,16 @@ $(function(){
 	$(".dataTable").on("click",".edit",function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
-		$(".roleList").empty();
 		$(".preList").empty();
-		var roleUl = $(this).prev().prev().find("ul li");
 		var preUl = $(this).prev().find("ul li");
-		var name = $(this).prev().prev().prev().text();
-		var num = $(this).prev().prev().prev().prev().text();
+		var name = $(this).prev().prev().text();
+		var num = $(this).prev().prev().prev().text();
 		
-		roleUl.each(function(){
-			$(".roleList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
-			roleList.push($(this).val());
-		});
 		preUl.each(function(){
 			$(".preList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
-			preList.push($(this).val());
+			preList.push($(this).text());
 		});
+		preListO = preList;
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
 		$(".roleList").css({
@@ -86,14 +79,6 @@ $(function(){
 		});
 		$(".showEdit").css("display","block");
 	});
-	$(this).on("click",".roleTd",function(e){
-		$(".preCollection").css("display","none");
-		$(".roleCollection").css({
-			   top: e.pageY,
-			   left: e.pageX,
-			   display:"block"
-			  });
-	});
 	$(this).on("click",".preTd",function(e){
 		$(".roleCollection").css("display","none");
 		$(".preCollection").css({
@@ -101,29 +86,15 @@ $(function(){
 			   left: e.pageX,
 			   display:"block"
 			  });
-		
 	});
-	$(".roleList").on("click","li",function(){
-		$(this).remove();
-		roleList.splice(roleList.indexOf($(this).val().trim()), 1);
-	})
 	$(".preList").on("click","li",function(){
 		$(this).remove();
-		preList.splice(preList.indexOf($(this).val().trim()), 1);
+		preList.splice(preList.indexOf($(this).text()), 1);
 	})
-	//待完善
-	$(".roleCollection").on("click","li",function(){
-		if($.inArray($(this).text(),roleList)==-1){
-			$(".roleList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
-			roleList.push($(this).text().trim());
-		}
-		
-		$(".roleCollection").css("display","none");
-	});
 	$(".preCollection").on("click","li",function(){
 		if($.inArray($(this).text(),preList)==-1){
 			$(".preList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
-			preList.push($(this).text().trim());
+			preList.push($(this).text());
 		}
 		$(".preCollection").css("display","none");
 	});
@@ -131,12 +102,9 @@ $(function(){
 	
 	$(".showEdit").on("click",".saveChange",function(){
 		var num = $(".editTable").find("tr").eq(0).find("input").val();
-		
-		var url = "/server/changeUserRole";
+		var url = "/server/changeRole";
 		var data = {
-				userId: num,
-				roleList:roleList,
-				roleListO:roleListO,
+				roleId: num,
 				preList:preList,
 				preListO:preListO,
 		};

@@ -60,8 +60,8 @@ public class HwsApplicationTests {
 		
 		Role role = new Role();
 		role.setRole("Admin");
-		role.setUserid(1);
-		role.setRoleid(1);
+		role.setUserId(1);
+		role.setRoleId(1);
 		roleMapper.insert(role);
 	}
 	@Test

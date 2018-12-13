@@ -1,13 +1,6 @@
 package com.bdcom.server.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-
-
 
 
 import org.common.core.annotation.TargetDataSource;
@@ -129,38 +122,40 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public JSONObject getAllUserInfo() {
+	public JSONObject getAllRoleInfo() {
 		JSONObject obj = new JSONObject();
-		List<User> userList = mp.getAllUserInfo();
-		if(null == userList||userList.size()==0)return null;
-		obj.put("userList", userList);
+		List<Role> roleList = mp.getAllRoleInfo();
+		if(null == roleList||roleList.size()==0)return null;
+		obj.put("roleList", roleList);
 		return obj;
 	}
 	@Override
-	public JSONObject changeUserRole(String userId, String[] roleList, String[] roleListO, String[] preList,
+	public JSONObject changeRole(Integer roleId,  String[] preList,
 			String[] preListO) {
-		List<String> roleTemp = Arrays.asList(roleList);
-		List<String> roleOTemp = Arrays.asList(roleListO);
-		List<String> addRoleList = new ArrayList<String>();
-		List<String> delRoleList = new ArrayList<String>();
-		for(String temp:roleList){
-			if(!roleOTemp.contains(temp))addRoleList.add(temp);
-		}
-		for(String temp:roleListO){
-			if(!roleTemp.contains(temp))delRoleList.add(temp);
-		}
-		List<String> preTemp = Arrays.asList(preList);
-		List<String> preOTemp = Arrays.asList(preListO);
-		List<String> addPreList = new ArrayList<String>();
-		List<String> delPreList = new ArrayList<String>();
+		JSONObject obj = new JSONObject();
+		boolean flag = true;
 		for(String temp:preList){
-			if(!preOTemp.contains(temp))addPreList.add(temp);
+			//新增
+			Permission permission = mp.getMaxPermission();
+			if(null == permission){
+				permission = new Permission();
+				permission.setpId(1);
+			}else{
+				permission.setpId(permission.getpId() + 1);
+			}
+			permission.setRoleId(roleId);
+			permission.setPermission(temp);
+			if(mp.addPermission(permission)==0)flag = false;
 		}
 		for(String temp:preListO){
-			if(!preTemp.contains(temp))delPreList.add(temp);
+			//删除
+			Permission permission = new Permission();
+			permission.setRoleId(roleId);
+			permission.setPermission(temp);
+			if(mp.deletePermission(permission)== 0)flag = false;
 		}
-		
-		return null;
+		obj.put("flag", flag);
+		return obj;
 	}
 
 }

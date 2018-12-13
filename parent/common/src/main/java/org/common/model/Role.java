@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Role {
   
-    private Integer roleid;
-    private Integer userid;
+    private Integer roleId;
+    private Integer userId;
     private String role;
     private List<Permission> permissionList;
     
@@ -15,18 +15,18 @@ public class Role {
 	public void setPermissionList(List<Permission> permissionList) {
 		this.permissionList = permissionList;
 	}
-	public Integer getRoleid() {
-        return roleid;
-    }
-    public void setRoleid(Integer roleid) {
-        this.roleid = roleid;
-    }
-    public Integer getUserid() {
-        return userid;
-    }
-    public void setUserid(Integer userid) {
-        this.userid = userid;
-    }
+    public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+	public Integer getUserId() {
+		return userId;
+	}
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
     public String getRole() {
         return role;
     }

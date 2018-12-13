@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -188,30 +187,27 @@ public class RootController {
 	}
 	@RequestMapping(value="/initRoleManager")
 	public ModelAndView initRolePage(){
-		JSONObject obj = ms.getAllUserInfo();
+		JSONObject obj = ms.getAllRoleInfo();
+		
+		
 		//获取所有role和permission
 		String path = "UserRole.xml";
 		List<String> attribute = new ArrayList<String>();
 		attribute.add("name");
 		attribute.add("type");
-		List<String> roleList = new ArrayList<String>();
 		List<String> permissionList = new ArrayList<String>();
 		try {
 			Element rootElement = ReadResourceUtils.getXmlRootElement(ReadResourceUtils.getClassPathResource(path));
 			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
 			for(Map<String, String> map :typeList){
-				if(map.get("type").equals("role"))
-					roleList.add(map.get("name"));
 				if(map.get("type").equals("permission"))
 					permissionList.add(map.get("name"));
-				
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(roleList.size() != 0)obj.put("roleList", roleList);
 		if(permissionList.size() != 0)obj.put("permissionList", permissionList);
 		ModelAndView modelAndView = new ModelAndView("rolemanage",obj);
 		return modelAndView;
@@ -233,14 +229,13 @@ public class RootController {
 				user.setUserName(FontColourUtils.colour(user.getUserName(), color, content));
 			}
 		}
-		
 		obj.put("users", list);
 		return obj;
 	}
-	@RequestMapping(value="/changeUserRole")
+	@RequestMapping(value="/changeRole")
 	@ResponseBody
-	public JSONObject changeUserRole(String userId,String[] roleList,String [] roleListO,String[] preList,String[] preListO){
-		JSONObject obj = new JSONObject();
+	public JSONObject changeRole(String roleId,String[] preList,String[] preListO){
+		JSONObject obj = ms.changeRole(Integer.parseInt(roleId), preList, preListO);
 		return obj;
 	}
 }

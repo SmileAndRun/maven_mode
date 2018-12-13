@@ -23,14 +23,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</collection>
 		</collection>
 	</resultMap>
+	<resultMap type="org.common.model.Role" id="roleMap">
+		<id column="roleId" jdbcType="INTEGER" property="roleId"/>
+		<result column="role" jdbcType="VARCHAR" property="role"/>
+		<collection property="permissionList" ofType="org.common.model.Permission">
+			<id column="pId" jdbcType="INTEGER" property="pId"/>
+			<result column="permission" jdbcType="VARCHAR" property="permission"/>
+		</collection>
+	</resultMap>
+	
 	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
 		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
-	<select id="getAllUserInfo"  resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
-		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+	<select id="getAllRoleInfo"  resultMap="roleMap">
+		select r.roleId,role,pId,permission 
+		from  t_role r  left join t_permission p on 
 		r.roleId = p.roleId 
 	</select>
 	<select id="getUserByUid" parameterType="Integer" resultType="org.common.model.server.User">
@@ -94,4 +103,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId WHERE LOCATE(#{value}, userName)>0  
 	 </select>
+	 <delete id="deletePermission" parameterType="org.common.model.Permission">
+		delete from t_permission where roleId = #{roleId} and permission = #{permission}
+	</delete>
+	 <delete id="addPermission" parameterType="org.common.model.Permission">
+		insert into t_permission(pId,permission,roleId) values(#{pId},#{permission},#{roleId})
+	</delete>
+	<select id="getMaxPermission" resultType="org.common.model.Permission">
+		select max(pId)pId from t_permission
+	</select>
 </mapper>

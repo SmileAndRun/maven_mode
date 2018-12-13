@@ -3,6 +3,8 @@ package com.bdcom.server.mapper;
 import java.util.List;
 
 import org.common.model.Log;
+import org.common.model.Permission;
+import org.common.model.Role;
 import org.common.model.server.User;
 
 
@@ -25,7 +27,10 @@ public interface ManagerMapper {
 	public int getLastMaxId();
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
-	public List<User> getAllUserInfo();
+	public List<Role> getAllRoleInfo();
 	public List<User> getFuzzyRoleByUid(String searchValue);
 	public List<User> getFuzzyRoleByUname(String searchValue);
+	public int deletePermission(Permission permission);
+	public int addPermission(Permission permission);
+	public Permission getMaxPermission();
 }

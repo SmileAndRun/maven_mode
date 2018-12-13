@@ -33,26 +33,19 @@
 					<thead>
 						<tr>
 							<th th:text="#{serial.number}"></th>
-							<th th:text="#{name}"></th>
 							<th th:text="#{role}"></th>
 							<th th:text="#{permission}"></th>
 							<th th:text="#{operater}"></th>
 						</tr>
 					</thead>
 					<tbody>
-						 <tr th:each="user : ${userList}">
-							<td th:text="${user.userId}"></td>
-							<td th:text="${user.userName}"></td>
+						 <tr th:each="role : ${roleList}">
+							<td th:text="${role.roleId}"></td>
 							
-							<td>
-								<ul class="roleUl">
-									<li  th:text="${roleObj.role}" th:value="${roleObj.roleid}" th:each="roleObj:${user.roleList}"></li>
-								</ul>
+							<td th:text="${role.role}">
 							<td>
 								<ul class="preUl">
-									<th:block th:each="roleObj:${user.roleList}">
-										<li th:value="${permissionObj.roleid}" th:text="${permissionObj.permission}" th:each="permissionObj:${roleObj.permissionList}"></li>
-									</th:block>
+									<li th:value="${permissionObj.pId}" th:text="${permissionObj.permission}" th:each="permissionObj:${role.permissionList}"></li>
 								</ul>
 							</td>
 							
@@ -70,12 +63,8 @@
 					<td><input type="text" readonly="readonly"/></td>
 				</tr>
 				<tr>
-					<td th:text="#{name}"></td>
-					<td><input type="text" readonly="readonly"/></td>
-				</tr>
-				<tr>
 					<td th:text="#{role}"></td>
-					<td style="padding:0px;" class="roleTd"><ul class="roleList"></ul></td>
+					<td><input type="text" readonly="readonly"/></td>
 				</tr>
 				<tr>
 					<td th:text="#{permission}"></td>
@@ -89,9 +78,6 @@
 					</td>
 				</tr>
 			</table>
-			<ul class="roleCollection">
-				<li th:each="role:${roleList}" th:value="${role}" th:text="${role}"></li>
-			</ul>
 			<ul class="preCollection">
 				<li  th:value="${pre}" th:text="${pre}" th:each="pre:${permissionList}" ></li>
 			</ul>

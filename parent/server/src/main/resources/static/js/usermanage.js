@@ -22,13 +22,19 @@ $(function(){
 						}else{
 							id = result.users[i].userId;
 						}
+						var ul 
 						$(".dataTable tbody").append("<tr>" +
 								"<td>"+id+"</td>" +
 								"<td>"+result.users[i].userName+"</td>" +
 								"<td>"+temp+"</td>" +
 								"<td>"+result.users[i].time+"</td>" +
+								"<td><ul class='roleUl'></ul></td>" +
 								"<td class='edit'>"+$(".edit").val()+"</td>" +
 								"</tr>");
+						for(var j=0;j<result.users[i].roleList.length;j++){
+							$(".roleUl").append("<li>"+result.users[i].roleList[j].role+"</li>");
+						}
+						
 					}
 				}
 			}
@@ -59,7 +65,8 @@ $(function(){
 			var url = "/server/addUser";
 			var data = {
 					userName: name,
-					userPwd: pwd
+					userPwd: pwd,
+					roleUl: null
 			};
 			var s_function = function(result){
 				if(result.addFlag){
@@ -69,6 +76,7 @@ $(function(){
 					"<td>"+name+"</td>" +
 					"<td></td>" +
 					"<td></td>" +
+					"<td><ul class='roleUl'><li>General</li></ul></td>" +
 					"<td class='edit'>"+$(".edit").val()+"</td>" +
 					"</tr>");
 				}
@@ -80,12 +88,27 @@ $(function(){
 			$(".showTab").css("display","block");
 		}
 	});
+	var roleList;
+	var roleListO;
 	$(".dataTable").on("click",".edit",function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
-		var islock = $(this).prev().prev().text();
-		var name = $(this).prev().prev().prev().text();
-		var num = $(this).prev().prev().prev().prev().text();
+		var islock = $(this).prev().prev().prev().text();
+		var name = $(this).prev().prev().prev().prev().text();
+		var num = $(this).prev().prev().prev().prev().prev().text();
+		
+		roleList = [];
+		roleListO = [];
+		var roleUl = $(this).prev().find("ul li");
+		var name = $(this).prev().prev().text();
+		var num = $(this).prev().prev().prev().text();
+		
+		roleUl.each(function(){
+			$(".roleList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
+			roleList.push($(this).text());
+			roleListO.push($(this).text());
+		});
+		
 		
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
@@ -117,7 +140,6 @@ $(function(){
 					var serial = $(this).find("td").eq(0).text();
 					console.log(serial);
 					if(serial == num){
-						console.log($(this).find("td").eq(1).text());
 						$(this).find("td").eq(1).text(name);
 						if(islock=='1'){
 							$(this).find("td").eq(2).text($(".lock").val());
@@ -136,4 +158,22 @@ $(function(){
 		}
 		$.commonAjax(url,data,s_function,e_function);
 	})
+	$(this).on("click",".roleTd",function(e){
+		$(".roleCollection").css({
+			   top: e.pageY,
+			   left: e.pageX,
+			   display:"block"
+			  });
+	});
+	$(".roleList").on("click","li",function(){
+		$(this).remove();
+		roleList.splice(roleList.indexOf($(this).text()), 1);
+	})
+	$(".roleCollection").on("click","li",function(){
+		if($.inArray($(this).text(),roleList)==-1){
+			$(".roleList").append("<li class='fa fa-window-close'>"+$(this).text()+"</li>");
+			roleList.push($(this).text());
+		}
+		$(".roleCollection").css("display","none");
+	});
 })

@@ -15,7 +15,7 @@ public interface ManagerService {
 	public User getUserByUname(String uName);
 	public User getUserInfoByUname(String uName);
 	public List<User> getUser(User user);
-	public int registerUser(User user,Log log);
+	public int registerUser(User user,Log log,String role);
 	public int changeUser(User user);
 	public int deleteUserByUid(int userId);
 	public int deleteUserByUname(String uName);

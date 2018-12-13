@@ -36,6 +36,7 @@
 							<th th:text="#{name}"></th>
 							<th th:text="#{isLock}"></th>
 							<th th:text="#{last.login.time}"></th>
+							<th th:text="#{role}"></th>
 							<th th:text="#{operater}"></th>
 						</tr>
 					</thead>
@@ -45,6 +46,7 @@
 							<td th:text="${user.userName}"></td>
 							<td th:text="${user.flag}?#{lock}:''"></td>
 							<td th:text="${user.time}"></td>
+							<td> <ul class="roleUl"><li th:value="${roleObj.role}" th:text="${roleObj.role}" th:each="roleObj:${user.roleList}"></li></ul></td>
 							<td th:text="#{edit}" class="edit"></td>
 						</tr>
 					</tbody>
@@ -86,6 +88,10 @@
 					<td><input type="checkbox"/></td>
 				</tr>
 				<tr>
+					<td th:text="#{role}"></td>
+					<td class="roleTd"><ul class="roleList"></ul></td>
+				</tr>
+				<tr>
 					<td></td>
 					<td>
 						<button type="button" class="btn btn-primary saveChange" th:text="#{save}"></button>
@@ -93,6 +99,9 @@
 					</td>
 				</tr>
 			</table>
+			<ul class="roleCollection">
+				<li  th:value="${role}" th:text="${role}" th:each="role:${roleList}" ></li>
+			</ul>
 		</div>
 	</div>
 	<div class="i18n">

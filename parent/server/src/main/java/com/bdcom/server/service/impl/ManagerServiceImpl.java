@@ -1,7 +1,7 @@
 package com.bdcom.server.service.impl;
 
+import java.util.Arrays;
 import java.util.List;
-
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
@@ -55,7 +55,7 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public int registerUser(User user,Log log) {
+	public int registerUser(User user,Log log,String role) {
 		int id = getLastMaxId()+1;
 		user.setUserId(id);
 		log.setLogid(mp.getLogLastMaxId()+1);
@@ -63,6 +63,16 @@ public class ManagerServiceImpl implements ManagerService {
 		//t_log表中有user外键故需先插t_user表
 		int row = mp.registerUser(user);
 		mp.insertLog(log);
+		Role roleObj = mp.selectMaxRoleId();
+		if(null == roleObj){
+			roleObj = new Role();
+			roleObj.setRoleId(1);
+		}else{
+			roleObj.setRoleId(roleObj.getRoleId() + 1);
+		}
+		roleObj.setUserId(id);
+		roleObj.setRole(role);
+		mp.insertRole(roleObj);
 		return row;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
@@ -133,9 +143,12 @@ public class ManagerServiceImpl implements ManagerService {
 	public JSONObject changeRole(Integer roleId,  String[] preList,
 			String[] preListO) {
 		JSONObject obj = new JSONObject();
+		List<String> tempList = Arrays.asList(preList);
+		List<String> tempListO = Arrays.asList(preListO);
 		boolean flag = true;
 		for(String temp:preList){
 			//新增
+			if(tempListO.contains(temp)) continue;
 			Permission permission = mp.getMaxPermission();
 			if(null == permission){
 				permission = new Permission();
@@ -149,6 +162,7 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		for(String temp:preListO){
 			//删除
+			if(tempList.contains(temp)) continue;
 			Permission permission = new Permission();
 			permission.setRoleId(roleId);
 			permission.setPermission(temp);

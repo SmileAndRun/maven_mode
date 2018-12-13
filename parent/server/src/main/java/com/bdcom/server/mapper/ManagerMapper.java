@@ -33,4 +33,6 @@ public interface ManagerMapper {
 	public int deletePermission(Permission permission);
 	public int addPermission(Permission permission);
 	public Permission getMaxPermission();
+	public int insertRole(Role role);
+	public Role selectMaxRoleId();
 }

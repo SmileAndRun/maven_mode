@@ -2,6 +2,7 @@
 var preList = [];
 var preListO = [];
 $(function(){
+		
 	$(".title").on("click",".search",function(){
 		var content = $(".title input").val();
 		var type = $(".type").val();
@@ -50,7 +51,6 @@ $(function(){
 		$(".showTab").css("display","block");
 		$(".showEdit").css("display","none");
 		$(".preCollection").css("display","none");
-		$(".roleCollection").css("display","none");
 	});
 	
 	
@@ -58,6 +58,8 @@ $(function(){
 		$(".showTab").css("display","none");
 		$(".showADD").css("display","none");
 		$(".preList").empty();
+		preList = [];
+		preListO = [];
 		var preUl = $(this).prev().find("ul li");
 		var name = $(this).prev().prev().text();
 		var num = $(this).prev().prev().prev().text();
@@ -65,14 +67,10 @@ $(function(){
 		preUl.each(function(){
 			$(".preList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");
 			preList.push($(this).text());
+			preListO.push($(this).text());
 		});
-		preListO = preList;
 		$(".editTable").find("tr").eq(0).find("input").val(num);
 		$(".editTable").find("tr").eq(1).find("input").val(name);
-		$(".roleList").css({
-			width: $(".editTable tr:first").find("td:last").attr("width"),
-			height: $(".editTable tr:first").find("td:last").attr("height")
-		});
 		$(".preList").css({
 			width: $(".editTable tr:first").find("td:last").attr("width"),
 			height: $(".editTable tr:first").find("td:last").attr("height")
@@ -80,7 +78,6 @@ $(function(){
 		$(".showEdit").css("display","block");
 	});
 	$(this).on("click",".preTd",function(e){
-		$(".roleCollection").css("display","none");
 		$(".preCollection").css({
 			   top: e.pageY,
 			   left: e.pageX,
@@ -109,29 +106,32 @@ $(function(){
 				preListO:preListO,
 		};
 		var s_function = function(result){
-			if(result.changeFlag){
+			if(result.flag){
+				preListO = [];
 				$(".dataTable tbody").find("tr").each(function(){
 					var serial = $(this).find("td").eq(0).text();
-					console.log(serial);
 					if(serial == num){
-						console.log($(this).find("td").eq(1).text());
-						$(this).find("td").eq(1).text(name);
-						if(islock=='1'){
-							$(this).find("td").eq(2).text($(".lock").val());
-						}else{
-							$(this).find("td").eq(2).text("");
+						var ul = $(this).find("td").next().next().find(".preUl");
+						ul.find("li").remove();
+						for(var i=0;i<preList.length;i++){
+							ul.append("<li class='fa fa-window-close'>"+preList[i]+"</li>");
+							preListO.push(preList[i]);
 						}
 					}
 				});
 				$(".showTab").css("display","block");
-				$(".showADD").css("display","none");
 				$(".showEdit").css("display","none");
+			}else{
+				layer.msg($(".failure-i18n").val());
 			}
 		}
 		var e_function = function(){
 			layer.msg("The server is error!!!");
 		}
 		$.arrayAjax(url,data,s_function,e_function);
-	})
+	});
+	
+		
+	
 	
 })

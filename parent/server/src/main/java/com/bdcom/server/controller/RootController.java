@@ -149,7 +149,7 @@ public class RootController {
 	}
 	@RequestMapping(value="/addUser")
 	@ResponseBody
-	public JSONObject addUser(User user){
+	public JSONObject addUser(User user,String roleUl){
 		JSONObject obj = new JSONObject();
 		User temp = new User();
 		temp.setUserName(user.getUserName());
@@ -171,7 +171,8 @@ public class RootController {
 		log.setLogmessage("register");
 		log.setLogiserror("0");
 		log.setLogtime(new Timestamp(date.getTime()));
-		int num = ms.registerUser(temp,log);
+		if(null == roleUl||"".equals(roleUl.trim()))roleUl="General";
+		int num = ms.registerUser(temp,log,roleUl);
 		obj.put("addFlag", false);
 		if(num>0)obj.put("addFlag", true);
 		return obj;

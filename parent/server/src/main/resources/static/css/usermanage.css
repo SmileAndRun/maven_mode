@@ -9,6 +9,12 @@
 	color: #005580;
 	cursor: pointer;
 }
+li{
+	list-style: none;
+	height: 30px;
+	text-align: center;
+	background-color: #ddd;
+}
 .title{
 	margin-top: 40px;
 }
@@ -60,6 +66,7 @@
 }
 .roleUl li{
 	margin-left: 5px;
+	background-color: white;
 }
 .roleList{
 	margin: 0px;

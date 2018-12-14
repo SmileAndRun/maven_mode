@@ -9,6 +9,7 @@ import org.common.model.server.User;
 
 
 
+
 public interface ManagerMapper {
 
 	public User getUserByUid(int userId);
@@ -32,7 +33,8 @@ public interface ManagerMapper {
 	public List<User> getFuzzyRoleByUname(String searchValue);
 	public int deletePermission(Permission permission);
 	public int addPermission(Permission permission);
-	public Permission getMaxPermission();
-	public int insertRole(Role role);
-	public Role selectMaxRoleId();
+	public Permission getMaxPermissionId();
+	public int addRole(Role role);
+	public Role getMaxRoleId();
+	public int deleteRole(Role role);
 }

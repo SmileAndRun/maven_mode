@@ -6,12 +6,8 @@ import java.io.OutputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.common.model.Log;
 import org.common.model.server.User;
 import org.common.utils.DownUtils;
-import org.common.utils.EncryptionUtils;
 import org.common.utils.FileWriterUtils;
 import org.common.utils.FontColourUtils;
 import org.common.utils.JDBCUtils;
-import org.common.utils.ReadResourceUtils;
 import org.dom4j.DocumentException;
-import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -105,7 +97,6 @@ public class RootController {
 		response.setHeader("Content-Disposition", "attachment; filename=model.zip");  
 		
 		String filePath = "model/model1";
-		//String temp = "model/temp";
 		String name = "model";
 		OutputStream out = null;
 		try {
@@ -121,10 +112,26 @@ public class RootController {
 	
 	@RequestMapping(value="/initUserManager")
 	public ModelAndView initUserManager(){
-		HashMap<String, List<User>> map = new HashMap<String,List<User>>();
+		JSONObject obj = new JSONObject();
 		List<User> users = ms.getUsers();
-		map.put("users", users);
-		ModelAndView model = new ModelAndView("usermanage",map);
+		obj.put("users", users);
+		//获取所有permission
+		String path = "UserRole.xml";
+		List<String> attribute = new ArrayList<String>();
+		attribute.add("name");
+		attribute.add("type");
+		List<String> roleList = null;
+		try {
+			roleList = ms.getElement(attribute, path, "role");
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(null != roleList && roleList.size() != 0)obj.put("roleList", roleList);
+		
+		
+		ModelAndView model = new ModelAndView("usermanage",obj);
 		return model;
 	}
 	@RequestMapping(value="/user/search")
@@ -151,39 +158,23 @@ public class RootController {
 	@ResponseBody
 	public JSONObject addUser(User user,String roleUl){
 		JSONObject obj = new JSONObject();
-		User temp = new User();
-		temp.setUserName(user.getUserName());
-		temp.setuIsLock('0');
-		byte[] key;
+		
+		int num = 0;
 		try {
-			byte[] salt = EncryptionUtils.getRandomNum(16);
-			key = EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt);
-			temp.setUserPwd(EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(key, null)));
-			temp.setuSalt(salt);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			num = ms.registerUser(user,roleUl);
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
-		Log log = new Log();
-		Date date = new Date();
-		log.setLogtype("3");
-		log.setLogmessage("register");
-		log.setLogiserror("0");
-		log.setLogtime(new Timestamp(date.getTime()));
-		if(null == roleUl||"".equals(roleUl.trim()))roleUl="General";
-		int num = ms.registerUser(temp,log,roleUl);
 		obj.put("addFlag", false);
 		if(num>0)obj.put("addFlag", true);
 		return obj;
 	}
 	@RequestMapping(value="/changeUser")
 	@ResponseBody
-	public JSONObject changeUser(User user){
-		JSONObject obj = new JSONObject();
-		int flag = ms.changeUser(user);
-		obj.put("changeFlag", false);
-		if(flag > 0)obj.put("changeFlag", true);
+	public JSONObject changeUser(User user,String[]roleList,String[]roleListO){
+		JSONObject obj = ms.changeUser(user,roleList,roleListO);
 		return obj;
 	}
 	@RequestMapping(value="/initRoleManager")
@@ -191,25 +182,20 @@ public class RootController {
 		JSONObject obj = ms.getAllRoleInfo();
 		
 		
-		//获取所有role和permission
+		//获取所有permission
 		String path = "UserRole.xml";
 		List<String> attribute = new ArrayList<String>();
 		attribute.add("name");
 		attribute.add("type");
-		List<String> permissionList = new ArrayList<String>();
+		List<String> permissionList = null;
 		try {
-			Element rootElement = ReadResourceUtils.getXmlRootElement(ReadResourceUtils.getClassPathResource(path));
-			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
-			for(Map<String, String> map :typeList){
-				if(map.get("type").equals("permission"))
-					permissionList.add(map.get("name"));
-			}
+			permissionList = ms.getElement(attribute, path, "permission");
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(permissionList.size() != 0)obj.put("permissionList", permissionList);
+		if(null != permissionList && permissionList.size() != 0)obj.put("permissionList", permissionList);
 		ModelAndView modelAndView = new ModelAndView("rolemanage",obj);
 		return modelAndView;
 	}

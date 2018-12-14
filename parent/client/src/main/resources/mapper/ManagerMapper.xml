@@ -112,10 +112,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getMaxPermission" resultType="org.common.model.Permission">
 		select max(pId)pId from t_permission
 	</select>
-	<insert id="insertRole" parameterType="org.common.model.Role">
+	<insert id="addRole" parameterType="org.common.model.Role">
 		insert into t_role(userId,roleId,role) values(#{userId},#{roleId},#{role})
 	</insert>
-	<select id="selectMaxRoleId" resultType="org.common.model.Role">
+	<select id="getMaxRoleId" resultType="org.common.model.Role">
 		select max(roleId)roleId from t_role
 	</select>
+	<delete id="deleteRole" parameterType="org.common.model.Role">
+		delete from t_role where userId = #{userId} and role = #{role}
+	</delete>
 </mapper>

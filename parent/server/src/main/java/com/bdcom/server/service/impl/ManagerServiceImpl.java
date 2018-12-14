@@ -1,7 +1,14 @@
 package com.bdcom.server.service.impl;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
@@ -9,6 +16,10 @@ import org.common.model.Log;
 import org.common.model.Permission;
 import org.common.model.Role;
 import org.common.model.server.User;
+import org.common.utils.EncryptionUtils;
+import org.common.utils.ReadResourceUtils;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +66,23 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public int registerUser(User user,Log log,String role) {
+	public int registerUser(User user,String role) throws NoSuchAlgorithmException, InvalidKeyException {
+		
+		User temp = new User();
+		temp.setUserName(user.getUserName());
+		temp.setuIsLock('0');
+		byte[] salt = EncryptionUtils.getRandomNum(16);
+		byte[] key = EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt);
+		temp.setUserPwd(EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(key, null)));
+		temp.setuSalt(salt);
+		
+		Log log = new Log();
+		Date date = new Date();
+		log.setLogtype("3");
+		log.setLogmessage("register");
+		log.setLogiserror("0");
+		log.setLogtime(new Timestamp(date.getTime()));
+		
 		int id = getLastMaxId()+1;
 		user.setUserId(id);
 		log.setLogid(mp.getLogLastMaxId()+1);
@@ -63,7 +90,9 @@ public class ManagerServiceImpl implements ManagerService {
 		//t_log表中有user外键故需先插t_user表
 		int row = mp.registerUser(user);
 		mp.insertLog(log);
-		Role roleObj = mp.selectMaxRoleId();
+		
+		if(null == role||"".equals(role.trim()))role="General";
+		Role roleObj = mp.getMaxRoleId();
 		if(null == roleObj){
 			roleObj = new Role();
 			roleObj.setRoleId(1);
@@ -72,13 +101,53 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		roleObj.setUserId(id);
 		roleObj.setRole(role);
-		mp.insertRole(roleObj);
+		mp.addRole(roleObj);
 		return row;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public int changeUser(User user) {
-		return mp.changeUser(user);
+	public JSONObject changeUser(User user,String[] roleList,String[] roleListO) {
+		JSONObject obj = new JSONObject();
+		List<String> tempList ;
+		if(null == roleList){
+			tempList = new ArrayList<String>();
+		}else{
+			tempList = Arrays.asList(roleList);
+		}
+		List<String> tempListO ;
+		if(null == roleListO) {
+			tempListO = new ArrayList<String>();
+		}else{
+			tempListO = Arrays.asList(roleListO);
+		}
+		boolean flag = true;
+		if (null != roleList )
+		for(String temp:roleList){
+			//新增
+			if(tempListO.contains(temp)) continue;
+			Role role = mp.getMaxRoleId();
+			if(null == role){
+				role = new Role();
+				role.setRoleId(1);
+			}else{
+				role.setRoleId(role.getRoleId() + 1);
+			}
+			role.setUserId(user.getUserId());
+			role.setRole(temp);
+			if(mp.addRole(role)==0)flag = false;
+		}
+		if (null != roleListO)
+		for(String temp:roleListO){
+			//删除
+			if(tempList.contains(temp)) continue;
+			Role role = new Role();
+			role.setUserId(user.getUserId());
+			role.setRole(temp);
+			if(mp.deleteRole(role)== 0)flag = false;
+		}
+		if(mp.changeUser(user)==0)flag = false;
+		obj.put("changeFlag", flag);
+		return obj;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
@@ -139,17 +208,29 @@ public class ManagerServiceImpl implements ManagerService {
 		obj.put("roleList", roleList);
 		return obj;
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public JSONObject changeRole(Integer roleId,  String[] preList,
 			String[] preListO) {
 		JSONObject obj = new JSONObject();
-		List<String> tempList = Arrays.asList(preList);
-		List<String> tempListO = Arrays.asList(preListO);
+		List<String> tempList ;
+		if(null == preList){
+			tempList = new ArrayList<String>();
+		}else{
+			tempList = Arrays.asList(preList);
+		}
+		List<String> tempListO ;
+		if(null == preListO) {
+			tempListO = new ArrayList<String>();
+		}else{
+			tempListO = Arrays.asList(preListO);
+		}
 		boolean flag = true;
+		if (null != preList )
 		for(String temp:preList){
 			//新增
 			if(tempListO.contains(temp)) continue;
-			Permission permission = mp.getMaxPermission();
+			Permission permission = mp.getMaxPermissionId();
 			if(null == permission){
 				permission = new Permission();
 				permission.setpId(1);
@@ -160,6 +241,7 @@ public class ManagerServiceImpl implements ManagerService {
 			permission.setPermission(temp);
 			if(mp.addPermission(permission)==0)flag = false;
 		}
+		if (null != preListO)
 		for(String temp:preListO){
 			//删除
 			if(tempList.contains(temp)) continue;
@@ -170,6 +252,18 @@ public class ManagerServiceImpl implements ManagerService {
 		}
 		obj.put("flag", flag);
 		return obj;
+	}
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public List<String> getElement(List<String> attribute, String path,String type) throws DocumentException, IOException {
+		List<String> list = new ArrayList<String>();
+		Element rootElement = ReadResourceUtils.getXmlRootElement(ReadResourceUtils.getClassPathResource(path));
+		List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
+		for(Map<String, String> map :typeList){
+			if(map.get("type").equals(type))
+				list.add(map.get("name"));
+		}
+		return list;
 	}
 
 }

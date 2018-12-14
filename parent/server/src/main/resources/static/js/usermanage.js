@@ -132,7 +132,9 @@ $(function(){
 		var data = {
 				userId: num,
 				userName: name,
-				uIsLock: islock
+				uIsLock: islock,
+				roleList: roleList,
+				roleListO :roleList
 		};
 		var s_function = function(result){
 			if(result.changeFlag){
@@ -156,7 +158,7 @@ $(function(){
 		var e_function = function(){
 			layer.msg("The server is error!!!");
 		}
-		$.commonAjax(url,data,s_function,e_function);
+		$.arrayAjax(url,data,s_function,e_function);
 	})
 	$(this).on("click",".roleTd",function(e){
 		$(".roleCollection").css({

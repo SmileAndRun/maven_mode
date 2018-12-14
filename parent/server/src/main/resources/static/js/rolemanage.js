@@ -114,7 +114,7 @@ $(function(){
 						var ul = $(this).find("td").next().next().find(".preUl");
 						ul.find("li").remove();
 						for(var i=0;i<preList.length;i++){
-							ul.append("<li class='fa fa-window-close'>"+preList[i]+"</li>");
+							ul.append("<li>"+preList[i]+"</li>");
 							preListO.push(preList[i]);
 						}
 					}

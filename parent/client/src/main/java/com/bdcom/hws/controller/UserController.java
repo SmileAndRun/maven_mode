@@ -3,8 +3,6 @@ package com.bdcom.hws.controller;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,15 +12,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import org.apache.log4j.Logger;
 import org.common.model.Barrage;
-import org.common.model.Log;
-import org.common.model.client.SessionModel;
 import org.common.model.client.User;
-import org.common.utils.CookieUtils;
-import org.common.utils.EncryptionUtils;
 import org.common.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,8 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bdcom.hws.service.LogService;
-import com.bdcom.hws.service.SessionService;
 import com.bdcom.hws.service.UserService;
 import com.bdcom.server.service.BarrageService;
 
@@ -43,14 +33,11 @@ import com.bdcom.server.service.BarrageService;
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
+	private static Logger logger = Logger.getLogger(UserController.class);
 	@Autowired
 	private UserService us;
 	@Autowired
 	private BarrageService barService;
-	@Autowired
-	private LogService logService;
-	@Autowired
-	private SessionService sessionService;
 	
 	@Value("${server.port}")
 	private String serverPort;
@@ -65,65 +52,21 @@ public class UserController {
 	@RequestMapping(value="/validate",method=RequestMethod.POST)
 	@ResponseBody
 	public JSONObject login(HttpServletRequest request,HttpServletResponse response,boolean isRememberMe,boolean isCookie,User user){
+		logger.info("验证账号密码");
 		JSONObject obj = new JSONObject();
-		Subject subject = SecurityUtils.getSubject();
-		String pwd = null;
-		if(isCookie){
-			try{
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),user.getUserPwd());
-				subject.login(token);
-			}catch(Exception e){
-				obj.put("flag", false);
-				e.printStackTrace();
-			}
-		}else{
-			byte[] salt = null;
-			User saltUser = us.getUserSalt(user.getUserName());
-			if(null == saltUser)return null;
-			
-			salt = saltUser.getuSalt();
-			try {
-				pwd = EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt), null));
-			} catch (InvalidKeyException e) {
-				obj.put("flag", false);
-				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				obj.put("flag", false);
-				e.printStackTrace();
-			}
-			//验证不通过shiro会自动跳转到设定好的链接中
-			UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),pwd);
-			subject.login(token);
-			if(isRememberMe){
-				CookieUtils.setCookies(request,response, user.getUserName(), pwd);
-			}else{
-				CookieUtils.setOneconversationCookies(request,response, user.getUserName(), pwd);
-			}
+		try {
+			us.validateAccount(request, response, isRememberMe, isCookie, user);
+		} catch (InvalidKeyException e) {
+			obj.put("flag", false);
+			logger.error("validateAccount方法出现InvalidKeyException异常");
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			obj.put("flag", false);
+			logger.error("validateAccount方法出现NoSuchAlgorithmException异常");
+			e.printStackTrace();
 		}
-		//更新sessionID
-		Date date = new Date();
-		User temp = us.getUserByUname(user.getUserName());
-		SessionModel model = new SessionModel();
-		model.setUserId(temp.getUserId());
-		model.setSessionId(request.getSession().getId());
-		model.setUpdateTime(new Timestamp(date.getTime()));
-		if(sessionService.findId(temp.getUserId()) == null){
-			sessionService.insert(model);
-		}else{
-			sessionService.update(model);
-		}
-		//subject.getSession().setTimeout(60*60*10);
-		//插入log日志,暂定type=1为账号登录日志
-		User userInfo = us.getUserByUname(user.getUserName());
-		Log log = new Log();
-		
-		log.setUserid(userInfo.getUserId());
-		log.setLogtype("1");
-		log.setLogmessage("login");
-		log.setLogtime(new Timestamp(date.getTime()));
-		log.setLogiserror("0");
-		logService.insertLog(log);
 		obj.put("flag", true);
+		logger.info("验证成功，欢迎登陆!");
 		return obj;
 	}
 	
@@ -140,20 +83,21 @@ public class UserController {
 		List<Barrage> barList = barService.getAllBar();
 		req.setAttribute("barList", barList);
 		
-		
-		
 		return "index1";
 	}
 	@RequestMapping(value="/upload")
 	@ResponseBody
 	public String upload(@RequestParam MultipartFile[] file){
+		logger.info("数据上传开始");
 		try {
 			if(null != file)UploadUtils.Upload(file);
 		} catch (Exception e) {
+			logger.error("数据上传发生Exception异常");
 			e.printStackTrace();
 			return "false";
 			
 		}
+		logger.info("数据上传结束");
 		return "true";
 	}
 }

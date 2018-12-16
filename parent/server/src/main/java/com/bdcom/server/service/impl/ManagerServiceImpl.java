@@ -10,6 +10,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.Query;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
@@ -17,7 +22,9 @@ import org.common.model.Permission;
 import org.common.model.Role;
 import org.common.model.server.User;
 import org.common.utils.EncryptionUtils;
+import org.common.utils.FontColourUtils;
 import org.common.utils.ReadResourceUtils;
+import org.common.utils.RedisUtils;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +32,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.lucene.SearchMethod;
 import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
 
 @Service
 @Transactional
-public class ManagerServiceImpl implements ManagerService {
+public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 
 	@Autowired
 	ManagerMapper mp;
+	@Autowired
+	RedisUtils redisUtils;
+	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserByUid(int userId) {
@@ -47,7 +58,16 @@ public class ManagerServiceImpl implements ManagerService {
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUsers() {
-		return mp.getUsers();
+		List<User> list = null;
+		if(redisUtils.hasKey("getAllUsers")){
+			Object object = redisUtils.get("getAllUsers");
+			list = (List<User>) object;
+		}else{
+			list = mp.getUsers();
+			redisUtils.set("getAllUsers",list);
+		}
+		
+		return list;
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
@@ -176,12 +196,12 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public List<User> getFuzzyRoleByUid(String searchValue) {
+	public List<Role> getFuzzyRoleByUid(String searchValue) {
 		return mp.getFuzzyRoleByUid(searchValue);
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public List<User> getFuzzyRoleByUname(String searchValue){
+	public List<Role> getFuzzyRoleByUname(String searchValue){
 		return mp.getFuzzyRoleByUname(searchValue);
 	}
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
@@ -253,7 +273,6 @@ public class ManagerServiceImpl implements ManagerService {
 		obj.put("flag", flag);
 		return obj;
 	}
-	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<String> getElement(List<String> attribute, String path,String type) throws DocumentException, IOException {
 		List<String> list = new ArrayList<String>();
@@ -262,6 +281,91 @@ public class ManagerServiceImpl implements ManagerService {
 		for(Map<String, String> map :typeList){
 			if(map.get("type").equals(type))
 				list.add(map.get("name"));
+		}
+		return list;
+	}
+	@Override
+	public void initGraphAnalysis(HttpServletRequest request) {
+		List<Integer> list = new ArrayList<Integer>();
+		String initData = "";
+	    boolean flag = true;
+	    long time = System.currentTimeMillis();
+	    int activeSessions = (int)request.getServletContext().getAttribute("activeSessions");
+		list.add(activeSessions);
+		initData += activeSessions+",";
+	    while(flag){
+	    	if(System.currentTimeMillis()-time == 1000){
+	    		time = System.currentTimeMillis();
+	    		activeSessions = (int)request.getServletContext().getAttribute("activeSessions");
+	    		list.add(activeSessions);
+	    		initData += activeSessions+",";
+	    		if(list.size()>=20){
+	    			flag = false;
+	    		}
+	    	}
+	    }
+	    request.setAttribute("initData", initData);
+	}
+	Map<List<Document>, Query> map = null;
+	List<String> strList = null;
+	List<Document> docList = null;
+	@Override
+	public List<String> getSuggestion(String context) throws IOException {
+		map = searchByPrefixQuery(new Term("keyword", context));
+		if(null != map){
+			for(List<Document> list:map.keySet()){
+				docList = list;
+				break;
+			}
+			strList = new ArrayList<String>();
+			for(Document doc:docList){
+				if(null == doc) return null;
+				String[] temp = doc.get("keyword").split(context);
+				String text = "";
+				if(doc.get("keyword").equals(context.trim())){
+					text = "<font style='font-weight:bold;'>" + context + "</font>";
+				}else{
+					text = "<font style='font-weight:bold;'>" + context + "</font>" +temp[1];
+				}
+				
+				strList.add(text);
+			}
+		}else{
+			strList = null;
+		}
+		return strList;
+	}
+	@Override
+	public List<User> searchUsersAndColoring(String content, String type) {
+		String color = "red";
+		List<User> list = null;
+		if(type.equals("1")){
+			list = getFuzzyUsersByUid(content);
+			for(User user : list){
+				user.setuId(FontColourUtils.colour(String.valueOf(user.getUserId()), color, content));
+			}
+		}else{
+			list = getFuzzyUserByUname(content);
+			for(User user : list){
+				user.setUserName(FontColourUtils.colour(user.getUserName(), color, content));
+			}
+		}
+		return list;
+	}
+	@Override
+	public List<Role> searchsRoleAndColoring(String content, String type) {
+		String color = "red";
+		List<Role> list = null;
+		if(type.equals("1")){
+			list = getFuzzyRoleByUid(content);
+			for(Role role : list){
+				role.setrId(FontColourUtils.colour(String.valueOf(role.getRoleId()), color, content));
+			}
+		}else{
+			list = getFuzzyRoleByUname(content);
+			for(Role role : list){
+				role.setRole(FontColourUtils.colour(role.getRole(), color, content));
+			}
 		}
 		return list;
 	}

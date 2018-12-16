@@ -29,8 +29,8 @@ public interface ManagerMapper {
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
 	public List<Role> getAllRoleInfo();
-	public List<User> getFuzzyRoleByUid(String searchValue);
-	public List<User> getFuzzyRoleByUname(String searchValue);
+	public List<Role> getFuzzyRoleByUid(String searchValue);
+	public List<Role> getFuzzyRoleByUname(String searchValue);
 	public int deletePermission(Permission permission);
 	public int addPermission(Permission permission);
 	public Permission getMaxPermissionId();

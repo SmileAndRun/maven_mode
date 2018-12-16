@@ -7,32 +7,29 @@ $(function(){
 		var content = $(".title input").val();
 		var type = $(".type").val();
 		if(content != ""){
-			var url = "/server/user/searchRoleInfo";
+			var url = "/server/searchRoleInfo";
 			var data = {
 					content: content,
 					type: type
 			};
 			var s_function = function(result){
-				if(result.users != null){
+				if(result.roles != null){
 					$(".dataTable tbody").empty();
-					for(var i=0;i<result.users.length;i++){
-						var role = "";
-						var permission = "";
-						for(var j = 0;j<result.users[i].roleList.length;j++){
-							role += "<label>"+result.users[i].roleList[j].role+"</label>";
-							for(var k = 0;k<result.users[i].roleList[j].permissionList.length;k++){
-								permission += "<label>"+result.users[i].roleList[j].permissionList[k].permission+"</label>";
-							}
+					var role = "";
+					var permission = "";
+					for(var i=0;i<result.roles.length;i++){
+						role += "<label>"+result.roles[i].role+"</label>";
+						for(var j = 0;j<result.roles[i].permissionList.length;j++){
+							permission += "<label>"+result.roles[i].permissionList[j].permission+"</label>";
 						}
 						var id;
 						if(type == "1"){
-							id = result.users[i].uId;
+							id = result.roles[i].rId;
 						}else{
-							id = result.users[i].userId;
+							id = result.roles[i].roleId;
 						}
 						$(".dataTable tbody").append("<tr>" +
 								"<td>"+id+"</td>" +
-								"<td>"+result.users[i].userName+"</td>" +
 								"<td>"+role+"</td>" +
 								"<td>"+permission+"</td>" +
 								"<td class='edit'>"+$(".edit").val()+"</td>" +

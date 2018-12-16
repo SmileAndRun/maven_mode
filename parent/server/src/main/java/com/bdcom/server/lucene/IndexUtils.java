@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -35,7 +36,7 @@ import org.apache.lucene.document.Field.Store;
 
 public class IndexUtils {
 
-
+	private static Logger logger = Logger.getLogger(IndexUtils.class);
 	List<Document> doList = null;
 
 	Document document = null;
@@ -50,9 +51,8 @@ public class IndexUtils {
 
 	// 静态资源加载，当类加载的时候运行(因为只要加载一次)
 	static {
-
+		logger.info("lucene初始化");
 		try {
-
 			// IKAnalyzer中文分词器（可扩展）
 			// 标准分词器：Analyzer analyzer = new StandardAnalyzer();
 			// new IKAnalyzer(true)表示智能分词
@@ -62,6 +62,7 @@ public class IndexUtils {
 			fsd = FSDirectory.open(path);// 创建磁盘目录
 
 		} catch (IOException e) {
+			logger.error("lucene初始化发生IOException异常");
 			e.printStackTrace();
 		}
 

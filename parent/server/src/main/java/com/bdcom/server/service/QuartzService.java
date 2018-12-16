@@ -23,4 +23,5 @@ public interface QuartzService {
 	public boolean updateSelfDefined(QuartzModel model);
 	public boolean insertJobData(QrtzJobData model);
 	public JSONObject getJobDataByJobName(String jobName,String jobClass);
+	public JSONObject menuOperate(String[] names,String type,String jobClass) throws SchedulerException;
 }

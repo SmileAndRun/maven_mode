@@ -2,13 +2,14 @@ package org.common.model.server;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import org.common.model.Role;
 
 
-public class User {
+public class User{
 	
 	private String userName;
 	private String userPwd;
@@ -39,6 +40,7 @@ public class User {
 		return logTime;
 	}
 	public void setLogTime(Timestamp logTime) {
+		if (null == logTime)return ; 
 		this.logTime = logTime;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		time = sdf.format(new Date(logTime.getTime()));
@@ -92,5 +94,11 @@ public class User {
 	}
 	public User() {
 		super();
+	}
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", userPwd=" + userPwd + ", uIsLock=" + uIsLock + ", userId=" + userId
+				+ ", uSalt=" + Arrays.toString(uSalt) + ", logTime=" + logTime + ", time=" + time + ", flag=" + flag
+				+ ", uId=" + uId + ", roleList=" + roleList + "]";
 	}
 }

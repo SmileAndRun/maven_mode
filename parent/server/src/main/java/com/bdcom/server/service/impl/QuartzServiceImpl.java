@@ -132,4 +132,32 @@ public class QuartzServiceImpl implements QuartzService {
 		JSONObject obj = (JSONObject)JobDataUtils.translate(jobClass, list);
 		return obj;
 	}
+	@Override
+	public JSONObject menuOperate(String[] names, String type, String jobClass) throws SchedulerException {
+			
+		JSONObject obj = new JSONObject();
+		boolean flag = false;
+		switch (type) {
+			case "1":
+				JSONObject dataJson = getJobDataByJobName(names[0], jobClass);
+				obj.put("dataJson", dataJson);
+				flag = true;
+				break;
+			case "2":
+				flag = deleteTasks(names);
+				break;
+			case "3":
+				flag = true;
+				pausedTasks(names[0]);
+				break;
+			case "4":
+				flag = true;
+				openTasks(names[0]);
+				break;
+			default:
+				break;
+			}
+		obj.put("flag", flag);
+		return obj;	
+	}
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.common.model.QuartzModel;
@@ -31,10 +32,12 @@ import com.bdcom.server.service.QuartzService;
 @RequestMapping(value="/timedtask")
 public class TimedTaskController {
 
+	private static Logger logger = Logger.getLogger(TimedTaskController.class);
 	@Autowired
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
 	public String initPage(HttpServletRequest request){
+		logger.info("初始化定时管理界面开始");
 		//获取已经存在的job
 		List<QuartzModel> list = quartzService.getALlFromMyDefine();
 		request.setAttribute("result", list);
@@ -48,10 +51,13 @@ public class TimedTaskController {
 			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
 			request.setAttribute("typeList", typeList);
 		} catch (DocumentException e) {
+			logger.error("初始化定时管理界面发生DocumentException异常");
 			e.printStackTrace();
 		} catch (IOException e) {
+			logger.error("初始化定时管理界面发生IOException异常");
 			e.printStackTrace();
 		}
+		logger.info("初始化定时管理界面结束");
 		return "timedtask";
 	}
 	@Autowired
@@ -83,48 +89,29 @@ public class TimedTaskController {
 				obj.put("result", quartzModel);
 			}
 		} catch (SchedulerException e) {
-			e.printStackTrace();
 			obj.put("flag", false);
+			e.printStackTrace();
+			
 		} catch (ParseException e) {
-			e.printStackTrace();
 			obj.put("flag", false);
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 			obj.put("flag", false);
+			e.printStackTrace();
 		}
 		return obj;
 	}
 	@RequestMapping(value="/menuOperate")
 	@ResponseBody
 	public JSONObject menuOperate(@RequestParam String[] names,String type,String jobClass){
+		logger.info("定时管理菜单操作");
 		JSONObject obj = new JSONObject();
-		boolean flag = false;
 		try {
-			switch (type) {
-			case "1":
-				JSONObject dataJson = quartzService.getJobDataByJobName(names[0], jobClass);
-				obj.put("dataJson", dataJson);
-				flag = true;
-				break;
-			case "2":
-				flag = quartzService.deleteTasks(names);
-				break;
-			case "3":
-				flag = true;
-				quartzService.pausedTasks(names[0]);
-				break;
-			case "4":
-				flag = true;
-				quartzService.openTasks(names[0]);
-				break;
-			default:
-				break;
-			}
-			
+			obj = quartzService.menuOperate(names, type, jobClass);
 		} catch (SchedulerException e) {
-			flag = false;
+			obj.put("flag", false);
+			e.printStackTrace();
 		}
-		obj.put("flag", flag);
 		obj.put("type", type);
 		return obj;
 	}

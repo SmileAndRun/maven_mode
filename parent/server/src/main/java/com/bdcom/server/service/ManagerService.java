@@ -5,7 +5,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.common.model.Log;
+import org.common.model.Role;
 import org.common.model.server.User;
 import org.dom4j.DocumentException;
 
@@ -30,8 +33,12 @@ public interface ManagerService {
 	public int insertLog(Log record);
 	public int getLogLastMaxId();
 	public JSONObject getAllRoleInfo();
-	public List<User> getFuzzyRoleByUid(String searchValue);
-	public List<User> getFuzzyRoleByUname(String searchValue);
+	public List<Role> getFuzzyRoleByUid(String searchValue);
+	public List<Role> getFuzzyRoleByUname(String searchValue);
 	public JSONObject changeRole(Integer roleId,String[] preList,String[] preListO);
 	public List<String> getElement(List<String> attribute, String path,String type) throws DocumentException,IOException;
+	public void initGraphAnalysis(HttpServletRequest request);
+	public List<String> getSuggestion(String context)throws IOException;
+	public List<User> searchUsersAndColoring(String content,String type);
+	public List<Role> searchsRoleAndColoring(String content,String type);
 }

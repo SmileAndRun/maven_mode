@@ -10,6 +10,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @ServerEndpoint(value="/websocket")
 public class WebSocketServer {
+	private static Logger logger = Logger.getLogger(WebSocketServer.class);
 	private static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<WebSocketServer>();
 	private Session session;
 	/**客服端连接的时候触发*/
@@ -27,13 +29,13 @@ public class WebSocketServer {
     public void onOpen(Session session) {
         this.session = session;
         webSocketServers.add(this);
-        System.out.println("sessionID："+session.getId()+",Open触发");
+        logger.info("sessionID："+session.getId()+",Open触发");
     }
 	/**当客服端断开连接时触发*/
 	@OnClose
 	public void onClose(){
 		webSocketServers.remove(this);
-		System.out.println("sessionID："+session.getId()+",Close触发");
+		logger.info("sessionID："+session.getId()+",Close触发");
 	}
 	/**接受客服端发来的信息
 	 * 	待定
@@ -44,7 +46,7 @@ public class WebSocketServer {
     }
 	@OnError
     public void onError(Session session, Throwable error) {
-		System.out.println("sessionID："+session.getId()+",error触发");
+		logger.info("sessionID："+session.getId()+",error触发");
     }
 	public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);

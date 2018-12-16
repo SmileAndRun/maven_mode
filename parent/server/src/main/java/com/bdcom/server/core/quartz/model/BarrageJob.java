@@ -1,9 +1,9 @@
 package com.bdcom.server.core.quartz.model;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.common.model.QrtzJobData;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -16,6 +16,8 @@ import com.bdcom.server.service.QuartzService;
 
 public class BarrageJob implements Job{
 
+	private static Logger logger = Logger.getLogger(BarrageJob.class);
+	
 	@Autowired
 	BarrageService barrageService;
 	@Autowired
@@ -24,13 +26,12 @@ public class BarrageJob implements Job{
 	@Override
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
+		logger.info("BarrageJob开始执行");
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());
-		System.out.println(new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS").format(date));
 		Integer count = barrageService.getBarrageCount(time);
-		System.out.println("count:"+count);
 		quartzService.insertJobData(new QrtzJobData(-1,context.getJobDetail().getKey().getName(),time,String.valueOf(count),BarrageJob.class.getName()));
-		
+		logger.info("BarrageJob执行完毕");
 	}
 	
 	

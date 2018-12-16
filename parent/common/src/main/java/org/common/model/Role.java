@@ -8,8 +8,16 @@ public class Role {
     private Integer userId;
     private String role;
     private List<Permission> permissionList;
+    /*用于上色*/
+    private String rId;
     
-    public List<Permission> getPermissionList() {
+    public String getrId() {
+		return rId;
+	}
+	public void setrId(String rId) {
+		this.rId = rId;
+	}
+	public List<Permission> getPermissionList() {
 		return permissionList;
 	}
 	public void setPermissionList(List<Permission> permissionList) {

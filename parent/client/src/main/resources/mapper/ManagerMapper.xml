@@ -93,14 +93,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	      #{logmessage,jdbcType=VARCHAR}, #{logiserror,jdbcType=CHAR}, #{logtime,jdbcType=TIMESTAMP}
 	      )
 	 </insert>
-	 <select id="getFuzzyRoleByUid" resultMap="userMap" parameterType="String">
-	 	select u.userId,userName,role,permission 
-		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
-		r.roleId = p.roleId WHERE LOCATE(#{value}, u.userId)>0 
+	 <select id="getFuzzyRoleByUid" resultMap="roleMap" parameterType="String">
+	 	select r.roleId,role,pId,permission 
+		from  t_role r  left join t_permission p on 
+		r.roleId = p.roleId WHERE LOCATE(#{value}, r.roleId)>0
 	 </select>
-	 <select id="getFuzzyRoleByUname" resultMap="userMap" parameterType="String">
-	 	select u.userId,userName,role,permission 
-		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+	 <select id="getFuzzyRoleByUname" resultMap="roleMap" parameterType="String">
+	 	select r.roleId,role,pId,permission 
+		from  t_role r  left join t_permission p on 
 		r.roleId = p.roleId WHERE LOCATE(#{value}, userName)>0  
 	 </select>
 	 <delete id="deletePermission" parameterType="org.common.model.Permission">

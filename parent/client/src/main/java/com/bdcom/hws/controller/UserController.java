@@ -83,7 +83,7 @@ public class UserController {
 		List<Barrage> barList = barService.getAllBar();
 		req.setAttribute("barList", barList);
 		
-		return "index1";
+		return "index";
 	}
 	@RequestMapping(value="/upload")
 	@ResponseBody

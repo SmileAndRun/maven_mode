@@ -25,15 +25,30 @@ $(function(){
 	//公式：偏移量=点击点与原图中心的距离 + 放大后需要偏移的距离
 	//放大后需要偏移的距离=点击点在原图中的比例X放大倍数
 	//思路：先将点击点移动到中心位置然后放大图片，然后根据偏移比例进行移动
+	var flag = 1;
 	$('.top').on("click","img",function(e){
-		var difWidth = s_width/2 - e.pageX;
-		var difHeight = s_height/2 - e.pageY;
-		$(this).css({
-			marginLeft: difWidth -(e.pageX-(s_width-$(this).width())/2),
-			marginTop : difHeight - (e.pageY-20),
-			width: $(this).width()*2,
-			height: $(this).height()*2
-		});
+		if(flag == 1){
+			flag--;
+			console.log("0:"+flag);
+			var difWidth = s_width/2 - e.pageX;
+			var difHeight = s_height/2 - e.pageY;
+			$(this).css({
+				marginLeft: difWidth -(e.pageX-(s_width-$(this).width())/2),
+				marginTop : difHeight - (e.pageY-20),
+				width: $(this).width()*2,
+				height: $(this).height()*2
+			});
+		}else{
+			flag++;
+			$(this).css({
+				marginLeft: 0,
+				marginTop : 0,
+				width: s_width-47,
+				height: (s_width-47)/2.243
+			});
+		}
+		
+		
 	});
 	
 });

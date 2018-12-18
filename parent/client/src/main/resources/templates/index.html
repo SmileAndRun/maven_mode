@@ -20,9 +20,17 @@
 	<!-- 此后为主页需要显示的内容 -->
 	<div class="container">
 		<div class="top">
-			<img   th:src="@{/img/togather.jpg}" />
+			<img   th:src="@{/img/togather.jpg}" usemap="#personMap"/>
+			<map class="personMap" name="personMap">
+			</map>
 		</div>
-		
+		<div class="tipOfName">
+			猜猜我是谁
+		</div>
+	</div>
+	
+	<div class="i18n">
+		<input type="hidden" class="hewensheng-i18n" th:value="#{hewensheng}">
 	</div>
 </body>
 </html>

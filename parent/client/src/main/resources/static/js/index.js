@@ -18,39 +18,53 @@ $(function(){
 	});
 	//设置图片大小
 	$(".top img").css({
-		width: s_width-47,
-		height:(s_width-47)/2.243
+		width: s_width-46,
+		height:(s_width-46)/2.243
 	});
+	//一下数据是在图片大小为1320,588.484375收集的,兼容不同大小图片
+	var colletcionX = [726,730,732,734,704,720,730,750,759,768,748,750,755,740];
+	var collectionY = [383,385,386,408,420,430,474,475,424,418,410,385,383,379];
+	var coordinateText = "";
+	for(var i = 0;i<colletcionX.length;i++){
+		colletcionX[i] = colletcionX[i] * ($(".top img").width()/1320);
+		collectionY[i] = collectionY[i] * ($(".top img").height()/588.484375);
+		coordinateText += colletcionX[i]+","+collectionY[i]+",";
+	}
+	console.log(coordinateText);
+	$(".personMap").append("<area shape='poly' coords='"+coordinateText+"'  alt='"+$(".hewensheng-i18n").val()+"' >");
+	//$(".personMap").append("<area shape='poly' coords='726,383,730,385,732,386,734,408,704,420,720,430,730,474,750,475,759,424,768,418" +
+	//		",748,410,750,385,755,383,740,379,'  alt='"+$(".hewensheng-i18n").val()+"' >");
+	
 	//点击图片放大
 	//公式：偏移量=点击点与原图中心的距离 + 放大后需要偏移的距离
 	//放大后需要偏移的距离=点击点在原图中的比例X放大倍数
 	//思路：先将点击点移动到中心位置然后放大图片，然后根据偏移比例进行移动
-	var flag = 1;
-	$('.top').on("click","img",function(e){
-		if(flag == 1){
-			flag--;
-			console.log("0:"+flag);
+	var num = 1;
+	var flag = true;
+	$('.personMap').on("click","area",function(e){
+		if(flag){
+			flag = false;
 			var difWidth = s_width/2 - e.pageX;
 			var difHeight = s_height/2 - e.pageY;
-			$(this).css({
-				marginLeft: difWidth -(e.pageX-(s_width-$(this).width())/2),
+			$(".top img").css({
+				marginLeft: difWidth -(e.pageX-(s_width-$(".top img").width())/2),
 				marginTop : difHeight - (e.pageY-20),
-				width: $(this).width()*2,
-				height: $(this).height()*2
+				width: $(".top img").width()*2,
+				height: $(".top img").height()*2
 			});
-		}else{
-			flag++;
+		}
+	});
+	$('.top').on("click","img",function(){
+		if(!flag){
+			flag = true;
 			$(this).css({
 				marginLeft: 0,
 				marginTop : 0,
-				width: s_width-47,
-				height: (s_width-47)/2.243
+				width: s_width-46,
+				height: (s_width-46)/2.243
 			});
-		}
-		
-		
+		 }
 	});
-	
 });
 barr.initBarr = function (){
 	barr.scroll(num);

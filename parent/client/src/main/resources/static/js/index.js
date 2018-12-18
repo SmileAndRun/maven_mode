@@ -12,9 +12,20 @@ $(function(){
 	if(num >= length){
 		clearInterval(job);
 	}
+	
 	//关闭弹幕
 	$(this).click(function(){
 		$('.scroll').css("display","none");
+		$(".container").css("marginTop","0px");
+		var r = 0
+		var timeDiv = setInterval(function () {
+			$(".tipOfName").css({left: Math.cos(r)*r, top: r});
+		    r+= 10;
+		    if($(".tipOfName").height()>300){
+		    	clearInteval(timeDiv);
+		    }
+		    
+		}, 50);
 	});
 	//设置图片大小
 	$(".top img").css({
@@ -74,6 +85,7 @@ barr.scroll = function(num){
 	var arrColor = [ '#5dd9ff', '#fbe091', '#ff0', '#b5d8f4', '#0f0', '#0ff',
 		     			'#83dd57', '#fff', '#b4f4ff', '#ccc', '#fff' ];
 	var height = $(window).height()- 30;
+	
 	$('.scroll li').eq(num).css('color',
 			arrColor[parseInt(10 * Math.random())]);
 	
@@ -83,4 +95,5 @@ barr.scroll = function(num){
 	}, 30000, function() {
 		$('.scroll li').eq(num).css('left', '100%');
 	});
+	$(".scroll").css("marginTop","0px");
 }

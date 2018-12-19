@@ -30,17 +30,45 @@
 	z-index: 1;
 }
 .tipOfName{
-	width: 100px;
-	height: 50px;
+	width: 0px;
+	height: 0px;
 	border-radius: 5px;
 	position: absolute;
 	top: 20px;
 	z-index: 2;
-	border: 1px solid #333;
+	border: 1px solid #323232;
+	background-color: #323232;
+	color: white;
+	text-align: center;
+	opacity:0;
 	
-	/* transition: All 1s ease-in-out;
-    -webkit-transition: All 1s ease-in-out;
-    -moz-transition: All 1s ease-in-out;
-    -o-transition: All 1s ease-in-out; */
+}
+.tipOfName input{
+	border-bottom: 1px solid white;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	outline: none;
+	width: 80px;
+	margin: auto;
+	color: white;
+	background-color: #323232;
+	text-align: center;
+}
+.nameConfirm{
+	border-radius: 5px;
+	color: black;
+	text-align: center;
+	display: block;
+	background-color: #5bb75b;
+	border: none;
+	width: 50px;
+	height: 30px;
+	opacity: 1;
+	margin:  auto;
+	outline: none;
+}
+br{
+	height: 10px;
 }
 

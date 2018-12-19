@@ -2,6 +2,7 @@ var barr={}
 var num = 0;
 var s_width = $(window).width();
 var s_height = $(window).height();
+var name = "";
 $(function(){
 	
 	//弹幕
@@ -17,15 +18,6 @@ $(function(){
 	$(this).click(function(){
 		$('.scroll').css("display","none");
 		$(".container").css("marginTop","0px");
-		var r = 0
-		var timeDiv = setInterval(function () {
-			$(".tipOfName").css({left: Math.cos(r)*r, top: r});
-		    r+= 10;
-		    if($(".tipOfName").height()>300){
-		    	clearInteval(timeDiv);
-		    }
-		    
-		}, 50);
 	});
 	//设置图片大小
 	$(".top img").css({
@@ -53,6 +45,7 @@ $(function(){
 	var num = 1;
 	var flag = true;
 	$('.personMap').on("click","area",function(e){
+		name = $(this).attr("alt");
 		if(flag){
 			flag = false;
 			var difWidth = s_width/2 - e.pageX;
@@ -63,7 +56,63 @@ $(function(){
 				width: $(".top img").width()*2,
 				height: $(".top img").height()*2
 			});
+			//动画特效
+			var y = 0;
+			var tipWidth = 0;
+			var num = 0;
+			var timeDiv = setInterval(function () {
+				$(".tipOfName").css({
+					left: 34.5*Math.sqrt(y),
+					top: y ,
+					width: tipWidth,
+					height: tipWidth/3*2,
+					opacity: num,
+					paddingTop: num*20
+				});
+			    y+= 20;
+			    tipWidth +=12;
+			    num += 0.04;
+			    //兼容不同屏幕屏幕高度为635，移动300即可
+			    if(y>s_height/2){
+			    	clearInterval(timeDiv);
+			    	$(".tipOfName").append("<input type='text' /><br></br><button class='nameConfirm'>"+$(".confirm-i18n").val()+"</button>");
+			    	$(".tipOfName input").focus();
+			    }
+			}, 50);
 		}
+	});
+	var tipFlag = false;
+	$(".tipOfName").on("click",".nameConfirm",function(){
+		tipFlag = false;
+		var inputName = $(this).parent().find("input").val();
+		$(".tipOfName").empty();
+		$(".tipOfName").css({
+			transform: "rotateY(360deg)",
+			transition: "all 1s"
+		});
+		if(name == inputName){
+			$(".tipOfName").append("<p>"+$(".response3-i18n").val()+"</p>");
+		}else{
+			tipFlag = true;
+			$(".tipOfName").append("<p class='response1'>"+$(".response1-i18n").val()+"</p>")
+		}
+	});
+	var pNum = 0;
+	$(".container").on("click",".tipOfName",function(){
+		if(tipFlag){
+			
+			$(".tipOfName p").css({
+				transition: "all 1s",
+				opacity: 0
+			});
+			if($(".response").attr("opacity")==0){
+				$(".tipOfName").append("<p class='response'>"+$(".Iam-i18n").val()+"</p>");
+			}else{
+				$(".tipOfName").append("<p class='response'>"+$(".response-i18n").val()+"</p>");
+			}
+			
+		}
+		
 	});
 	$('.top').on("click","img",function(){
 		if(!flag){

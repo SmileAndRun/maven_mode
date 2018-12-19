@@ -82,6 +82,8 @@ $(function(){
 		}
 	});
 	var tipFlag = false;
+	var pNum = 0;
+	var disFlag = false;
 	$(".tipOfName").on("click",".nameConfirm",function(){
 		tipFlag = false;
 		var inputName = $(this).parent().find("input").val();
@@ -92,25 +94,52 @@ $(function(){
 		});
 		if(name == inputName){
 			$(".tipOfName").append("<p>"+$(".response3-i18n").val()+"</p>");
+			disFlag = true;
 		}else{
 			tipFlag = true;
+			pNum = 0;
 			$(".tipOfName").append("<p class='response1'>"+$(".response1-i18n").val()+"</p>")
 		}
 	});
-	var pNum = 0;
-	$(".container").on("click",".tipOfName",function(){
+	
+	$("body").on("click",".tipOfName",function(){
 		if(tipFlag){
-			
+			pNum++;
 			$(".tipOfName p").css({
 				transition: "all 1s",
 				opacity: 0
 			});
-			if($(".response").attr("opacity")==0){
-				$(".tipOfName").append("<p class='response'>"+$(".Iam-i18n").val()+"</p>");
-			}else{
+			if(pNum==1){
 				$(".tipOfName").append("<p class='response'>"+$(".response-i18n").val()+"</p>");
+				
+			}else if(pNum ==2){
+				$(".tipOfName").append("<p class='response'>"+$(".Iam-i18n").val()+name+"</p>");
+			}else if(pNum == 3){
+				$(".tipOfName").empty();
+				$(".tipOfName").append("<p>"+$(".Guess1-i18n").val()+"</p>");
+				$(".tipOfName").css({
+					transition: "all 1s",
+					opacity: 0,
+					width: "0px",
+					height: "0px",
+					left: "0px",
+					top: "0px"
+				});
 			}
-			
+		}else{
+			if(disFlag){
+				disFlag = false;
+				$(".tipOfName").empty();
+				$(".tipOfName").append("<p>"+$(".Guess1-i18n").val()+"</p>")
+				$(".tipOfName").css({
+					transition: "all 1s",
+					opacity: 0,
+					width: "0px",
+					height: "0px",
+					left: "0px",
+					top: "0px"
+				});
+			}
 		}
 		
 	});
@@ -122,6 +151,14 @@ $(function(){
 				marginTop : 0,
 				width: s_width-46,
 				height: (s_width-46)/2.243
+			});
+			$(".tipOfName").css({
+				transition: "all 1s",
+				opacity: 0,
+				width: "0px",
+				height: "0px",
+				left: "0px",
+				top: "0px"
 			});
 		 }
 	});

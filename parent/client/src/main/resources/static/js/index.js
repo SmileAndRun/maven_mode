@@ -162,6 +162,20 @@ $(function(){
 			});
 		 }
 	});
+	//遮罩事件
+	$(".images img").hover(function(){
+		$(this).parent().next().addClass("active");
+		$(".active").css({
+			top: (s_width-46)/2.243 + 40
+		});
+
+	});
+	$(".active").hover(function(){
+		
+	},function(){
+	   $(".images").find(".active").removeClass("active");
+	})
+	
 });
 barr.initBarr = function (){
 	barr.scroll(num);

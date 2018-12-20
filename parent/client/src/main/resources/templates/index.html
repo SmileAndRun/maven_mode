@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>首页</title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
 
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
@@ -24,7 +25,17 @@
 			<map class="personMap" name="personMap">
 			</map>
 		</div>
-		
+		<div class="middle">
+			<div class="images">
+				<dl th:each="img:${imgList}">
+					<dd><img th:src="${img.imageAddress}"/></dd>
+					<dd class="shadeImg"></dd>
+					<dd class="shadeBar"></dd>
+					<dt th:text="${img.imageAlias}"></dt>
+					
+				</dl>
+			</div>
+		</div>
 	</div>
 	<div class="tipOfName">
 		<p  th:text=#{Guess1}></p>

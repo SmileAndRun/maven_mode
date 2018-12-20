@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bdcom.hws.mapper.ImagesMapper">
+	<sql id="img">i.imageId,imageAddress,imageAlias</sql>
+	<sql id="bar">contentId,content,time</sql>
+	 <resultMap id="ImagesMap" type="org.common.model.client.Images">
+	    <id column="imageId" jdbcType="INTEGER" property="imageId" />
+	    <result column="imageAddress" jdbcType="VARCHAR" property="imageAddress" />
+	    <result column="imageAlias" jdbcType="CHAR" property="imageAlias" />
+	    <collection property="barList" ofType="org.common.model.Barrage">
+	    	<id column="contentId" jdbcType="VARCHAR" property="contentId" />
+	    	<result column="content" jdbcType="VARCHAR" property="content" />
+	    	<result column="time" jdbcType="TIMESTAMP" property="time" />
+	    </collection>
+	  </resultMap>
+	<select id="getAllImages" resultMap="ImagesMap">
+		select <include refid="img"></include>,<include refid="bar"></include> from t_images i left join t_barrage b on b.imageId = i.imageId
+	</select>
+	<select id="getMaxImageId"  resultType="org.common.model.client.Images">
+		select max(imageId)imageId from t_images
+	</select>
+	<insert id="addImage" parameterType="org.common.model.client.Images">
+		insert into t_images(imageId,imageAddress,imageAlias) values(#{imageId},#{imageAddress},#{imageAlias})
+	</insert>
+	<delete id="delImage" >
+		delete from t_images where imageId = #{imageId}
+	</delete>
+</mapper>

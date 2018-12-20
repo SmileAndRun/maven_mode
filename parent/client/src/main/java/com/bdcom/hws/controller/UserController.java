@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 
 import org.apache.log4j.Logger;
 import org.common.model.Barrage;
+import org.common.model.client.Images;
 import org.common.model.client.User;
 import org.common.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.hws.service.ImagesService;
 import com.bdcom.hws.service.UserService;
 import com.bdcom.server.service.BarrageService;
 
@@ -38,6 +41,8 @@ public class UserController {
 	private UserService us;
 	@Autowired
 	private BarrageService barService;
+	@Autowired
+	private ImagesService imagesService;
 	
 	@Value("${server.port}")
 	private String serverPort;
@@ -78,12 +83,14 @@ public class UserController {
 	 * @return 
 	 */
 	@RequestMapping(value="/index")
-	public String initIndexPage(HttpServletRequest req){
-		
+	public ModelAndView initIndexPage(){
+		JSONObject obj = new JSONObject();
 		List<Barrage> barList = barService.getAllBar();
-		req.setAttribute("barList", barList);
-		
-		return "index";
+		List<Images> imgList = imagesService.getImages(1, 10);
+		obj.put("barList", barList);
+		obj.put("imgList", imgList);
+		ModelAndView model = new ModelAndView("index",obj);
+		return model;
 	}
 	@RequestMapping(value="/upload")
 	@ResponseBody

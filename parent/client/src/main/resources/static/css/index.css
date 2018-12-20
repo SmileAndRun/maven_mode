@@ -70,4 +70,50 @@
 br{
 	height: 10px;
 }
+.middle{
+	background-color: white;
+}
+.images{
+	padding-top: 20px;
+	width: 100%;
+	text-align: center;
+}
+.images dl{
+	margin-top: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+	display: inline-block;
+}
+.images dl dd img{
+	width: 250px;
+	height: 200px;
+	border-radius: 5px;
+}
+.images dl dt{
+	text-align: center;
+	width: 200px;
+}
+.shadeImg{
+	position: absolute;
+	width: 250px;
+	height: 200px;
+	border-radius: 5px;
+	background-color: #ddd;
+	opacity: 0.5;
+	z-index: 101;
+	display: none;
+}
+.shadeBar{
+	position: absolute;
+	width: 250px;
+	height: 200px;
+	border-radius: 5px;
+	background-color: #ddd;
+	opacity: 0.5;
+	z-index: 102;
+	display: none;
+}
+.active{
+	display: block;
+}
 

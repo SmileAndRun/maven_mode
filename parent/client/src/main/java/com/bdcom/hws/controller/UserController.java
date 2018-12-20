@@ -86,7 +86,7 @@ public class UserController {
 	public ModelAndView initIndexPage(){
 		JSONObject obj = new JSONObject();
 		List<Barrage> barList = barService.getAllBar();
-		List<Images> imgList = imagesService.getImages(1, 10);
+		List<Images> imgList = imagesService.getImages(1, 7);
 		obj.put("barList", barList);
 		obj.put("imgList", imgList);
 		ModelAndView model = new ModelAndView("index",obj);

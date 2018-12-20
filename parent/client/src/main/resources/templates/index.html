@@ -15,8 +15,8 @@
 </head>
 <body>
 	<!-- 此ul为弹幕容器 -->
-	<ul class="scroll" th:each="bar,lstat:${barList}">
-		<li th:text="${bar.content}"></li>
+	<ul class="scroll" >
+		<li th:text="${bar.content}" th:each="bar,lstat:${barList}"></li>
 	</ul>
 	<!-- 此后为主页需要显示的内容 -->
 	<div class="container">
@@ -29,8 +29,11 @@
 			<div class="images">
 				<dl th:each="img:${imgList}">
 					<dd><img th:src="${img.imageAddress}"/></dd>
-					<dd class="shadeImg"></dd>
-					<dd class="shadeBar"></dd>
+					<dd class="shadeBar">
+						<ul>
+							<li th:text="${bar.content}" th:each="bar,lstat:${img.barList}"></li>
+						</ul>
+					</dd>
 					<dt th:text="${img.imageAlias}"></dt>
 					
 				</dl>

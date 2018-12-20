@@ -9,10 +9,11 @@ $(function(){
 	var length = $('.scroll li').length;
 	var job = setInterval(function() {
 		barr.initBarr();
+		if(num >= length){
+			clearInterval(job);
+		}
 	}, 500);
-	if(num >= length){
-		clearInterval(job);
-	}
+	
 	
 	//关闭弹幕
 	$(this).click(function(){
@@ -33,7 +34,6 @@ $(function(){
 		collectionY[i] = collectionY[i] * ($(".top img").height()/588.484375);
 		coordinateText += colletcionX[i]+","+collectionY[i]+",";
 	}
-	console.log(coordinateText);
 	$(".personMap").append("<area shape='poly' coords='"+coordinateText+"'  alt='"+$(".hewensheng-i18n").val()+"' >");
 	//$(".personMap").append("<area shape='poly' coords='726,383,730,385,732,386,734,408,704,420,720,430,730,474,750,475,759,424,768,418" +
 	//		",748,410,750,385,755,383,740,379,'  alt='"+$(".hewensheng-i18n").val()+"' >");
@@ -163,18 +163,30 @@ $(function(){
 		 }
 	});
 	//遮罩事件
-	$(".images img").hover(function(){
-		$(this).parent().next().addClass("active");
-		$(".active").css({
-			top: (s_width-46)/2.243 + 40
-		});
-
-	});
-	$(".active").hover(function(){
+	$(".shadeBar").mouseover(function (){  
+		$(this).css({
+			opacity: 1
+		});  
+		var barLength=$('.shadeBar li').length;
+		var barNum = 0;
+		var barTime = setInterval(function() {
+			$('.shadeBar li').eq(barNum).css('top',parseInt(200 * Math.random()) );
+			$('.shadeBar li').eq(barNum).animate({
+				'left' : -250
+			}, 3000, function() {
+				$('.shadeBar li').eq(barNum).css('left', '100%');
+			});
+			if(barNum >= barLength){
+				clearInterval(barTime);
+			}
+			barNum++;
+		}, 500);
 		
-	},function(){
-	   $(".images").find(".active").removeClass("active");
-	})
+    }).mouseout(function (e){  
+    	$(this).css({
+    		opacity: 0
+    	});
+    });  
 	
 });
 barr.initBarr = function (){

@@ -55,6 +55,7 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	public User getUserInfoByUid(int userId) {
 		return mp.getUserInfoByUid(userId);
 	}
+	@SuppressWarnings("unchecked")
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUsers() {

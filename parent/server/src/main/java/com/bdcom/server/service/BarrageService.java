@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.common.model.Barrage;
 
+import com.alibaba.fastjson.JSONObject;
+
 
 
 
@@ -37,5 +39,5 @@ public interface BarrageService {
 	 */
 	public int getBarrageCount(Timestamp time);
 
-	
+	public JSONObject getBarrageByImagesId(Integer imagesId);
 }

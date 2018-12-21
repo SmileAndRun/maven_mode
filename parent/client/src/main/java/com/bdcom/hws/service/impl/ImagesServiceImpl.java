@@ -22,7 +22,8 @@ public class ImagesServiceImpl implements ImagesService {
 	@Override
 	public List<Images> getImages(int pageNum, int pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		return im.getAllImages();
+		List<Images> list = im.getAllImages();
+		return list;
 	}
 
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)

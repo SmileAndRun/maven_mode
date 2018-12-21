@@ -10,6 +10,7 @@ import org.common.model.Barrage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.mapper.BarrageMapper;
 import com.bdcom.server.service.BarrageService;
 
@@ -52,7 +53,16 @@ public class BarrageServiceImpl implements BarrageService{
 	public int getBarrageCount(Timestamp time) {
 		return barrMapper.getBarrageCount(time);
 	}
-
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public JSONObject getBarrageByImagesId(Integer imagesId){
+		JSONObject obj = new JSONObject();
+		List<Barrage> list = barrMapper.getBarByImagesId(imagesId);
+		obj.put("imgBarList", list);
+		obj.put("imgBarFlag", true);
+		if(null == list) obj.put("imgBarFlag", false);
+		return obj;
+	} 
 	
 
 }

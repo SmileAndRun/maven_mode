@@ -169,18 +169,27 @@ $(function(){
 		});  
 		var barLength=$('.shadeBar li').length;
 		var barNum = 0;
-		var barTime = setInterval(function() {
-			$('.shadeBar li').eq(barNum).css('top',parseInt(200 * Math.random()) );
-			$('.shadeBar li').eq(barNum).animate({
-				'left' : -250
-			}, 3000, function() {
-				$('.shadeBar li').eq(barNum).css('left', '100%');
-			});
-			if(barNum >= barLength){
-				clearInterval(barTime);
+		//记录当前对象
+		var obj = $(this);
+		var url = "/user/getImagesBar";
+		var data = {
+				imagesId: obj.find("input").val(),
+			};
+		var rs_function = function(result){
+			if(result.imgBarFlag){
+				var content = [];
+				for(var i=0;i<result.imgBarList.length;i++){
+					//obj.find("ul").append("<li value='"+result.imgBarList[i].contentId+"'>"+result.imgBarList[i].content+"</li>");
+					content.push(result.imgBarList[i].content);
+				}
+				$.init3dRotate(obj.find("canvas")[0],content);
 			}
-			barNum++;
-		}, 500);
+		}
+		var re_function = function(result){
+			layer.msg($(".tip3").text());
+		}
+		$.commonAjax(url,data,rs_function,re_function);
+		
 		
     }).mouseout(function (e){  
     	$(this).css({

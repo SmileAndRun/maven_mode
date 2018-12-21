@@ -84,12 +84,14 @@ public class UserController {
 	 */
 	@RequestMapping(value="/index")
 	public ModelAndView initIndexPage(){
+		logger.info("首页初始化开始");
 		JSONObject obj = new JSONObject();
 		List<Barrage> barList = barService.getAllBar();
-		List<Images> imgList = imagesService.getImages(1, 7);
+		List<Images> imgList = imagesService.getImages(1, 10);
 		obj.put("barList", barList);
 		obj.put("imgList", imgList);
 		ModelAndView model = new ModelAndView("index",obj);
+		logger.info("首页初始化结束");
 		return model;
 	}
 	@RequestMapping(value="/upload")
@@ -102,9 +104,15 @@ public class UserController {
 			logger.error("数据上传发生Exception异常");
 			e.printStackTrace();
 			return "false";
-			
 		}
 		logger.info("数据上传结束");
 		return "true";
+	}
+	@RequestMapping(value="/getImagesBar")
+	@ResponseBody
+	public JSONObject getImagesBar(Integer  imagesId){
+		
+		JSONObject obj = barService.getBarrageByImagesId(imagesId);
+		return obj;
 	}
 }

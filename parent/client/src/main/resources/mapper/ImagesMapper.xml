@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    	<result column="time" jdbcType="TIMESTAMP" property="time" />
 	    </collection>
 	  </resultMap>
-	<select id="getAllImages" resultMap="ImagesMap">
-		select <include refid="img"></include>,<include refid="bar"></include> from t_images i left join t_barrage b on b.imageId = i.imageId
+	<select id="getAllImages" resultType="org.common.model.client.Images">
+		select imageId,imageAddress,imageAlias from t_images
 	</select>
 	<select id="getMaxImageId"  resultType="org.common.model.client.Images">
 		select max(imageId)imageId from t_images
@@ -24,7 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addImage" parameterType="org.common.model.client.Images">
 		insert into t_images(imageId,imageAddress,imageAlias) values(#{imageId},#{imageAddress},#{imageAlias})
 	</insert>
-	<delete id="delImage" >
+	<delete id="delImage" parameterType="INTEGER">
 		delete from t_images where imageId = #{imageId}
 	</delete>
 </mapper>

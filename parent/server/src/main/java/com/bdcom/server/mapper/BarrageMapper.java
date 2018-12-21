@@ -33,4 +33,8 @@ public interface BarrageMapper {
 	 * @return
 	 */
 	public int getBarrageCount(Timestamp time);
+	/**
+	 * 获取指定图片的弹幕
+	 */
+	public List<Barrage> getBarByImagesId(Integer imagesId);
 }

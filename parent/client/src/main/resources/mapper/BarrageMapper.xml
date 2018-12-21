@@ -3,11 +3,14 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.server.mapper.BarrageMapper">
-	<sql id="bar">contentId,content,time</sql>
+	<sql id="bar">contentId,content,time,imageId</sql>
 	<select id="getAllBar" resultType="org.common.model.Barrage">
 		select <include refid="bar"></include> from t_barrage
 	</select>
 	<select id="getBarrageCount"  resultType="Integer">
 		select count(contentId) from t_barrage where time = #{time}
+	</select>
+	<select id="getBarByImagesId" resultType="org.common.model.Barrage">
+		select <include refid="bar"></include> from t_barrage where imageId  =#{imageId}
 	</select>
 </mapper>

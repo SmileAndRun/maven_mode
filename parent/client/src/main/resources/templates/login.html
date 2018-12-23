@@ -6,6 +6,7 @@
 <title th:text="#{login}"></title>
 
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/i18n.html}" rel="import" >
 <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
@@ -37,8 +38,8 @@
 					<td>
 						<div class="input-group">
 							<span class="input-group-addon" th:text="#{pet.name}"></span> <input type="text"
-								class="form-control" id="userName" th:placeholder="#{lovey}">
-								 </input>
+								class="form-control" id="userName" th:placeholder="#{lovey}" />
+								 
 						</div>
 					</td>
 				</tr>
@@ -72,14 +73,12 @@
 			&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="changeLanguage('ENGLISH')"  th:text="#{language.en}"></a>
 		</div>
 	</div>
-</div>
-
-<div style="display:none;">
-	<span class="tip1" th:text="#{please.input.account.password}"></span>
-	<span class="tip2" th:text="#{authentication.failure}"></span>
-	<span class="tip3" th:text="#{error.cookie}"></span>
-</div>
-<script th:src="@{/js/common.js}" type="text/javascript"></script>
+	<div style="display:none;">
+		<span class="tip1" th:text="#{please.input.account.password}"></span>
+		<span class="tip2" th:text="#{authentication.failure}"></span>
+		<span class="tip3" th:text="#{error.cookie}"></span>
+	</div>
+	<script th:src="@{/js/common.js}" type="text/javascript"></script>
 
 </body>
 </html>

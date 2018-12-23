@@ -15,7 +15,7 @@ $(function() {
     uploader = WebUploader.create({
 
         // 自动上传。
-        auto: true,
+        auto: false,
 
         // swf文件路径
         //swf: BASE_URL + '/js/Uploader.swf',
@@ -46,10 +46,7 @@ $(function() {
         fileSingleSizeLimit: 10*1024*1024,
         duplicate: true
     });
-    //上传到后台
-    $("#ctlBtn").on("click",function(){
-    	uploader.upload();
-    });
+    
 
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
@@ -118,4 +115,9 @@ $(function() {
     uploader.on( 'uploadComplete', function( file ) {
         $( '#'+file.id ).find('.progress').remove();
     });
+    
+  //实现对外接口
+  jQuery.EexternalInterface = function(){
+		uploader.upload();
+	}
 });

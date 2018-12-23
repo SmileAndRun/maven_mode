@@ -5,12 +5,15 @@ import java.util.List;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.client.Images;
+import org.common.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.mapper.ImagesMapper;
 import com.bdcom.hws.service.ImagesService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class ImagesServiceImpl implements ImagesService {
@@ -20,10 +23,14 @@ public class ImagesServiceImpl implements ImagesService {
 	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public List<Images> getImages(int pageNum, int pageSize) {
+	public JSONObject getImages(int pageNum, int pageSize) {
+		JSONObject obj = new JSONObject();
 		PageHelper.startPage(pageNum, pageSize);
 		List<Images> list = im.getAllImages();
-		return list;
+		PageInfo<Images> pageInfo = new PageInfo<Images>(list);
+		obj.put("initPageSize", PageUtils.getPaginationNum(pageInfo.getPages(),10));
+		obj.put("pageInfo", pageInfo);
+		return obj;
 	}
 
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)

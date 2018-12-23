@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 
 import org.apache.log4j.Logger;
 import org.common.model.Barrage;
-import org.common.model.client.Images;
 import org.common.model.client.User;
 import org.common.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,11 +84,9 @@ public class UserController {
 	@RequestMapping(value="/index")
 	public ModelAndView initIndexPage(){
 		logger.info("首页初始化开始");
-		JSONObject obj = new JSONObject();
+		JSONObject obj = imagesService.getImages(1, 10);
 		List<Barrage> barList = barService.getAllBar();
-		List<Images> imgList = imagesService.getImages(1, 10);
 		obj.put("barList", barList);
-		obj.put("imgList", imgList);
 		ModelAndView model = new ModelAndView("index",obj);
 		logger.info("首页初始化结束");
 		return model;
@@ -113,6 +110,12 @@ public class UserController {
 	public JSONObject getImagesBar(Integer  imagesId){
 		
 		JSONObject obj = barService.getBarrageByImagesId(imagesId);
+		return obj;
+	}
+	@RequestMapping(value="/pagination")
+	@ResponseBody
+	public JSONObject pagination(Integer pageNum){
+		JSONObject obj = imagesService.getImages(pageNum, 10);
 		return obj;
 	}
 }

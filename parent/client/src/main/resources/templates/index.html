@@ -5,13 +5,18 @@
 <meta charset="UTF-8">
 <title>首页</title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/webuploader.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
 
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+<script th:src="@{/layer/layer.js}" type="text/javascript"></script>
 <script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
 <script th:src="@{/js/3drotate.js}" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/webuploader.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/myuploader.js}" type="text/javascript"></script>
 <script th:src="@{/js/index.js}" type="text/javascript"></script>
 
 </head>
@@ -29,19 +34,55 @@
 		</div>
 		<div class="middle">
 			<div class="images">
-				<dl th:each="img:${imgList}">
+				<dl th:each="img:${pageInfo.list}">
 					<dd><img th:src="${img.imageAddress}"/></dd>
 					<dd class="shadeBar">
 						<input type="hidden" th:value="${img.imageId}"/>
 						<canvas style="width:250px;height:200px;"></canvas>
 					</dd>
 					<dt th:text="${img.imageAlias}"></dt>
-					
 				</dl>
+				<button class="fa fa-plus fa-5x addImages" aria-hidden="true">
+				</button>
+			</div>
+			<div  class="pageDiv" style="text-align: center;">
+				<ul  class="pagination">
+				    <li class="homePage"><a th:text="#{homepage}"></a></li>
+				    <li class="previousPage"><a th:text="#{prevpage}"></a></li>
+		    		<li  th:each="i:${#numbers.sequence(1, initPageSize)}"><a th:text="${i}"></a></li>
+			   		<li class="nextPage"><a th:text="#{nextpage}"></a></li>
+			    	<li class="endPage"><a th:text="#{endpage}"></a></li>
+				</ul>
+				<div class="turndiv">
+			    	<input class="turnNum"  type="text" value="1" />
+			    	/
+			    	<input class="pages" readonly="readonly"  type="text" th:value="${pageInfo.pages}" />
+			    	<button type="button" class="turn" th:text="#{jump}"></button>
+			    </div>
 			</div>
 		</div>
 	</div> 
-	<!-- <div><canvas style="width:250px;height:200px;background-color:black;color:white"></canvas></div> -->
+	<div class="uploadDiv">
+		<div class="uploadContent">
+			<div id="uploader" class="wu-example">
+	    		<div id="imgBuffList" class="uploader-list"></div>
+	    		<div class="btns">
+	        		<div id="picker"  th:text="#{select.picture}"></div>
+        			<button id="ctlBtn" class="btn btn-default" th:text="#{start.upload}"></button>
+	    		</div>
+			</div>
+		</div>
+	</div>
+	<div class="addBarDiv">
+		<div class="currentBar"></div>
+		<div>
+			<input type="text"/>
+			<button class="barFlag">
+				<i class="fa fa-toggle-on fa-2x"  aria-hidden="true"></i>
+			</button>
+			<button class="addButton" th:text="#{send}"></button>
+		</div>
+	</div>
 	<div class="tipOfName">
 		<p  th:text=#{Guess1}></p>
 	</div>
@@ -54,147 +95,13 @@
 		<input type="hidden" class="response3-i18n" th:value="#{response3}">
 		<input type="hidden" class="Iam-i18n" th:value="#{I.am}">
 		<input type="hidden" class="Guess1-i18n" th:value="#{Guess1}">
+		<input type="hidden" class="homepage-i18n" th:value="#{homepage}">
+		<input type="hidden" class="nextpage-i18n" th:value="#{nextpage}">
+		<input type="hidden" class="prevpage-i18n" th:value="#{prevpage}">
+		<input type="hidden" class="endpage-i18n" th:value="#{endpage}">
+		<input type="hidden" class="jump-i18n" th:value="#{jump}">
+		<input type="hidden" class="tip3-i18n" th:value="#{tip3}">
+		<input type="hidden" class="selectImg-i18n" th:value="#{select.picture}">
 	</div>
 </body>
-<!--  <script>
-window.onload = () => {
-	const CANVAS = document.getElementsByTagName("canvas")[0];
-	const CTX = CANVAS.getContext("2d");
-	const CHARS = [];
-	const MAX_CHARS = 200;
-	const SEPARATION = 1.5;
-
-	let ww, wh, camera;
-
-	class Vector {
-		constructor(x, y, z) {
-			this.x = x;
-			this.y = y;
-			this.z = z;
-		}
-
-		rotate(dir, ang) {
-			const X = this.x;
-			const Y = this.y;
-			const Z = this.z;
-
-			const SIN = Math.sin(ang);
-			const COS = Math.cos(ang);
-
-			if (dir === "x") {
-				this.y = Y * COS - Z * SIN;
-				this.z = Y * SIN + Z * COS;
-			} else if (dir === "y") {
-				this.x = X * COS - Z * SIN;
-				this.z = X * SIN + Z * COS;
-			}
-		}
-
-		project() {
-			const ZP = this.z + camera.z;
-			const DIV = ZP / 600;
-			const XP = (this.x + camera.x) / DIV;
-			const YP = (this.y + camera.y) / DIV;
-			const CENTER = getCenter();
-			return [XP + CENTER[0], YP + CENTER[1], ZP];
-		}
-	}
-
-	class Char {
-		constructor(letter, pos) {
-			this.letter = letter;
-			this.pos = pos;
-		}
-
-		rotate(dir, ang) {
-			this.pos.rotate(dir, ang);
-		}
-
-		render() {
-			const PIXEL = this.pos.project();
-			const XP = PIXEL[0];
-			const YP = PIXEL[1];
-			const MAX_SIZE = 50;
-			const SIZE = (1 / PIXEL[2] * MAX_SIZE) | 0;
-			const BRIGHTNESS = SIZE / MAX_SIZE;
-			const COL = `rgba(255, 255, ${100 * BRIGHTNESS | 0 + 150}, ${BRIGHTNESS})`;
-			
-			CTX.beginPath();
-			CTX.fillStyle = COL;
-			CTX.font = SIZE + "px monospace";
-			CTX.fillText(this.letter, XP, YP);
-			CTX.fill();
-			CTX.closePath();
-		}
-	}
-
-	function getCenter() {
-		return [ww / 2, wh / 2];
-	}
-
-	function signedRandom() {
-		return Math.random() - Math.random();
-	}
-
-	function render() {
-		for (let i = 0; i < CHARS.length; i++) {
-			CHARS[i].render();
-		}
-	}
-	
-	let time = 0;
-	function update() {
-		CTX.clearRect(0, 0, ww, wh);
-		for (let i = 0; i < CHARS.length; i++) {
-			const DX = 0.005 * Math.sin(time * 0.001);
-			const DY = 0.005 * Math.cos(time * 0.001);
-			CHARS[i].rotate("x", DX);
-			CHARS[i].rotate("y", DY);
-		}
-		++time;
-	}
-
-	function loop() {
-		window.requestAnimationFrame(loop);
-		update();
-		render();
-	}
-	
-	function getRandomInt(min, max) {
-		return Math.floor(Math.random() * (max - min + 1)) + min;
-	};
-
-	function createChars() {
-		for (let i = 0; i < MAX_CHARS; i++) {
-			const CHARACTER = String.fromCharCode((Math.random() * 93 + 34) | 0);
-			const X = signedRandom() * SEPARATION;
-			const Y = signedRandom() * SEPARATION;
-			const Z = signedRandom() * SEPARATION;
-			const POS = new Vector(X, Y, Z);
-			const CHAR = new Char("12344555668", POS);
-			CHARS.push(CHAR);
-		}
-	}
-
-	function setDim() {
-		ww = window.innerWidth;
-		wh = window.innerHeight;
-		CANVAS.width = ww;
-		CANVAS.height = wh;
-	}
-
-	function initCamera() {
-		camera = new Vector(0, 0, SEPARATION + 1);
-	}
-
-	window.onresize = setDim;
-
-	(() => {
-		setDim();
-		initCamera();
-		createChars();
-		loop();
-	})();
-};
-</script> -->
 </html>

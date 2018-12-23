@@ -1,7 +1,7 @@
 .container{
 	background-color: #323232;
 	width: 100%;
-	height: 1000px;
+	
 	margin-top: -10px;
 }
 .scroll li {
@@ -76,7 +76,6 @@ br{
 .images{
 	padding-top: 20px;
 	width: 100%;
-	text-align: center;
 }
 .images dl{
 	margin-top: 0px;
@@ -103,7 +102,108 @@ br{
 	z-index: 12;
 	margin-top: -200px;
 	opacity: 0;
+	cursor: pointer;
+}
+.addImages{
+	position: absolute;
+	width: 250px;
+	height: 200px;
+	border-radius: 5px;
+	outline: none;
+	margin-left: 10px;
+	cursor: pointer;
 }
 
-
-
+.turnNum{
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	height:34px;
+	width: 50px;
+	outline:none;
+	text-align: center;
+}
+.pages{
+	height:34px;
+	width: 50px;
+	outline:none;
+	text-align: center;
+	border: none;
+}
+.turn{
+	border-radius: 5px;
+	width: 50px;
+	height: 34px;
+	color: white;
+	background-color: #337ab7;
+}
+.pagination,.turndiv{
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+.pagination li{
+	cursor: pointer;
+}
+.uploadDiv{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0%;
+	display: none;
+	background-color: rgba(	26,26,26, 0.5);
+	z-index: 13; 
+}
+.uploadContent{
+	width: 800px;
+	height: 500px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	margin: auto;
+	background-color: white;
+}
+#imgBuffList{
+	border: 1px solid #ddd;
+	height:400px;
+	overflow-x: hidden; 
+}
+#picker{
+	display: inline-block;
+    vertical-align: middle;
+    margin: 0 12px 0 0;
+}
+.btns{
+	margin-top: 20px;
+	margin-left: 10px;
+}
+.addBarDiv{
+	display: none;
+	text-align: center;
+}
+.addBarDiv input{
+	width: 300px;
+	height: 34px;
+	font-size: 16px;
+	outline: none;
+	border-radius: 5px;
+	border: none;
+	border: 1px solid #333;
+}
+.barFlag{
+	margin: 0px;
+	padding: 0px;
+	border: none;
+	vertical-align: middle;
+	outline: none;
+}
+.addButton{
+	height: 34px;
+	width: 60px;
+	background-color: #337ab7;
+	border-radius: 5px;
+	color: white;
+}
+.currentBar img{
+	border-radius: 20px;
+}

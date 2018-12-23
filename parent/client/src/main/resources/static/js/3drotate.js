@@ -1,9 +1,9 @@
 $(function(){
 		var CANVAS;
 		var CTX;
-		const CHARS = [];
+		var CHARS = [];
 		const MAX_CHARS = 200;
-		const SEPARATION = 2;
+		const SEPARATION = 1.5;
 
 		let ww, wh, camera;
 
@@ -58,7 +58,7 @@ $(function(){
 				const MAX_SIZE = 200;
 				const SIZE = (1 / PIXEL[2] * MAX_SIZE) | 0;
 				const BRIGHTNESS = SIZE / MAX_SIZE;
-				const COL = `rgba(0, 0, 0, 1`;
+				const COL = `rgba(0, 0, 0, 1)`;
 				
 				CTX.beginPath();
 				CTX.fillStyle = COL;
@@ -70,7 +70,7 @@ $(function(){
 		}
 
 		function getCenter() {
-			return [ww / 2, wh / 2];
+			return [ww / 4, wh / 2];
 		}
 
 		function signedRandom() {
@@ -94,17 +94,23 @@ $(function(){
 			}
 			++time;
 		}
-
+		//主要运行方法
+		var loopAnimation;
 		function loop() {
-			window.requestAnimationFrame(loop);
+			loopAnimation = requestAnimationFrame(loop);
 			update();
 			render();
 		}
-		
+		//定义接口停止动画
+		jQuery.stopLoop = function(){
+			cancelAnimationFrame(loopAnimation);
+		}
 		function getRandomInt(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		};
+		//初始化内容方法
 		function changeChars(content) {
+			CHARS = [];
 			for (let i = 0; i < content.length; i++) {
 				const CHARACTER = String.fromCharCode((Math.random() * 93 + 34) | 0);
 				const X = signedRandom() * SEPARATION;
@@ -125,6 +131,7 @@ $(function(){
 		function initCamera() {
 			camera = new Vector(0, 0, SEPARATION + 1);
 		}
+		//初始化调用方法
 		jQuery.init3dRotate = function(obj,content){
 			CANVAS = obj;
 			CTX = CANVAS.getContext("2d");

@@ -45,7 +45,7 @@ $(function(){
 			    y+= 20;
 			    tipWidth +=12;
 			    num += 0.04;
-			    //兼容不同屏幕屏幕高度为635，移动300即可
+			    //兼容不同屏幕屏幕，高度为635，移动300即可
 			    if(y>s_height/2){
 			    	clearInterval(timeDiv);
 			    	$(".tipOfName").append("<input type='text' /><br></br><button class='nameConfirm'>"+$(".confirm-i18n").val()+"</button>");
@@ -181,8 +181,51 @@ $(function(){
 	});
 	$(".images").on("click",".shadeBar",function(){
 		$(".addBarDiv").css({display:"block"});
+		$(".globalBackground").css({display:"block"});
+		$(".container").css({display:"none"});
 		var imgSrc = $(this).prev().find("img").attr("src");
-		$(".currentBar").append("<img src='"+imgSrc+"'/>");  
+		$(".currentBar").append("<div></div><img src='"+imgSrc+"'/><div></div>"); 
+		var img_width = $(".currentBar").find("img").width();
+		var img_height = $(".currentBar").find("img").height();
+		//margin: 20,输入框 高34
+		if(s_height > (img_height + 20 + 34)){
+			$(".addBarDiv").css({
+				top: (s_height - img_height - 20 - 34)/2,
+			});
+		}else{
+			$(".addBarDiv").css({
+				top: "20px",
+				position: "absolute",
+			});
+		}
+		//设置图片大小
+		if(img_width>=s_width){
+			$(".currentBar").find("img").css({
+				width: s_width -40,
+				height: img_height * (s_width-40) / img_width
+			});
+			$(".addBarDiv").css({
+				left: "50%",
+				marginLeft: -(s_width -40)/2,
+			});
+		}else{
+			$(".currentBar").find("img").css({
+				width: img_width -40,
+				height: img_height * (img_width-40) / img_width
+			});
+			$(".addBarDiv").css({
+				left: "50%",
+				marginLeft: -$(".currentBar").find("img").width()/2,
+			});
+		}
+		//设置弹幕遮罩大小
+		$(".currentBar").find("div").css({
+			width: (s_width-$(".currentBar").find("img").width())/2,
+			height: $(".currentBar").find("img").height()
+		});
+		//设置背景大小
+		$(".globalBackground").css({height:$(".addBarDiv").height()+20});
+		
 	});
 	var totalPageNum = parseInt($(".pages").val());
 	$(this).on("click",".pagination li:not(.active,.turndiv)",function(){
@@ -371,6 +414,23 @@ $(function(){
 barr.initBarr = function (){
 	barr.scroll(num);
 	num++;
+}
+//总结整合滚动方法
+//direction为字符串
+barr.commonScroll = function(barHeight,obj,direction,){
+	var arrColor = [ '#5dd9ff', '#fbe091', '#ff0', '#b5d8f4', '#0f0', '#0ff',
+		     			'#83dd57', '#fff', '#b4f4ff', '#ccc', '#fff' ];
+	
+	
+	obj.eq(num).css('color',
+			arrColor[parseInt(10 * Math.random())]);
+	
+	obj.eq(num).css('top',parseInt(barHeight * Math.random()) );
+	obj.eq(num).animate({
+		direction : -300
+	}, 30000, function() {
+		obj.eq(num).css(direction, '100%');
+	});
 }
 barr.scroll = function(num){
 	var arrColor = [ '#5dd9ff', '#fbe091', '#ff0', '#b5d8f4', '#0f0', '#0ff',

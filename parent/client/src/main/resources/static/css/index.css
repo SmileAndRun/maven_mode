@@ -1,8 +1,17 @@
 .container{
 	background-color: #323232;
 	width: 100%;
-	
 	margin-top: -10px;
+	padding: 0px;
+}
+.globalBackground{
+	background-color: #323232;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+	z-index: 0;
 }
 .scroll li {
 	position: fixed;
@@ -24,6 +33,7 @@
 .top{
 	margin-top: 20px;
 	overflow-x: hidden;
+	text-align: center;
 }
 .top img{
 	border-radius: 5px;
@@ -180,6 +190,21 @@ br{
 .addBarDiv{
 	display: none;
 	text-align: center;
+	position: absolute;
+	z-index: 14;
+	background-color: white;
+}
+.currentBar div{
+	display: inline;
+	border: none;
+	position: absolute;
+	z-index: 15;
+}
+.addBg{
+	background-color: #323232;
+}
+.currentBar img{
+	text-align: center;
 }
 .addBarDiv input{
 	width: 300px;
@@ -189,6 +214,8 @@ br{
 	border-radius: 5px;
 	border: none;
 	border: 1px solid #333;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 .barFlag{
 	margin: 0px;
@@ -197,13 +224,12 @@ br{
 	vertical-align: middle;
 	outline: none;
 }
+
 .addButton{
 	height: 34px;
 	width: 60px;
 	background-color: #337ab7;
 	border-radius: 5px;
 	color: white;
-}
-.currentBar img{
-	border-radius: 20px;
+	border: none;
 }

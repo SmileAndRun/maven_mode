@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>首页</title>
+<title th:text="#{homepage}"></title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/webuploader.css}" rel="stylesheet" type="text/css">
@@ -74,7 +74,8 @@
 		</div>
 	</div>
 	<div class="addBarDiv">
-		<div class="currentBar"></div>
+		<div class="currentBar">
+		</div>
 		<div>
 			<input type="text"/>
 			<button class="barFlag">
@@ -86,6 +87,7 @@
 	<div class="tipOfName">
 		<p  th:text=#{Guess1}></p>
 	</div>
+	<div class="globalBackground"></div>
 	<div class="i18n">
 		<input type="hidden" class="hewensheng-i18n" th:value="#{hewensheng}">
 		<input type="hidden" class="confirm-i18n" th:value="#{confirm}">

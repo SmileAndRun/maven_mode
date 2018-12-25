@@ -1,7 +1,7 @@
 package com.bdcom.server.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.common.model.Barrage;
@@ -39,5 +39,22 @@ public interface BarrageService {
 	 */
 	public int getBarrageCount(Timestamp time);
 
+	/**
+	 * 获取某个照片的 弹幕
+	 * @param imagesId
+	 * @return
+	 */
 	public JSONObject getBarrageByImagesId(Integer imagesId);
+	/**
+	 * 添加弹幕
+	 * @param barrage
+	 * @return
+	 */
+	public boolean addBarrage(Barrage barrage);
+	/**
+	 * 通过主键删除弹幕
+	 * @param contentId
+	 * @return
+	 */
+	public boolean delBarrageBycontentId(Integer contentId);
 }

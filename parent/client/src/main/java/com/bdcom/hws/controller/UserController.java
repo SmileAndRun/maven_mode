@@ -118,4 +118,12 @@ public class UserController {
 		JSONObject obj = imagesService.getImages(pageNum, 10);
 		return obj;
 	}
+	@RequestMapping(value="/addBar")
+	@ResponseBody
+	public JSONObject addBar(Barrage barrage){
+		JSONObject obj = new JSONObject();
+		boolean flag = barService.addBarrage(barrage);
+		obj.put("addBarFlag", flag);
+		return obj;
+	}
 }

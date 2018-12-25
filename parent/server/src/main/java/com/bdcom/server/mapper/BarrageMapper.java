@@ -37,4 +37,17 @@ public interface BarrageMapper {
 	 * 获取指定图片的弹幕
 	 */
 	public List<Barrage> getBarByImagesId(Integer imagesId);
+	/**
+	 * 添加弹幕
+	 * @param barrage
+	 * @return
+	 */
+	public int addBarrage(Barrage barrage);
+	/**
+	 * 通过主键删除弹幕
+	 * @param contentId
+	 * @return
+	 */
+	public int delBarrageBycontentId(Integer contentId);
+	public Barrage getMaxContentId();
 }

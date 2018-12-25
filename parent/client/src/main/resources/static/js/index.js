@@ -3,6 +3,7 @@ var num = 0;
 var s_width = $(window).width();
 var s_height = $(window).height();
 var name = "";
+var imgNumFlag = 0;
 $(function(){
 	//初始化
 	barr.initHomePage();
@@ -137,6 +138,8 @@ $(function(){
 	});
 	//遮罩事件
 	//on可以解决 append节点无法触发事件
+	//content img弹幕数组
+	var content = [];
 	$(".images").on("mouseover",".shadeBar",function (){  
 		$(this).css({
 			opacity: 1
@@ -150,8 +153,8 @@ $(function(){
 				imagesId: obj.find("input").val(),
 			};
 		var rs_function = function(result){
+			content = [];
 			if(result.imgBarFlag){
-				var content = [];
 				for(var i=0;i<result.imgBarList.length;i++){
 					content.push(result.imgBarList[i].content);
 				}
@@ -169,22 +172,13 @@ $(function(){
     	});
     	jQuery.stopLoop();
 	});
-	//待定
-	$(".barFlag").on("click","i",function(){
-		if($(this).attr("class")=="fa fa-toggle-on fa-2x"){
-			$(this).remove();
-			$(".barFlag").append("<i class='fa fa-toggle-off fa-2x'  aria-hidden='true'></i>");
-		}else{
-			$(this).remove();
-			$(".barFlag").append("<i class='fa fa-toggle-on fa-2x'  aria-hidden='true'></i>");
-		}
-	});
+	
+	var imgBarJob;
 	$(".images").on("click",".shadeBar",function(){
 		$(".addBarDiv").css({display:"block"});
 		$(".globalBackground").css({display:"block"});
-		$(".container").css({display:"none"});
 		var imgSrc = $(this).prev().find("img").attr("src");
-		$(".currentBar").append("<div></div><img src='"+imgSrc+"'/><div></div>"); 
+		$(".currentBar").append("<div></div><img src='"+imgSrc+"'/><input type='hidden' value='"+$(this).find("input").val()+"'/><div></div>"); 
 		var img_width = $(".currentBar").find("img").width();
 		var img_height = $(".currentBar").find("img").height();
 		//margin: 20,输入框 高34
@@ -194,10 +188,15 @@ $(function(){
 			});
 		}else{
 			$(".addBarDiv").css({
-				top: "20px",
-				position: "absolute",
+				top: "20px"
+			});
+			$(".currentBar").find("img").css({
+				width: img_width*(s_height-20-34)/img_height,
+				height: s_height-20-34
 			});
 		}
+		img_width = $(".currentBar").find("img").width();
+		img_height = $(".currentBar").find("img").height();
 		//设置图片大小
 		if(img_width>=s_width){
 			$(".currentBar").find("img").css({
@@ -225,8 +224,47 @@ $(function(){
 		});
 		//设置背景大小
 		$(".globalBackground").css({height:$(".addBarDiv").height()+20});
-		
+		//弹幕
+		imgNumFlag = 0;
+		initImgBar();
 	});
+	
+	$(".barFlag").on("click","i",function(){
+		if($(this).attr("class")=="fa fa-toggle-on fa-2x"){
+			$(this).remove();
+			if(imgBarJob != null || imgBarJob != undefined){
+				$(".imgBarUl").empty();
+				imgNumFlag = 0;
+				clearInterval(imgBarJob);
+				imgBarJob = null;
+				//$(".imgBarUl").empty();
+				
+			}
+			$(".barFlag").append("<i class='fa fa-toggle-off fa-2x'  aria-hidden='true'></i>");
+		}else{
+			$(this).remove();
+			initImgBar();
+			$(".barFlag").append("<i class='fa fa-toggle-on fa-2x'  aria-hidden='true'></i>");
+		}
+	});
+	//初始化照片弹幕
+	function initImgBar(){
+		if(content.length!=0){
+			for(var i = 0;i< content.length;i++){
+				$(".imgBarUl").append("<li>"+content[i]+"</li>");
+			}
+			var imgBarLength = $('.imgBarUl li').length;
+			imgBarJob = setInterval(function() {
+				barr.initCommonBar($(".currentBar").find("img").height()-30,$(".imgBarUl li"));
+				if(imgNumFlag >= imgBarLength){
+					clearInterval(imgBarJob);
+					imgBarJob = null;
+					//$(".imgBarUl").empty();
+					//imgNumFlag = 0;
+				}
+			}, 500);
+		}
+	}
 	var totalPageNum = parseInt($(".pages").val());
 	$(this).on("click",".pagination li:not(.active,.turndiv)",function(){
 		var num = 1;
@@ -400,15 +438,58 @@ $(function(){
 		validate(pageNums);
 		ajaxOfPagination(pageNums);
 	});
-	//上传图片
+	//发送弹幕
+	$(".addBarDiv").on("click",".addButton",function(){
+		var inputVal = $(this).parent().find("input").val().trim();
+		var imageId = $(".currentBar").find("input").val();
+		if(inputVal==""||inputVal.length>255){
+			layer.msg($(".outOfRange-i18n").val());
+			return;
+		}else{
+			var url = "/user/addBar";
+			var data = {
+				content: inputVal,
+				imageId: imageId
+				};
+			var rs_function = function(result){
+				if(result.addBarFlag){
+					content.push(inputVal);
+					$(".imgBarUl").append("<li>"+inputVal+"</li>");
+					imgBarJob = setInterval(function() {
+						barr.initCommonBar($(".currentBar").find("img").height()-30,$(".imgBarUl li"));
+						if(imgNumFlag >= $('.imgBarUl li').length){
+							clearInterval(imgBarJob);
+							imgBarJob = null;
+							//$(".imgBarUl").empty();
+							//imgNumFlag = 0;
+						}
+					}, 500);
+					layer.msg($(".addSuccess-i18n").val());
+				}else{
+					layer.msg($(".addFailure-i18n").val());
+				}
+			}
+			var re_function = function(result){
+				layer.msg("The server is error!");
+			}
+			$.commonAjax(url,data,rs_function,re_function);
+		}
+	});
+	$(".addBarDiv").on("click",".closeButton",function(){
+		$(".addBarDiv").empty();
+		$(".globalBackground").css({display:"none"});
+	});
+	//上传图片 待完善
 	$(".images").on("click",".addImages",function(){
 		$(".uploadDiv").css({
 			display: "block",
-			top: (s_height - $(".uploadContent").height())/2
 		});
-		$(".uploadDiv").on("click","#picker",function(){
-			$.EexternalInterface();
+		$(".uploadContent").css({
+			marginTop: (s_height - $(".uploadContent").height())/2
 		});
+	});
+	$(this).on("click",".btns",function(){
+		$.EexternalInterface();
 	});
 });
 barr.initBarr = function (){
@@ -416,20 +497,22 @@ barr.initBarr = function (){
 	num++;
 }
 //总结整合滚动方法
-//direction为字符串
-barr.commonScroll = function(barHeight,obj,direction,){
+barr.initCommonBar = function (barHeight,obj){
+	barr.commonScroll(barHeight,obj);
+	imgNumFlag++;
+}
+//direction为字符串,range移动幅度为数字,time为毫秒：多少时间移动
+barr.commonScroll = function(barHeight,obj){
 	var arrColor = [ '#5dd9ff', '#fbe091', '#ff0', '#b5d8f4', '#0f0', '#0ff',
 		     			'#83dd57', '#fff', '#b4f4ff', '#ccc', '#fff' ];
-	
-	
-	obj.eq(num).css('color',
+	obj.eq(imgNumFlag).css('color',
 			arrColor[parseInt(10 * Math.random())]);
 	
-	obj.eq(num).css('top',parseInt(barHeight * Math.random()) );
-	obj.eq(num).animate({
-		direction : -300
-	}, 30000, function() {
-		obj.eq(num).css(direction, '100%');
+	obj.eq(imgNumFlag).css('top',parseInt(barHeight * Math.random()) );
+	obj.eq(imgNumFlag).animate({
+		'left' : -300
+	}, 20000, function() {
+		obj.eq(imgNumFlag).css('left', '100%');
 	});
 }
 barr.scroll = function(num){

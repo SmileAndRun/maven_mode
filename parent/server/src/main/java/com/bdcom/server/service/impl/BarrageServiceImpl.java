@@ -1,7 +1,7 @@
 package com.bdcom.server.service.impl;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
@@ -62,6 +62,29 @@ public class BarrageServiceImpl implements BarrageService{
 		obj.put("imgBarFlag", true);
 		if(null == list) obj.put("imgBarFlag", false);
 		return obj;
+	}
+
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public boolean addBarrage(Barrage barrage) {
+		Barrage temp =  barrMapper.getMaxContentId();
+		if(null == temp){
+			barrage.setContentId(1);
+		}else{
+			barrage.setContentId(temp.getContentId() + 1);
+		}
+		if(null == barrage.getTime()){
+			Date date = new Date();
+			barrage.setTime(new Timestamp(date.getTime()));
+		}
+		
+		return barrMapper.addBarrage(barrage)==0?false:true;
+	}
+
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
+	public boolean delBarrageBycontentId(Integer contentId) {
+		return barrMapper.delBarrageBycontentId(contentId)==0?false:true;
 	} 
 	
 

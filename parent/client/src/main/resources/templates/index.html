@@ -82,7 +82,9 @@
 				<i class="fa fa-toggle-on fa-2x"  aria-hidden="true"></i>
 			</button>
 			<button class="addButton" th:text="#{send}"></button>
+			<button class="closeButton" th:text="#{close}"></button>
 		</div>
+		<ul class="imgBarUl"></ul>
 	</div>
 	<div class="tipOfName">
 		<p  th:text=#{Guess1}></p>
@@ -102,8 +104,10 @@
 		<input type="hidden" class="prevpage-i18n" th:value="#{prevpage}">
 		<input type="hidden" class="endpage-i18n" th:value="#{endpage}">
 		<input type="hidden" class="jump-i18n" th:value="#{jump}">
-		<input type="hidden" class="tip3-i18n" th:value="#{tip3}">
+		<input type="hidden" class="addSuccess-i18n" th:value="#{add}+#{success}">
+		<input type="hidden" class="addFailure-i18n" th:value="#{add}+#{failure}">
 		<input type="hidden" class="selectImg-i18n" th:value="#{select.picture}">
+		<input type="hidden" class="outOfRange-i18n" th:value="#{out.of.range}">
 	</div>
 </body>
 </html>

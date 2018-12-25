@@ -13,4 +13,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="getBarByImagesId" resultType="org.common.model.Barrage">
 		select <include refid="bar"></include> from t_barrage where imageId  =#{imageId}
 	</select>
+	<insert id="addBarrage" parameterType="org.common.model.Barrage">
+		insert into t_barrage(contentId,content,time,imageId) values(#{contentId},#{content},#{time},#{imageId})
+	</insert>
+	<delete id="delBarrageBycontentId">
+		delete from t_barrage where contentId = #{contentId}
+	</delete>
+	<select id="getMaxContentId" resultType="org.common.model.Barrage">
+		select max(contentId) contentId from t_barrage
+	</select>
 </mapper>

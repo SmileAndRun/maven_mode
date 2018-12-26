@@ -61,6 +61,7 @@
 			    </div>
 			</div>
 		</div>
+		<div class="bottom"  th:insert="~{foot::foot}"></div>
 	</div> 
 	<div class="uploadDiv">
 		<div class="uploadContent">
@@ -109,5 +110,7 @@
 		<input type="hidden" class="selectImg-i18n" th:value="#{select.picture}">
 		<input type="hidden" class="outOfRange-i18n" th:value="#{out.of.range}">
 	</div>
+	<!-- 读取其他页面，前半部分为页面名称；后面为该页面自定义名称 -->
+	<div th:insert="~{i18n::i18n}"></div>
 </body>
 </html>

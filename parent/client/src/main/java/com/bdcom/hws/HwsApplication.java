@@ -1,5 +1,6 @@
 package com.bdcom.hws;
 
+
 import org.apache.log4j.Logger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class HwsApplication {
 	private static Logger log = Logger.getLogger(HwsApplication.class);
 	public static void main(String[] args) {
-		System.setProperty("log.base",HwsApplication.class.getResource("").getPath());
+		System.setProperty("log.base",System.getProperty("user.dir"));
 		log.info("springboot初始化");
 		SpringApplication.run(HwsApplication.class, args);
 		log.info("springboot初始化结束");

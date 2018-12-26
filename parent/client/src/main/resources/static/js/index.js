@@ -4,13 +4,19 @@ var s_width = $(window).width();
 var s_height = $(window).height();
 var name = "";
 var imgNumFlag = 0;
+var imgBarJob;
 $(function(){
 	//初始化
 	barr.initHomePage();
 	//关闭弹幕
-	$(this).click(function(){
+	$(this).click(function(e){
 		$('.scroll').css("display","none");
 		$(".container").css("marginTop","0px");
+		if(!$(e.target).is('.uploadContent')&&!$(e.target).is('.addImages')){
+			 $(".uploadDiv").css({
+				 display: "none",
+			 });
+		    }
 	});
 	//点击图片放大
 	//公式：偏移量=点击点与原图中心的距离 + 放大后需要偏移的距离
@@ -173,7 +179,7 @@ $(function(){
     	jQuery.stopLoop();
 	});
 	
-	var imgBarJob;
+	
 	$(".images").on("click",".shadeBar",function(){
 		$(".addBarDiv").css({display:"block"});
 		$(".globalBackground").css({display:"block"});
@@ -232,20 +238,61 @@ $(function(){
 	$(".barFlag").on("click","i",function(){
 		if($(this).attr("class")=="fa fa-toggle-on fa-2x"){
 			$(this).remove();
-			if(imgBarJob != null || imgBarJob != undefined){
-				$(".imgBarUl").empty();
-				imgNumFlag = 0;
-				clearInterval(imgBarJob);
-				imgBarJob = null;
-				//$(".imgBarUl").empty();
+			clearInterval(imgBarJob);
+			imgBarJob = null;
+			$(".imgBarUl").empty();
+			imgNumFlag = 0;
 				
-			}
 			$(".barFlag").append("<i class='fa fa-toggle-off fa-2x'  aria-hidden='true'></i>");
 		}else{
 			$(this).remove();
 			initImgBar();
 			$(".barFlag").append("<i class='fa fa-toggle-on fa-2x'  aria-hidden='true'></i>");
 		}
+	});
+	//发送弹幕
+	$(".addBarDiv").on("click",".addButton",function(){
+		var inputVal = $(this).parent().find("input").val().trim();
+		var imageId = $(".currentBar").find("input").val();
+		if(inputVal==""||inputVal.length>255){
+			layer.msg($(".outOfRange-i18n").val());
+			return;
+		}else{
+			var url = "/user/addBar";
+			var data = {
+				content: inputVal,
+				imageId: imageId
+				};
+			var rs_function = function(result){
+				if(result.addBarFlag){
+					$(".addBarDiv").find("input").val("");
+					content.push(inputVal);
+					if($(".addButton").prev().find("i").attr("class")!="fa fa-toggle-off fa-2x"){
+						$(".imgBarUl").append("<li>"+inputVal+"</li>");
+						imgBarJob = setInterval(function() {
+							barr.initCommonBar($(".currentBar").find("img").height()-30,$(".imgBarUl li"));
+							if(imgNumFlag >= $('.imgBarUl li').length){
+								clearInterval(imgBarJob);
+								imgBarJob = null;
+							}
+						}, 500);
+					}
+					
+					
+					layer.msg($(".addSuccess-i18n").val());
+				}else{
+					layer.msg($(".addFailure-i18n").val());
+				}
+			}
+			var re_function = function(result){
+				layer.msg("The server is error!");
+			}
+			$.commonAjax(url,data,rs_function,re_function);
+		}
+	});
+	$(".addBarDiv").on("click",".closeButton",function(){
+		$(".addBarDiv").empty();
+		$(".globalBackground").css({display:"none"});
 	});
 	//初始化照片弹幕
 	function initImgBar(){
@@ -259,8 +306,7 @@ $(function(){
 				if(imgNumFlag >= imgBarLength){
 					clearInterval(imgBarJob);
 					imgBarJob = null;
-					//$(".imgBarUl").empty();
-					//imgNumFlag = 0;
+					
 				}
 			}, 500);
 		}
@@ -438,48 +484,8 @@ $(function(){
 		validate(pageNums);
 		ajaxOfPagination(pageNums);
 	});
-	//发送弹幕
-	$(".addBarDiv").on("click",".addButton",function(){
-		var inputVal = $(this).parent().find("input").val().trim();
-		var imageId = $(".currentBar").find("input").val();
-		if(inputVal==""||inputVal.length>255){
-			layer.msg($(".outOfRange-i18n").val());
-			return;
-		}else{
-			var url = "/user/addBar";
-			var data = {
-				content: inputVal,
-				imageId: imageId
-				};
-			var rs_function = function(result){
-				if(result.addBarFlag){
-					content.push(inputVal);
-					$(".imgBarUl").append("<li>"+inputVal+"</li>");
-					imgBarJob = setInterval(function() {
-						barr.initCommonBar($(".currentBar").find("img").height()-30,$(".imgBarUl li"));
-						if(imgNumFlag >= $('.imgBarUl li').length){
-							clearInterval(imgBarJob);
-							imgBarJob = null;
-							//$(".imgBarUl").empty();
-							//imgNumFlag = 0;
-						}
-					}, 500);
-					layer.msg($(".addSuccess-i18n").val());
-				}else{
-					layer.msg($(".addFailure-i18n").val());
-				}
-			}
-			var re_function = function(result){
-				layer.msg("The server is error!");
-			}
-			$.commonAjax(url,data,rs_function,re_function);
-		}
-	});
-	$(".addBarDiv").on("click",".closeButton",function(){
-		$(".addBarDiv").empty();
-		$(".globalBackground").css({display:"none"});
-	});
-	//上传图片 待完善
+	
+	//上传图片 
 	$(".images").on("click",".addImages",function(){
 		$(".uploadDiv").css({
 			display: "block",
@@ -532,6 +538,7 @@ barr.scroll = function(num){
 	$(".scroll").css("marginTop","0px");
 }
 barr.initHomePage=function(){
+	
 	//弹幕
 	var length = $('.scroll li').length;
 	var job = setInterval(function() {

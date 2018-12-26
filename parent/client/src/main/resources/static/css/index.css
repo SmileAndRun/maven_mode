@@ -116,13 +116,14 @@ br{
 	cursor: pointer;
 }
 .addImages{
-	position: absolute;
 	width: 250px;
 	height: 200px;
 	border-radius: 5px;
 	outline: none;
 	margin-left: 10px;
 	cursor: pointer;
+	margin-top: -220px;
+	vertical-align: middle;
 }
 
 .turnNum{
@@ -164,7 +165,7 @@ br{
 	top: 0%;
 	display: none;
 	background-color: rgba(	26,26,26, 0.5);
-	z-index: 0; 
+	z-index: 14; 
 }
 .uploadContent{
 	width: 800px;
@@ -263,3 +264,11 @@ br{
 	border-radius: 20px;
 	list-style: none; 
 }
+.bottom{
+	background-color: white;
+}
+/* 解决weuploader无法触发的问题 */
+#picker div:nth-child(2){
+	width:100%!important;
+	height:100%!important;
+	}

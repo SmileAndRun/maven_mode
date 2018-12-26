@@ -47,7 +47,16 @@ $(function() {
         duplicate: true
     });
     
-
+    uploader.on('uploadAccept',function(file,data){
+    	if(data.uploadFlag){
+    		layer.msg($(".successfulUpload-i18n").val());
+    		$(".uploadDiv").css({
+    			display: "none",
+    		});
+    	}else{
+    		layer.msg($(".uploadFailed-i18n").val());
+    	}
+    });
     // 当有文件添加进来的时候
     uploader.on( 'fileQueued', function( file ) {
     	
@@ -67,7 +76,7 @@ $(function() {
         // thumbnailWidth x thumbnailHeight 为 100 x 100
         uploader.makeThumb( file, function( error, src ) {
             if ( error ) {
-                $img.replaceWith('<span>不能预览</span>');
+                $img.replaceWith("<span>"+$(".cantPreview-i18n").val()+"</span>");
                 return;
             }
             
@@ -95,7 +104,7 @@ $(function() {
         $( '#'+file.id ).addClass('upload-state-done');
         var $li = $( '#'+file.id ),
         $ele = $li.find('p');
-        $ele.text("上传成功");
+        $ele.text($(".successfulUpload-i18n").val());
     });
 
     // 文件上传失败，显示上传出错。
@@ -108,7 +117,7 @@ $(function() {
             $error = $('<div class="error"></div>').appendTo( $li );
         }
 
-        $error.text('上传失败');
+        $error.text($(".uploadFailed-i18n").val());
     });
 
     // 完成上传完了，成功或者失败，先删除进度条。

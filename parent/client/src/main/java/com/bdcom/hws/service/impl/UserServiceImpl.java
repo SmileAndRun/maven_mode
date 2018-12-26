@@ -108,6 +108,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	LogMapper logMapper;
 	
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
+	@Override
 	public JSONObject validateAccount(HttpServletRequest request,HttpServletResponse response,boolean isRememberMe, boolean isCookie, User user) throws InvalidKeyException, NoSuchAlgorithmException {
 		JSONObject obj = new JSONObject();
 		Subject subject = SecurityUtils.getSubject();

@@ -39,7 +39,7 @@ public class HwsApplicationTests {
 	@Test
 	public void testMybatisGenerator(){
 		cg.generator("com.bdcom.hws", "permission");
-	}*/
+	}
 	@Autowired
 	UserMapper userMapper;
 	@Autowired
@@ -64,6 +64,7 @@ public class HwsApplicationTests {
 		role.setRoleId(1);
 		roleMapper.insert(role);
 	}
+	
 	@Test
 	public void testPwd() throws InvalidKeyException, NoSuchAlgorithmException{
 		User user = userMapper.getUserByUid(1);
@@ -82,4 +83,5 @@ public class HwsApplicationTests {
 	public void testUserMapper(){
 		userMapper.getSaltByUname("123456789");
 	}
+	*/
 }

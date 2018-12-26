@@ -15,7 +15,6 @@ import io.swagger.annotations.ApiParam;
 import org.apache.log4j.Logger;
 import org.common.model.Barrage;
 import org.common.model.client.User;
-import org.common.utils.UploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -93,17 +92,20 @@ public class UserController {
 	}
 	@RequestMapping(value="/upload")
 	@ResponseBody
-	public String upload(@RequestParam MultipartFile[] file){
+	public JSONObject upload(@RequestParam MultipartFile[] file){
 		logger.info("数据上传开始");
+		JSONObject obj = new JSONObject();
 		try {
-			if(null != file)UploadUtils.Upload(file);
+			if(null != file)imagesService.upload(file);
 		} catch (Exception e) {
 			logger.error("数据上传发生Exception异常");
+			obj.put("uploadFlag", false);
 			e.printStackTrace();
-			return "false";
 		}
+		obj.put("uploadFlag", true);
 		logger.info("数据上传结束");
-		return "true";
+		
+		return obj;
 	}
 	@RequestMapping(value="/getImagesBar")
 	@ResponseBody

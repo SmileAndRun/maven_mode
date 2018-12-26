@@ -19,8 +19,8 @@
 	<modules>
 		<module>client</module>
 		<module>server</module>
-    <module>common</module>
-  </modules>
+   		<module>common</module>
+   </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -186,9 +186,19 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!-- <configuration>
+                	<mainClass>com.bdcom.hws.HwsApplication</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions> -->
+            </plugin>
 		</plugins>
 	</build>
 	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?

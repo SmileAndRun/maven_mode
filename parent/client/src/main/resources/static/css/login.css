@@ -57,15 +57,11 @@
 	list-style: none;
 }
 
-.language{
-		text-align: center;
-		font-size:16px;
-		float:left;
-		left: 47%;
-		position: absolute;
-		top: 95%;
-		color:white;
-		cursor: pointer;
+.bottom{
+	text-align: center;
+	color:white;
+	cursor: pointer;
+	background-color: #00042D;
 }
 .language a{
 	color:white;

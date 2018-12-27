@@ -37,7 +37,6 @@ import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
 
 @Service
-@Transactional
 public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 
 	@Autowired
@@ -85,6 +84,7 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	public List<User> getUser(User user) {
 		return mp.getUser(user);
 	}
+	@Transactional
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public int registerUser(User user,String role) throws NoSuchAlgorithmException, InvalidKeyException {
@@ -92,6 +92,7 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 		User temp = new User();
 		temp.setUserName(user.getUserName());
 		temp.setuIsLock('0');
+		temp.setuIsManage('0');
 		byte[] salt = EncryptionUtils.getRandomNum(16);
 		byte[] key = EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt);
 		temp.setUserPwd(EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(key, null)));
@@ -105,11 +106,20 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 		log.setLogtime(new Timestamp(date.getTime()));
 		
 		int id = getLastMaxId()+1;
-		user.setUserId(id);
+		temp.setUserId(id);
 		log.setLogid(mp.getLogLastMaxId()+1);
 		log.setUserid(id);
 		//t_log表中有user外键故需先插t_user表
-		int row = mp.registerUser(user);
+		int row = mp.registerUser(temp);
+		//更新缓存
+		if(row == 0)throw new RuntimeException("注册失败");
+		if(row>0&&redisUtils.hasKey("getAllUsers")){
+			Object object = redisUtils.get("getAllUsers");
+			@SuppressWarnings("unchecked")
+			List<User> list = (List<User>) object;
+			list.add(temp);
+			redisUtils.set("getAllUsers",list);
+		}
 		mp.insertLog(log);
 		
 		if(null == role||"".equals(role.trim()))role="General";
@@ -123,8 +133,11 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 		roleObj.setUserId(id);
 		roleObj.setRole(role);
 		mp.addRole(roleObj);
+		
+		
 		return row;
 	}
+	@Transactional
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public JSONObject changeUser(User user,String[] roleList,String[] roleListO) {
@@ -155,7 +168,10 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 			}
 			role.setUserId(user.getUserId());
 			role.setRole(temp);
-			if(mp.addRole(role)==0)flag = false;
+			if(mp.addRole(role)==0){
+				flag = false;
+				throw new  RuntimeException("修改失败");
+			}
 		}
 		if (null != roleListO)
 		for(String temp:roleListO){
@@ -164,9 +180,15 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 			Role role = new Role();
 			role.setUserId(user.getUserId());
 			role.setRole(temp);
-			if(mp.deleteRole(role)== 0)flag = false;
+			if(mp.deleteRole(role)== 0){
+				flag = false;
+				throw new  RuntimeException("修改失败");
+			}
 		}
-		if(mp.changeUser(user)==0)flag = false;
+		if(mp.changeUser(user)==0){
+			flag = false;
+			throw new  RuntimeException("修改失败");
+		}
 		obj.put("changeFlag", flag);
 		return obj;
 	}
@@ -260,7 +282,10 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 			}
 			permission.setRoleId(roleId);
 			permission.setPermission(temp);
-			if(mp.addPermission(permission)==0)flag = false;
+			if(mp.addPermission(permission)==0){
+				flag = false;
+				throw new  RuntimeException("修改角色失败");
+			}
 		}
 		if (null != preListO)
 		for(String temp:preListO){
@@ -269,7 +294,10 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 			Permission permission = new Permission();
 			permission.setRoleId(roleId);
 			permission.setPermission(temp);
-			if(mp.deletePermission(permission)== 0)flag = false;
+			if(mp.deletePermission(permission)== 0){
+				flag = false;
+				throw new  RuntimeException("修改角色失败");
+			}
 		}
 		obj.put("flag", flag);
 		return obj;

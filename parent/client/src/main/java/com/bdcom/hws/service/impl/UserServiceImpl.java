@@ -15,7 +15,6 @@ import org.apache.shiro.subject.Subject;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
-import org.common.model.client.SessionModel;
 import org.common.model.client.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.EncryptionUtils;
@@ -61,6 +60,8 @@ public class UserServiceImpl implements UserService {
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public boolean registerUser(User user) {
+		//默认是普通用户
+		user.setuIsManage('0');
 		if(userMapper.registerUser(user)==0)return false;
 		return true;
 		
@@ -134,11 +135,15 @@ public class UserServiceImpl implements UserService {
 		//更新sessionID
 		Date date = new Date();
 		User temp = getUserByUname(user.getUserName());
-		SessionModel model = new SessionModel();
+		obj.put("isManage",false);
+		if(temp.getuIsManage()=='1')obj.put("isManage",true);
+		
+		//一下注释待完善
+		/*SessionModel model = new SessionModel();
 		model.setUserId(temp.getUserId());
 		model.setSessionId(request.getSession().getId());
 		model.setUpdateTime(new Timestamp(date.getTime()));
-		/*if(sessionService.findId(temp.getUserId()) == null){
+		if(sessionService.findId(temp.getUserId()) == null){
 			sessionService.insert(model);
 		}else{
 			sessionService.update(model);

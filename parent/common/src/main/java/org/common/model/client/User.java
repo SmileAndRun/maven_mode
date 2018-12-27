@@ -12,9 +12,16 @@ public class User {
 	private char uIsLock;
 	private int userId;
 	private byte[] uSalt;
+	private char uIsManage;
 	private List<Role> roleList;
 	
 	
+	public char getuIsManage() {
+		return uIsManage;
+	}
+	public void setuIsManage(char uIsManage) {
+		this.uIsManage = uIsManage;
+	}
 	public List<Role> getRoleList() {
 		return roleList;
 	}

@@ -58,7 +58,7 @@ public class UserController {
 		logger.info("验证账号密码");
 		JSONObject obj = new JSONObject();
 		try {
-			us.validateAccount(request, response, isRememberMe, isCookie, user);
+			obj= us.validateAccount(request, response, isRememberMe, isCookie, user);
 		} catch (InvalidKeyException e) {
 			obj.put("flag", false);
 			logger.error("validateAccount方法出现InvalidKeyException异常");
@@ -68,7 +68,6 @@ public class UserController {
 			logger.error("validateAccount方法出现NoSuchAlgorithmException异常");
 			e.printStackTrace();
 		}
-		obj.put("flag", true);
 		logger.info("验证成功，欢迎登陆!");
 		return obj;
 	}

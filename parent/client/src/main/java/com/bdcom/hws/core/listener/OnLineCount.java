@@ -1,15 +1,11 @@
 package com.bdcom.hws.core.listener;
 
 
-import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-import org.common.model.Log;
-import org.common.model.client.SessionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bdcom.hws.service.LogService;
@@ -39,7 +35,9 @@ public class OnLineCount implements HttpSessionListener{
 	public synchronized void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
 		System.out.println("SessionCounter sessionDestroyed!");
 		activeSessions--;
-		Date date = new Date();
+		//待定 
+		//bug：出现主键重复
+		/*Date date = new Date();
 		Log log = new Log();
 		SessionModel model = sessionService.fingIdBySessionName(httpSessionEvent.getSession().getId());
 		if(model != null){
@@ -49,7 +47,7 @@ public class OnLineCount implements HttpSessionListener{
 			log.setLogtime(new Timestamp(date.getTime()));
 			log.setLogiserror("0");
 			logService.insertLog(log);
-		}
+		}*/
 		httpSessionEvent.getSession().getServletContext().setAttribute("activeSessions", activeSessions);
  
  

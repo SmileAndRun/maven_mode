@@ -7,16 +7,35 @@
     <link th:href="@{/assets/css/dpl-min.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/assets/css/bui-min.css}" rel="stylesheet" type="text/css" />
     <link th:href="@{/assets/css/main-min.css}" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    	.toFront{
+    		width: 50px;
+    		height: 20px;
+    		border-radius: 5px;
+    		color: white;
+    		background-color: #3366ff;
+    		border: none;
+    	}
+    	.toFront a{
+    		color: white;
+    		text-decoration: none;
+    	}
+    </style>
 </head>
 <body>
 
 <div class="header">
 
     <div class="dl-title">
-       <!--  <img src="/assets/img/top.png"> -->
     </div>
-
-    <div class="dl-log"><span th:text=#{welcome.to.you}></span>，<span class="dl-log-user">root</span><a href="/logout"  class="dl-log-quit" th:text="#{exit.1}"></a>
+	
+    <div class="dl-log">
+    	<span th:text=#{welcome.to.you}></span>，
+    	<span class="dl-log-user">root</span>
+    	<a href="/logout"  class="dl-log-quit" th:text="#{exit.1}"></a>
+    	<button class="toFront" >
+    		<a href="/user/index" th:text="#{toFront}"></a>
+    	</button>
     </div>
 </div>
 <div class="content">

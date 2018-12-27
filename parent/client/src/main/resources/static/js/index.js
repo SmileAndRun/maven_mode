@@ -12,11 +12,20 @@ $(function(){
 	$(this).click(function(e){
 		$('.scroll').css("display","none");
 		$(".container").css("marginTop","0px");
-		if(!$(e.target).is('.uploadContent')&&!$(e.target).is('.addImages')){
-			 $(".uploadDiv").css({
-				 display: "none",
-			 });
-		    }
+	});
+	$(".uploadDiv").on("click",".uploadShade",function(){
+		$(".uploadDiv").css({
+			 display: "none",
+		 });
+		$(".uploadShade").css({
+			 display: "none"
+		 });
+		$('.uploadContent').animate({
+			width: 0,
+			height: 0,
+			top: 0,
+			left: 0,
+			},'slow');
 	});
 	//点击图片放大
 	//公式：偏移量=点击点与原图中心的距离 + 放大后需要偏移的距离
@@ -490,9 +499,15 @@ $(function(){
 		$(".uploadDiv").css({
 			display: "block",
 		});
-		$(".uploadContent").css({
-			marginTop: (s_height - $(".uploadContent").height())/2
+		$(".uploadShade").css({
+			display: "block"
 		});
+		$('.uploadContent').animate({
+			width: "800px",
+			height: "500px",
+			top: (s_height - 500)/2,
+			left: (s_width-800)/2,
+			},'slow');
 	});
 	$(this).on("click",".btns",function(){
 		$.EexternalInterface();

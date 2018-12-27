@@ -168,25 +168,6 @@
 		 </dependency>
 	</dependencies>
 	
-	<build>
-		<plugins>
-			<plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                	<mainClass>com.bdcom.hws.HwsApplication</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-		</plugins>
-	</build>
-	
 	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
   		<repository>
 		  <id>PersonalDependencyLibrary</id> 仓库名称

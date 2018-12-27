@@ -17,7 +17,7 @@ import com.bdcom.hws.mapper.UserMapper;
 import com.hws.mybatisgenerator.core.CodeGenerator;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HwsApplicationTests {
 
 

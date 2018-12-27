@@ -3,8 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.server.mapper.ManagerMapper">
-	<sql id="user">u.userId,userName,userPwd,uIsLock,uSalt</sql>
-	<sql id="insertuser">userId,userName,userPwd,uIsLock,uSalt</sql>
+	<sql id="user">u.userId,userName,userPwd,uIsLock,uSalt,uIsManage</sql>
+	<sql id="insertuser">userId,userName,userPwd,uIsLock,uSalt,uIsManage</sql>
 	<!-- 查询数据 -->
 	<select id="getSaltByUname" parameterType="String" resultType="org.common.model.server.User">
 		select uSalt from t_user where userName = #{userName}
@@ -15,6 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
 		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
 		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
+		<result column="uIsManage" jdbcType="CHAR" property="uIsManage"/>
 		<result column="logTime" jdbcType="TIMESTAMP" property="logTime"/>
 		<collection  property="roleList" ofType="org.common.model.Role">
 			<result column="role" jdbcType="VARCHAR" property="role"/>
@@ -33,7 +34,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime,uIsManage 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
@@ -52,13 +53,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select <include refid="user"></include>,max(logTime)logTime,role from t_user u  left join t_role r on r.userId = u.userId left join t_log l on u.userId = l.userId GROUP BY u.userId,role
 	</select>
 	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime 
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,max(logTime)logTime,uIsManage 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId where userName = #{userName} GROUP BY u.userId
 	</select>
 	<!-- 插入数据 -->
 	<insert id="registerUser" parameterType="org.common.model.server.User">
-		insert   into t_user( <include refid="insertuser"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
+		insert   into t_user( <include refid="insertuser"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt},#{uIsManage})
 	</insert>
 	<!-- 修改数据 -->
 	<update id="changeUser" parameterType="org.common.model.server.User">

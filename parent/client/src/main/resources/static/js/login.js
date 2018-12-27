@@ -12,8 +12,12 @@ $(function(){
 				isCookie:true
 				};
 			var rs_function = function(result){
-				if(result){
-					window.location.href = "/user/index";
+				if(result.flag){
+					if(result.isManage){
+						window.location.href = "/server/index";
+					}else{
+						window.location.href = "/user/index";
+					}
 				}else{
 					layer.msg($(".tip3").text());
 				}
@@ -42,7 +46,11 @@ $(function(){
 					};
 				var s_function = function(data){
 					if(data.flag){
-						window.location.href = "/user/index";
+						if(data.isManage){
+							window.location.href = "/server/index";
+						}else{
+							window.location.href = "/user/index";
+						}
 					}else{
 						layer.msg($(".tip2").text());
 					}

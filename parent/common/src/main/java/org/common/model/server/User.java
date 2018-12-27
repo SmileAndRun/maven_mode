@@ -22,8 +22,15 @@ public class User{
 	private boolean flag;
 	//为了前台字符上色
 	private String uId;
+	private char uIsManage;
 	
 	
+	public char getuIsManage() {
+		return uIsManage;
+	}
+	public void setuIsManage(char uIsManage) {
+		this.uIsManage = uIsManage;
+	}
 	public String getuId() {
 		return uId;
 	}

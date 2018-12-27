@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bdcom.hws.mapper.UserMapper">
-	<sql id="user">userId,userName,userPwd,uIsLock,uSalt</sql>
+	<sql id="user">userId,userName,userPwd,uIsLock,uSalt,uIsManage</sql>
 	<!-- 查询数据 -->
 	<select id="getSaltByUname" parameterType="String" resultType="org.common.model.client.User">
 		select uSalt from t_user where userName = #{userName}
@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
 		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
 		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
+		<result column="uIsManage" jdbcType="CHAR" property="uIsManage"/>
 		<collection  property="roleList" ofType="org.common.model.Role">
 			<result column="role" jdbcType="VARCHAR" property="role"/>
 			<collection property="permissionList" ofType="org.common.model.Permission">
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</collection>
 	</resultMap>
 	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,uIsManage 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId where u.userId = #{userName}
 	</select>
@@ -36,17 +37,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select <include refid="user"></include> from t_user 
 	</select>
 	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
-		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission 
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,uIsManage 
 		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
 		r.roleId = p.roleId where userName = #{userName}
 	</select>
 	<!-- 插入数据 -->
 	<insert id="registerUser" parameterType="org.common.model.client.User">
-		insert   into t_user( <include refid="user"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt})
+		insert   into t_user( <include refid="user"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt},#{uIsManage})
 	</insert>
 	<!-- 修改数据 -->
 	<update id="changeUser" parameterType="org.common.model.client.User">
-		update t_user set userName = #{userName},userPwd = #{userPwd} where userId = #{userId}
+		update t_user set userName = #{userName},userPwd = #{userPwd},uIsManage = #{uIsManage} where userId = #{userId}
 	</update>
 	<!-- 删除数据 -->
 	<delete id="deleteUserByUid" parameterType="Integer">

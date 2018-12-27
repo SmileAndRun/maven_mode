@@ -182,13 +182,13 @@
 		   <artifactId>jedis</artifactId>
 		 </dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- <configuration>
+                <configuration>
                 	<mainClass>com.bdcom.hws.HwsApplication</mainClass>
                 </configuration>
                 <executions>
@@ -197,10 +197,11 @@
                             <goal>repackage</goal>
                         </goals>
                     </execution>
-                </executions> -->
+                </executions>
             </plugin>
 		</plugins>
 	</build>
+	
 	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
   		<repository>
 		  <id>PersonalDependencyLibrary</id> 仓库名称

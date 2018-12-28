@@ -3,115 +3,113 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title th:text="#{homepage}"></title>
+<title th:text="#{chat.room}"></title>
 <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/webuploader.css}" rel="stylesheet" type="text/css">
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
-<link th:href="@{/css/index.css}" rel="stylesheet" type="text/css">
+<link th:href="@{/css/chatroom.css}" rel="stylesheet" type="text/css">
 
 <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <script th:src="@{/layer/layer.js}" type="text/javascript"></script>
 <script th:src="@{/js/hws.ajax.js}" type="text/javascript"></script>
-<script th:src="@{/js/3drotate.js}" type="text/javascript"></script>
 <script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
-<script th:src="@{/js/webuploader.min.js}" type="text/javascript"></script>
-<script th:src="@{/js/myuploader.js}" type="text/javascript"></script>
 <script th:src="@{/js/common.js}" type="text/javascript"></script>
-<script th:src="@{/js/index.js}" type="text/javascript"></script>
+<script th:src="@{/js/chatroom.js}" type="text/javascript"></script>
 
 </head>
 <body> 
-	<div>
-		<!-- 开始 -->
-		<div>
-			<div id="MessageBoard"  ></div>
-		</div>
-		<br/>
-		<div>
-			<div>
-				<div contenteditable="true"  id="hwsMessage"></div>
-				<span class="input-group-btn">
-					<button id="qq"  class="btn btn-default" type="button">表情</button>
-					<button id="hwsSend" class="btn btn-default" type="button" >Send</button>
-				</span>
+	<div class="background">
+		<div class="container">
+			<!-- 开始 -->
+			<div class="announcement">
+				<div class="content"></div>
 			</div>
-			<div id="qqFace">
-			<img alt="" th:src="@{/img/face/1.gif}" />
-			<img alt="" th:src="@{/img/face/2.gif}"/>
-			<img alt="" th:src="@{/img/face/3.gif}"/>
-			<img alt="" th:src="@{/img/face/4.gif}"/>
-			<img alt="" th:src="@{/img/face/5.gif}"/>
-			<img alt="" th:src="@{/img/face/6.gif}"/>
-			<img alt="" th:src="@{/img/face/7.gif}"/>
-			<img alt="" th:src="@{/img/face/8.gif}"/>
-			<img alt="" th:src="@{/img/face/9.gif}"/>
-			<img alt="" th:src="@{/img/face/10.gif}"/>
-			<img alt="" th:src="@{/img/face/11.gif}"/>
-			<img alt="" th:src="@{/img/face/12.gif}"/>
-			<img alt="" th:src="@{/img/face/13.gif}"/>
-			<img alt="" th:src="@{/img/face/14.gif}"/>
-			<img alt="" th:src="@{/img/face/15.gif}"/>
-			<img alt="" th:src="@{/img/face/16.gif}"/>
-			<img alt="" th:src="@{/img/face/17.gif}"/>
-			<img alt="" th:src="@{/img/face/18.gif}"/>
-			<img alt="" th:src="@{/img/face/19.gif}"/>
-			<img alt="" th:src="@{/img/face/20.gif}"/>
-			<img alt="" th:src="@{/img/face/21.gif}"/>
-			<img alt="" th:src="@{/img/face/22.gif}"/>
-			<img alt="" th:src="@{/img/face/23.gif}"/>
-			<img alt="" th:src="@{/img/face/24.gif}"/>
-			<img alt="" th:src="@{/img/face/25.gif}"/>
-			<img alt="" th:src="@{/img/face/26.gif}"/>
-			<img alt="" th:src="@{/img/face/27.gif}"/>
-			<img alt="" th:src="@{/img/face/28.gif}"/>
-			<img alt="" th:src="@{/img/face/29.gif}"/>
-			<img alt="" th:src="@{/img/face/30.gif}"/>
-			<img alt="" th:src="@{/img/face/31.gif}"/>
-			<img alt="" th:src="@{/img/face/32.gif}"/>
-			<img alt="" th:src="@{/img/face/33.gif}"/>
-			<img alt="" th:src="@{/img/face/34.gif}"/>
-			<img alt="" th:src="@{/img/face/35.gif}"/>
-			<img alt="" th:src="@{/img/face/36.gif}"/>
-			<img alt="" th:src="@{/img/face/37.gif}"/>
-			<img alt="" th:src="@{/img/face/38.gif}"/>
-			<img alt="" th:src="@{/img/face/39.gif}"/>
-			<img alt="" th:src="@{/img/face/40.gif}"/>
-			<img alt="" th:src="@{/img/face/41.gif}"/>
-			<img alt="" th:src="@{/img/face/42.gif}"/>
-			<img alt="" th:src="@{/img/face/43.gif}"/>
-			<img alt="" th:src="@{/img/face/44.gif}"/>
-			<img alt="" th:src="@{/img/face/45.gif}"/>
-			<img alt="" th:src="@{/img/face/46.gif}"/>
-			<img alt="" th:src="@{/img/face/47.gif}"/>
-			<img alt="" th:src="@{/img/face/48.gif}"/>
-			<img alt="" th:src="@{/img/face/49.gif}"/>
-			<img alt="" th:src="@{/img/face/50.gif}"/>
-			<img alt="" th:src="@{/img/face/51.gif}"/>
-			<img alt="" th:src="@{/img/face/52.gif}"/>
-			<img alt="" th:src="@{/img/face/53.gif}"/>
-			<img alt="" th:src="@{/img/face/54.gif}"/>
-			<img alt="" th:src="@{/img/face/55.gif}"/>
-			<img alt="" th:src="@{/img/face/56.gif}"/>
-			<img alt="" th:src="@{/img/face/57.gif}"/>
-			<img alt="" th:src="@{/img/face/58.gif}"/>
-			<img alt="" th:src="@{/img/face/59.gif}"/>
-			<img alt="" th:src="@{/img/face/60.gif}"/>
-			<img alt="" th:src="@{/img/face/61.gif}"/>
-			<img alt="" th:src="@{/img/face/62.gif}"/>
-			<img alt="" th:src="@{/img/face/63.gif}"/>
-			<img alt="" th:src="@{/img/face/64.gif}"/>
-			<img alt="" th:src="@{/img/face/65.gif}"/>
-			<img alt="" th:src="@{/img/face/66.gif}"/>
-			<img alt="" th:src="@{/img/face/67.gif}"/>
-			<img alt="" th:src="@{/img/face/68.gif}"/>
-			<img alt="" th:src="@{/img/face/69.gif}"/>
-			<img alt="" th:src="@{/img/face/70.gif}"/>
-			<img alt="" th:src="@{/img/face/71.gif}"/>
-			<img alt="" th:src="@{/img/face/72.gif}"/>
-			<img alt="" th:src="@{/img/face/73.gif}"/>
-			<img alt="" th:src="@{/img/face/74.gif}"/>
-			<img alt="" th:src="@{/img/face/75.gif}"/>
+			<div id="MessageBoard"  ></div>
+			<div class="sendDiv">
+				<div>
+					<div contenteditable="true"  id="hwsMessage"></div>
+					<div class="sendButton">
+						<button id="qq"  class="btn btn-default" type="button">表情</button>
+						<button id="hwsSend" class="btn btn-default" type="button" >Send</button>
+					</div>
+				</div>
+				<div id="qqFace">
+				<img alt="" th:src="@{/img/face/1.gif}" />
+				<img alt="" th:src="@{/img/face/2.gif}"/>
+				<img alt="" th:src="@{/img/face/3.gif}"/>
+				<img alt="" th:src="@{/img/face/4.gif}"/>
+				<img alt="" th:src="@{/img/face/5.gif}"/>
+				<img alt="" th:src="@{/img/face/6.gif}"/>
+				<img alt="" th:src="@{/img/face/7.gif}"/>
+				<img alt="" th:src="@{/img/face/8.gif}"/>
+				<img alt="" th:src="@{/img/face/9.gif}"/>
+				<img alt="" th:src="@{/img/face/10.gif}"/>
+				<img alt="" th:src="@{/img/face/11.gif}"/>
+				<img alt="" th:src="@{/img/face/12.gif}"/>
+				<img alt="" th:src="@{/img/face/13.gif}"/>
+				<img alt="" th:src="@{/img/face/14.gif}"/>
+				<img alt="" th:src="@{/img/face/15.gif}"/>
+				<img alt="" th:src="@{/img/face/16.gif}"/>
+				<img alt="" th:src="@{/img/face/17.gif}"/>
+				<img alt="" th:src="@{/img/face/18.gif}"/>
+				<img alt="" th:src="@{/img/face/19.gif}"/>
+				<img alt="" th:src="@{/img/face/20.gif}"/>
+				<img alt="" th:src="@{/img/face/21.gif}"/>
+				<img alt="" th:src="@{/img/face/22.gif}"/>
+				<img alt="" th:src="@{/img/face/23.gif}"/>
+				<img alt="" th:src="@{/img/face/24.gif}"/>
+				<img alt="" th:src="@{/img/face/25.gif}"/>
+				<img alt="" th:src="@{/img/face/26.gif}"/>
+				<img alt="" th:src="@{/img/face/27.gif}"/>
+				<img alt="" th:src="@{/img/face/28.gif}"/>
+				<img alt="" th:src="@{/img/face/29.gif}"/>
+				<img alt="" th:src="@{/img/face/30.gif}"/>
+				<img alt="" th:src="@{/img/face/31.gif}"/>
+				<img alt="" th:src="@{/img/face/32.gif}"/>
+				<img alt="" th:src="@{/img/face/33.gif}"/>
+				<img alt="" th:src="@{/img/face/34.gif}"/>
+				<img alt="" th:src="@{/img/face/35.gif}"/>
+				<img alt="" th:src="@{/img/face/36.gif}"/>
+				<img alt="" th:src="@{/img/face/37.gif}"/>
+				<img alt="" th:src="@{/img/face/38.gif}"/>
+				<img alt="" th:src="@{/img/face/39.gif}"/>
+				<img alt="" th:src="@{/img/face/40.gif}"/>
+				<img alt="" th:src="@{/img/face/41.gif}"/>
+				<img alt="" th:src="@{/img/face/42.gif}"/>
+				<img alt="" th:src="@{/img/face/43.gif}"/>
+				<img alt="" th:src="@{/img/face/44.gif}"/>
+				<img alt="" th:src="@{/img/face/45.gif}"/>
+				<img alt="" th:src="@{/img/face/46.gif}"/>
+				<img alt="" th:src="@{/img/face/47.gif}"/>
+				<img alt="" th:src="@{/img/face/48.gif}"/>
+				<img alt="" th:src="@{/img/face/49.gif}"/>
+				<img alt="" th:src="@{/img/face/50.gif}"/>
+				<img alt="" th:src="@{/img/face/51.gif}"/>
+				<img alt="" th:src="@{/img/face/52.gif}"/>
+				<img alt="" th:src="@{/img/face/53.gif}"/>
+				<img alt="" th:src="@{/img/face/54.gif}"/>
+				<img alt="" th:src="@{/img/face/55.gif}"/>
+				<img alt="" th:src="@{/img/face/56.gif}"/>
+				<img alt="" th:src="@{/img/face/57.gif}"/>
+				<img alt="" th:src="@{/img/face/58.gif}"/>
+				<img alt="" th:src="@{/img/face/59.gif}"/>
+				<img alt="" th:src="@{/img/face/60.gif}"/>
+				<img alt="" th:src="@{/img/face/61.gif}"/>
+				<img alt="" th:src="@{/img/face/62.gif}"/>
+				<img alt="" th:src="@{/img/face/63.gif}"/>
+				<img alt="" th:src="@{/img/face/64.gif}"/>
+				<img alt="" th:src="@{/img/face/65.gif}"/>
+				<img alt="" th:src="@{/img/face/66.gif}"/>
+				<img alt="" th:src="@{/img/face/67.gif}"/>
+				<img alt="" th:src="@{/img/face/68.gif}"/>
+				<img alt="" th:src="@{/img/face/69.gif}"/>
+				<img alt="" th:src="@{/img/face/70.gif}"/>
+				<img alt="" th:src="@{/img/face/71.gif}"/>
+				<img alt="" th:src="@{/img/face/72.gif}"/>
+				<img alt="" th:src="@{/img/face/73.gif}"/>
+				<img alt="" th:src="@{/img/face/74.gif}"/>
+				<img alt="" th:src="@{/img/face/75.gif}"/>
+				</div>
 			</div>
 		</div>
 	</div>

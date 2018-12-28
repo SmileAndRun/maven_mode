@@ -1,0 +1,94 @@
+.background{
+	background-image: url("/img/bg2.jpg");
+}
+.container{
+	margin: 0px;
+	padding: 0px;
+}
+.announcement{
+  width: 200px;
+  height: 450px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding-left: 10px;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px #e6e6fa, 3px -3px 3px #e6e6fa, -3px 3px 3px #e6e6fa, -3px -3px 3px #e6e6fa;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: inline-block;
+  background-color: #323232;
+}
+#MessageBoard {
+  display: inline-block;
+  width: 723px;
+  height: 450px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding-left: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-shadow: 3px 3px 3px #e6e6fa, 3px -3px 3px #e6e6fa, -3px 3px 3px #e6e6fa, -3px -3px 3px #e6e6fa;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+#MessageBoard img {
+  display: inline;
+}
+#hwsMessage {
+  border-radius: 5px;
+  width: 500px;
+  border: none;
+  height: 35px;
+  float: left;
+  margin-left: 30px;
+  background-color: #fff;
+  line-height: 35px;
+  padding-left: 10px;
+  display: inline;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+.sendDiv{
+	
+}
+.sendButton{
+	width: 200px;
+	text-align: center;
+	display: inline-block;
+}
+.sendButton button{
+	
+	margin: 0px;
+}
+#hwsMessage{
+	display: inline-block;
+	margin-top: 5px;
+}
+#hwsMessage img {
+  display: inline;
+  line-height: 26px;
+  height: 26px;
+  vertical-align: middle;
+}
+#hwsSend,#qq {
+  border-radius: 5px;
+  margin: 5px;
+}
+#qqFace {
+  display: none;
+  width: 723px;
+  background-color: #fff;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 2;
+  box-shadow: 3px 3px 3px #e6e6fa, 3px -3px 3px #e6e6fa, -3px 3px 3px #e6e6fa, -3px -3px 3px #e6e6fa;
+}
+#qqFace img {
+  float: left;
+  width: 26px;
+  height: 26px;
+}
+#qqFace img:hover {
+  box-shadow: 3px 3px 3px #00f, 3px -3px 3px #00f, -3px 3px 3px #00f, -3px -3px 3px #00f;
+}

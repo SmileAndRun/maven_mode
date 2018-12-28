@@ -15,7 +15,7 @@ public class InternationalController {
 	@RequestMapping(value="/selectLanguage")
 	public String selectLanguage(String language,HttpServletRequest request){
 		Locale locale = null;
-		if(language.equals("ENGLIST")){
+		if(language.equals("ENGLISH")){
 			locale = new Locale("en", "US");
 			request.getSession().setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
 			request.getSession().setAttribute("lan", "en_US");

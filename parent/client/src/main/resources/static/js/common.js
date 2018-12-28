@@ -13,16 +13,18 @@ menu.menuScroll = function(){
 }
 //中英文国际化
 menu.changeLanguage = function (lan){
-	$.Ajax({
-		type:"post",
-		url:"/i18n/selectLanguage",
-		contentType:"application/json;charset=utf-8",
-		dataType:"json",
-		data:{"language":lan},
-		success:function(data){
-			location.reload();
-		}
-	});
+	var url = "/i18n/selectLanguage";
+	var data = {
+			language: lan
+	}
+	var s_function = function(){
+		location.reload();
+	}
+	var e_function = function(){
+		
+	}
+	jQuery.commonAjax(url,data,s_function,e_function);
+	
 }
 //menu事件
 menu.menuButtonClick = function (){

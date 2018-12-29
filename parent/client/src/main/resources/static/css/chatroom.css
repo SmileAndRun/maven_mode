@@ -49,8 +49,30 @@
   overflow: hidden;
   display: inline-block;
 }
-.sendDiv{
-	
+.name{
+	border: none;
+	border-radius: 5px;
+	display: inline;
+	border: none;
+	float: left;
+	margin-top: 5px;
+}
+.name *{
+	display: inline;
+	height: 35px;
+	line-height: 35px;
+	outline: none;
+}
+.name input:first-child{
+	width: 50px;
+	background-color: #333;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	text-align: center;
+}
+.name input:last-child{
+	width: 100px;
 }
 .sendButton{
 	width: 200px;
@@ -58,7 +80,6 @@
 	display: inline-block;
 }
 .sendButton button{
-	
 	margin: 0px;
 }
 #hwsMessage{

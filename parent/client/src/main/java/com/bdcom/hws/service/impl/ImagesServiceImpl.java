@@ -66,6 +66,9 @@ public class ImagesServiceImpl implements ImagesService {
 			//当打成jar包时此路径为jar包的父级文件夹路径
 			File  project= new File(System.getProperty("user.dir"));
 			String path = project.getAbsolutePath()+"/upload/img/";
+			if(!new File(path).exists()){
+				new File(path).mkdirs();
+			}
 			String fileName = file.getOriginalFilename();
 			
 			Images images = im.getMaxImageId();

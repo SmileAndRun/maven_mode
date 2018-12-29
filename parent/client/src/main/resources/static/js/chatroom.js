@@ -21,10 +21,7 @@ $(function() {
 				if (value != null) {
 					var massage = getNowFormatDate()+"&nbsp;&nbsp;"+"<label style=\"border-radius: 5px;background-color:#00F5FF;\">游客</label>："+value
 						+ "<br/>";	
-					//alert(massage);
 					$("#MessageBoard").append(massage);
-					//$("#hwsData").append(massage);
-					
 					$("#hwsMessage").html("");
 				}
 
@@ -43,8 +40,36 @@ $(function() {
 		}
 		var hour = date.getHours();
 		var min = date.getMinutes();
-		var currentdate = year + seperator1 + month + seperator1 + strDate +"&nbsp;&nbsp;&nbsp;&nbsp;"+hour+":"+min;
+		var currentdate = year + seperator1 + month + seperator1 + strDate +" "+hour+":"+min;
 		return currentdate;
+	}
+	//websocket 初始化
+	if ("WebSocket" in window){
+		websocket = new WebSocket("ws://localhost:8089/websocket");
+		//连接发生错误的回调方法
+	    websocket.onerror = function(){
+	    	layer.msg("the websocket server is error!");
+	    };
+	    //连接成功建立的回调方法
+	    websocket.onopen = function(event){
+	    }
+	    websocket.onmessage = function(result){
+	    	var json = eval("("+result.data+")");
+	    	
+	    }
+	    //连接关闭的回调方法
+	    websocket.onclose = function(){
+	    }
+	    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+	    window.onbeforeunload = function(){
+	        websocket.close();
+	    }
+	    //关闭连接
+	    function closeWebSocket(){
+	        websocket.close();
+	    }
+	}else{
+		layer.msg("your browser is not support websocket!");
 	}
 }); 
 chatroom.initPages = function(){
@@ -56,7 +81,7 @@ chatroom.initPages = function(){
 		marginTop: (w_height - $(".announcement").height() - $(".sendDiv").height())/2 -15
 	});
 	$(".sendDiv").css({
-		marginLeft: (w_width - $(".announcement").width()-$("#MessageBoard").width())/2+$(".announcement").width(),
+		marginLeft: (w_width - $(".name").width()- $("#hwsMessage").width()- $(".sendButton").width())/2,
 	});
 	
 }

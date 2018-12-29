@@ -27,9 +27,13 @@
 			<div id="MessageBoard"  ></div>
 			<div class="sendDiv">
 				<div>
+					<div class="name">
+						<input th:value="#{pet.name}" readonly="readonly"/>
+						<input />
+					</div>
 					<div contenteditable="true"  id="hwsMessage"></div>
 					<div class="sendButton">
-						<button id="qq"  class="btn btn-default" type="button">表情</button>
+						<button id="qq"  class="btn btn-default" type="button" th:text="#{face}"></button>
 						<button id="hwsSend" class="btn btn-default" type="button" >Send</button>
 					</div>
 				</div>

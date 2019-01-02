@@ -22,12 +22,15 @@
 		<div class="container">
 			<!-- 开始 -->
 			<div class="announcement">
+				<div class="title" th:text="#{announcement}"></div>
 				<div class="content"></div>
 			</div>
-			<div id="MessageBoard"  ></div>
+			<div id="MessageBoard"  >
+			</div>
 			<div class="sendDiv">
 				<div>
 					<div class="name">
+						<input type="hidden"/>
 						<input th:value="#{pet.name}" readonly="readonly"/>
 						<input />
 					</div>
@@ -117,5 +120,12 @@
 			</div>
 		</div>
 	</div>
+	<div class="i18n">
+		<input type="hidden" class="visitor-i18n" th:value="#{visitor}"/>
+		<input type="hidden" class="joinChatroom-i18n" th:value="#{join.a.chatroom}"/>
+		<input type="hidden" class="exitChatroom-i18n" th:value="#{exit.the.chatroom}"/>
+	</div>
+	<div class="commonI18n" th:insert="~{i18n::i18n}"></div>
+	<div class="commonMenu" th:insert="~{menu::commonMenu}"></div>
 </body>
 </html>

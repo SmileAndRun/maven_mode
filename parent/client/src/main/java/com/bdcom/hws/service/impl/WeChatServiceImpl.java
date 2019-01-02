@@ -1,6 +1,7 @@
 package com.bdcom.hws.service.impl;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
@@ -35,9 +36,9 @@ public class WeChatServiceImpl implements WeChatService {
 		if(null == temp){
 			model.setW_id(1);
 		}else{
-			model.setW_id(temp.getW_id());
+			model.setW_id(temp.getW_id()+1);
 		}
-		//model.setW_time(new Timestamp(new Date().getTime()));
+		if(null == model.getW_time())model.setW_time(new Timestamp(new Date().getTime()));
 		return wm.addChat(model)==0?false:true;
 	}
 

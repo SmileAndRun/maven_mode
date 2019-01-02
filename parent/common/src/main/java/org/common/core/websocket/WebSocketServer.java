@@ -1,6 +1,8 @@
 package org.common.core.websocket;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.OnClose;
@@ -22,20 +24,32 @@ import org.springframework.stereotype.Component;
 @ServerEndpoint(value="/websocket")
 public class WebSocketServer {
 	private static Logger logger = Logger.getLogger(WebSocketServer.class);
-	private static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<WebSocketServer>();
+	public static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<WebSocketServer>();
 	private Session session;
-	/**客服端连接的时候触发*/
+	/**客服端连接的时候触发
+	 * @throws IOException */
 	@OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session) throws IOException{
         this.session = session;
         webSocketServers.add(this);
+        String message = "{webSocketSessionId:'"+session.getId()+"'}";
+        sendMessage(message);
+        Map<String, String> map = new HashMap<String,String>();
+		map.put("type", "1");
+		map.put("content", session.getId());
+		sendMessageToAll(map);
         logger.info("sessionID："+session.getId()+",Open触发");
     }
-	/**当客服端断开连接时触发*/
+	/**当客服端断开连接时触发
+	 * @throws IOException */
 	@OnClose
-	public void onClose(){
+	public void onClose() throws IOException{
 		webSocketServers.remove(this);
-		logger.info("sessionID："+session.getId()+",Close触发");
+		Map<String, String> map = new HashMap<String,String>();
+		map.put("type", "2");
+		map.put("content", this.session.getId());
+		sendMessageToAll(map);
+		logger.info("sessionID："+this.session.getId()+",Close触发");
 	}
 	/**接受客服端发来的信息
 	 * 	待定
@@ -51,11 +65,26 @@ public class WebSocketServer {
 	public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
     }
-	public static CopyOnWriteArraySet< WebSocketServer> getWebSocketServers() {
-		return webSocketServers;
+	public void sendMessageToAll(Session session) throws IOException{
+		for(WebSocketServer wServer:webSocketServers){
+			wServer.session.getBasicRemote().sendText("{content:'"+session.getId()+"'}");
+		}
 	}
-	public static void setWebSocketServers(
-			CopyOnWriteArraySet<WebSocketServer> webSocketServers) {
-		WebSocketServer.webSocketServers = webSocketServers;
+	public void sendMessageToAll(String message) throws IOException{
+		for(WebSocketServer wServer:webSocketServers){
+			wServer.session.getBasicRemote().sendText(message);
+		}
+	}
+	public void sendMessageToAll(Map<String, String>map) throws IOException{
+		String message = "";
+		if(null != map&& map.size() != 0){
+			for(String key:map.keySet()){
+				message += key + ":" +"'"+map.get(key)+"',";
+			}
+		}
+		message = message.substring(0,message.length()-1);
+		for(WebSocketServer wServer:webSocketServers){
+			wServer.session.getBasicRemote().sendText("{"+message+"}");
+		}
 	}
 }

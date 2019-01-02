@@ -7,6 +7,7 @@ public class WeChat {
 	private Integer w_id;
 	private String w_content;
 	private Timestamp w_time;
+	private String w_nickName; 
 	/*备用字段*/
 	private String w_temp1;
 	public Timestamp getW_time() {
@@ -32,5 +33,11 @@ public class WeChat {
 	}
 	public void setW_temp1(String w_temp1) {
 		this.w_temp1 = w_temp1;
+	}
+	public String getW_nickName() {
+		return w_nickName;
+	}
+	public void setW_nickName(String w_nickName) {
+		this.w_nickName = w_nickName;
 	}
 }

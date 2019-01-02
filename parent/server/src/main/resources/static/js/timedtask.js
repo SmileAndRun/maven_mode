@@ -442,7 +442,9 @@ $(function(){
 	    }
 	    websocket.onmessage = function(event){
 	    	var json = eval("("+event.data+")");
-	    	$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
+	    	if(null != json.name){
+	    		$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
+	    	}
 	    	/*if(json.name==jobName&&json.state=="COMPLETE"){
 	    		if(time != null){
 	    			clearInterval(time);

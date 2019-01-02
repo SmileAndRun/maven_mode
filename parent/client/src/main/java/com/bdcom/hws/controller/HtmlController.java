@@ -1,17 +1,19 @@
 package com.bdcom.hws.controller;
 
 
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 
-import org.common.model.Barrage;
+
+import org.common.model.client.WeChat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.bdcom.server.service.BarrageService;
+import com.alibaba.fastjson.JSONObject;
+import com.bdcom.hws.service.WeChatService;
 
 
 @Controller
@@ -23,9 +25,26 @@ public class HtmlController {
 		return model;
 	}
 	@RequestMapping(value="/html/chatroom")
-	public ModelAndView initHomePage(HttpServletRequest req){
+	public ModelAndView homePage(){
 		ModelAndView model = new ModelAndView("chatroom");
 		return model;
+	}
+	@RequestMapping(value="/html/initChatroom")
+	@ResponseBody
+	public JSONObject initHomePage(){
+		JSONObject obj = ws.getAllChat();
+		return obj;
+	}
+	@Autowired
+	WeChatService ws;
+	@RequestMapping(value="/html/addMessage")
+	@ResponseBody
+	public JSONObject addMessage(WeChat model,long time){
+		JSONObject obj = new JSONObject();
+		model.setW_time(new Timestamp(time));
+		boolean addChatFlag = ws.addChat(model);
+		obj.put("addChatFlag", addChatFlag);
+		return obj;
 	}
 
 }

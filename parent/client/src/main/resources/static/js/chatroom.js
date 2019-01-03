@@ -4,13 +4,22 @@ var w_height = $(window).height();
 $(function() {
 	
 	$(".sendButton").on("click","#qq",function(){
-		$("#qqFace").css("display","block");
+		$("#qqFace").css({
+			display:"block",
+			left: (w_width - $("#qqFace").width())/2
+		});
 	});
 	$("#qqFace").on("click","img",function(){
 		var src = $(this).attr("src");
 		
 		$("#hwsMessage").append("<img src=" + src + "></img>");
 		$("#qqFace").css("display","none");
+	});
+	//处理点击面板外消失问题
+	$(this).click(function(e){
+		 if(!$(e.target).is('#qqFace')&&!$(e.target).is('#qq')){
+			 $("#qqFace").css("display","none");
+		 }
 	});
 	$(".sendButton").on(
 			"click",

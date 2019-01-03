@@ -127,6 +127,7 @@
   float: left;
   width: 26px;
   height: 26px;
+  cursor: pointer;
 }
 #qqFace img:hover {
   box-shadow: 3px 3px 3px #00f, 3px -3px 3px #00f, -3px 3px 3px #00f, -3px -3px 3px #00f;

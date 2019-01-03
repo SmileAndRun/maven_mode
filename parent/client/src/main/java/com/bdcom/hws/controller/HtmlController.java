@@ -29,6 +29,11 @@ public class HtmlController {
 		ModelAndView model = new ModelAndView("chatroom");
 		return model;
 	}
+	@RequestMapping(value="/html/share")
+	public ModelAndView shaerPage(){
+		ModelAndView model = new ModelAndView("share");
+		return model;
+	}
 	@RequestMapping(value="/html/initChatroom")
 	@ResponseBody
 	public JSONObject initHomePage(){

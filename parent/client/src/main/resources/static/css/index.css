@@ -5,13 +5,14 @@
 	padding: 0px;
 }
 .globalBackground{
-	background-color: #323232;
+	background-color: #ddd;
 	width: 100%;
 	position: fixed;
 	top: 0px;
 	left: 0px;
 	display: none;
 	z-index: 13;
+	opacity:0;
 }
 
 .scroll li {
@@ -192,6 +193,7 @@ br{
 	position: fixed;
 	z-index: 14;
 	background-color: white;
+	opacity: 0;
 }
 .currentBar div{
 	display: inline-block;

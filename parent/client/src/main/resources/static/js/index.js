@@ -156,9 +156,9 @@ $(function(){
 	//content img弹幕数组
 	var content = [];
 	$(".images").on("mouseover",".shadeBar",function (){  
-		$(this).css({
+		$(this).animate({
 			opacity: 1
-		});  
+		},'slow');  
 		var barLength=$('.shadeBar li').length;
 		var barNum = 0;
 		//记录当前对象
@@ -182,16 +182,21 @@ $(function(){
 		$.commonAjax(url,data,rs_function,re_function);
     });
 	$(".images").on("mouseout",".shadeBar",function (){ 
-		$(this).css({
+		$(this).animate({
     		opacity: 0
-    	});
+    	},'slow');
     	jQuery.stopLoop();
 	});
 	
-	
 	$(".images").on("click",".shadeBar",function(){
 		$(".addBarDiv").css({display:"block"});
+		$(".addBarDiv").animate({
+    		opacity: 1
+    	},'slow');
 		$(".globalBackground").css({display:"block"});
+		$(".globalBackground").animate({
+    		opacity: 0.5
+    	},'slow');
 		var imgSrc = $(this).prev().find("img").attr("src");
 		$(".currentBar").append("<div></div><img src='"+imgSrc+"'/><input type='hidden' value='"+$(this).find("input").val()+"'/><div></div>"); 
 		var img_width = $(".currentBar").find("img").width();
@@ -300,8 +305,17 @@ $(function(){
 		}
 	});
 	$(".addBarDiv").on("click",".closeButton",function(){
-		$(".addBarDiv").empty();
+		$(".currentBar").empty();
+		$(".addBarDiv").animate({
+    		opacity: 0
+    	},'slow');
+		$(".addBarDiv").css({display:"none"});
 		$(".globalBackground").css({display:"none"});
+		$(".globalBackground,addBarDiv").animate({
+    		opacity: 0
+    	},'slow');
+		//清空上次弹幕记录
+		$(".imgBarUl").empty();
 	});
 	//初始化照片弹幕
 	function initImgBar(){

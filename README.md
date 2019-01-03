@@ -1,5 +1,5 @@
 ###本项目采用springboot+thymeleaf+html+mybatis+mysql实现，主要实现功能如下:  
-	1、结合shiro，实现权限控制、资源访问控制 
+	1、结合shiro，实现权限控制、资源访问控制  
 	2、结合quartz，实现定时任务  
 	3、结合websocket，实现双工通信  
 	4、结合thymeleaf,实现中英文国际化切换  

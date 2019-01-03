@@ -73,10 +73,10 @@ $(function() {
 	    	if(null != json.type){
 	    		if(json.type == "1"){
 	    			if(json.content!=$(".name input:nth-child(1)").val()){
-						$(".content").append("<p>"+$(".welcome-i18n").val()+json.content+","+$(".joinChatroom-i18n").val()+"</p>");
+						$(".content").append("<p>"+$(".welcome-i18n").val()+$(".user-i18n").val()+json.content+","+$(".joinChatroom-i18n").val()+"</p>");
 					}
 	    		}else if(json.type == "2"){
-	    			$(".content").append("<p>"+json.content+","+$(".exitChatroom-i18n").val()+"</p>");
+	    			$(".content").append("<p>"+$(".user-i18n").val()+json.content+","+$(".exitChatroom-i18n").val()+"</p>");
 	    		}
 	    		
 	    	}

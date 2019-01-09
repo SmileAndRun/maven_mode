@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authc.AuthenticationException;
 import org.common.model.Barrage;
 import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +64,16 @@ public class UserController {
 			obj.put("flag", false);
 			logger.error("validateAccount方法出现InvalidKeyException异常");
 			e.printStackTrace();
+			return obj;
 		} catch (NoSuchAlgorithmException e) {
 			obj.put("flag", false);
 			logger.error("validateAccount方法出现NoSuchAlgorithmException异常");
 			e.printStackTrace();
+			return obj;
+		}catch (AuthenticationException e){
+			obj.put("flag", false);
+			logger.error("验证失败，请重新登录！！！");
+			return obj;
 		}
 		logger.info("验证成功，欢迎登陆!");
 		return obj;

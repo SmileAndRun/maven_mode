@@ -9,7 +9,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.common.core.annotation.TargetDataSource;
@@ -121,7 +124,8 @@ public class UserServiceImpl implements UserService {
 		}else{
 			byte[] salt = null;
 			User saltUser = getUserSalt(user.getUserName());
-			if(null == saltUser)return null;
+			//账号都不存在，验证一定失败
+			if(null == saltUser) throw new AuthenticationException();
 			salt = saltUser.getuSalt();
 			pwd = EncryptionUtils.transformByteToString(EncryptionUtils.encryptHMAC(EncryptionUtils.combineByteArray(user.getUserPwd().getBytes(),salt), null));
 		

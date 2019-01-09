@@ -6,10 +6,6 @@ $(function(){
 	
 })
 share.initPage = function(){
-	/*$(".bgImg img").css({
-		width: s_width,
-		height: s_height-30
-	});*/
 	var i = 0;
     var img_array = $(".bgImg img");
     img_array.fadeOut(0);

@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.common.model.Role;
 import org.common.model.server.User;
+import org.common.utils.CookieUtils;
 import org.common.utils.DownUtils;
 import org.common.utils.FileWriterUtils;
 import org.common.utils.JDBCUtils;
@@ -232,5 +235,13 @@ public class RootController {
 		JSONObject obj = ms.changeRole(Integer.parseInt(roleId), preList, preListO);
 		logger.info("修改角色权限信息开始");
 		return obj;
+	}
+	@RequestMapping(value="/logout")
+	@ResponseBody
+	public ModelAndView logout(HttpServletRequest request,HttpServletResponse response){
+		Subject subject = SecurityUtils.getSubject();
+		CookieUtils.deleteCookies(request,response,null,null);
+		subject.logout();
+		return new ModelAndView("login");
 	}
 }

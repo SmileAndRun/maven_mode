@@ -47,9 +47,10 @@ public class UserRealm extends AuthorizingRealm{
 			if(null != user ){
 				return new SimpleAuthenticationInfo(userName,user.getUserPwd(),getName());
 			}
+			//如果用户都不存在那么一定验证失败
+			throw new AuthenticationException();
 		}
-		
-		return null;
+		throw new AuthenticationException();
 	}
 
 }

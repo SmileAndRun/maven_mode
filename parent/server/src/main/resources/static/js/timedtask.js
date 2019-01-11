@@ -432,7 +432,7 @@ $(function(){
 	});
 	//websocket 初始化
 	if ("WebSocket" in window){
-		websocket = new WebSocket("ws://localhost:8089/websocket");
+		websocket = new WebSocket("ws://localhost:8089/websocket/0");
 		//连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	layer.msg("the websocket server is error!");
@@ -442,6 +442,7 @@ $(function(){
 	    }
 	    websocket.onmessage = function(event){
 	    	var json = eval("("+event.data+")");
+	    	console.log(json);
 	    	if(null != json.name){
 	    		$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
 	    	}

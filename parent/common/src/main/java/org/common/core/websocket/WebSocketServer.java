@@ -10,6 +10,7 @@ import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
 import org.apache.log4j.Logger;
@@ -21,17 +22,22 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-@ServerEndpoint(value="/websocket")
+@ServerEndpoint(value="/websocket/{type}")
 public class WebSocketServer {
 	private static Logger logger = Logger.getLogger(WebSocketServer.class);
-	public static CopyOnWriteArraySet<WebSocketServer> webSocketServers = new CopyOnWriteArraySet<WebSocketServer>();
+	public static CopyOnWriteArraySet<WebSocketServer> webSocketServersForJob = new CopyOnWriteArraySet<WebSocketServer>();
+	public static CopyOnWriteArraySet<WebSocketServer> webSocketServersForChat = new CopyOnWriteArraySet<WebSocketServer>();
 	private Session session;
 	/**客服端连接的时候触发
 	 * @throws IOException */
 	@OnOpen
-    public void onOpen(Session session) throws IOException{
+    public void onOpen(Session session,@PathParam("type")String type) throws IOException{
         this.session = session;
-        webSocketServers.add(this);
+        if(type.equals("0")){
+        	webSocketServersForJob.add(this);
+        }else if(type.equals("1")){
+        	webSocketServersForChat.add(this);
+        }
         String message = "{webSocketSessionId:'"+session.getId()+"'}";
         sendMessage(message);
         Map<String, String> map = new HashMap<String,String>();
@@ -43,8 +49,12 @@ public class WebSocketServer {
 	/**当客服端断开连接时触发
 	 * @throws IOException */
 	@OnClose
-	public void onClose() throws IOException{
-		webSocketServers.remove(this);
+	public void onClose(@PathParam("type")String type) throws IOException{
+		if(type.equals("0")){
+			webSocketServersForJob.remove(this);
+        }else if(type.equals("1")){
+        	webSocketServersForChat.remove(this);
+        }
 		Map<String, String> map = new HashMap<String,String>();
 		map.put("type", "2");
 		map.put("content", this.session.getId());
@@ -66,12 +76,12 @@ public class WebSocketServer {
         this.session.getBasicRemote().sendText(message);
     }
 	public void sendMessageToAll(Session session) throws IOException{
-		for(WebSocketServer wServer:webSocketServers){
+		for(WebSocketServer wServer:webSocketServersForChat){
 			wServer.session.getBasicRemote().sendText("{content:'"+session.getId()+"'}");
 		}
 	}
 	public void sendMessageToAll(String message) throws IOException{
-		for(WebSocketServer wServer:webSocketServers){
+		for(WebSocketServer wServer:webSocketServersForChat){
 			wServer.session.getBasicRemote().sendText(message);
 		}
 	}
@@ -83,7 +93,7 @@ public class WebSocketServer {
 			}
 		}
 		message = message.substring(0,message.length()-1);
-		for(WebSocketServer wServer:webSocketServers){
+		for(WebSocketServer wServer:webSocketServersForChat){
 			wServer.session.getBasicRemote().sendText("{"+message+"}");
 		}
 	}

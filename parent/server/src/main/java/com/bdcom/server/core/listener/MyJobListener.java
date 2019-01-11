@@ -37,7 +37,7 @@ public class MyJobListener implements JobListener {
 		quartzService.updateSelfDefined(model);
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
 		try {
-			for(WebSocketServer socketServer:WebSocketServer.webSocketServers){
+			for(WebSocketServer socketServer:WebSocketServer.webSocketServersForJob){
 				if(null !=socketServer ) 	
 				synchronized (socketServer) {
 					socketServer.sendMessage(message);
@@ -70,7 +70,7 @@ public class MyJobListener implements JobListener {
 		}
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";
 		try {
-			for(WebSocketServer socketServer:WebSocketServer.webSocketServers){
+			for(WebSocketServer socketServer:WebSocketServer.webSocketServersForJob){
 				if(null !=socketServer )
 				synchronized (socketServer) {
 					socketServer.sendMessage(message);

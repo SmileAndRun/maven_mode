@@ -24,6 +24,7 @@ public class HtmlController {
 		ModelAndView model = new ModelAndView("login");
 		return model;
 	}
+	
 	@RequestMapping(value="/html/chatroom")
 	public ModelAndView homePage(){
 		ModelAndView model = new ModelAndView("chatroom");

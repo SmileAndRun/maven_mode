@@ -5,6 +5,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +18,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.common.model.Barrage;
 import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +38,8 @@ import com.bdcom.server.service.BarrageService;
 @RequestMapping(value="/user")
 public class UserController {
 	private static Logger logger = Logger.getLogger(UserController.class);
-	@Autowired
+	@Resource
+	@Qualifier("userServiceImpl")
 	private UserService us;
 	@Autowired
 	private BarrageService barService;
@@ -46,12 +49,12 @@ public class UserController {
 	@Value("${server.port}")
 	private String serverPort;
 	
-	@ApiOperation(value = "get User by uId", notes = "通过用户id获取该用户", response = User.class)
+	/*@ApiOperation(value = "get User by uId", notes = "通过用户id获取该用户", response = User.class)
 	@RequestMapping(value="getUserByUid",method=RequestMethod.GET)
 	public User  getUserByUid(@ApiParam(value="用户id",required=true) int uId){
 		User user = us.getUserByUid(uId);
 		return user;
-	}
+	}*/
 
 	@RequestMapping(value="/validate",method=RequestMethod.POST)
 	@ResponseBody

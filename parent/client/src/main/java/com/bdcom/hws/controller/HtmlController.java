@@ -4,12 +4,14 @@ package com.bdcom.hws.controller;
 
 import java.sql.Timestamp;
 
-
 import org.common.model.client.WeChat;
+import org.common.model.server.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
@@ -52,5 +54,16 @@ public class HtmlController {
 		obj.put("addChatFlag", addChatFlag);
 		return obj;
 	}
-
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@RequestMapping(value="/html/test")
+	@ResponseBody
+	public JSONObject test(){
+		
+		JSONObject obj = new JSONObject();
+		User temp = restTemplate.getForEntity("http://eureka-client/getUserByUid?userId=1", User.class).getBody();
+		return obj;
+	}
+	
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.data.mapper.SessionMapper">
+	<sql id="session">userId,sessionId,updateTime</sql>
+	<select id="findId" resultType="com.server.restful.api.pojo.client.SessionModel">
+		select <include refid="session"></include> from t_session where userId = #{userId,jdbcType=INTEGER}
+	</select>
+	<select id="fingIdBySessionName" resultType="com.server.restful.api.pojo.client.SessionModel">
+		select <include refid="session"></include> from t_session where sessionId = #{sessionId,jdbcType=VARCHAR}
+	</select>
+	<insert id="insert">
+		insert   into t_session(<include refid="session"></include> ) values(#{userId},#{sessionId},#{updateTime})
+	</insert>
+	<update id="update">
+		update t_session set sessionId = #{sessionId},updateTime = #{updateTime} where userId = #{userId}
+	</update>
+</mapper>

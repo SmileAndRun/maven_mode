@@ -1,0 +1,6 @@
+2018-12-26-14-43 [main] [com.bdcom.hws.HwsApplication] [INFO] - springboot初始化
+  2018-12-26-14-43 [main] [com.bdcom.server.lucene.IndexUtils] [INFO] - lucene初始化
+  2018-12-26-14-43 [main] [com.bdcom.hws.core.redis.RedisConfig] [INFO] - redis初始化
+  2018-12-26-14-43 [main] [com.bdcom.hws.core.redis.RedisConfig] [INFO] - redis模板初始化
+  2018-12-26-14-43 [main] [com.bdcom.hws.HwsApplication] [INFO] - springboot初始化结束
+  

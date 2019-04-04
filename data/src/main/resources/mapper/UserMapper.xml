@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.data.mapper.UserMapper">
+	<sql id="user">userId,userName,userPwd,uIsLock,uSalt,uIsManage</sql>
+	<!-- 查询数据 -->
+	<select id="getSaltByUname" parameterType="String" resultType="com.server.restful.api.pojo.server.User">
+		select uSalt from t_user where userName = #{userName}
+	</select>
+	<resultMap type="com.server.restful.api.pojo.server.User" id="userMap">
+		<id column="userId" jdbcType="INTEGER" property="userId"/>
+		<result column="userName" jdbcType="VARCHAR" property="userName"/>
+		<result column="userPwd" jdbcType="VARCHAR" property="userPwd"/>
+		<result column="uSalt" jdbcType="BLOB" property="uSalt"/>
+		<result column="uIsLock" jdbcType="CHAR" property="uIsLock"/>
+		<result column="uIsManage" jdbcType="CHAR" property="uIsManage"/>
+		<collection  property="roleList" ofType="com.server.restful.api.pojo.Role">
+			<result column="role" jdbcType="VARCHAR" property="role"/>
+			<collection property="permissionList" ofType="com.server.restful.api.pojo.Permission">
+				<result column="permission" jdbcType="VARCHAR" property="permission"/>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="getUserInfoByUid" parameterType="Integer" resultMap="userMap">
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,uIsManage 
+		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+		r.roleId = p.roleId where u.userId = #{userName}
+	</select>
+	<select id="getUserByUid" parameterType="Integer" resultType="com.server.restful.api.pojo.server.User">
+		select <include refid="user"></include> from t_user where userId = #{userId}
+	</select>
+	<select id="getUserByUname" parameterType="String" resultType="com.server.restful.api.pojo.server.User">
+		select <include refid="user"></include> from t_user where userName = #{userName}
+	</select>
+	<select id="getUsers"  resultType="com.server.restful.api.pojo.server.User">
+		select <include refid="user"></include> from t_user 
+	</select>
+	<select id="getUserInfoByUname" parameterType="String" resultMap="userMap">
+		select u.userId,userName,userPwd,uSalt,uIsLock,role,permission,uIsManage 
+		from t_user u left join t_role r on u.userId = r.userId left join t_permission p on 
+		r.roleId = p.roleId where userName = #{userName}
+	</select>
+	<!-- 插入数据 -->
+	<insert id="registerUser" parameterType="com.server.restful.api.pojo.server.User">
+		insert   into t_user( <include refid="user"></include> ) values(#{userId},#{userName},#{userPwd},#{uIsLock},#{uSalt},#{uIsManage})
+	</insert>
+	<!-- 修改数据 -->
+	<update id="changeUser" parameterType="com.server.restful.api.pojo.server.User">
+		update t_user set userName = #{userName},userPwd = #{userPwd},uIsManage = #{uIsManage} where userId = #{userId}
+	</update>
+	<!-- 删除数据 -->
+	<delete id="deleteUserByUid" parameterType="Integer">
+		delete from t_user where uId = #{userId}
+	</delete>
+	<delete id="deleteUserByUname" parameterType="String">
+		delete from t_user where userName = #{userName}
+	</delete>
+	
+</mapper>

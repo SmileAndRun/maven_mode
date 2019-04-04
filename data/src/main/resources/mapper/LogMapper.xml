@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.server.data.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="com.server.restful.api.pojo.Log">
+    
+    <id column="logId" jdbcType="VARCHAR" property="logid" />
+    <result column="userId" jdbcType="INTEGER" property="userid" />
+    <result column="logType" jdbcType="VARCHAR" property="logtype" />
+    <result column="logMessage" jdbcType="VARCHAR" property="logmessage" />
+    <result column="logIsError" jdbcType="CHAR" property="logiserror" />
+    <result column="logTime" jdbcType="TIMESTAMP" property="logtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    
+    logId, userId, logType, logMessage, logIsError, logTime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    
+    select 
+    <include refid="Base_Column_List" />
+    from t_log
+    where logId = #{logid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    
+    delete from t_log
+    where logId = #{logid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.server.restful.api.pojo.Log">
+   
+    insert into t_log (logId, userId, logType, 
+      logMessage, logIsError, logTime
+      )
+    values (#{logid,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, #{logtype,jdbcType=VARCHAR}, 
+      #{logmessage,jdbcType=VARCHAR}, #{logiserror,jdbcType=CHAR}, #{logtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.server.restful.api.pojo.Log">
+   
+    insert into t_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logid != null">
+        logId,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="logtype != null">
+        logType,
+      </if>
+      <if test="logmessage != null">
+        logMessage,
+      </if>
+      <if test="logiserror != null">
+        logIsError,
+      </if>
+      <if test="logtime != null">
+        logTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logid != null">
+        #{logid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="logtype != null">
+        #{logtype,jdbcType=VARCHAR},
+      </if>
+      <if test="logmessage != null">
+        #{logmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="logiserror != null">
+        #{logiserror,jdbcType=CHAR},
+      </if>
+      <if test="logtime != null">
+        #{logtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.server.restful.api.pojo.Log">
+    update t_log
+    <set>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="logtype != null">
+        logType = #{logtype,jdbcType=VARCHAR},
+      </if>
+      <if test="logmessage != null">
+        logMessage = #{logmessage,jdbcType=VARCHAR},
+      </if>
+      <if test="logiserror != null">
+        logIsError = #{logiserror,jdbcType=CHAR},
+      </if>
+      <if test="logtime != null">
+        logTime = #{logtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where logId = #{logid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.server.restful.api.pojo.Log">
+    update t_log
+    set userId = #{userid,jdbcType=INTEGER},
+      logType = #{logtype,jdbcType=VARCHAR},
+      logMessage = #{logmessage,jdbcType=VARCHAR},
+      logIsError = #{logiserror,jdbcType=CHAR},
+      logTime = #{logtime,jdbcType=TIMESTAMP}
+    where logId = #{logid,jdbcType=VARCHAR}
+  </update>
+  <select id="getLastMaxId" resultType="com.server.restful.api.pojo.Log">
+  	select max(logId) logId from t_log 
+  </select>
+</mapper>

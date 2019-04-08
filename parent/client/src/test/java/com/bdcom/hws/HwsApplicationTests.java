@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.bdcom.hws.mapper.RoleMapper;
 import com.bdcom.hws.mapper.UserMapper;
-import com.hws.mybatisgenerator.core.CodeGenerator;
+/*import com.hws.mybatisgenerator.core.CodeGenerator;*/
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

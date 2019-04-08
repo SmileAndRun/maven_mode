@@ -1,7 +1,6 @@
 package com.server.gataway;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
@@ -12,7 +11,6 @@ import com.server.gataway.filter.AccessFilter;
 
 @EnableZuulProxy
 @SpringCloudApplication
-@SpringBootApplication
 public class GatewayApplication {
 
 	@Bean

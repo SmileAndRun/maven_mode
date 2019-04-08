@@ -29,11 +29,11 @@
 		</dependency>
 		
 		 <!-- 依赖自己写的jar -->
-      <dependency>
+     <!--  <dependency>
 			<groupId>com.hws</groupId>
 			<artifactId>MybatisGenerator</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-	  </dependency> 
+	  </dependency>  -->
        <!-- thymeleaf -->
        <dependency>
 			<groupId>org.springframework.boot</groupId>

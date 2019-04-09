@@ -1,11 +1,11 @@
-package com.server.data.server.impl;
+package com.server.data.controller;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.server.data.core.database.DatabaseType;
 import com.server.data.core.database.TargetDataSource;
@@ -32,8 +32,8 @@ import com.server.restful.api.pojo.client.SessionModel;
 import com.server.restful.api.pojo.client.WeChat;
 import com.server.restful.api.pojo.server.User;
 
-@Service
-public class DataServiceImpl implements DataService {
+@RestController
+public class DataController implements DataService {
 
 	@Autowired
 	UserMapper userMapper;
@@ -58,9 +58,9 @@ public class DataServiceImpl implements DataService {
 	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public User getUserByUid(Integer uId) {
+	public User getUserByUid(Integer userId) {
 		
-		return managerMapper.getUserByUid(uId);
+		return managerMapper.getUserByUid(userId);
 	}
 
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)

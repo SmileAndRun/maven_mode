@@ -6,9 +6,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.server.feigncustomer.service.FeignService;
@@ -26,6 +24,7 @@ import com.server.restful.api.pojo.server.User;
 
 
 @RestController
+@RequestMapping("/feign")
 public class FeignController {
 
 	@Autowired
@@ -33,192 +32,137 @@ public class FeignController {
 	
 	//select
 	@RequestMapping("/getUserByUid")
-	public User getUserByUid(@RequestParam Integer userId){
+	public User getUserByUid(Integer userId){
+		User user = feignService.getUserByUid(userId);
+		return user;
+		}
+	public User getUserInfoByUid(Integer userId){
 		return null;}
-	@RequestMapping("/getUserInfoByUid")
-	public User getUserInfoByUid(@RequestParam Integer userId){
-		return null;}
-	@RequestMapping("/getUsers")
 	public List<User> getUsers(){
 		return null;}
-	@RequestMapping("/getUserByUname")
-	public User getUserByUname(@RequestParam String uName){
+	public User getUserByUname(String uName){
 		return null;}
-	@RequestMapping("/getUserInfoByUname")
-	public User getUserInfoByUname(@RequestParam String uName){
+	public User getUserInfoByUname(String uName){
 		return null;}
-	@RequestMapping("/getUser")
-	public List<User> getUser(@RequestBody User user){
+	public List<User> getUser(User user){
 		return null;}
-	@RequestMapping("/getUserSalt")
-	public User getUserSalt(@RequestParam String userName){
+	public User getUserSalt(String userName){
 		return null;}
-	@RequestMapping("/findId")
-	public SessionModel findId(@RequestParam Integer sessioinId){
+	public SessionModel findId(Integer sessioinId){
 		return null;}
-	@RequestMapping("/fingIdBySessionName")
-	public SessionModel fingIdBySessionName(@RequestParam String sessionName){
+	public SessionModel fingIdBySessionName(String sessionName){
 		return null;}
-	@RequestMapping("/getLastMaxId")
 	public Log getLastMaxId(){
 		return null;}
-	@RequestMapping("/getImages")
-	public List<Images> getImages(@RequestParam Integer pageNum, @RequestParam Integer pageSize){
+	public List<Images> getImages(Integer pageNum,Integer pageSize){
 		return null;}
-	@RequestMapping("/getAllChat")
 	public List<WeChat> getAllChat(){
 		return null;}
-	@RequestMapping("/selectChatByTime")
-	public List<WeChat> selectChatByTime(@RequestParam("startTime")Timestamp startTime,@RequestParam("endTime")Timestamp endTime){
+	public List<WeChat> selectChatByTime(Timestamp startTime,Timestamp endTime){
 		return null;}
 	
 	
-	@RequestMapping("/getAllBar")
 	public List<Barrage> getAllBar(){
 		return null;}
-	@RequestMapping("/getListBarByTime")
-	public List<Barrage> getListBarByTime(@RequestParam Date time){
+	public List<Barrage> getListBarByTime(Date time){
 		return null;}
-	@RequestMapping("/getBarById")
-	public Barrage getBarById(@RequestParam String id){
+	public Barrage getBarById(String id){
 		return null;}
-	@RequestMapping("/getListBarByLike")
-	public List<Barrage> getListBarByLike(@RequestParam String content){
+	public List<Barrage> getListBarByLike(String content){
 		return null;}
-	@RequestMapping("/getBarrageCount")
-	public Integer getBarrageCount(@RequestParam Timestamp time){
+	public Integer getBarrageCount(Timestamp time){
 		return null;}
-	@RequestMapping("/getBarByImagesId")
-	public List<Barrage> getBarByImagesId(@RequestParam Integer imagesId){
+	public List<Barrage> getBarByImagesId(Integer imagesId){
 		return null;}
-	@RequestMapping("/getMaxContentId")
 	public Barrage getMaxContentId(){
 		return null;}
 	
-	@RequestMapping("/getSaltByUname")
-	public User getSaltByUname(@RequestParam String uName){
+	public User getSaltByUname(String uName){
 		return null;}
-	@RequestMapping("/getFuzzyUsersByUid")
-	public List<User> getFuzzyUsersByUid(@RequestParam String searchValue){
+	public List<User> getFuzzyUsersByUid(String searchValue){
 		return null;}
-	@RequestMapping("/getFuzzyUserByUname")
-	public List<User> getFuzzyUserByUname(@RequestParam String searchValue){
+	public List<User> getFuzzyUserByUname(String searchValue){
 		return null;}
-	@RequestMapping("/getLogLastMaxId")
 	public Log getLogLastMaxId(){
 		return null;}
-	@RequestMapping("/getAllRoleInfo")
 	public List<Role> getAllRoleInfo(){
 		return null;}
-	@RequestMapping("/getFuzzyRoleByUid")
-	public List<Role> getFuzzyRoleByUid(@RequestParam String searchValue){
+	public List<Role> getFuzzyRoleByUid(String searchValue){
 		return null;}
-	@RequestMapping("/getFuzzyRoleByUname")
-	public List<Role> getFuzzyRoleByUname(@RequestParam String searchValue){
+	public List<Role> getFuzzyRoleByUname(String searchValue){
 		return null;}
 	
-	@RequestMapping("/getMaxPermissionId")
 	public Permission getMaxPermissionId(){
 		return null;}
-	@RequestMapping("/getMaxRoleId")
 	public Role getMaxRoleId(){
 		return null;}
 	
-	@RequestMapping("/getJobDetails")
 	public List<QrtzJobDetails> getJobDetails(){
 		return null;}
-	@RequestMapping("/getJobDetailForJobName")
-	public List<QrtzJobDetails> getJobDetailForJobName(@RequestParam String jobName){
+	public List<QrtzJobDetails> getJobDetailForJobName(String jobName){
 		return null;}
-	@RequestMapping("/getJobData")
-	public QrtzJobDetails getJobData(@RequestParam String jobName){
+	public QrtzJobDetails getJobData(String jobName){
 		return null;}
-	@RequestMapping("/getALlFromMyDefine")
 	public List<QuartzModel> getALlFromMyDefine(){
 		return null;}
-	@RequestMapping("/getMaxDataId")
 	public QrtzJobData getMaxDataId(){
 		return null;}
-	@RequestMapping("/getJobDataByJobName")
-	public List<QrtzJobData> getJobDataByJobName(@RequestParam String jobName){
+	public List<QrtzJobData> getJobDataByJobName(String jobName){
 		return null;}
 	
 	//insert
-	@RequestMapping("/registerUser")
-	public Integer registerUser(@RequestBody User user){
+	public Integer registerUser(User user){
 		return null;}
-	@RequestMapping("/insert")
-	public Integer insert(@RequestBody SessionModel model){
+	public Integer insert(SessionModel model){
 		return null;}
-	@RequestMapping("/insertLog")
-	public Integer insertLog(@RequestBody Log log){
+	public Integer insertLog(Log log){
 		return null;}
-	@RequestMapping("/addImage")
-	public Integer addImage(@RequestBody Images images){
+	public Integer addImage(Images images){
 		return null;}
-	@RequestMapping("/addChat")
-	public Integer addChat(@RequestBody WeChat model){
+	public Integer addChat(WeChat model){
 		return null;}
 	
-	@RequestMapping("/addBarrage")
-	public Integer addBarrage(@RequestBody Barrage barrage){
+	public Integer addBarrage(Barrage barrage){
 		return null;}
-	@RequestMapping("/addPermission")
-	public Integer addPermission(@RequestBody Permission permission){
+	public Integer addPermission(Permission permission){
 		return null;}
-	@RequestMapping("/addRole")
-	public Integer addRole(@RequestBody Role role){
+	public Integer addRole(Role role){
 		return null;}
 	
-	@RequestMapping("/setPermanentStorage")
-	public Integer setPermanentStorage(@RequestParam String jobName){
+	public Integer setPermanentStorage(String jobName){
 		return null;}
-	@RequestMapping("/insertSelfDifined")
-	public Integer insertSelfDifined(@RequestBody QuartzModel model){
+	public Integer insertSelfDifined(QuartzModel model){
 		return null;}
-	@RequestMapping("/insertJobData")
-	public Integer insertJobData(@RequestBody QrtzJobData model){
+	public Integer insertJobData(QrtzJobData model){
 		return null;}
 	
 	//update
-	@RequestMapping("/changeUser")
-	public Integer changeUser(@RequestBody User user){
+	public Integer changeUser(User user){
 		return null;}
-	@RequestMapping("/update")
-	public Integer update(@RequestBody SessionModel model){
+	public Integer update(SessionModel model){
 		return null;}
-	@RequestMapping("/updateSelfDefined")
-	public Integer updateSelfDefined(@RequestBody QuartzModel model){
+	public Integer updateSelfDefined(QuartzModel model){
 		return null;}
 	
 	//delete
-	@RequestMapping("/deleteUserByUid")
-	public Integer deleteUserByUid(@RequestParam Integer userId){
+	public Integer deleteUserByUid(Integer userId){
 		return userId;}
-	@RequestMapping("/deleteUserByUname")
-	public Integer deleteUserByUname(@RequestParam String uName){
+	public Integer deleteUserByUname(String uName){
 		return null;}
-	@RequestMapping("/delImage")
-	public Integer delImage(@RequestParam Integer imageId){
+	public Integer delImage(Integer imageId){
 		return imageId;}
-	@RequestMapping("/delChatById")
-	public Integer delChatById(@RequestParam Integer w_id){
+	public Integer delChatById(Integer w_id){
 		return w_id;}
 	
-	@RequestMapping("/delBarrageBycontentId")
-	public Integer delBarrageBycontentId(@RequestParam Integer contentId){
+	public Integer delBarrageBycontentId(Integer contentId){
 		return contentId;}
-	@RequestMapping("/deleteRole")
-	public Integer deleteRole(@RequestBody Role role){
+	public Integer deleteRole(Role role){
 		return null;}
 	
-	@RequestMapping("/deleteDataByJobName")
-	public Integer deleteDataByJobName(@RequestParam String name){
+	public Integer deleteDataByJobName(String name){
 		return null;}
-	@RequestMapping("/deleteJobDetails")
-	public Integer deleteJobDetails(@RequestParam String name){
+	public Integer deleteJobDetails(String name){
 		return null;}
-	@RequestMapping("/deletePermission")
-	public Integer deletePermission(@RequestBody Permission permission){
+	public Integer deletePermission(Permission permission){
 		return null;}
 }

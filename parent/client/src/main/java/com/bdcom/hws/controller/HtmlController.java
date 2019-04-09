@@ -62,7 +62,7 @@ public class HtmlController {
 	public JSONObject test(){
 		
 		JSONObject obj = new JSONObject();
-		User temp = restTemplate.getForEntity("http://eureka-client/getUserByUid?userId=1", User.class).getBody();
+		User temp = restTemplate.getForEntity("http://eureka-data/database/getUserByUid?userId=1", User.class).getBody();
 		return obj;
 	}
 	

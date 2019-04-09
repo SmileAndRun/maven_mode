@@ -1,0 +1,8 @@
+zuul: 
+  routes:
+    api-data:
+      path: /api-data/**
+      serviceId: eureka-data
+    api-feign:
+      path: /api-feign/**
+      serviceId: feign-customer

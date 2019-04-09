@@ -27,27 +27,27 @@ public interface DataApiService {
 
 	//select
 	@RequestMapping("/getUserByUid")
-	public User getUserByUid(@RequestParam Integer userId);
+	public User getUserByUid(@RequestParam("userId") Integer userId);
 	@RequestMapping("/getUserInfoByUid")
-	public User getUserInfoByUid(@RequestParam Integer userId);
+	public User getUserInfoByUid(@RequestParam("userId") Integer userId);
 	@RequestMapping("/getUsers")
 	public List<User> getUsers();
 	@RequestMapping("/getUserByUname")
-	public User getUserByUname(@RequestParam String uName);
+	public User getUserByUname(@RequestParam("uName") String uName);
 	@RequestMapping("/getUserInfoByUname")
-	public User getUserInfoByUname(@RequestParam String uName);
+	public User getUserInfoByUname(@RequestParam("uName") String uName);
 	@RequestMapping("/getUser")
 	public List<User> getUser(@RequestBody User user);
 	@RequestMapping("/getUserSalt")
-	public User getUserSalt(@RequestParam String userName);
+	public User getUserSalt(@RequestParam("userName") String userName);
 	@RequestMapping("/findId")
-	public SessionModel findId(@RequestParam Integer sessioinId);
+	public SessionModel findId(@RequestParam("sessioinId") Integer sessioinId);
 	@RequestMapping("/fingIdBySessionName")
-	public SessionModel fingIdBySessionName(@RequestParam String sessionName);
+	public SessionModel fingIdBySessionName(@RequestParam("sessionName") String sessionName);
 	@RequestMapping("/getLastMaxId")
 	public Log getLastMaxId();
 	@RequestMapping("/getImages")
-	public List<Images> getImages(@RequestParam Integer pageNum, @RequestParam Integer pageSize);
+	public List<Images> getImages(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize);
 	@RequestMapping("/getAllChat")
 	public List<WeChat> getAllChat();
 	@RequestMapping("/selectChatByTime")
@@ -57,32 +57,32 @@ public interface DataApiService {
 	@RequestMapping("/getAllBar")
 	public List<Barrage> getAllBar();
 	@RequestMapping("/getListBarByTime")
-	public List<Barrage> getListBarByTime(@RequestParam Date time);
+	public List<Barrage> getListBarByTime(@RequestParam("time") Date time);
 	@RequestMapping("/getBarById")
-	public Barrage getBarById(@RequestParam String id);
+	public Barrage getBarById(@RequestParam("id") String id);
 	@RequestMapping("/getListBarByLike")
-	public List<Barrage> getListBarByLike(@RequestParam String content);
+	public List<Barrage> getListBarByLike(@RequestParam("content") String content);
 	@RequestMapping("/getBarrageCount")
-	public Integer getBarrageCount(@RequestParam Timestamp time);
+	public Integer getBarrageCount(@RequestParam("time") Timestamp time);
 	@RequestMapping("/getBarByImagesId")
-	public List<Barrage> getBarByImagesId(@RequestParam Integer imagesId);
+	public List<Barrage> getBarByImagesId(@RequestParam("imagesId") Integer imagesId);
 	@RequestMapping("/getMaxContentId")
 	public Barrage getMaxContentId();
 	
 	@RequestMapping("/getSaltByUname")
-	public User getSaltByUname(@RequestParam String uName);
+	public User getSaltByUname(@RequestParam("uName") String uName);
 	@RequestMapping("/getFuzzyUsersByUid")
-	public List<User> getFuzzyUsersByUid(@RequestParam String searchValue);
+	public List<User> getFuzzyUsersByUid(@RequestParam("searchValue") String searchValue);
 	@RequestMapping("/getFuzzyUserByUname")
-	public List<User> getFuzzyUserByUname(@RequestParam String searchValue);
+	public List<User> getFuzzyUserByUname(@RequestParam("searchValue") String searchValue);
 	@RequestMapping("/getLogLastMaxId")
 	public Log getLogLastMaxId();
 	@RequestMapping("/getAllRoleInfo")
 	public List<Role> getAllRoleInfo();
 	@RequestMapping("/getFuzzyRoleByUid")
-	public List<Role> getFuzzyRoleByUid(@RequestParam String searchValue);
+	public List<Role> getFuzzyRoleByUid(@RequestParam("searchValue") String searchValue);
 	@RequestMapping("/getFuzzyRoleByUname")
-	public List<Role> getFuzzyRoleByUname(@RequestParam String searchValue);
+	public List<Role> getFuzzyRoleByUname(@RequestParam("searchValue") String searchValue);
 	
 	@RequestMapping("/getMaxPermissionId")
 	public Permission getMaxPermissionId();
@@ -92,15 +92,15 @@ public interface DataApiService {
 	@RequestMapping("/getJobDetails")
 	public List<QrtzJobDetails> getJobDetails();
 	@RequestMapping("/getJobDetailForJobName")
-	public List<QrtzJobDetails> getJobDetailForJobName(@RequestParam String jobName);
+	public List<QrtzJobDetails> getJobDetailForJobName(@RequestParam("jobName") String jobName);
 	@RequestMapping("/getJobData")
-	public QrtzJobDetails getJobData(@RequestParam String jobName);
+	public QrtzJobDetails getJobData(@RequestParam("jobName") String jobName);
 	@RequestMapping("/getALlFromMyDefine")
 	public List<QuartzModel> getALlFromMyDefine();
 	@RequestMapping("/getMaxDataId")
 	public QrtzJobData getMaxDataId();
 	@RequestMapping("/getJobDataByJobName")
-	public List<QrtzJobData> getJobDataByJobName(@RequestParam String jobName);
+	public List<QrtzJobData> getJobDataByJobName(@RequestParam("jobName") String jobName);
 	
 	//insert
 	@RequestMapping("/registerUser")
@@ -122,7 +122,7 @@ public interface DataApiService {
 	public Integer addRole(@RequestBody Role role);
 	
 	@RequestMapping("/setPermanentStorage")
-	public Integer setPermanentStorage(@RequestParam String jobName);
+	public Integer setPermanentStorage(@RequestParam("jobName") String jobName);
 	@RequestMapping("/insertSelfDifined")
 	public Integer insertSelfDifined(@RequestBody QuartzModel model);
 	@RequestMapping("/insertJobData")
@@ -138,23 +138,23 @@ public interface DataApiService {
 	
 	//delete
 	@RequestMapping("/deleteUserByUid")
-	public Integer deleteUserByUid(@RequestParam Integer userId);
+	public Integer deleteUserByUid(@RequestParam("userId") Integer userId);
 	@RequestMapping("/deleteUserByUname")
-	public Integer deleteUserByUname(@RequestParam String uName);
+	public Integer deleteUserByUname(@RequestParam("uName") String uName);
 	@RequestMapping("/delImage")
-	public Integer delImage(@RequestParam Integer imageId);
+	public Integer delImage(@RequestParam("imageId") Integer imageId);
 	@RequestMapping("/delChatById")
-	public Integer delChatById(@RequestParam Integer w_id);
+	public Integer delChatById(@RequestParam("w_id") Integer w_id);
 	
 	@RequestMapping("/delBarrageBycontentId")
-	public Integer delBarrageBycontentId(@RequestParam Integer contentId);
+	public Integer delBarrageBycontentId(@RequestParam("contentId") Integer contentId);
 	@RequestMapping("/deleteRole")
 	public Integer deleteRole(@RequestBody Role role);
 	
 	@RequestMapping("/deleteDataByJobName")
-	public Integer deleteDataByJobName(@RequestParam String name);
+	public Integer deleteDataByJobName(@RequestParam("name") String name);
 	@RequestMapping("/deleteJobDetails")
-	public Integer deleteJobDetails(@RequestParam String name);
+	public Integer deleteJobDetails(@RequestParam("name") String name);
 	@RequestMapping("/deletePermission")
 	public Integer deletePermission(@RequestBody Permission permission);
 }

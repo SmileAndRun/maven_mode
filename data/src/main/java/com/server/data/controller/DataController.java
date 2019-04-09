@@ -59,7 +59,6 @@ public class DataController implements DataService {
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserByUid(Integer userId) {
-		
 		return managerMapper.getUserByUid(userId);
 	}
 

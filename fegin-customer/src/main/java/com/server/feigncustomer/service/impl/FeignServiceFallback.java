@@ -4,8 +4,12 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.server.feigncustomer.controller.FeignController;
 import com.server.feigncustomer.service.FeignService;
 import com.server.restful.api.pojo.Barrage;
 import com.server.restful.api.pojo.Log;
@@ -19,18 +23,23 @@ import com.server.restful.api.pojo.client.SessionModel;
 import com.server.restful.api.pojo.client.WeChat;
 import com.server.restful.api.pojo.server.User;
 
-import feign.hystrix.FallbackFactory;
 
 /**
  * 服务降级措施
+ * 占时：全部返回空
  * @author hws
- *
+ * 因为实现了FeignService，FeignService又继承了DataService
+ * DataService中有路径因此此时FeignService中的方法中也有路径。
+ * 当构建FeignServiceFallBack Bean的时候会因为路径相同而无法构建因此需要再加一层路径
  */
 @Component
-public class FeignServiceFallback implements FallbackFactory<FeignService> {
+@RequestMapping("/fallback")
+public class FeignServiceFallback implements FeignService {
 
+	private static Logger log= LoggerFactory.getLogger(FeignController.class);
+	
 	public User getUserByUid(Integer userId) {
-		// TODO Auto-generated method stub
+		log.error("getUserByUid method is fused");
 		return null;
 	}
 

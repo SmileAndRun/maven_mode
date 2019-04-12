@@ -2,7 +2,8 @@ package com.bdcom.hws.mapper;
 
 import java.util.List;
 
-import org.common.model.client.Images;
+import com.server.restful.api.pojo.client.Images;
+
 
 
 public interface ImagesMapper {

@@ -3,9 +3,10 @@ package org.common.utils;
 import java.util.HashMap;
 import java.util.List;
 
-import org.common.model.QrtzJobData;
+
 
 import com.alibaba.fastjson.JSONObject;
+import com.server.restful.api.pojo.QrtzJobData;
 
 public class JobDataUtils {
 	public static Object translate(String jobClass,Object obj){

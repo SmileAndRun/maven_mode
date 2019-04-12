@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.common.model.QuartzModel;
 import org.common.utils.MyCacheUtils;
 import org.common.utils.ReadResourceUtils;
 import org.dom4j.DocumentException;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.service.QuartzService;
+import com.server.restful.api.pojo.QuartzModel;
 
 @Controller
 @RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)

@@ -9,12 +9,12 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.common.model.Permission;
-import org.common.model.Role;
-import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bdcom.hws.service.UserService;
+import com.server.restful.api.pojo.Permission;
+import com.server.restful.api.pojo.Role;
+import com.server.restful.api.pojo.server.User;
 
 
 public class UserRealm extends AuthorizingRealm{

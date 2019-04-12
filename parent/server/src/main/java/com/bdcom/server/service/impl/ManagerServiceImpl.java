@@ -17,10 +17,6 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.search.Query;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.model.Log;
-import org.common.model.Permission;
-import org.common.model.Role;
-import org.common.model.server.User;
 import org.common.utils.EncryptionUtils;
 import org.common.utils.FontColourUtils;
 import org.common.utils.ReadResourceUtils;
@@ -35,6 +31,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.lucene.SearchMethod;
 import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
+import com.server.restful.api.pojo.Log;
+import com.server.restful.api.pojo.Permission;
+import com.server.restful.api.pojo.Role;
+import com.server.restful.api.pojo.server.User;
 
 @Service
 public class ManagerServiceImpl extends SearchMethod implements ManagerService {

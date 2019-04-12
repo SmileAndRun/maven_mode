@@ -4,8 +4,6 @@ package com.bdcom.hws.controller;
 
 import java.sql.Timestamp;
 
-import org.common.model.client.WeChat;
-import org.common.model.server.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.service.WeChatService;
+import com.server.restful.api.pojo.client.WeChat;
+import com.server.restful.api.pojo.server.User;
 
 
 @Controller
@@ -62,7 +62,8 @@ public class HtmlController {
 	public JSONObject test(){
 		
 		JSONObject obj = new JSONObject();
-		User temp = restTemplate.getForEntity("http://eureka-data/database/getUserByUid?userId=1", User.class).getBody();
+		User temp = restTemplate.getForEntity("http://gateway-api/api-feign/feign/getUserByUid?userId=3&identification=hws", User.class).getBody();
+		System.out.println(temp.getUserName());
 		return obj;
 	}
 	

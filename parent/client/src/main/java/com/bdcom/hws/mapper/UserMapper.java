@@ -2,7 +2,8 @@ package com.bdcom.hws.mapper;
 
 import java.util.List;
 
-import org.common.model.client.User;
+import com.server.restful.api.pojo.server.User;
+
 
 
 public interface UserMapper {

@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.model.Log;
-import org.common.model.client.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.mapper.LogMapper;
 import com.bdcom.hws.mapper.UserMapper;
 import com.bdcom.hws.service.UserService;
+import com.server.restful.api.pojo.Log;
+import com.server.restful.api.pojo.server.User;
 
 @Service
 public class UserServiceImpl implements UserService {

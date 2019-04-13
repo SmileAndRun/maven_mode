@@ -15,9 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.common.model.server.MysqlModel;
 
 import com.alibaba.fastjson.JSONObject;
+import com.server.restful.api.pojo.server.MysqlModel;
 
 
 public class JDBCUtils {

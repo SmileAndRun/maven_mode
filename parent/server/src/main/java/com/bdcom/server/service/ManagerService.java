@@ -7,12 +7,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.common.model.Log;
-import org.common.model.Role;
-import org.common.model.server.User;
 import org.dom4j.DocumentException;
 
 import com.alibaba.fastjson.JSONObject;
+import com.server.restful.api.pojo.Log;
+import com.server.restful.api.pojo.Role;
+import com.server.restful.api.pojo.server.User;
 
 
 public interface ManagerService {

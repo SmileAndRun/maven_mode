@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.model.QrtzJobData;
-import org.common.model.QrtzJobDetails;
-import org.common.model.QuartzModel;
 import org.common.utils.JobDataUtils;
 import org.common.utils.MyCacheUtils;
 import org.quartz.JobKey;
@@ -18,6 +15,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.core.quartz.ScheduleMethod;
 import com.bdcom.server.mapper.QuartzMapper;
 import com.bdcom.server.service.QuartzService;
+import com.server.restful.api.pojo.QrtzJobData;
+import com.server.restful.api.pojo.QrtzJobDetails;
+import com.server.restful.api.pojo.QuartzModel;
 
 @Service
 public class QuartzServiceImpl implements QuartzService {

@@ -3,8 +3,6 @@ package com.bdcom.hws;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import org.common.model.Role;
-import org.common.model.client.User;
 import org.common.utils.EncryptionUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

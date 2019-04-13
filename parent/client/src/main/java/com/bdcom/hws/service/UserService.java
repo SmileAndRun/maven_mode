@@ -7,9 +7,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.common.model.client.User;
+
 
 import com.alibaba.fastjson.JSONObject;
+import com.server.restful.api.pojo.server.User;
 
 
 public interface UserService {

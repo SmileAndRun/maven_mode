@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.model.client.WeChat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.mapper.WeChatMapper;
 import com.bdcom.hws.service.WeChatService;
+import com.server.restful.api.pojo.client.WeChat;
 
 @Service
 public class WeChatServiceImpl implements WeChatService {

@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import org.common.model.Permission;
+import com.server.restful.api.pojo.Permission;
+
 
 
 public interface PermissionMapper {

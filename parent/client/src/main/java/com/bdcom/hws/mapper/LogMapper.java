@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import org.common.model.Log;
+import com.server.restful.api.pojo.Log;
+
 
 
 public interface LogMapper {

@@ -18,8 +18,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
-import org.common.model.Role;
-import org.common.model.server.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.DownUtils;
 import org.common.utils.FileWriterUtils;
@@ -34,6 +32,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.service.ManagerService;
+import com.server.restful.api.pojo.Role;
+import com.server.restful.api.pojo.server.User;
 
 @Controller
 @RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)

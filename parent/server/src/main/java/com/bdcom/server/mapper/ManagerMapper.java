@@ -2,10 +2,10 @@ package com.bdcom.server.mapper;
 
 import java.util.List;
 
-import org.common.model.Log;
-import org.common.model.Permission;
-import org.common.model.Role;
-import org.common.model.server.User;
+import com.server.restful.api.pojo.Log;
+import com.server.restful.api.pojo.Permission;
+import com.server.restful.api.pojo.Role;
+import com.server.restful.api.pojo.server.User;
 
 
 

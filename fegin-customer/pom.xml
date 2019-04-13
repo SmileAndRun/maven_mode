@@ -22,7 +22,7 @@
 
 	<dependencies>
 	
-		<!-- 添加自定义fegin-api依赖 -->
+		<!-- 添加自定义api依赖 -->
 		<dependency>
 			<groupId>com.server</groupId>
 			<artifactId>restful-api</artifactId>

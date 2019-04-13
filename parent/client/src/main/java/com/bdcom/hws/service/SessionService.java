@@ -1,6 +1,7 @@
 package com.bdcom.hws.service;
 
-import org.common.model.client.SessionModel;
+import com.server.restful.api.pojo.client.SessionModel;
+
 
 
 public interface SessionService {

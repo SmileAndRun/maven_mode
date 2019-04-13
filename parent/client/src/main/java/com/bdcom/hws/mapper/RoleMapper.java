@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import org.common.model.Role;
+import com.server.restful.api.pojo.Role;
+
 
 
 public interface RoleMapper {

@@ -15,8 +15,6 @@ import io.swagger.annotations.ApiParam;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
-import org.common.model.Barrage;
-import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +30,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.service.ImagesService;
 import com.bdcom.hws.service.UserService;
 import com.bdcom.server.service.BarrageService;
+import com.server.restful.api.pojo.Barrage;
+import com.server.restful.api.pojo.server.User;
 
 @Api(value="用户模块")
 @Controller

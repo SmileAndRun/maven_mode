@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
-import org.common.model.Barrage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.mapper.BarrageMapper;
 import com.bdcom.server.service.BarrageService;
+import com.server.restful.api.pojo.Barrage;
 
 
 @Service

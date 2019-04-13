@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.common.model.server.MysqlModel;
 import org.common.utils.JDBCUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.server.service.ManagerService;
+import com.server.restful.api.pojo.server.MysqlModel;
 
 @RestController
 @RequiresRoles(value={"Admin","SuperAdmin"},logical=Logical.OR)

@@ -1,5 +1,5 @@
 zuul: 
   routes:
     api-feign:
-      path: /feign/**
+      path: /api-feign/**
       serviceId: feign-customer

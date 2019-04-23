@@ -2,9 +2,9 @@ package com.bdcom.server.mapper;
 
 import java.util.List;
 
-import com.server.restful.api.pojo.QrtzJobData;
-import com.server.restful.api.pojo.QrtzJobDetails;
-import com.server.restful.api.pojo.QuartzModel;
+import org.common.model.QrtzJobData;
+import org.common.model.QrtzJobDetails;
+import org.common.model.QuartzModel;
 
 
 public interface QuartzMapper {

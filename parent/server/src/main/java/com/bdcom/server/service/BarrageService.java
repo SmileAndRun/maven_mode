@@ -6,8 +6,10 @@ import java.util.List;
 
 
 
+
+import org.common.model.Barrage;
+
 import com.alibaba.fastjson.JSONObject;
-import com.server.restful.api.pojo.Barrage;
 
 
 

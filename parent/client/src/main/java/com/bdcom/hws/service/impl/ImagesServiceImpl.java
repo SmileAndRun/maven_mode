@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
+import org.common.model.client.Images;
 import org.common.utils.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,6 @@ import com.bdcom.hws.mapper.ImagesMapper;
 import com.bdcom.hws.service.ImagesService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.server.restful.api.pojo.client.Images;
 
 @Service
 public class ImagesServiceImpl implements ImagesService {

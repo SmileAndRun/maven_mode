@@ -2,12 +2,12 @@ package com.bdcom.hws.service.impl;
 
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
+import org.common.model.client.SessionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bdcom.hws.mapper.SessionMapper;
 import com.bdcom.hws.service.SessionService;
-import com.server.restful.api.pojo.client.SessionModel;
 
 @Service
 public class SessionServiceImpl implements SessionService{

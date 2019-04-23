@@ -4,7 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.server.restful.api.pojo.Barrage;
+import org.common.model.Barrage;
+
 
 
 

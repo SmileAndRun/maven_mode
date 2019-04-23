@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.common.model.QrtzJobData;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bdcom.server.service.BarrageService;
 import com.bdcom.server.service.QuartzService;
-import com.server.restful.api.pojo.QrtzJobData;
 
 
 public class BarrageJob implements Job{

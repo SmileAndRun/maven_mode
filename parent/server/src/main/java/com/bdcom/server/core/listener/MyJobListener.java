@@ -5,7 +5,9 @@ import java.io.IOException;
 
 
 
+
 import org.common.core.websocket.WebSocketServer;
+import org.common.model.QuartzModel;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bdcom.server.service.QuartzService;
-import com.server.restful.api.pojo.QuartzModel;
 /**
  * 监听定时任务
  * @author hws

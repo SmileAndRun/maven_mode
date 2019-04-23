@@ -1,6 +1,7 @@
 package com.bdcom.hws.service;
 
-import com.server.restful.api.pojo.Log;
+import org.common.model.Log;
+
 
 
 

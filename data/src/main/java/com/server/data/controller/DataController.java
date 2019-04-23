@@ -89,7 +89,8 @@ public class DataController implements DataService {
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUser(User user) {
-		return managerMapper.getUser(user);
+		List<User> list = managerMapper.getUser(user);
+		return list;
 	}
 
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)

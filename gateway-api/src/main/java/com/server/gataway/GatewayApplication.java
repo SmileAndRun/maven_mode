@@ -1,5 +1,6 @@
 package com.server.gataway;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -43,6 +44,7 @@ public class GatewayApplication {
 	public ZuulProperties zuulProperties() {
 		return new ZuulProperties();
 	}
+	
 	public static void main(String[] args) {
 		FilterProcessor.setProcessor (new DidiFilterProcessor());
 		SpringApplication.run(GatewayApplication.class, args);

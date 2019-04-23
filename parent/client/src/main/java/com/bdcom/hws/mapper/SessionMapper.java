@@ -1,6 +1,7 @@
 package com.bdcom.hws.mapper;
 
-import com.server.restful.api.pojo.client.SessionModel;
+import org.common.model.client.SessionModel;
+
 
 
 public interface SessionMapper {

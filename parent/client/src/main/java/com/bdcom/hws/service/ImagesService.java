@@ -1,10 +1,10 @@
 package com.bdcom.hws.service;
 
 
+import org.common.model.client.Images;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
-import com.server.restful.api.pojo.client.Images;
 
 
 public interface ImagesService {

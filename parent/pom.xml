@@ -167,22 +167,8 @@
 		   <artifactId>jedis</artifactId>
 		 </dependency>
 		 
-		<dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-        </dependency>
 	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-dependencies</artifactId>
-			<version>Finchley.RELEASE</version>
-			<type>pom</type>
-			<scope>import</scope>
-		</dependency>
-		</dependencies>
-	</dependencyManagement>
+	
 	<!-- <repositories> 当本地仓库没有MybatisGenerator时取消注�?
   		<repository>
 		  <id>PersonalDependencyLibrary</id> 仓库名称

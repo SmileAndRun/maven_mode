@@ -27,12 +27,11 @@
 		   <artifactId>server</artifactId>       
 		   <version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- 添加自定义api依赖 -->
+		
 		<dependency>
-			<groupId>com.server</groupId>
-			<artifactId>restful-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
 		 <!-- 依赖自己写的jar -->
      <!--  <dependency>
 			<groupId>com.hws</groupId>
@@ -50,8 +49,25 @@
 		     <artifactId>pagehelper-spring-boot-starter</artifactId>
 		     <version>1.2.3</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.server</groupId>
+			<artifactId>restful-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>Finchley.RELEASE</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<build>
 		<plugins>
 			<plugin>

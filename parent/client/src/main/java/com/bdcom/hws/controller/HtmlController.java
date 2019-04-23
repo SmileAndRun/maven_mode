@@ -3,9 +3,12 @@ package com.bdcom.hws.controller;
 
 
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.common.model.CommonConstant;
+import org.common.model.client.WeChat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bdcom.hws.service.WeChatService;
-import com.server.restful.api.pojo.client.WeChat;
 import com.server.restful.api.pojo.server.User;
 
 
@@ -54,6 +56,8 @@ public class HtmlController {
 		obj.put("addChatFlag", addChatFlag);
 		return obj;
 	}
+	
+	//test
 	@Autowired
 	private RestTemplate restTemplate;
 	
@@ -62,8 +66,17 @@ public class HtmlController {
 	public JSONObject test(){
 		
 		JSONObject obj = new JSONObject();
-		User temp = restTemplate.getForEntity("http://gateway-api/api-feign/feign/getUserByUid?userId=3&identification=hws", User.class).getBody();
-		System.out.println(temp.getUserName());
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("userId", 3);
+		//User temp = restTemplate.getForEntity("http://gateway-api/api-feign/feign/getUserByUid?identification=hws", User.class).getBody();
+		
+		StringBuffer url = new StringBuffer("/getUserByUid");
+	
+		User temp = CommonConstant.getDataForMap(restTemplate, url,User.class, map);
+		/*for(User te:temp){
+			System.out.println(te.getUserName());
+		}*/
+		obj.put("flag", temp);
 		return obj;
 	}
 	

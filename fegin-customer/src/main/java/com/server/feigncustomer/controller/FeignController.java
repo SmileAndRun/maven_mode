@@ -38,14 +38,17 @@ public class FeignController {
 		}
 	public User getUserInfoByUid(Integer userId){
 		return null;}
+	@RequestMapping("/getUsers")
 	public List<User> getUsers(){
-		return null;}
+		return feignService.getUsers();}
 	public User getUserByUname(String uName){
 		return null;}
 	public User getUserInfoByUname(String uName){
 		return null;}
+	@RequestMapping("/getUser")
 	public List<User> getUser(User user){
-		return null;}
+		return feignService.getUser(user);
+		}
 	public User getUserSalt(String userName){
 		return null;}
 	public SessionModel findId(Integer sessioinId){
@@ -61,9 +64,9 @@ public class FeignController {
 	public List<WeChat> selectChatByTime(Timestamp startTime,Timestamp endTime){
 		return null;}
 	
-	
+	@RequestMapping("/getAllBar")
 	public List<Barrage> getAllBar(){
-		return null;}
+		return feignService.getAllBar();}
 	public List<Barrage> getListBarByTime(Date time){
 		return null;}
 	public Barrage getBarById(String id){
@@ -137,8 +140,9 @@ public class FeignController {
 		return null;}
 	
 	//update
+	@RequestMapping("/changeUser")
 	public Integer changeUser(User user){
-		return null;}
+		return feignService.changeUser(user);}
 	public Integer update(SessionModel model){
 		return null;}
 	public Integer updateSelfDefined(QuartzModel model){

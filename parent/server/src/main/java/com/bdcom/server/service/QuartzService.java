@@ -2,12 +2,12 @@ package com.bdcom.server.service;
 
 import java.util.List;
 
+import org.common.model.QrtzJobData;
+import org.common.model.QrtzJobDetails;
+import org.common.model.QuartzModel;
 import org.quartz.SchedulerException;
 
 import com.alibaba.fastjson.JSONObject;
-import com.server.restful.api.pojo.QrtzJobData;
-import com.server.restful.api.pojo.QrtzJobDetails;
-import com.server.restful.api.pojo.QuartzModel;
 
 public interface QuartzService {
 	public List<QrtzJobDetails> getJobDetails();

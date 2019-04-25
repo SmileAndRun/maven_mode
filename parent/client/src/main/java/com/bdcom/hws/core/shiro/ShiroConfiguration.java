@@ -9,10 +9,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 
 @Configuration
 public class ShiroConfiguration {
@@ -25,16 +27,24 @@ public class ShiroConfiguration {
     }
     
     @Bean(name = "sessionDAO")
-    public MySessionDao getMemorySessionDAO() {
+    public MySessionDao getMySessionDAO() {
         return new MySessionDao();
     }
 
+    @Bean(name="sessionManager") 
+    public SessionManager sessionManager(){
+    	DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+    	sessionManager.setSessionDAO(getMySessionDAO());
+    	return sessionManager;
+    	
+    }
 
     //权限管理，配置主要是Realm的管理认证
-    @Bean
+    @Bean(name="securityManager")
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
     //Filter工厂，设置对应的过滤条件和跳转条件

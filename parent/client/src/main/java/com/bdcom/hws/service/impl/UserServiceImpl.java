@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,9 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
@@ -27,9 +33,11 @@ import org.common.model.client.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.EncryptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.hws.core.shiro.MySessionDao;
 import com.bdcom.hws.mapper.LogMapper;
 import com.bdcom.hws.mapper.UserMapper;
 import com.bdcom.hws.service.UserService;
@@ -117,6 +125,10 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	LogMapper logMapper;
 	
+	@Autowired
+	@Qualifier("sessionDAO")
+	MySessionDao mysessionDao;
+	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public JSONObject validateAccount(HttpServletRequest request,HttpServletResponse response,boolean isRememberMe, boolean isCookie, User user) throws InvalidKeyException, NoSuchAlgorithmException {
@@ -138,6 +150,13 @@ public class UserServiceImpl implements UserService {
 			UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),pwd);
 			subject.login(token);
 		}
+		
+		if(subject.isAuthenticated()){
+			Map<String, Session> map = mysessionDao.getBeforeCache();
+			if(map.containsKey(user.getUserName()))
+				mysessionDao.delete(map.get(user.getUserName()));
+		}
+		
 		if(isRememberMe){
 			CookieUtils.setCookies(request,response, user.getUserName(), pwd);
 		}

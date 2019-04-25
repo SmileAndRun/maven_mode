@@ -5,6 +5,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -22,6 +23,12 @@ public class ShiroConfiguration {
     	UserRealm myShiroRealm = new UserRealm();
         return myShiroRealm;
     }
+    
+    @Bean(name = "sessionDAO")
+    public MySessionDao getMemorySessionDAO() {
+        return new MySessionDao();
+    }
+
 
     //权限管理，配置主要是Realm的管理认证
     @Bean

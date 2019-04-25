@@ -1,6 +1,7 @@
 package com.bdcom.hws.core.shiro;
 
 
+
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -45,6 +46,7 @@ public class UserRealm extends AuthorizingRealm{
 		if(null != userName && !userName.equals("")){
 			User user = userService.getUserByUname(userName);
 			if(null != user ){
+				
 				return new SimpleAuthenticationInfo(userName,user.getUserPwd(),getName());
 			}
 			//如果用户都不存在那么一定验证失败

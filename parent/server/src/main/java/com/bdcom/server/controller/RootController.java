@@ -131,6 +131,7 @@ public class RootController {
 	@RequestMapping(value="/initUserManager")
 	public ModelAndView initUserManager(){
 		
+		
 		logger.info("初始化用户管理界面开始");
 		JSONObject obj = new JSONObject();
 		List<User> users = ms.getUsers();

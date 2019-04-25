@@ -58,6 +58,10 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public List<User> getUsers() {
+		
+		redisUtils.set("hws","hws",60);
+		Object obj = redisUtils.get("hws");
+		System.out.println((String)obj);
 		List<User> list = null;
 		if(redisUtils.hasKey("getAllUsers")){
 			Object object = redisUtils.get("getAllUsers");

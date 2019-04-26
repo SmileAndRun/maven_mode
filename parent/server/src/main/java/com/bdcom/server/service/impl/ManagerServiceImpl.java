@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bdcom.server.core.listener.OnLineCount;
 import com.bdcom.server.lucene.SearchMethod;
 import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
@@ -323,13 +324,13 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 		String initData = "";
 	    boolean flag = true;
 	    long time = System.currentTimeMillis();
-	    int activeSessions = (int)request.getServletContext().getAttribute("activeSessions");
+	    int activeSessions = OnLineCount.getActiveSessions();
 		list.add(activeSessions);
 		initData += activeSessions+",";
 	    while(flag){
 	    	if(System.currentTimeMillis()-time == 1000){
 	    		time = System.currentTimeMillis();
-	    		activeSessions = (int)request.getServletContext().getAttribute("activeSessions");
+	    		activeSessions = OnLineCount.getActiveSessions();
 	    		list.add(activeSessions);
 	    		initData += activeSessions+",";
 	    		if(list.size()>=20){

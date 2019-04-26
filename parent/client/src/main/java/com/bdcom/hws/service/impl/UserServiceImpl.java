@@ -21,11 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
@@ -150,13 +153,21 @@ public class UserServiceImpl implements UserService {
 			UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(),pwd);
 			subject.login(token);
 		}
-		
+		Session session = subject.getSession();
 		if(subject.isAuthenticated()){
-			Map<String, Session> map = mysessionDao.getBeforeCache();
-			if(map.containsKey(user.getUserName()))
-				mysessionDao.delete(map.get(user.getUserName()));
+			//获取当前用户登录名
+	    	String userName = String.valueOf(session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
+	    	Map<String, Session> beforeCache = mysessionDao.getBeforeCache();
+	    	Map<String, Session> afterCache = mysessionDao.getAfterCache();
+	    	if(afterCache.containsKey(userName))
+	    		beforeCache.put(userName,afterCache.get(userName));
+	    	afterCache.put(userName,session);
+			if(beforeCache.containsKey(user.getUserName())){
+				//让上一个用户的session失效
+				beforeCache.get(user.getUserName()).setTimeout(0);
+				beforeCache.remove(userName);
+			}
 		}
-		
 		if(isRememberMe){
 			CookieUtils.setCookies(request,response, user.getUserName(), pwd);
 		}

@@ -48,20 +48,27 @@ public class OnLineCount implements SessionListener{
 	}
 
 	@Override
-	public void onExpiration(Session session) {
-		activeSessions--;
+	public  void onExpiration(Session session) {
+		synchronized(session){
+			activeSessions--;
+		}
+		
 		insertLog(session);
 		
 	}
 
 	@Override
-	public void onStart(Session session) {
-		activeSessions++;
+	public  void onStart(Session session) {
+		synchronized(session){
+			activeSessions++;
+		}
 	}
 
 	@Override
-	public void onStop(Session session) {
-		activeSessions--;
+	public  void onStop(Session session) {
+		synchronized(session){
+			activeSessions--;
+		}
 		insertLog(session);
 		
 	}

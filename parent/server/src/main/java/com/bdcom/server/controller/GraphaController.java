@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.common.model.OnlineCountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class GraphaController {
 	public JSONObject getPageView(HttpServletRequest request){
 		logger.info("实时获取");
 		JSONObject obj = new JSONObject();
-		int activeSessions = (int)request.getServletContext().getAttribute("activeSessions");
+		int activeSessions = OnlineCountModel.activeSessions;
 		obj.put("activeSessions", activeSessions);
 		return obj;
 	}

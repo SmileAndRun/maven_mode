@@ -18,6 +18,7 @@ import org.apache.lucene.search.Query;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
+import org.common.model.OnlineCountModel;
 import org.common.model.Permission;
 import org.common.model.Role;
 import org.common.model.server.User;
@@ -32,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bdcom.server.core.listener.OnLineCount;
 import com.bdcom.server.lucene.SearchMethod;
 import com.bdcom.server.mapper.ManagerMapper;
 import com.bdcom.server.service.ManagerService;
@@ -324,13 +324,13 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 		String initData = "";
 	    boolean flag = true;
 	    long time = System.currentTimeMillis();
-	    int activeSessions = OnLineCount.getActiveSessions();
+	    int activeSessions = OnlineCountModel.activeSessions;
 		list.add(activeSessions);
 		initData += activeSessions+",";
 	    while(flag){
 	    	if(System.currentTimeMillis()-time == 1000){
 	    		time = System.currentTimeMillis();
-	    		activeSessions = OnLineCount.getActiveSessions();
+	    		activeSessions = OnlineCountModel.activeSessions;
 	    		list.add(activeSessions);
 	    		initData += activeSessions+",";
 	    		if(list.size()>=20){

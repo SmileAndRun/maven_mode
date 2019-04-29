@@ -1,5 +1,6 @@
 package com.bdcom.hws.service.impl;
 
+import java.io.Serializable;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
@@ -23,15 +24,26 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
+
+
+
+
+
+
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.StoppedSessionException;
+import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.common.core.annotation.TargetDataSource;
 import org.common.core.datasource.DatabaseType;
 import org.common.model.Log;
+import org.common.model.OnlineCountModel;
 import org.common.model.client.User;
 import org.common.utils.CookieUtils;
 import org.common.utils.EncryptionUtils;
@@ -40,7 +52,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bdcom.hws.core.shiro.MySessionDao;
 import com.bdcom.hws.mapper.LogMapper;
 import com.bdcom.hws.mapper.UserMapper;
 import com.bdcom.hws.service.UserService;
@@ -128,13 +139,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	LogMapper logMapper;
 	
+	
 	@Autowired
-	@Qualifier("sessionDAO")
-	MySessionDao mysessionDao;
+	@Qualifier("sessionManager")
+	DefaultWebSessionManager sessionManager;
 	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
-	public JSONObject validateAccount(HttpServletRequest request,HttpServletResponse response,boolean isRememberMe, boolean isCookie, User user) throws InvalidKeyException, NoSuchAlgorithmException {
+	public JSONObject validateAccount(HttpServletRequest request,HttpServletResponse response,boolean isRememberMe, boolean isCookie, User user) throws InvalidKeyException, NoSuchAlgorithmException,ExpiredSessionException,StoppedSessionException {
 		JSONObject obj = new JSONObject();
 		Subject subject = SecurityUtils.getSubject();
 		String pwd = null;
@@ -155,17 +167,35 @@ public class UserServiceImpl implements UserService {
 		}
 		Session session = subject.getSession();
 		if(subject.isAuthenticated()){
+			
+			synchronized(session){
+	       	 OnlineCountModel.activeSessions++;
+			}
 			//获取当前用户登录名
-	    	String userName = String.valueOf(session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY));
-	    	Map<String, Session> beforeCache = mysessionDao.getBeforeCache();
-	    	Map<String, Session> afterCache = mysessionDao.getAfterCache();
-	    	if(afterCache.containsKey(userName))
+	    	String userName = user.getUserName();
+	    	Map<String, Session> beforeCache = OnlineCountModel.getBeforeCache();
+	    	Map<String, Session> afterCache = OnlineCountModel.getAfterCache();
+	    	Map<Serializable, String> idCache = OnlineCountModel.getIdCache();
+	    	if(afterCache.containsKey(userName)){
 	    		beforeCache.put(userName,afterCache.get(userName));
+	    		idCache.put(afterCache.get(userName).getId(), userName);
+	    	}
 	    	afterCache.put(userName,session);
-			if(beforeCache.containsKey(user.getUserName())){
+	    	idCache.put(session.getId(), userName);
+			if(beforeCache.containsKey(userName)){
 				//让上一个用户的session失效
-				beforeCache.get(user.getUserName()).setTimeout(0);
-				beforeCache.remove(userName);
+				if(sessionManager.isValid(new DefaultSessionKey(beforeCache.get(userName).getId()))){
+					synchronized(session){
+				       	 OnlineCountModel.activeSessions--;
+					}
+					beforeCache.get(userName).setTimeout(0);
+				}else{
+					idCache.remove(beforeCache.get(userName).getId(), userName);
+					beforeCache.remove(userName);
+					synchronized(session){
+				       	 OnlineCountModel.activeSessions--;
+					}
+				}
 			}
 		}
 		if(isRememberMe){

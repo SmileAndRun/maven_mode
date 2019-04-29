@@ -6,6 +6,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 
+
+
+
+
+
+
+
+
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -14,7 +22,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.SessionManager;
+
+
 
 @Configuration
 public class ShiroConfiguration {
@@ -26,15 +35,10 @@ public class ShiroConfiguration {
         return myShiroRealm;
     }
     
-    @Bean(name = "sessionDAO")
-    public MySessionDao getMySessionDAO() {
-        return new MySessionDao();
-    }
-
     @Bean(name="sessionManager") 
-    public SessionManager sessionManager(){
+    public DefaultWebSessionManager sessionManager(){
     	DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-    	sessionManager.setSessionDAO(getMySessionDAO());
+    	//sessionManager.setGlobalSessionTimeout(20000);
     	return sessionManager;
     	
     }

@@ -31,7 +31,6 @@ import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.springframework.core.io.ClassPathResource;
 import org.apache.lucene.document.Field.Store;
 
 public class IndexUtils {
@@ -58,7 +57,7 @@ public class IndexUtils {
 			// new IKAnalyzer(true)表示智能分词
 			// new IKAnalyzer(false)表示最细粒度分词(默认也是这个)
 			analyzer = new StandardAnalyzer();
-			path =  Paths.get("mysql/keyword");// 磁盘索引库路径(相对路径)
+			path =  Paths.get(System.getProperty("user.dir")+"/mysql/keyword");// 磁盘索引库路径(相对路径)
 			fsd = FSDirectory.open(path);// 创建磁盘目录
 
 		} catch (IOException e) {
@@ -96,7 +95,7 @@ public class IndexUtils {
 	public List<Document> analyze() throws IOException {
 
 		doList = new ArrayList<Document>();
-		File resource = new ClassPathResource("mysql.txt").getFile();
+		File resource = new File(System.getProperty("user.dir")+"/conf/mysql.txt");
 		BufferedReader reader = new BufferedReader(new FileReader(resource));
 		String keyword = null;
 		while( (keyword=reader.readLine()) != null){

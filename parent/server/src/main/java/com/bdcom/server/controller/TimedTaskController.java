@@ -42,7 +42,7 @@ public class TimedTaskController {
 		List<QuartzModel> list = quartzService.getALlFromMyDefine();
 		request.setAttribute("result", list);
 		//获取job类型
-		String path = "JobType.xml";
+		String path = System.getProperty("user.dir")+"/conf/JobType.xml";
 		List<String> attribute = new ArrayList<String>();
 		attribute.add("name");
 		attribute.add("class");

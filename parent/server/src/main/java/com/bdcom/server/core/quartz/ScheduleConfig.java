@@ -18,11 +18,12 @@ public class ScheduleConfig {
 	MyJobListener myJobListener;
 	@Autowired
 	MyJobFactory myJobFactory;
+	
 	@Bean
 	public SchedulerFactoryBean getSchedulerFactoryBean(){
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
 		factory.setJobFactory(myJobFactory);
-		Properties quartzProperties = ReadResourceUtils.getProperties("quartz.properties");
+		Properties quartzProperties = ReadResourceUtils.getProperties(this.getClass().getResource("/quartz.properties").getPath());
 		if(null != quartzProperties)factory.setQuartzProperties(quartzProperties);
 		return factory;
 	}

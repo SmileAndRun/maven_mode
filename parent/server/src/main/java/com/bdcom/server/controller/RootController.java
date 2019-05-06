@@ -70,7 +70,7 @@ public class RootController {
 	@RequestMapping(value="/generator")
 	public String getGeneratorPage(String url,HttpServletRequest request){
 		logger.info("初始化代码生成器界面");
-		String path = "model/model1/src/main/java/com/example/demo/model/";
+		String path = System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/model/";
 		boolean flag = FileWriterUtils.isExist(path);
 		request.setAttribute("flag", flag);
 		logger.info("初始化代码生成器结束");
@@ -109,7 +109,7 @@ public class RootController {
 		response.setContentType("application/zip");
 		response.setHeader("Content-Disposition", "attachment; filename=model.zip");  
 		
-		String filePath = "model/model1";
+		String filePath = System.getProperty("user.dir")+"model/model1";
 		String name = "model";
 		OutputStream out = null;
 		try {
@@ -134,7 +134,7 @@ public class RootController {
 		List<User> users = ms.getUsers();
 		obj.put("users", users);
 		//获取所有permission
-		String path = "UserRole.xml";
+		String path = System.getProperty("user.dir")+"/conf/UserRole.xml";
 		List<String> attribute = new ArrayList<String>();
 		attribute.add("name");
 		attribute.add("type");
@@ -197,7 +197,7 @@ public class RootController {
 		logger.info("初始化角色管理界面开始");
 		JSONObject obj = ms.getAllRoleInfo();
 		//获取所有permission
-		String path = "UserRole.xml";
+		String path = System.getProperty("user.dir")+"/conf/UserRole.xml";
 		List<String> attribute = new ArrayList<String>();
 		attribute.add("name");
 		attribute.add("type");

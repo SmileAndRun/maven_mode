@@ -79,6 +79,32 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>ant-execute</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<delete dir="./install/" />
+								<copy todir="./install/conf"><fileset dir="./conf"/></copy>
+								<copy todir="./install/database"><fileset dir="./database"/></copy>
+								<copy todir="./install/upload"><fileset dir="./upload"/></copy>
+								<copy todir="./install/mysql"><fileset dir="./mysql"/></copy>
+								<copy file="./target/client-0.0.1-SNAPSHOT.jar"  tofile="./install/client-0.0.1-SNAPSHOT.jar" ></copy>
+								<!-- zip	-->
+								<zip destfile="target/data.zip" basedir="./install"></zip> 
+								<delete dir="./install/" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 </project>

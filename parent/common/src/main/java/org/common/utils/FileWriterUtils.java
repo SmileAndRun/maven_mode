@@ -8,20 +8,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.ClassPathResource;
 
 import com.alibaba.fastjson.JSONObject;
 
 
 public class FileWriterUtils {
-    private static String pathJava = "model/model1/src/main/java/com/example/demo";
-    private static String pathC = "model/model1/src/main/java/com/example/demo/controller";
-    private static String pathResources = "model/model1/src/main/resources";
-	private static String pathMa= "model/model1/src/main/java/com/example/demo/mapper/";
-	private static String pathS= "model/model1/src/main/java/com/example/demo/service/";
-	private static String pathMo= "model/model1/src/main/java/com/example/demo/model/";
-	private static String pathSI= "model/model1/src/main/java/com/example/demo/service/impl/";
-	private static String pathSM= "model/model1/src/main/resources/mapper/";
+    private static String pathJava = System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo";
+    private static String pathC = System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/controller";
+    private static String pathResources = System.getProperty("user.dir")+"/model/model1/src/main/resources";
+	private static String pathMa= System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/mapper/";
+	private static String pathS= System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/service/";
+	private static String pathMo= System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/model/";
+	private static String pathSI= System.getProperty("user.dir")+"/model/model1/src/main/java/com/example/demo/service/impl/";
+	private static String pathSM= System.getProperty("user.dir")+"/model/model1/src/main/resources/mapper/";
 	public static void writerData(String tableName,String[] columnNames,String[] types) throws IOException{
 		
 		File fileMa = new File(pathMa + getFirstUp(tableName) + "Mapper.java");
@@ -119,7 +118,7 @@ public class FileWriterUtils {
 		
 	}
 	public static String getType(String typeName) throws IOException{
-		File resource = new ClassPathResource("type.json").getFile();
+		File resource = new File(System.getProperty("user.dir")+"/conf/type.json");
 		String input = FileUtils.readFileToString(resource, "UTF-8");
 		JSONObject obj = JSONObject.parseObject(input);
 		return (String)obj.get(typeName.toUpperCase());
@@ -174,6 +173,7 @@ public class FileWriterUtils {
 	public static boolean isExist(String path){
 		boolean flag = false;
 		File file = new File(path);
+		if(!file.exists())return false;
 		if(file.list().length>0) flag = true;
 		return flag;
 	}

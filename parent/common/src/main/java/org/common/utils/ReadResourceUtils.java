@@ -14,7 +14,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.core.io.ClassPathResource;
 
 /***
  * 读取资源文件
@@ -37,7 +36,7 @@ public class ReadResourceUtils {
 	}
 	/**获取源文件下的路径file*/
 	public static File getClassPathResource(String name) throws IOException{
-		File resource = new ClassPathResource(name).getFile();
+		File resource = new File(name);
 		return resource;
 	}
 	/**将节点解析为map*/
@@ -64,7 +63,7 @@ public class ReadResourceUtils {
 		BufferedReader reader = null;
 		Properties properties = null;
 		try {
-			File file = new ClassPathResource("quartz.properties").getFile();
+			File file = new File(path);
 			reader = new BufferedReader(new FileReader(file));
 			properties = new Properties();
 			properties.load(reader);

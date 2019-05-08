@@ -1,0 +1,7 @@
+zuul: 
+  routes:
+    api-feign:
+      path: /api-feign/**
+      serviceId: feign-customer
+version: v1
+  

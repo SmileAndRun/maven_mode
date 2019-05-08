@@ -18,6 +18,7 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +34,13 @@ import com.bdcom.server.service.QuartzService;
 public class TimedTaskController {
 
 	private static Logger logger = Logger.getLogger(TimedTaskController.class);
+	
+	
+	@Value("${websocket.ip}")
+	private String websocketIp;
+	@Value("${server.port}")
+	private String serverPort;
+	
 	@Autowired
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
@@ -50,6 +58,8 @@ public class TimedTaskController {
 			Element rootElement = ReadResourceUtils.getXmlRootElement(ReadResourceUtils.getClassPathResource(path));
 			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
 			request.setAttribute("typeList", typeList);
+			request.setAttribute("websocketIp", websocketIp);
+			request.setAttribute("serverPort", serverPort);
 		} catch (DocumentException e) {
 			logger.error("初始化定时管理界面发生DocumentException异常");
 			e.printStackTrace();

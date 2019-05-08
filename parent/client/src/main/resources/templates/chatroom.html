@@ -125,6 +125,8 @@
 		<input type="hidden" class="joinChatroom-i18n" th:value="#{join.a.chatroom}"/>
 		<input type="hidden" class="exitChatroom-i18n" th:value="#{exit.the.chatroom}"/>
 		<input type="hidden" class="user-i18n" th:value="#{user}"/>
+		<input type="hidden" class="websocketIp" th:value="${websocketIp}"/>
+		<input type="hidden" class="serverPort" th:value="${serverPort}"/>
 	</div>
 	<div class="commonI18n" th:insert="~{i18n::i18n}"></div>
 	<div class="commonMenu" th:insert="~{menu::commonMenu}"></div>

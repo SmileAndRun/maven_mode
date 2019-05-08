@@ -5,8 +5,13 @@ package com.bdcom.hws.controller;
 import java.sql.Timestamp;
 
 
+
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.common.model.client.WeChat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +24,11 @@ import com.bdcom.hws.service.WeChatService;
 @Controller
 public class HtmlController {
 	
+	@Value("${websocket.ip}")
+	private String websocketIp;
+	@Value("${server.port}")
+	private String serverPort;
+	
 	@RequestMapping(value="/")
 	public ModelAndView initLogin(){
 		ModelAndView model = new ModelAndView("login");
@@ -26,8 +36,10 @@ public class HtmlController {
 	}
 	
 	@RequestMapping(value="/html/chatroom")
-	public ModelAndView homePage(){
+	public ModelAndView homePage(HttpServletRequest request){
 		ModelAndView model = new ModelAndView("chatroom");
+		request.setAttribute("websocketIp", websocketIp);
+		request.setAttribute("serverPort", serverPort);
 		return model;
 	}
 	@RequestMapping(value="/html/share")

@@ -62,7 +62,7 @@ $(function() {
 	
 	//websocket 初始化
 	if ("WebSocket" in window){
-		websocket = new WebSocket("ws://120.77.40.4:8089/websocket/1");
+		websocket = new WebSocket("ws://"+$(".websocketIp").val()+":"+$(".serverPort").val()+"/websocket/1");
 		//连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	layer.msg("the websocket server is error!");

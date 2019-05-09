@@ -33,6 +33,7 @@
 					<thead>
 						<tr>
 							<th th:text="#{serial.number}"></th>
+							<th th:text="#{user.id}"></th>
 							<th th:text="#{role}"></th>
 							<th th:text="#{permission}"></th>
 							<th th:text="#{operater}"></th>
@@ -41,7 +42,7 @@
 					<tbody>
 						 <tr th:each="role : ${roleList}">
 							<td th:text="${role.roleId}"></td>
-							
+							<td th:text="${role.userId}"></td>
 							<td th:text="${role.role}">
 							<td>
 								<ul class="preUl">
@@ -59,7 +60,7 @@
 		<div class="showEdit">
 			<table class="table table-bordered table-hover definewidth m10 editTable">
 				<tr>
-					<td th:text="#{serial.number}"></td>
+					<td th:text="#{user.id}"></td>
 					<td><input type="text" readonly="readonly"/></td>
 				</tr>
 				<tr>

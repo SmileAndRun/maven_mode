@@ -330,7 +330,7 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	    		activeSessions = OnlineCountModel.activeSessions;
 	    		list.add(activeSessions);
 	    		initData += activeSessions+",";
-	    		if(list.size()>=20){
+	    		if(list.size()>=10){
 	    			flag = false;
 	    		}
 	    	}

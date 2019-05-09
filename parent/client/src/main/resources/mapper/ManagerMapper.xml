@@ -26,6 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	<resultMap type="org.common.model.Role" id="roleMap">
 		<id column="roleId" jdbcType="INTEGER" property="roleId"/>
+		<id column="userId" jdbcType="INTEGER" property="userId"/>
 		<result column="role" jdbcType="VARCHAR" property="role"/>
 		<collection property="permissionList" ofType="org.common.model.Permission">
 			<id column="pId" jdbcType="INTEGER" property="pId"/>
@@ -39,7 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		r.roleId = p.roleId left join t_log l on u.userId = l.userId where u.userId = #{userId} GROUP BY u.userId
 	</select>
 	<select id="getAllRoleInfo"  resultMap="roleMap">
-		select r.roleId,role,pId,permission 
+		select r.roleId,userId,role,pId,permission 
 		from  t_role r  left join t_permission p on 
 		r.roleId = p.roleId 
 	</select>

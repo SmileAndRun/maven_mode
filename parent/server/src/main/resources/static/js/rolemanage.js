@@ -30,6 +30,7 @@ $(function(){
 						}
 						$(".dataTable tbody").append("<tr>" +
 								"<td>"+id+"</td>" +
+								"<td>"+result.roles[i].userId+"</td>" +
 								"<td>"+role+"</td>" +
 								"<td>"+permission+"</td>" +
 								"<td class='edit'>"+$(".edit").val()+"</td>" +

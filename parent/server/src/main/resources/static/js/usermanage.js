@@ -97,11 +97,13 @@ $(function(){
 		var name = $(this).prev().prev().prev().prev().text();
 		var num = $(this).prev().prev().prev().prev().prev().text();
 		
+		
+		
 		roleList = [];
 		roleListO = [];
 		var roleUl = $(this).prev().find("ul li");
-		var name = $(this).prev().prev().text();
-		var num = $(this).prev().prev().prev().text();
+		//var name = $(this).prev().prev().text();
+		//var num = $(this).prev().prev().prev().text();
 		
 		roleUl.each(function(){
 			$(".roleList").append("<li class='fa fa-window-close' value='"+$(this).val()+"'>"+$(this).text()+"</li>");

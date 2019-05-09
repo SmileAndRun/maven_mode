@@ -20,7 +20,7 @@ $(function(){
 		      events: {
 		         load: function () {
 		            var series = this.series[0];
-		            getCount();
+		            //getCount();
 		            setInterval(function () {
 		               getCount();
 		               var x = (new Date()).getTime(), // current time
@@ -83,7 +83,7 @@ $(function(){
 			    	 var counts = initData.split(",");
 			    	 console.log(counts);
 			         var data = [],time = (new Date()).getTime(),i;
-			         for (i = 0; i <= 19; i += 1) {
+			         for (i = 0; i <= 9; i += 1) {
 	     				data.push({
 				               x: time + i * 1000,
 				               y: parseInt(counts[i])

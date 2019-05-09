@@ -132,6 +132,7 @@ public class QuartzServiceImpl implements QuartzService {
 		JSONObject obj = (JSONObject)JobDataUtils.translate(jobClass, list);
 		return obj;
 	}
+	@TargetDataSource(dataBaseType = DatabaseType.quartz)
 	@Override
 	public JSONObject menuOperate(String[] names, String type, String jobClass) throws SchedulerException {
 			
@@ -139,6 +140,7 @@ public class QuartzServiceImpl implements QuartzService {
 		boolean flag = false;
 		switch (type) {
 			case "1":
+				//此处调用方法不会触发getJobDataByJobName的aop
 				JSONObject dataJson = getJobDataByJobName(names[0], jobClass);
 				obj.put("dataJson", dataJson);
 				flag = true;

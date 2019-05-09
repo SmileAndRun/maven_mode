@@ -58,6 +58,7 @@ public class ImagesServiceImpl implements ImagesService {
 	 * @param files
 	 * @throws Exception
 	 */
+	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public  void  upload(MultipartFile[] files) throws Exception{
 		InputStream inputStream = null;

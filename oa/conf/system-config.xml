@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system>
+	<git is-select="true" num="1" remote-repo="git@github.com:ForeverLTP/test.git" local-repo="G:\test\test" package-address="G:\github\maven_mode\oa\target"></git>
+</system>

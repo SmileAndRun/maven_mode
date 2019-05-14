@@ -3,6 +3,8 @@ package com.hws.oa.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.Git;
@@ -11,7 +13,14 @@ import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 import com.hws.oa.core.LoadConf;
 import com.hws.oa.exception.CommonException;
@@ -48,7 +57,16 @@ public class JGitUtils {
     			//step1 git fetch --all 
     	    	//step2 git reset --hard origin/master
     	    	//step3 git pull
+    			Repository repos = git.getRepository();
     			git.fetch().call();
+    			Ref local = repos.findRef("refs/heads/master");
+    			Ref origin = repos.findRef("refs/remotes/origin/master");
+    			Iterable<RevCommit> list = git.log().addRange(local.getObjectId(), origin.getObjectId()).call();
+    			for(RevCommit rc : list){
+    				System.out.println(rc.getShortMessage());
+    				System.out.println(Constants.typeString(rc.getType()));
+    			}
+    			
     			git.reset().setMode(ResetType.HARD).call();
     			git.pull().call();
     		}

@@ -46,7 +46,6 @@ public class RootController {
 	@Value("${spring.datasource.password}")
 	String userPwd;
 	
-	
 	@RequestMapping(value="/index")
 	public String initRootPage(HttpServletRequest req){
 		logger.info("初始化管理界面");
@@ -154,8 +153,6 @@ public class RootController {
 		return model;
 	}
 	
-	
-	@RequestMapping(value="/user/search")
 	@ResponseBody
 	public JSONObject searchUsers(String content,String type){
 		logger.info("查询用户并着色开始");

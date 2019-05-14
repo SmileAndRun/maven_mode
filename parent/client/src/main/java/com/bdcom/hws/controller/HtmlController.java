@@ -26,7 +26,7 @@ public class HtmlController {
 	
 	@Value("${websocket.ip}")
 	private String websocketIp;
-	@Value("${server.port}")
+	@Value("${nginx.port}")
 	private String serverPort;
 	
 	@RequestMapping(value="/")
@@ -34,7 +34,6 @@ public class HtmlController {
 		ModelAndView model = new ModelAndView("login");
 		return model;
 	}
-	
 	@RequestMapping(value="/html/chatroom")
 	public ModelAndView homePage(HttpServletRequest request){
 		ModelAndView model = new ModelAndView("chatroom");

@@ -44,7 +44,6 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	ManagerMapper mp;
 	@Autowired
 	RedisUtils redisUtils;
-	
 	@TargetDataSource(dataBaseType = DatabaseType.xlt)
 	@Override
 	public User getUserByUid(int userId) {
@@ -330,7 +329,7 @@ public class ManagerServiceImpl extends SearchMethod implements ManagerService {
 	    		activeSessions = OnlineCountModel.activeSessions;
 	    		list.add(activeSessions);
 	    		initData += activeSessions+",";
-	    		if(list.size()>=10){
+	    		if(list.size()>=20){
 	    			flag = false;
 	    		}
 	    	}

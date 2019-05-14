@@ -28,7 +28,7 @@ public class GraphaController {
 		logger.info("图表动态分析初始化开始");
 		ms.initGraphAnalysis(request);
 		logger.info("图表动态分析初始化结束");
-		return "graphAnalysis";
+		return "graphanalysis";
 	}
 	@RequestMapping(value="/getPageView")
 	@ResponseBody

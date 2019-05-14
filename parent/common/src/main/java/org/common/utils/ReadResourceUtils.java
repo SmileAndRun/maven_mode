@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,5 +73,22 @@ public class ReadResourceUtils {
 			e.printStackTrace();
 		}
 		return properties;
+	}
+	/**
+	 * 读取jar中的文件不能以文件形式读取，只能通过字节方式读取
+	 * @param path
+	 * @return
+	 */
+	public static Properties getPropertiesForJar(String path){
+		 InputStream is=ReadResourceUtils.class.getResourceAsStream(path); 
+	     BufferedReader br=new BufferedReader(new InputStreamReader(is));
+	     Properties properties = null;
+	     try {
+	    	properties = new Properties();
+			properties.load(br);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	     return properties;
 	}
 }

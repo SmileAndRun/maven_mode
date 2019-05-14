@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.common.core.datasource.DatabaseType;
 import org.common.core.datasource.DynamicDataSource;
+import org.common.core.environment.QuartzProperties;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.bdcom.hws.environment.QuartzProperties;
 
 @Configuration
 public class MyBatisConfig {

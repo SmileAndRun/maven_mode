@@ -38,7 +38,7 @@ public class TimedTaskController {
 	
 	@Value("${websocket.ip}")
 	private String websocketIp;
-	@Value("${server.port}")
+	@Value("${nginx.port}")
 	private String serverPort;
 	
 	@Autowired
@@ -88,8 +88,10 @@ public class TimedTaskController {
 			model.setTRIGGER_GROUP(model.getJOB_NAME());
 			scheduleMethod.addJobDetails( Class.forName(model.getJOB_CLASS_NAME()), model);
 			//设置任务永久存储
-			quartzService.setPermanentStorage(model.getJOB_NAME());
+			boolean isStroe = quartzService.setPermanentStorage(model.getJOB_NAME());
+			logger.info("stroe:"+isStroe);
 			QuartzModel quartzModel = quartzService.getJobDetailForJobName(model.getJOB_NAME());
+			logger.info("quartzModel:"+ quartzModel == null);
 			if(null == quartzModel){
 				obj.put("message", "add_failed");
 			}else{

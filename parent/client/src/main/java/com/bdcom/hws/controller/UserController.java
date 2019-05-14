@@ -19,7 +19,6 @@ import org.common.model.Barrage;
 import org.common.model.client.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,9 +44,6 @@ public class UserController {
 	private BarrageService barService;
 	@Autowired
 	private ImagesService imagesService;
-	
-	@Value("${server.port}")
-	private String serverPort;
 	
 	/*@ApiOperation(value = "get User by uId", notes = "通过用户id获取该用户", response = User.class)
 	@RequestMapping(value="getUserByUid",method=RequestMethod.GET)

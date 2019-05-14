@@ -2,7 +2,7 @@ package com.bdcom.server.core.quartz;
 
 import java.util.Properties;
 
-import org.common.utils.ReadResourceUtils;
+import org.common.core.environment.QuartzProperties;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,14 @@ public class ScheduleConfig {
 	@Autowired
 	MyJobFactory myJobFactory;
 	
+	@Autowired
+	QuartzProperties qp;
 	@Bean
 	public SchedulerFactoryBean getSchedulerFactoryBean(){
 		SchedulerFactoryBean factory = new SchedulerFactoryBean();
 		factory.setJobFactory(myJobFactory);
-		Properties quartzProperties = ReadResourceUtils.getProperties(this.getClass().getResource("/quartz.properties").getPath());
+		Properties quartzProperties = qp.toProperties();
+		System.out.println("1111111111111:"+quartzProperties.getProperty("org.quartz.dataSource.quartzDataSource.Url"));
 		if(null != quartzProperties)factory.setQuartzProperties(quartzProperties);
 		return factory;
 	}

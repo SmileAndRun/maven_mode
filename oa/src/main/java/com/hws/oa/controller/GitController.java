@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -23,9 +25,9 @@ public class GitController {
 	JGitService js;
 	
 	@RequestMapping("/full")
-	public void pull(){
+	public void pull(HttpServletRequest request){
 		try {
-			js.update(1);
+			js.update(1,request);
 		} catch (GitAPIException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

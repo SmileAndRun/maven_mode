@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -17,12 +19,14 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.core.LoadConf;
 import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
 import com.hws.oa.core.threadpool.UpdateTask;
+import com.hws.oa.core.websocket.WebSocketServer;
 import com.hws.oa.exception.CommonException;
 import com.hws.oa.service.JGitService;
 
@@ -31,6 +35,9 @@ public class JGitServiceImpl implements JGitService{
 
 	private static final String GITFILENAME=".git";
 	   
+	@Autowired
+	WebSocketServer webSocketServer;
+	
     /**
      * 完全覆盖本地代码
      * @throws GitAPIException 
@@ -40,7 +47,7 @@ public class JGitServiceImpl implements JGitService{
      * @throws InvalidRemoteException 
      */
 	@Override
-    public  JSONObject update(Integer num) throws GitAPIException, CommonException, IOException {
+    public  JSONObject update(Integer num,HttpServletRequest request) throws GitAPIException, CommonException, IOException {
     	//step0 检查是否已经初始化
     	Map<Integer,Map<String,String>> map = LoadConf.getSystemMap();
     	String remoteRepo = null;
@@ -76,7 +83,8 @@ public class JGitServiceImpl implements JGitService{
 			
 			obj.put("updateFlag", true);
 			ThreadPoolExecutor executor = new MyThreadPoolExecutor().getThreadPoolExecutor();
-			executor.submit(new UpdateTask(list,git,time));
+			
+			executor.submit(new UpdateTask(list,git,time,WebSocketServer.getMapCache().get(request.getSession().getId())));
 			git.reset().setMode(ResetType.HARD).call();
 			git.pull().call();
 			

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.dom4j.DocumentException;
 
+import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
 import com.hws.oa.util.ReadResourceUtils;
 
 public class LoadConf {
@@ -18,11 +19,13 @@ public class LoadConf {
 	
 	
 	
-	public static void load(boolean flag) throws DocumentException{
-		loadSystem(flag);
+	public static void load() throws DocumentException{
+		loadSystem();
+		//初始化线程池
+		new MyThreadPoolExecutor().initThreadPoolExcutor();
 	}
-	public static void loadSystem(boolean flag) throws DocumentException{
-		if(!flag)return ;
+	public static void loadSystem() throws DocumentException{
+		
 		//加载系统配置文件
 		String url = USER_DIR +File.separator+CONF+File.separator+SYSTEM_CONFIG;
 		File file = new File(url);

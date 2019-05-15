@@ -16,7 +16,7 @@ public class OaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OaApplication.class, args);
 		try {
-			LoadConf.load(true);
+			LoadConf.load();
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}

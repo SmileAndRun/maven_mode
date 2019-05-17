@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.service.MavenService;
 import com.hws.oa.util.RunTimeUtils;
 
+@Service
 public class MavenServiceImpl implements MavenService {
 
 	

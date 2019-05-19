@@ -1,0 +1,82 @@
+.title{
+	margin-top: 20px;
+	margin-left:20px;
+}
+.title input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.type{
+	height: 24px;
+	border-radius: 5px;
+	outline: none;
+	margin-left: 10px;
+	width: 50px;
+	text-align: center;
+	text-align-last: center;
+}
+.add{
+	background-color: #5bb75b;
+}
+.search{
+	background-color: #0044cc;
+}
+.add,.search{
+	height: 30px;
+	width: 54px;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	color: white;
+}
+.addTable input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.showADD{
+	margin-top: 40px;
+	display: none;
+}
+.showEdit input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.showEdit{
+	display: none;
+	margin-top: 40px;
+}
+.roleUl{
+	display: inline-block;
+	list-style: none;
+}
+.roleUl li{
+	margin-left: 5px;
+	background-color: white;
+}
+.roleList{
+	margin: 0px;
+	padding: 0px;
+}
+.roleList li{
+	display: inline-block;
+	margin-left: 10px;
+	background-color: white;
+	cursor: pointer;
+}
+.roleCollection{
+	height: 30px;
+	width: 200px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	display: none;
+	position: absolute;
+	background-color: #ddd;
+}
+.roleCollection li:hover{
+	background-color: #333;
+	border-radius: 5px;
+	color: white;
+}

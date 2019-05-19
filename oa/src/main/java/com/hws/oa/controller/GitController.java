@@ -43,9 +43,9 @@ public class GitController {
 		}
 	}
 	@RequestMapping("/mvn")
-	public void test(HttpServletRequest request){
+	public void test(HttpServletRequest request,String pomPath){
 		try {
-			ms.mvn("", "ipconfig");
+			ms.mvn(pomPath, "mvn clean");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

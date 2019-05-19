@@ -8,12 +8,11 @@
   <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard by Creative Tim
+    oa Sysytem
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
   <!-- CSS Files -->
   <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -36,56 +35,38 @@
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="./dashboard.html">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
+              <i class="fa fa-university" aria-hidden="true"></i>
+              <p th:text="#{home.page}"></p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./user.html">
-              <i class="material-icons">person</i>
-              <p>User Profile</p>
+              <i class="fa fa-archive" aria-hidden="true"></i>
+              <p th:text="#{package}"></p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./tables.html">
-              <i class="material-icons">content_paste</i>
-              <p>Table List</p>
+              <i class="fa fa-code-fork" aria-hidden="true"></i>
+              <p th:text="#{version.info}"></p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./typography.html">
-              <i class="material-icons">library_books</i>
-              <p>Typography</p>
+              <i class="fa fa-tasks" aria-hidden="true"></i>
+              <p th:text="#{timed.task}"></p>
             </a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
+              <i class="fa fa-file" aria-hidden="true"></i>
+              <p th:text="#{file.system}"></p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-              <i class="material-icons">notifications</i>
-              <p>Notifications</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./rtl.html">
-              <i class="material-icons">language</i>
-              <p>RTL Support</p>
-            </a>
-          </li>
-          <li class="nav-item active-pro ">
-            <a class="nav-link" href="./upgrade.html">
-              <i class="material-icons">unarchive</i>
-              <p>Upgrade to PRO</p>
+            <a class="nav-link" href="/html/settings">
+              <i class="fa fa-cog" aria-hidden="true"></i>
+              <p th:text="#{system.settings}"></p>
             </a>
           </li>
         </ul>
@@ -156,41 +137,11 @@
           </div>
         </div>
       </nav>
-      <footer class="footer" th:fragment="footer">
-        <div class="container-fluid">
-          <nav class="float-left">
-            <ul>
-              <li>
-                <a href="https://www.creative-tim.com">
-                  Creative Tim
-                </a>
-              </li>
-              <li>
-                <a href="https://creative-tim.com/presentation">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="http://blog.creative-tim.com">
-                  Blog
-                </a>
-              </li>
-              <li>
-                <a href="https://www.creative-tim.com/license">
-                  Licenses
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-          </div>
-        </div>
-      </footer>
+      <div class="language" style="margin:auto" th:fragment="foot">
+		<label><a>Copyright</a>&nbsp;©&nbsp;2018-2019 </label>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a onclick="menu.changeLanguage('CHINESE')"  th:text="#{language.zh}"></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+		<a onclick="menu.changeLanguage('ENGLISH')"  th:text="#{language.en}"></a>
+	</div>
   <!--   Core JS Files   -->
   <script th:src="@{/assets/js/core/jquery.min.js}"></script>
   <script th:src="@{/assets/js/core/popper.min.js}"></script>
@@ -225,7 +176,7 @@
   <!-- Library for adding dinamically elements -->
   <script th:src="@{/assets/js/plugins/arrive.min.js}"></script>
   <!--  Google Maps Plugin    -->
-  <script th:src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
   <script th:src="@{/assets/js/plugins/chartist.min.js}"></script>
   <!--  Notifications Plugin    -->

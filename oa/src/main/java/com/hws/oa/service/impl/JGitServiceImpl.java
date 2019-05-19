@@ -60,8 +60,8 @@ public class JGitServiceImpl implements JGitService{
 			localRepo = sMap.get("local-repo");
 		}
     	String[] temp = remoteRepo.split("/");
-    	String repoName = temp[temp.length-1].split(".")[0];
-    	File repo = new File(localRepo+repoName);
+    	String repoName = temp[temp.length-1].split("\\.")[0];
+    	File repo = new File(localRepo+File.separator+repoName);
     	if(!repo.exists())repo.mkdir();
     	if(repo.isDirectory()){
     		if(!Arrays.asList(repo.list()).contains(GITFILENAME))initGitRepo(remoteRepo,localRepo);

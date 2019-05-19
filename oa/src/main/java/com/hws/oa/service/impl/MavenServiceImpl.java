@@ -17,8 +17,8 @@ public class MavenServiceImpl implements MavenService {
 	
 	@Override
 	public JSONObject mvn(String pomPath,String command) throws IOException, InterruptedException{
-		RunTimeUtils.excute(pomPath, command);
-		return null;
+		
+		return RunTimeUtils.excute(pomPath, command);
 	}
 	
 	@Override

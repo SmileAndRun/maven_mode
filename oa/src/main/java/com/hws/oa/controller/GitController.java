@@ -1,27 +1,27 @@
 package com.hws.oa.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.eclipse.jgit.api.Git;
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hws.oa.core.LoadConf;
+import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.exception.CommonException;
+import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.JGitService;
 import com.hws.oa.service.MavenService;
+import com.hws.oa.service.SystemService;
 
 @RestController
 public class GitController {
-
+	private static Logger logger = Logger.getLogger(GitController.class);
 	@Autowired
 	JGitService js;
 	@Autowired
@@ -53,5 +53,35 @@ public class GitController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	@Autowired
+	SystemService sm;
+	
+	@RequestMapping(value="/settings/search")
+	@ResponseBody
+	public JSONObject searchUsers(String content,String type){
+		logger.info("查询并着色开始");
+		JSONObject obj = new JSONObject();
+		List<SystemModel> list = sm.searchUsersAndColoring(content, type);
+		
+		obj.put("setttings", list);
+		logger.info("查询并着色结束");
+		return obj;
+	}
+	@RequestMapping(value="/addSystemSet")
+	@ResponseBody
+	public JSONObject addSystemSet(SystemModel systemModel){
+		JSONObject obj = new JSONObject();
+		boolean flag = sm.addSystemSet(systemModel);
+		obj.put("addFlag", flag);
+		return obj;
+	}
+	@RequestMapping(value="/updateSystemSet")
+	@ResponseBody
+	public JSONObject updateSystemSet(SystemModel systemModel){
+		JSONObject obj = new JSONObject();
+		boolean flag = sm.updateSystemSet(systemModel);
+		obj.put("flag", flag);
+		return obj;
 	}
 }

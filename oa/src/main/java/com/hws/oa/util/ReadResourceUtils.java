@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -49,21 +50,33 @@ public class ReadResourceUtils {
 		}
 		return list;
 	}
-	/**将节点解析为map*/
-	public static Map<Integer,Map<String, String>> getNodes(List<String> attribute,Element node){
+	/**将节点解析为list
+	 * @param <T>
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException */
+	public static <T> List<T> getNodes(List<String> attribute,Element node,Class<T> classz) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		@SuppressWarnings("unchecked")
 		List<Element> elements = node.elements() ;
-		Map<Integer,Map<String, String>> cMap = new ConcurrentHashMap<>();
+		List<T> list = new CopyOnWriteArrayList<>();
 		for(Element ele:elements){
-			Map<String, String> map = new HashMap<String,String>();
-			Integer temp = null;
+			T t = classz.newInstance();
 			for(String attr:attribute){
-				map.put(attr,ele.attributeValue(attr));
-				if(attr.equals("num"))temp = Integer.parseInt(ele.attributeValue(attr));
+				StringBuffer setMethodName = new StringBuffer("set");
+				String[] temp = attr.split("-");
+				for(String str:temp){
+					setMethodName.append(str.substring(0,1).toUpperCase());
+					setMethodName.append(str.substring(1));
+				}
+				
+				classz.getMethod(setMethodName.toString(), String.class).invoke(t, ele.attributeValue(attr));
 			}
-			cMap.put(temp,map);
+			list.add(t);
 		}
-		return cMap;
+		return list;
 	}
 	
 	/**

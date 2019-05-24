@@ -36,9 +36,38 @@
 	border: 1px solid #ddd;
 	padding-left: 10px;
 }
+.data{
+	margin: 10px;
+}
+.dataTable thead tr:FIRST-CHILD{
+	background-color: #EAEAEA;
+}
+.showTab{
+	box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+	border: 0;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    border-radius: 6px;
+    color: #333333;
+    background: #fff;
+    width: 100%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+	position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #eeeeee;
+    border-radius: 0.25rem;
+}
 .showADD{
 	margin-top: 40px;
 	display: none;
+}
+.edit{
+	cursor: pointer;
 }
 .showEdit input{
 	border-radius: 5px;
@@ -48,36 +77,4 @@
 .showEdit{
 	display: none;
 	margin-top: 40px;
-}
-.roleUl{
-	display: inline-block;
-	list-style: none;
-}
-.roleUl li{
-	margin-left: 5px;
-	background-color: white;
-}
-.roleList{
-	margin: 0px;
-	padding: 0px;
-}
-.roleList li{
-	display: inline-block;
-	margin-left: 10px;
-	background-color: white;
-	cursor: pointer;
-}
-.roleCollection{
-	height: 30px;
-	width: 200px;
-	border: 1px solid #ddd;
-	border-radius: 5px;
-	display: none;
-	position: absolute;
-	background-color: #ddd;
-}
-.roleCollection li:hover{
-	background-color: #333;
-	border-radius: 5px;
-	color: white;
 }

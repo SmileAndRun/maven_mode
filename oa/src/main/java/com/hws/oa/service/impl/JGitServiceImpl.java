@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +27,7 @@ import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
 import com.hws.oa.core.threadpool.UpdateTask;
 import com.hws.oa.core.websocket.WebSocketServer;
 import com.hws.oa.exception.CommonException;
+import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.JGitService;
 
 @Service
@@ -49,15 +49,15 @@ public class JGitServiceImpl implements JGitService{
 	@Override
     public  JSONObject update(Integer num,HttpServletRequest request) throws GitAPIException, CommonException, IOException {
     	//step0 检查是否已经初始化
-    	Map<Integer,Map<String,String>> map = LoadConf.getSystemMap();
+    	List<SystemModel> listSet = LoadConf.getSystems();
     	String remoteRepo = null;
     	String localRepo = null;
     	JSONObject obj = new JSONObject();
     	obj.put("updateFlag", false);
-    	if(null != map){
-			Map<String,String> sMap = map.get(num);
-			remoteRepo = sMap.get("remote-repo");
-			localRepo = sMap.get("local-repo");
+    	if(null != listSet&&listSet.size()>0){
+    		SystemModel model = listSet.get(num);
+			remoteRepo = model.getRemoteRepo();
+			localRepo = model.getLocalRepo();
 		}
     	String[] temp = remoteRepo.split("/");
     	String repoName = temp[temp.length-1].split("\\.")[0];

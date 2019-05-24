@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.hws.oa.core.LoadConf;
+import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
+import com.hws.oa.core.threadpool.UpdateSystemInfoTask;
 import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.SystemService;
 
@@ -18,8 +21,10 @@ public class SystemServiceImpl implements SystemService {
 
 	@Override
 	public boolean addSystemSet(SystemModel systemModel) {
-		// TODO Auto-generated method stub
-		return false;
+		//先将配置加入到系统缓存中后续文件中通过线程异步更新
+		boolean flag = LoadConf.getSystems().add(systemModel);
+		new MyThreadPoolExecutor().getThreadPoolExecutor().submit(new UpdateSystemInfoTask(systemModel));
+		return flag;
 	}
 
 	@Override

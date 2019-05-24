@@ -62,7 +62,9 @@ public class MyThreadPoolExecutor  {
 		threadPoolExecutor = new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, threadFactory, handler);
 	}
 
-	public  ThreadPoolExecutor getThreadPoolExecutor() {
+	public synchronized ThreadPoolExecutor getThreadPoolExecutor() {
+	
+		if(null == threadPoolExecutor)initThreadPoolExcutor();
 		return threadPoolExecutor;
 	}
 	

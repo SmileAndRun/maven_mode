@@ -54,6 +54,14 @@ public class GitController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/test")
+	public void test1(){
+		SystemModel systemModel = new SystemModel();
+		systemModel.setLocalRepo("test");
+		systemModel.setRemoteRepo("12332");
+		sm.addSystemSet(systemModel);
+	}
+	
 	@Autowired
 	SystemService sm;
 	

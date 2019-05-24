@@ -3,6 +3,7 @@ package com.hws.oa.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.dom4j.io.XMLWriter;
+import org.dom4j.tree.DefaultElement;
+
+import com.hws.oa.model.SystemModel;
+
 
 /***
  * 读取资源文件
@@ -78,7 +84,16 @@ public class ReadResourceUtils {
 		}
 		return list;
 	}
-	
+	public static void  updateXML(File file,SystemModel systemModel) throws DocumentException, IOException{
+		Element root = getXmlRootElement(file);
+		Element element = new DefaultElement("git");
+		element.addAttribute("remote-repo", systemModel.getRemoteRepo());
+		element.addAttribute("local-repo", systemModel.getLocalRepo());
+		root.add(element);
+		XMLWriter writer = new XMLWriter(new FileWriter(file));
+		writer.write(root);
+		writer.close();
+	}
 	/**
 	 * 读取整个properties文件
 	 * @param path

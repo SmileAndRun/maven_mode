@@ -152,7 +152,7 @@ public class RootController {
 		logger.info("初始化用户管理界面结束");
 		return model;
 	}
-	
+	@RequestMapping(value="/user/search")
 	@ResponseBody
 	public JSONObject searchUsers(String content,String type){
 		logger.info("查询用户并着色开始");

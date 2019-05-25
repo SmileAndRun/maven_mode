@@ -11,26 +11,15 @@ $(function(){
 			var s_function = function(result){
 				if(result.flag){
 					$(".dataTable tbody").empty();
-					for(var i=0;i<result.systemModel.length;i++){
+					for(var i=0;i<result.settings.systemModel.length;i++){
 						
-						var id;
-						if(type == "1"){
-							id = result.systemModel[i].uId;
-						}else{
-							id = result.users[i].userId;
-						}
-						var ul 
+			
 						$(".dataTable tbody").append("<tr>" +
-								"<td>"+id+"</td>" +
-								"<td>"+result.users[i].userName+"</td>" +
-								"<td>"+temp+"</td>" +
-								"<td>"+result.users[i].time+"</td>" +
-								"<td><ul class='roleUl'></ul></td>" +
+								"<td>"+result.settings.systemModel[i].num+"</td>" +
+								"<td>"+result.settings.systemModel[i].localRepo+"</td>" +
+								"<td>"+result.settings.systemModel[i].remoteRepo+"</td>" +
 								"<td class='edit'>"+$(".edit").val()+"</td>" +
 								"</tr>");
-						for(var j=0;j<result.users[i].roleList.length;j++){
-							$(".roleUl").append("<li>"+result.users[i].roleList[j].role+"</li>");
-						}
 						
 					}
 				}
@@ -59,13 +48,13 @@ $(function(){
 		var local = $(".addLocalAddress").val();
 		var repo = $(".addRepoAddress").val();
 		if(local !="" && repo !=""){
-			var url = "/addSettins";
+			var url = "/addSystemSet";
 			var data = {
-					localAddress: local,
-					repoAddress: repo,
+					localRepo: local,
+					remoteRepo: repo,
 			};
 			var s_function = function(result){
-				if(result.addFlag){
+				if(result.flag){
 					var id = $(".dataTable tbody tr").length+1;
 					$(".dataTable tbody").append("<tr>" +
 					"<td>"+id+"</td>" +
@@ -98,14 +87,14 @@ $(function(){
 		var local = $(".editTable").find("tr").eq(1).find("input").val();
 		var repo = $(".editTable").find("tr").eq(2).find("input").val();
 		
-		var url = "/changeSettings";
+		var url = "/updateSystemSet";
 		var data = {
 				num: num,
-				local: local,
-				repo: repo,
+				localRepo: local,
+				remoteRepo: repo,
 		};
 		var s_function = function(result){
-			if(result.changeFlag){
+			if(result.flag){
 				$(".dataTable tbody").find("tr").each(function(){
 					var serial = $(this).find("td").eq(0).text();
 					if(serial == num){

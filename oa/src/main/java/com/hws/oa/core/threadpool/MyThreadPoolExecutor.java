@@ -17,8 +17,8 @@ public class MyThreadPoolExecutor  {
 	private volatile int   corePoolSize;     //核心池的大小（即线程池中的线程数目大于这个参数时，提交的任务会被放进任务缓存队列）
 	private volatile int   maximumPoolSize;   //线程池最大能容忍的线程数
 	private volatile RejectedExecutionHandler handler; //任务拒绝策略
-	private volatile ThreadPoolExecutor threadPoolExecutor;
-	
+	private  volatile ThreadPoolExecutor threadPoolExecutor;
+	public static MyThreadPoolExecutor myThreadPoolExecutor = new MyThreadPoolExecutor();
 	public MyThreadPoolExecutor(){
 		this.workQueue = new LinkedBlockingDeque<>(10);
 		this.keepAliveTime = 5;

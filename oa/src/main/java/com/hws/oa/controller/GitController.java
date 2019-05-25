@@ -54,26 +54,22 @@ public class GitController {
 			e.printStackTrace();
 		}
 	}
-	@RequestMapping("/test")
-	public void test1(){
-		SystemModel systemModel = new SystemModel();
-		systemModel.setLocalRepo("test");
-		systemModel.setRemoteRepo("12332");
-		sm.addSystemSet(systemModel);
-	}
 	
 	@Autowired
 	SystemService sm;
 	
 	@RequestMapping(value="/settings/search")
 	@ResponseBody
-	public JSONObject searchUsers(String content,String type){
-		logger.info("查询并着色开始");
+	public JSONObject searchUsers(String content,Integer type){
 		JSONObject obj = new JSONObject();
-		List<SystemModel> list = sm.searchUsersAndColoring(content, type);
+		obj.put("flag", true);
+		try{
+			List<SystemModel> list = sm.searchUsersAndColoring(content, type);
+			obj.put("setttings", list);
+		}catch(NumberFormatException e){
+			obj.put("flag", false);
+		}
 		
-		obj.put("setttings", list);
-		logger.info("查询并着色结束");
 		return obj;
 	}
 	@RequestMapping(value="/addSystemSet")
@@ -81,13 +77,25 @@ public class GitController {
 	public JSONObject addSystemSet(SystemModel systemModel){
 		JSONObject obj = new JSONObject();
 		boolean flag = sm.addSystemSet(systemModel);
-		obj.put("addFlag", flag);
+		obj.put("flag", flag);
 		return obj;
 	}
 	@RequestMapping(value="/updateSystemSet")
 	@ResponseBody
 	public JSONObject updateSystemSet(SystemModel systemModel){
 		JSONObject obj = new JSONObject();
+		boolean flag = sm.updateSystemSet(systemModel);
+		obj.put("flag", flag);
+		return obj;
+	}
+	@RequestMapping(value="/test")
+	@ResponseBody
+	public JSONObject test(){
+		JSONObject obj = new JSONObject();
+		SystemModel systemModel = new SystemModel();
+		systemModel.setNum(1);
+		systemModel.setLocalRepo("test");
+		systemModel.setRemoteRepo("test");
 		boolean flag = sm.updateSystemSet(systemModel);
 		obj.put("flag", flag);
 		return obj;

@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -84,12 +85,31 @@ public class ReadResourceUtils {
 		}
 		return list;
 	}
-	public static void  updateXML(File file,SystemModel systemModel) throws DocumentException, IOException{
+	/**
+	 * 静态方法
+	 * @param file
+	 * @param systemModel 
+	 * @param type 1:add,2:update,3:delete
+	 * @throws DocumentException
+	 * @throws IOException
+	 */
+	public static void  updateXML(File file,SystemModel systemModel,Integer type) throws DocumentException, IOException{
 		Element root = getXmlRootElement(file);
 		Element element = new DefaultElement("git");
 		element.addAttribute("remote-repo", systemModel.getRemoteRepo());
 		element.addAttribute("local-repo", systemModel.getLocalRepo());
-		root.add(element);
+		if(type==1){
+			root.add(element);
+		}else if(type == 2){
+			Element origin = (Element)root.elements("git").get(systemModel.getNum()-1);
+			Attribute temp = origin.attribute("local-repo");
+			temp.setValue(systemModel.getLocalRepo());
+			temp = origin.attribute("remote-repo");
+			temp.setValue(systemModel.getRemoteRepo());
+		}else if(type == 3){
+			root.remove(element);
+		}
+		
 		XMLWriter writer = new XMLWriter(new FileWriter(file));
 		writer.write(root);
 		writer.close();

@@ -13,12 +13,10 @@ import com.hws.oa.util.ReadResourceUtils;
 
 public class LoadConf {
 
-	private static final String USER_DIR= System.getProperty("user.dir");
-	private static final String CONF = "conf";
-	private static final String SYSTEM_CONFIG="system-config.xml";
+	public static final String USER_DIR= System.getProperty("user.dir");
+	public static final String CONF = "conf";
+	public static final String SYSTEM_CONFIG="system-config.xml";
 	private static List<SystemModel> systemInfo = null;
-	
-	
 	
 	public static void load() throws DocumentException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException{
 		loadSystem();

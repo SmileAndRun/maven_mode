@@ -24,14 +24,14 @@ public class UpdateTask implements ITask, Callable<JSONObject> {
 	public JSONObject call() throws Exception {
 		JSONObject obj = new JSONObject();
 		obj.put("updateFlag", false);
-		String rootPath = git.getRepository().getDirectory().getAbsolutePath();
+		String rootPath = git.getRepository().getDirectory().getAbsolutePath().split("\\.")[0];
 		for(DiffEntry diff:list){
 			boolean ifFinish = (diff == list.get(list.size()-1));
 			boolean flag = true;
 			while(flag){
 				File file = new File(rootPath+File.separator+diff.getNewPath());
 				if(file.lastModified()>time){
-					String message = "{type:'update',isFinished:"+ifFinish+",value:'"+diff.getChangeType() +"   "+diff.getNewPath()+"'}";
+					String message = "{type:'update',isFinished:"+ifFinish+",value:'"+diff.getChangeType() +"      "+diff.getNewPath()+"'}";
 					session.getBasicRemote().sendText(message);
 					break;
 				}

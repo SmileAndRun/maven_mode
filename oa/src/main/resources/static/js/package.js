@@ -16,9 +16,9 @@ $(function(){
 	    	
 	    	var json = eval("("+event.data+")");
 	    	if(json.type=="update"){
-	    		$(".update_value").append(event.data);
+	    		$(".update_value").append(json.value);
 	    	}else{
-	    		$(".package_value").append(event.data);
+	    		$(".package_value").append(json.value);
 	    	}
 	    	if(json.isFinished){
 	    		

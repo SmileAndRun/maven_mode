@@ -13,7 +13,7 @@ $(function(){
 
         fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
-        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+        if (window_width > 767 && fixed_plugin_open == $(".homePage-i18n").val()) {
           if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
             $('.fixed-plugin .dropdown').addClass('open');
           }
@@ -166,6 +166,10 @@ $(function(){
           }, 1000);
 
         });
+        $(".sidebar").on("click","ul li",function(){
+    		$(".sidebar ul li").find(".active").removeClass("active");
+    		$(this).addClass("active");
+    	})
       });
     });
 })

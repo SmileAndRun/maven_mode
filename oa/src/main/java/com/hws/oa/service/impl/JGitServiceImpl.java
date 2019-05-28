@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
@@ -47,7 +46,7 @@ public class JGitServiceImpl implements JGitService{
      * @throws InvalidRemoteException 
      */
 	@Override
-    public  JSONObject update(Integer num,HttpServletRequest request) throws GitAPIException, CommonException, IOException {
+    public  JSONObject update(Integer num,String jessionId) throws GitAPIException, CommonException, IOException {
     	//step0 检查是否已经初始化
     	List<SystemModel> listSet = LoadConf.getSystems();
     	String remoteRepo = null;
@@ -62,11 +61,11 @@ public class JGitServiceImpl implements JGitService{
     	String[] temp = remoteRepo.split("/");
     	String repoName = temp[temp.length-1].split("\\.")[0];
     	File repo = new File(localRepo+File.separator+repoName);
-    	if(!repo.exists())repo.mkdir();
+    	if(!repo.exists())repo.mkdirs();
     	if(repo.isDirectory()){
-    		if(!Arrays.asList(repo.list()).contains(GITFILENAME))initGitRepo(remoteRepo,localRepo);
+    		if(!Arrays.asList(repo.list()).contains(GITFILENAME))initGitRepo(remoteRepo,repo.getPath());
 		
-			String localRepoGitConfig = localRepo + File.separator + GITFILENAME;
+			String localRepoGitConfig = repo.getPath() + File.separator + GITFILENAME;
 			Git git = Git.open(new File(localRepoGitConfig));
 			Repository repository = git.getRepository();
 			//step1 git fetch --all 
@@ -82,12 +81,15 @@ public class JGitServiceImpl implements JGitService{
 			oldTree.reset(reader,repository.resolve(local.getObjectId().name()+"^{tree}"));
 			newTree.reset(reader, repository.resolve(origin.getObjectId().name()+"^{tree}"));
 			List<DiffEntry> list = git.diff().setOldTree(oldTree).setNewTree(newTree).call();
-			if(null == list || list.size() == 0) return obj;
+			if(null == list || list.size() == 0) {
+				obj.put("hasDiff",false);
+				return obj;
+			}
 			
 			obj.put("updateFlag", true);
-			ThreadPoolExecutor executor = new MyThreadPoolExecutor().getThreadPoolExecutor();
+			ThreadPoolExecutor executor = MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor();
 			
-			executor.submit(new UpdateTask(list,git,time,WebSocketServer.getMapCache().get(request.getSession().getId())));
+			executor.submit(new UpdateTask(list,git,time,WebSocketServer.getMapCache().get(jessionId)));
 			git.reset().setMode(ResetType.HARD).call();
 			git.pull().call();
 			

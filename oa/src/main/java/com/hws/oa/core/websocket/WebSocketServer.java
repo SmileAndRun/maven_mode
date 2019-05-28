@@ -3,8 +3,6 @@ package com.hws.oa.core.websocket;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
-import javax.servlet.http.HttpSession;
-import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -22,7 +20,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-@ServerEndpoint(value="/websocket/{type}",configurator=HttpSessionConfigurator.class)
+@ServerEndpoint(value="/websocket/{jsessionId}")
 public class WebSocketServer {
 	private static Logger logger = Logger.getLogger(WebSocketServer.class);
 	private static ConcurrentHashMap<String, Session> mapCache = new ConcurrentHashMap<>();
@@ -31,11 +29,10 @@ public class WebSocketServer {
 	/**客服端连接的时候触发
 	 * @throws IOException */
 	@OnOpen
-    public void onOpen(Session session,@PathParam("type")String type,EndpointConfig config) throws IOException{
+    public void onOpen(Session session,@PathParam("jsessionId") String jsessionId) throws IOException{
         this.session = session;
-        HttpSession httpSession= (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         //绑定httpsession和websocket Session
-        mapCache.put(httpSession.getId(), session);
+        mapCache.put(jsessionId, session);
         logger.info("sessionID："+session.getId()+",Open触发");
     }
 	/**当客服端断开连接时触发

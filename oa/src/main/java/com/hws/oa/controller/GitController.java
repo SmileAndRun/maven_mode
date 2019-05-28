@@ -27,20 +27,25 @@ public class GitController {
 	@Autowired
 	MavenService ms;
 	
-	@RequestMapping("/pull")
-	public void pull(HttpServletRequest request){
+	@RequestMapping("/update")
+	@ResponseBody
+	public JSONObject pull(Integer num,String jessionId){
+		logger.info("开始代码更新");
+		JSONObject obj = new JSONObject();
 		try {
-			js.update(1,request);
+			obj = js.update(num,jessionId);
 		} catch (GitAPIException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("updateFlag", false);
 		} catch (CommonException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("updateFlag", false);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			obj.put("updateFlag", false);
 		}
+		logger.info("开始代码更新完成");
+		return obj;
 	}
 	@RequestMapping("/mvn")
 	public void test(HttpServletRequest request,String pomPath){

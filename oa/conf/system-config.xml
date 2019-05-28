@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <system>
-	<git   remote-repo="git@github.com:ForeverLTP/test.git" local-repo="G:\test\test" ></git>
+	<git remote-repo="git@github.com:ForeverLTP/test.git" local-repo="G:\test"/>
 </system>

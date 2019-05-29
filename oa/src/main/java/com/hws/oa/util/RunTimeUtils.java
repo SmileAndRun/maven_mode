@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.alibaba.fastjson.JSONObject;
 
 public class RunTimeUtils {
 
@@ -20,8 +19,7 @@ public class RunTimeUtils {
 		if(systemName.toUpperCase().contains(WINDOWS)) return true;
 		return false;
 	}
-	public static JSONObject excute(String pomPath,String command) throws IOException, InterruptedException{
-		JSONObject obj = new JSONObject();
+	public static List<String> excute(String pomPath,String command) throws IOException, InterruptedException{
 		Runtime runtime=Runtime.getRuntime();
 		Process process=null; 
 		if(isWindows()){
@@ -33,14 +31,13 @@ public class RunTimeUtils {
 		String line = null;
 		List<String> messages = new ArrayList<String>();
 		InputStream input = process.getInputStream();
-		if(null == input)return obj;
+		if(null == input)return messages;
 		BufferedReader read = new BufferedReader(new InputStreamReader(input,"GB2312"));
 		while((line= read.readLine())!=null){
 			messages.add(line);
 		}
-		obj.put("mvnResult", messages);
 		process.waitFor();
 	    process.destroy();
-		return obj;
+		return messages;
 	}
 }

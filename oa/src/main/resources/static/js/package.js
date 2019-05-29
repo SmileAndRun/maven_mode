@@ -23,7 +23,7 @@ $(function(){
 	    	}
 	    	if(json.isFinished){
 	    		layer.close(loadIndex); 
-	    		layer.msg($(".updateSuccess-i18n").val());
+	    		layer.msg($(".operateSuccess-i18n").val());
 	    	}
 	    	
 	    }
@@ -241,7 +241,9 @@ $(function(){
 			};
 		var url = "/package";
 		var s_function = function(data){
-			
+			if(!data.flag){
+				layer.msg($(".operateFailure-i18n").val());
+			}
 		}
 		var e_function = function(){
 			layer.msg("The server is error!!!");

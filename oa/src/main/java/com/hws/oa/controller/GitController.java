@@ -70,22 +70,25 @@ public class GitController {
 	}
 	@RequestMapping("/package")
 	@ResponseBody
-	public void mvnPackage(HttpServletRequest request,Integer[] numArr,String[] addressArr,String command){
+	public JSONObject mvnPackage(HttpServletRequest request,Integer[] numArr,String[] addressArr,String command){
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		for(int i = 0;i<numArr.length ;i++){
 			map.put(numArr[i],addressArr[i]);
 		}
 		Arrays.sort(numArr);
 		if(null == command || "".equals(command))command = "mvn clean install";
+		JSONObject obj = new JSONObject();
 		for(Integer temp : numArr){
 			try {
-				ms.mvn(map.get(temp).replace("pom.xml", ""), command);
+				obj = ms.mvn(map.get(temp).replace("pom.xml", ""), command,request.getSession().getId());
+				if(!obj.getBooleanValue("flag"))return obj;
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		return obj;
 	}
 	@RequestMapping("/getPoms")
 	@ResponseBody

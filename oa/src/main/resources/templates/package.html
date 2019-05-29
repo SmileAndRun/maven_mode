@@ -30,19 +30,27 @@
            	<div>
 	           <div>
 	           		<div class="steptab1 btn btn-info btn-lg" th:text="#{step1.update}"></div>
-	           		<div class="steptab2 btn btn-default  btn-lg" th:text="#{step2.package}"></div>
+	           		<div class="steptab2 btn btn-lg" th:text="#{step2.package}"></div>
 	           </div>
 	           <div class="center_div">
-	           		<label th:text="#{version.info}"></label>:
-	           		<input type="text" readonly="readonly" th:value="${code_version}"/>
-	           		<button class="btn btn-info  update" th:text="#{update}"></button>
+	           		<div class="update_title">
+	           			<label th:text="#{version.info}"></label>:
+	           			<input type="text" readonly="readonly" class="code_version" value="code version"/>
+	           			<button class="btn btn-info  update" th:text="#{update}"></button>
+	           		</div>
+	           		<div class="package_title">
+	           			<label th:text="#{command}"></label>:
+	           			<input type="text"  class="mvn_command" placeholder="mvn command" />
+	           			<button class="btn btn-info  package" th:text="#{package}"></button>
+	           		</div>
+	           		
 	           		<div class="table_div">
 	           			<div class="update_value"></div>
 	           			<div class="package_value"></div>
 	           			<div class="step">
-	           				<button class="prev_step btn btn-info" th:text="#{prev}"></button>
-	           				<button class="next_step btn" th:text="#{next.step}"></button>
-	           				<button class="finnish btn" th:text="#{finish}"></button>
+	           				<button class="prev_step btn" th:text="#{prev}" value="1"></button>
+	           				<button class="next_step btn btn-info" th:text="#{next.step}" value="2"></button>
+	           				<button class="finnish btn btn-info" th:text="#{finish}" value="3"></button>
 	           		 	</div>
 	           		</div>
 	           		
@@ -57,7 +65,9 @@
     	<input type="hidden" class="websocketIp" th:value="${websocketIp}">
     	<input type="hidden" class="serverPort" th:value="${serverPort}">
     	<input type="hidden" class="jsessionId" th:value="${jsessionId}">
-    	
+    	<input type="hidden" class="serialNumber-i18n" th:value="#{serial.number}">
+    	<input type="hidden" class="localAddress-i18n" th:value="#{local.warehouse.address}">
+    	<input type="hidden" class="remoteAddress-i18n" th:value="#{remote.repository.address}">
     </div>
 </body>
   <block th:replace="~{common::js}"></block>

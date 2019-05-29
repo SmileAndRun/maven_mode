@@ -1,7 +1,12 @@
 package com.hws.oa.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hws.oa.core.LoadConf;
 import com.hws.oa.exception.CommonException;
 import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.JGitService;
@@ -27,9 +33,23 @@ public class GitController {
 	@Autowired
 	MavenService ms;
 	
+	private static  AtomicInteger codeVersion = new AtomicInteger(100000);
+	@RequestMapping("/getSettings")
+	@ResponseBody
+	public JSONObject getSettings(HttpServletRequest request){
+		JSONObject obj = new JSONObject();
+		obj.put("flag", true);
+		List<SystemModel> list = LoadConf.getSystems();
+		if(null == list || list.size() == 0){
+			obj.put("flag", false);
+			return obj;
+		}
+		obj.put("Settings", list);
+		return obj;
+	}
 	@RequestMapping("/update")
 	@ResponseBody
-	public JSONObject pull(Integer num,String jessionId){
+	public JSONObject updateCode(Integer num,String jessionId){
 		logger.info("开始代码更新");
 		JSONObject obj = new JSONObject();
 		try {
@@ -44,21 +64,43 @@ public class GitController {
 			e.printStackTrace();
 			obj.put("updateFlag", false);
 		}
+		obj.put("code_version", codeVersion.incrementAndGet());
 		logger.info("开始代码更新完成");
 		return obj;
 	}
-	@RequestMapping("/mvn")
-	public void test(HttpServletRequest request,String pomPath){
-		try {
-			ms.mvn(pomPath, "mvn clean");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@RequestMapping("/package")
+	@ResponseBody
+	public void mvnPackage(HttpServletRequest request,Integer[] numArr,String[] addressArr,String command){
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		for(int i = 0;i<numArr.length ;i++){
+			map.put(numArr[i],addressArr[i]);
+		}
+		Arrays.sort(numArr);
+		if(null == command || "".equals(command))command = "mvn clean install";
+		for(Integer temp : numArr){
+			try {
+				ms.mvn(map.get(temp).replace("pom.xml", ""), command);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
+	@RequestMapping("/getPoms")
+	@ResponseBody
+	public JSONObject getPoms(HttpServletRequest request,Integer num){
+		String local = LoadConf.getSystems().get(num).getLocalRepo();
+		String remote = LoadConf.getSystems().get(num).getRemoteRepo();
+		String[] temp = remote.split("\\.");
+		temp = temp[temp.length-2].split("/");
+		String repo = temp[temp.length-1];
+		JSONObject obj = ms.searchPom(local+File.separator+repo);
+		
+		return obj;
+	}
+	
+	
 	
 	@Autowired
 	SystemService sm;

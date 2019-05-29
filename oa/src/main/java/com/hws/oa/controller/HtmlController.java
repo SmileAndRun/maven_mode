@@ -35,7 +35,6 @@ public class HtmlController {
 	@RequestMapping("/package")
 	public ModelAndView packageView(HttpServletRequest request){
 		request.setAttribute("jsessionId", request.getSession().getId());
-		request.setAttribute("code_version", "100001");
 		request.setAttribute("websocketIp", websocketIp);
 		request.setAttribute("serverPort", nginxPort);
 		return new ModelAndView("package");

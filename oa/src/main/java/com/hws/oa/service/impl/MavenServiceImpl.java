@@ -24,6 +24,7 @@ public class MavenServiceImpl implements MavenService {
 	@Override
 	public JSONObject searchPom(String path) {
 		JSONObject obj = new JSONObject();
+		obj.put("flag", true);
 		List<String> list = new ArrayList<String>();
 		File rootPath = new File(path);
 		File[] files = rootPath.listFiles();
@@ -34,7 +35,11 @@ public class MavenServiceImpl implements MavenService {
 				if(temp.exists())list.add(pomPath);
 			}
 		}
-		obj.put("pomList", list);
+		if(list.size()==0){
+			obj.put("flag", false);
+		}else{
+			obj.put("pomList", list);
+		}
 		return obj;
 	}
 

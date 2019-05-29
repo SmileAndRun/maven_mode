@@ -8,7 +8,10 @@
 	margin-top: 10px;
 	margin-left: 10px; 
 }
-.center_div input{
+.package_title{
+	display: none;
+}
+.center_div .code_version{
 	border-radius: 5px;
 	height: 41px;
 	outline: none;
@@ -16,6 +19,17 @@
 	padding-left: 10px;
 	color: #c0c0c0;
 	margin-left: 10px;
+}
+.center_div .mvn_command{
+	border-radius: 5px;
+	height: 41px;
+	outline: none;
+	border: none;
+	padding-left: 10px;
+	margin-left: 10px;
+}
+.center_div label{
+	width: 72px;
 }
 .table_div{
 	margin-top: 10px;
@@ -27,8 +41,9 @@
 	float: left;
 	background-color: white;
 	overflow-y: scroll; 
-	overflow-x: hidden; 
+	overflow-x: auto; 
 	padding: 10px;
+	color: black;
 }
 .package_value{
 	width: 60%;
@@ -37,17 +52,18 @@
 	float: left;
 	background-color: white;
 	overflow-y: scroll; 
-	overflow-x: hidden; 
+	overflow-x: auto; 
 	padding: 10px;
 	display: none;
+	color: black;
+}
+.package,.update{
+	width: 120px;
 }
 .step{
 	margin-left: 10px;
 	margin-top: 285px;
 	float: left;
 } 
-.prev_step{
-	pointer-events: none;
-	cursor: Default;
-}
+
 

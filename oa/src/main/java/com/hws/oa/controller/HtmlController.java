@@ -39,5 +39,10 @@ public class HtmlController {
 		request.setAttribute("serverPort", nginxPort);
 		return new ModelAndView("package");
 	}
+	@RequestMapping("/versionInfo")
+	public ModelAndView versionInfo(HttpServletRequest request){
+		return new ModelAndView("versionInfo");
+	}
+	
 	
 }

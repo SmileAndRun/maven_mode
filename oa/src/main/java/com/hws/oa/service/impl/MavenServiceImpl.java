@@ -8,6 +8,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
+import com.hws.oa.core.threadpool.PackageTask;
+import com.hws.oa.core.websocket.WebSocketServer;
 import com.hws.oa.service.MavenService;
 import com.hws.oa.util.RunTimeUtils;
 
@@ -15,10 +18,19 @@ import com.hws.oa.util.RunTimeUtils;
 public class MavenServiceImpl implements MavenService {
 
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject mvn(String pomPath,String command) throws IOException, InterruptedException{
-		
-		return RunTimeUtils.excute(pomPath, command);
+	public JSONObject mvn(String pomPath,String command,String jsessionId) throws IOException, InterruptedException{
+		JSONObject obj = RunTimeUtils.excute(pomPath, command);
+		obj.put("flag", false);
+		List<String> list = null;
+		if(obj.getBoolean("packageFlag")){
+			obj.put("flag", true);
+			list = (List<String>)obj.get("packageInfo");
+		}
+		if(null == list|| list.size()==0)return obj;
+		MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor().submit(new PackageTask(list, WebSocketServer.getMapCache().get(jsessionId),obj.getBoolean("packageFlag")));	
+		return obj;
 	}
 	
 	@Override

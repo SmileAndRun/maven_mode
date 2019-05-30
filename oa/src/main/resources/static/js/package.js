@@ -2,6 +2,7 @@ $(function(){
 	var loadIndex;
 	var packageFlag = false;
 	var settingNum = 0;
+	var finishFlag = false;
 	//websocket 初始化
 	if ("WebSocket" in window){
 		var jsessionId = $(".jsessionId").val();
@@ -18,13 +19,24 @@ $(function(){
 	    	var json = eval("("+event.data+")");
 	    	if(json.type=="update"){
 	    		$(".update_value").append(json.value+"<br/>");
+	    		if(json.isFinished){
+		    		layer.close(loadIndex); 
+		    		layer.msg($(".operateSuccess-i18n").val());
+		    	}
 	    	}else{
 	    		$(".package_value").append(json.value+"<br/>");
+	    		if(json.isFinished){
+		    		layer.close(loadIndex); 
+		    		if(json.flag){
+		    			finishFlag = true;
+		    			layer.msg($(".operateSuccess-i18n").val());
+		    		}else{
+		    			layer.msg($(".operateFailure-i18n").val());
+		    		}
+		    		
+		    	}
 	    	}
-	    	if(json.isFinished){
-	    		layer.close(loadIndex); 
-	    		layer.msg($(".operateSuccess-i18n").val());
-	    	}
+	    	
 	    	
 	    }
 	    //连接关闭的回调方法
@@ -67,6 +79,7 @@ $(function(){
 			  		var num = $('input[name="settings"]:checked').val();
 			  		if(num != undefined){
 			  			layer.close(index);
+			  			$(".update_value").empty();
 			  			updateCode(num-1);
 			  			packageFlag = true;
 			  			settingNum = num-1;
@@ -119,7 +132,6 @@ $(function(){
 			if(packageFlag){
 				$(".prev_step").addClass("btn-info");
 				$(".next_step").addClass("btn-info");
-				$(".finnish").addClass("btn-info");
 				$(this).removeClass("btn-info");
 			}
 			var thisValue = $(this).val();
@@ -142,6 +154,9 @@ $(function(){
 				if(packageFlag){
 					$(".steptab1").removeClass("btn-info");
 					$(".steptab2").addClass("btn-info");
+					if(finishFlag){
+						$(".finnish").addClass("btn-info");
+					}
 					$(".update_value").css({
 						display:"none",
 					});
@@ -159,11 +174,31 @@ $(function(){
 				}
 				
 			}else{
-				
+				zipData();
 			}
 		}
 	});
-
+	function zipData(){
+		var data = {
+				addressArr:addressArr,
+				version:$(".code_version").val()
+			};
+		var url = "/zipData";
+		var s_function = function(data){
+			if(!data.flag){
+				layer.msg($(".operateFailure-i18n").val());
+			}else{
+				layer.close(loadIndex);
+				layer.msg($(".operateSuccess-i18n").val());
+				window.location.href="/html/versionInfo";
+			}
+		}
+		var e_function = function(){
+			layer.msg("The server is error!!!");
+		}
+		loadIndex = layer.load(2);
+		$.arrayAjax(url,data,s_function,e_function);
+	}
 	$(".center_div").on("click",".package",function(){
 		
 		var data = {
@@ -192,6 +227,7 @@ $(function(){
 			  		if(pomFlag==0){
 			  			layer.msg($(".pleaseSelect-i18n").val());
 			  		}else{
+			  			$(".package_value").empty();
 			  			mvnPackage();
 			  			layer.close(index);
 			  		}
@@ -224,10 +260,11 @@ $(function(){
 			pomFlag--;
 		}
 	});
-	
+	var numArr;
+	var addressArr
 	function mvnPackage(){
-		var numArr = [];
-		var addressArr = [];
+		numArr = [];
+		addressArr = [];
 		$("table input:checkbox").each(function(){
 				if($(this).prop("checked")){
 					numArr.push($(this).parent().prev().prev().text());

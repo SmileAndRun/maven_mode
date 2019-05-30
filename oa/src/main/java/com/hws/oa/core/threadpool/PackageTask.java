@@ -21,9 +21,11 @@ public class PackageTask implements ITask, Callable<JSONObject> {
 	public JSONObject call() throws Exception {
 		JSONObject obj = new JSONObject();
 		obj.put("flag", false);
+		int num=0;
 		for(String temp : list){
-			boolean ifFinish = (temp == list.get(list.size()-1));
-			String message = "{type:'package',isFinished:"+ifFinish+",value:'"+temp+"'}";
+			num++;
+			boolean ifFinish = (num == list.size());
+			String message = "{type:'package',isFinished:"+ifFinish+",value:'"+temp+"',flag:'"+flag+"'}";
 			session.getBasicRemote().sendText(message);
 		}
 		
@@ -33,8 +35,10 @@ public class PackageTask implements ITask, Callable<JSONObject> {
 
 	private Session session;
 	private List<String> list;
-	public PackageTask(List<String> list,Session session){
+	private boolean flag;
+	public PackageTask(List<String> list,Session session,boolean flag){
 		this.session = session;
 		this.list = list;
+		this.flag = flag;
 	}
 }

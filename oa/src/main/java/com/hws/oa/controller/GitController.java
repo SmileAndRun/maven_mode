@@ -1,6 +1,7 @@
 package com.hws.oa.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,7 @@ import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.JGitService;
 import com.hws.oa.service.MavenService;
 import com.hws.oa.service.SystemService;
+import com.hws.oa.util.DownUtils;
 
 @RestController
 public class GitController {
@@ -136,6 +139,23 @@ public class GitController {
 		JSONObject obj = new JSONObject();
 		boolean flag = sm.updateSystemSet(systemModel);
 		obj.put("flag", flag);
+		return obj;
+	}
+	@Value("${package.address}")
+	private String zipAddress;
+	@RequestMapping(value="/zipData")
+	@ResponseBody
+	public JSONObject zipData(String[] addressArr,String version){
+		JSONObject obj = new JSONObject();
+		obj.put("flag",false);
+		try {
+			DownUtils.zipData(addressArr, version, zipAddress);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		obj.put("flag",true);
 		return obj;
 	}
 	@RequestMapping(value="/test")

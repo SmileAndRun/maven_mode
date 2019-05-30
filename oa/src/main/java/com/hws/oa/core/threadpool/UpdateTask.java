@@ -25,8 +25,10 @@ public class UpdateTask implements ITask, Callable<JSONObject> {
 		JSONObject obj = new JSONObject();
 		obj.put("updateFlag", false);
 		String rootPath = git.getRepository().getDirectory().getAbsolutePath().split("\\.")[0];
+		int i=0;
 		for(DiffEntry diff:list){
-			boolean ifFinish = (diff == list.get(list.size()-1));
+			i++;
+			boolean ifFinish = (i==list.size());
 			boolean flag = true;
 			while(flag){
 				File file = new File(rootPath+File.separator+diff.getNewPath());

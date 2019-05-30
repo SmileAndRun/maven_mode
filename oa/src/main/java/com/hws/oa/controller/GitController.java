@@ -148,6 +148,11 @@ public class GitController {
 	public JSONObject zipData(String[] addressArr,String version){
 		JSONObject obj = new JSONObject();
 		obj.put("flag",false);
+		if(version.equals("code version"))
+			version = String.valueOf(codeVersion.getAndIncrement());
+		for(int i=0;i<addressArr.length;i++){
+			addressArr[i] = addressArr[i].replace("pom.xml", "");
+		}
 		try {
 			DownUtils.zipData(addressArr, version, zipAddress);
 		} catch (FileNotFoundException e) {

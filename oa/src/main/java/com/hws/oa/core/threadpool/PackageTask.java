@@ -5,12 +5,13 @@ import java.util.concurrent.Callable;
 
 import javax.websocket.Session;
 
+import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.model.LogModel;
 
 public class PackageTask implements ITask, Callable<JSONObject> {
-
+	private static Logger logger = Logger.getLogger(PackageTask.class);
 	@Override
 	public void addLog(LogModel logModel) {
 		// TODO Auto-generated method stub
@@ -24,8 +25,9 @@ public class PackageTask implements ITask, Callable<JSONObject> {
 		int num=0;
 		for(String temp : list){
 			num++;
-			boolean ifFinish = (num == list.size());
-			String message = "{type:'package',isFinished:"+ifFinish+",value:'"+temp+"',flag:'"+flag+"'}";
+			boolean isFinish = (num == list.size());
+			logger.info("打包完成状态："+isFinish);
+			String message = "{type:'package',isFinish:"+isFinish+",value:'"+temp+"',flag:'"+flag+"'}";
 			session.getBasicRemote().sendText(message);
 		}
 		

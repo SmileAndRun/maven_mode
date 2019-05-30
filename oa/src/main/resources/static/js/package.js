@@ -19,13 +19,13 @@ $(function(){
 	    	var json = eval("("+event.data+")");
 	    	if(json.type=="update"){
 	    		$(".update_value").append(json.value+"<br/>");
-	    		if(json.isFinished){
+	    		if(json.isFinish){
 		    		layer.close(loadIndex); 
 		    		layer.msg($(".operateSuccess-i18n").val());
 		    	}
 	    	}else{
 	    		$(".package_value").append(json.value+"<br/>");
-	    		if(json.isFinished){
+	    		if(json.isFinish){
 		    		layer.close(loadIndex); 
 		    		if(json.flag){
 		    			finishFlag = true;
@@ -194,6 +194,7 @@ $(function(){
 			}
 		}
 		var e_function = function(){
+			layer.close(loadIndex);
 			layer.msg("The server is error!!!");
 		}
 		loadIndex = layer.load(2);

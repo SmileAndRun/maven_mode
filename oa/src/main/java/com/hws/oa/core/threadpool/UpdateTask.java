@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 import javax.websocket.Session;
 
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 
@@ -13,7 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.model.LogModel;
 
 public class UpdateTask implements ITask, Callable<JSONObject> {
-
+	private static Logger logger = Logger.getLogger(UpdateTask.class);
 	@Override
 	public void addLog(LogModel logModel) {
 		// TODO Auto-generated method stub
@@ -28,12 +29,13 @@ public class UpdateTask implements ITask, Callable<JSONObject> {
 		int i=0;
 		for(DiffEntry diff:list){
 			i++;
-			boolean ifFinish = (i==list.size());
+			boolean isFinish = (i==list.size());
+			logger.info("代码更新状态："+isFinish);
 			boolean flag = true;
 			while(flag){
 				File file = new File(rootPath+File.separator+diff.getNewPath());
 				if(file.lastModified()>time){
-					String message = "{type:'update',isFinished:"+ifFinish+",value:'"+diff.getChangeType() +"      "+diff.getNewPath()+"'}";
+					String message = "{type:'update',isFinish:"+isFinish+",value:'"+diff.getChangeType() +"      "+diff.getNewPath()+"'}";
 					session.getBasicRemote().sendText(message);
 					break;
 				}

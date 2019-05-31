@@ -1,6 +1,5 @@
 package com.hws.oa.core.threadpool;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.websocket.Session;
@@ -9,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.model.LogModel;
+import com.hws.oa.util.RunTimeUtils;
 
 public class PackageTask implements ITask, Callable<JSONObject> {
 	private static Logger logger = Logger.getLogger(PackageTask.class);
@@ -21,26 +21,18 @@ public class PackageTask implements ITask, Callable<JSONObject> {
 	@Override
 	public JSONObject call() throws Exception {
 		JSONObject obj = new JSONObject();
-		obj.put("flag", false);
-		int num=0;
-		for(String temp : list){
-			num++;
-			boolean isFinish = (num == list.size());
-			logger.info("打包完成状态："+isFinish);
-			String message = "{type:'package',isFinish:"+isFinish+",value:'"+temp+"',flag:'"+flag+"'}";
-			session.getBasicRemote().sendText(message);
-		}
-		
-		obj.put("flag", true);
+		logger.info("开始打包");
+		RunTimeUtils.excute(pomPath, command,session);
+		logger.info("打包完成");
 		return obj;
 	}
 
 	private Session session;
-	private List<String> list;
-	private boolean flag;
-	public PackageTask(List<String> list,Session session,boolean flag){
+	private String pomPath;
+	private String command;
+	public PackageTask(Session session,String pomPath,String command){
 		this.session = session;
-		this.list = list;
-		this.flag = flag;
+		this.pomPath = pomPath;
+		this.command = command;
 	}
 }

@@ -12,25 +12,15 @@ import com.hws.oa.core.threadpool.MyThreadPoolExecutor;
 import com.hws.oa.core.threadpool.PackageTask;
 import com.hws.oa.core.websocket.WebSocketServer;
 import com.hws.oa.service.MavenService;
-import com.hws.oa.util.RunTimeUtils;
 
 @Service
 public class MavenServiceImpl implements MavenService {
 
 	
-	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject mvn(String pomPath,String command,String jsessionId) throws IOException, InterruptedException{
-		JSONObject obj = RunTimeUtils.excute(pomPath, command);
-		obj.put("flag", false);
-		List<String> list = null;
-		if(obj.getBoolean("packageFlag")){
-			obj.put("flag", true);
-			list = (List<String>)obj.get("packageInfo");
-		}
-		if(null == list|| list.size()==0)return obj;
-		MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor().submit(new PackageTask(list, WebSocketServer.getMapCache().get(jsessionId),obj.getBoolean("packageFlag")));	
-		return obj;
+	public void mvn(String pomPath,String command,String jsessionId) throws IOException, InterruptedException{
+		
+		MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor().submit(new PackageTask(WebSocketServer.getMapCache().get(jsessionId),pomPath,command));	
 	}
 	
 	@Override

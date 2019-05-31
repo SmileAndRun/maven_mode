@@ -31,30 +31,26 @@
             <div class="col-md-12">
 	            <div class="showTab">
 					<div class="title">
-						<select class="type">
-							<option th:value="1" th:text="#{serial.number}"></option>
-							<option th:value="2" th:text="#{address}"></option>
-						</select>
+						<input type="text"/>
 						<input type="text"/>
 						<button th:text="#{search}" class="search"></button>
-						<button th:text="#{add}" class="add"></button>
 					</div> 
 					<div class="data">
 						<table class="table table-bordered table-hover definewidth m10 dataTable" >
 							<thead>
 								<tr>
 									<th th:text="#{serial.number}"></th>
-									<th th:text="#{local.warehouse.address}"></th>
-									<th th:text="#{remote.repository.address}"></th>
+									<th th:text="#{version.id}"></th>
+									<th th:text="#{create.time}"></th>
 									<th th:text="#{operater}"></th>
 								</tr>
 							</thead>
 							<tbody>
-								 <tr  th:each="set,setStat:${sets}" th:ind>
-		                        	<td th:text="${setStat.index+1}"></td>
-		                        	<td th:text="${set.localRepo}"></td>
-		                        	<td th:text="${set.remoteRepo}"></td>
-		                        	<td th:text="#{edit}" class="edit"></td>
+								 <tr  th:each="version,versionStat:${versions}" th:ind>
+		                        	<td th:text="${versionStat.index+1}"></td>
+		                        	<td th:text="${version.versionId}"></td>
+		                        	<td th:text="${version.createTime}"></td>
+		                        	<td></td>
 		                        </tr>
 							</tbody>
 							

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.hws.oa.common.MyCommonConstants;
+
 public class DownUtils {
 	private static final int  BUFFER_SIZE = 2 * 1024;
 	private static final String JARFILENAME = "target";
@@ -43,12 +45,14 @@ public class DownUtils {
 		 }
     }
 	public static void zipData(String[] path,String name,String targetLocation) throws FileNotFoundException, IOException{
-		//+File.separator+name+ZIPSUFFIX
-		OutputStream out = new FileOutputStream(new File(targetLocation+File.separator+name+ZIPSUFFIX));
-		ZipOutputStream zos = new ZipOutputStream(out);
 		File tempFile = new File(targetLocation);
 		//如果目录不存在则新建
-		if(!tempFile.exists())tempFile.createNewFile();
+		if(!tempFile.exists())tempFile.mkdirs();
+		String fileName = targetLocation+File.separator+name+ZIPSUFFIX;
+		File file = new File(fileName);
+		if(file.exists())fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
+		OutputStream out = new FileOutputStream(new File(fileName));
+		ZipOutputStream zos = new ZipOutputStream(out);
 		compress(path, zos);
 		zos.close();
 	}

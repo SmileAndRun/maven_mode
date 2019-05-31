@@ -1,8 +1,21 @@
 package com.hws.oa.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class LogModel {
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
+@Entity
+@Table(name="t_log")
+public class LogModel implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7922467487036993012L;
+	@Id
 	private int logId;
 	private int logType;
 	private String logMessage;

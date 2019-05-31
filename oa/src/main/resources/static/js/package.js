@@ -3,8 +3,11 @@ $(function(){
 	var packageFlag = false;
 	var settingNum = 0;
 	var finishFlag = false;
+	var rowNum = 0;//总共大概行数
+	var currentNum = 0;//记录当前行
 	//websocket 初始化
 	if ("WebSocket" in window){
+		rowNum = getRowNum()-1;
 		var jsessionId = $(".jsessionId").val();
 		websocket = new WebSocket("ws://"+$(".websocketIp").val()+":"+$(".serverPort").val()+"/websocket/"+jsessionId);
 		//连接发生错误的回调方法
@@ -15,15 +18,25 @@ $(function(){
 	    websocket.onopen = function(event){
 	    }
 	    websocket.onmessage = function(event){
-	    	
+	    	currentNum++;
 	    	var json = eval("("+event.data+")");
 	    	if(json.type=="update"){
+	    		if(currentNum>rowNum){
+	    			var currentHeight = $(".update_value").scrollTop();
+	    			console.log(currentHeight);
+	    			$(".update_value").scrollTop(currentHeight+19+17);
+		    	}
 	    		$(".update_value").append(json.value+"<br/>");
 	    		if(json.isFinish){
 		    		layer.close(loadIndex); 
 		    		layer.msg($(".operateSuccess-i18n").val());
 		    	}
 	    	}else{
+	    		if(currentNum>rowNum){
+	    			var currentHeight = $(".package_value").scrollTop();
+	    			console.log(currentHeight);
+	    			$(".package_value").scrollTop(currentHeight+36);
+		    	}
 	    		$(".package_value").append(json.value+"<br/>");
 	    		if(json.isFinish){
 		    		layer.close(loadIndex); 
@@ -53,6 +66,14 @@ $(function(){
 	}else{
 		layer.msg("your browser is not support websocket!");
 	}
+	
+	//获取行数
+	function getRowNum(){
+		var targetHeight = $(".update_value").height();
+		//19为行高度，17为行于行之间的间隔
+		return (targetHeight - 10)/(19+17);
+	}
+	
 	$(".center_div").on("click",".update",function(){
 		var data = {
 			};
@@ -80,6 +101,8 @@ $(function(){
 			  		if(num != undefined){
 			  			layer.close(index);
 			  			$(".update_value").empty();
+			  			//第二次更新代码此时也需要清空当前行记录
+			  			currentNum = 0;
 			  			updateCode(num-1);
 			  			packageFlag = true;
 			  			settingNum = num-1;
@@ -181,7 +204,10 @@ $(function(){
 	function zipData(){
 		var data = {
 				addressArr:addressArr,
-				version:$(".code_version").val()
+				version:$(".code_version").val(),
+				updateInfo: $(".update_value").html(),
+				packageInfo: $(".package_value").html(),
+						
 			};
 		var url = "/zipData";
 		var s_function = function(data){
@@ -229,6 +255,8 @@ $(function(){
 			  			layer.msg($(".pleaseSelect-i18n").val());
 			  		}else{
 			  			$(".package_value").empty();
+			  			//第二次更新代码此时也需要清空当前行记录
+			  			currentNum = 0;
 			  			mvnPackage();
 			  			layer.close(index);
 			  		}
@@ -279,9 +307,7 @@ $(function(){
 			};
 		var url = "/package";
 		var s_function = function(data){
-			if(!data.flag){
-				layer.msg($(".operateFailure-i18n").val());
-			}
+			
 		}
 		var e_function = function(){
 			layer.msg("The server is error!!!");

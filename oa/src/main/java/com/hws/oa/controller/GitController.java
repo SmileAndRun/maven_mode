@@ -3,11 +3,11 @@ package com.hws.oa.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,11 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hws.oa.common.MyCommonConstants;
 import com.hws.oa.core.LoadConf;
 import com.hws.oa.exception.CommonException;
 import com.hws.oa.model.SystemModel;
+import com.hws.oa.model.VersionModel;
 import com.hws.oa.service.JGitService;
 import com.hws.oa.service.MavenService;
+import com.hws.oa.service.MysqlService;
 import com.hws.oa.service.SystemService;
 import com.hws.oa.util.DownUtils;
 
@@ -35,8 +38,10 @@ public class GitController {
 	JGitService js;
 	@Autowired
 	MavenService ms;
+	@Autowired
+	MysqlService mysqlService;
 	
-	private static  AtomicInteger codeVersion = new AtomicInteger(100000);
+	
 	@RequestMapping("/getSettings")
 	@ResponseBody
 	public JSONObject getSettings(HttpServletRequest request){
@@ -67,7 +72,7 @@ public class GitController {
 			e.printStackTrace();
 			obj.put("updateFlag", false);
 		}
-		obj.put("code_version", codeVersion.incrementAndGet());
+		obj.put("code_version", MyCommonConstants.codeVersion.incrementAndGet());
 		logger.info("开始代码更新完成");
 		return obj;
 	}
@@ -79,11 +84,11 @@ public class GitController {
 			map.put(numArr[i],addressArr[i]);
 		}
 		Arrays.sort(numArr);
-		if(null == command || "".equals(command))command = "mvn clean install";
+		if(null == command || "".equals(command))command = "mvn clean package install";
 		JSONObject obj = new JSONObject();
 		for(Integer temp : numArr){
 			try {
-				obj = ms.mvn(map.get(temp).replace("pom.xml", ""), command,request.getSession().getId());
+				 ms.mvn(map.get(temp).replace("pom.xml", ""), command,request.getSession().getId());
 				if(!obj.getBooleanValue("flag"))return obj;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -102,7 +107,6 @@ public class GitController {
 		temp = temp[temp.length-2].split("/");
 		String repo = temp[temp.length-1];
 		JSONObject obj = ms.searchPom(local+File.separator+repo);
-		
 		return obj;
 	}
 	
@@ -145,11 +149,11 @@ public class GitController {
 	private String zipAddress;
 	@RequestMapping(value="/zipData")
 	@ResponseBody
-	public JSONObject zipData(String[] addressArr,String version){
+	public JSONObject zipData(String[] addressArr,String version,String updateInfo,String packageInfo){
 		JSONObject obj = new JSONObject();
 		obj.put("flag",false);
 		if(version.equals("code version"))
-			version = String.valueOf(codeVersion.getAndIncrement());
+			version = String.valueOf(MyCommonConstants.codeVersion.getAndIncrement());
 		for(int i=0;i<addressArr.length;i++){
 			addressArr[i] = addressArr[i].replace("pom.xml", "");
 		}
@@ -161,6 +165,15 @@ public class GitController {
 			e.printStackTrace();
 		}
 		obj.put("flag",true);
+		//更新数据库
+		
+		VersionModel versionModel = new VersionModel();
+		versionModel.setVersionId(Long.valueOf(version));
+		Timestamp createTime = new Timestamp(System.currentTimeMillis());
+		versionModel.setCreateTime(createTime);
+		versionModel.setUpdateInfo(updateInfo);
+		versionModel.setPackageInfo(packageInfo);
+		mysqlService.addVersionModel(versionModel);
 		return obj;
 	}
 	@RequestMapping(value="/test")

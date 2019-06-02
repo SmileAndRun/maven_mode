@@ -23,7 +23,6 @@ $(function(){
 	    	if(json.type=="update"){
 	    		if(currentNum>rowNum){
 	    			var currentHeight = $(".update_value").scrollTop();
-	    			console.log(currentHeight);
 	    			$(".update_value").scrollTop(currentHeight+19+17);
 		    	}
 	    		$(".update_value").append(json.value+"<br/>");
@@ -34,7 +33,6 @@ $(function(){
 	    	}else{
 	    		if(currentNum>rowNum){
 	    			var currentHeight = $(".package_value").scrollTop();
-	    			console.log(currentHeight);
 	    			$(".package_value").scrollTop(currentHeight+36);
 		    	}
 	    		$(".package_value").append(json.value+"<br/>");

@@ -51,5 +51,9 @@ public class HtmlController {
 		return new ModelAndView("versionInfo");
 	}
 	
+	@RequestMapping("/404")
+	public ModelAndView errorPage(){
+		return new ModelAndView("404");
+	}
 	
 }

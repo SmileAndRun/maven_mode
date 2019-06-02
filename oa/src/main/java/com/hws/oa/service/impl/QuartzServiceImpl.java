@@ -1,4 +1,4 @@
-/*package com.hws.oa.service.impl;
+package com.hws.oa.service.impl;
 
 import java.util.List;
 
@@ -12,22 +12,30 @@ import com.hws.oa.core.quartz.ScheduleMethod;
 import com.hws.oa.model.QrtzJobData;
 import com.hws.oa.model.QrtzJobDetails;
 import com.hws.oa.model.QuartzModel;
+import com.hws.oa.service.HQLService;
+import com.hws.oa.service.MysqlService;
 import com.hws.oa.service.QuartzService;
+import com.hws.oa.util.MyCacheUtils;
 
 @Service
 public class QuartzServiceImpl implements QuartzService {
-
 	@Autowired
-	QuartzMapper quartzMapper;
+	MysqlService mysqlService;
+	@Autowired
+	HQLService hqlService;
+	
 	@Override
 	public List<QrtzJobDetails> getJobDetails() {
-		List<QrtzJobDetails> list = quartzMapper.getJobDetails();
-		if(list.size()<=0)return null;
+		String sql = "select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE,JOB_CLASS_NAME"
+				+ " from qrtz_job_details d,qrtz_triggers t where d.JOB_NAME = t.JOB_NAME";
+		List<QrtzJobDetails> list = hqlService.getEntitiesBySql(QrtzJobDetails.class, sql, null);
 		return list;
 	}
 	@Override
 	public QuartzModel getJobDetailForJobName(String jobName){
-		List<QrtzJobDetails> list = quartzMapper.getJobDetailForJobName(jobName);
+		String sql = "select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE,JOB_CLASS_NAME"
+				+ " from qrtz_job_details d,qrtz_triggers t where d.JOB_NAME = t.JOB_NAME and d.JOB_NAME = ?";
+		List<QrtzJobDetails> list = hqlService.getEntitiesBySql(QrtzJobDetails.class, sql, jobName);
 		if(list.size()<=0)return null;
 		QuartzModel quartzModel = new QuartzModel();
 		quartzModel.setJOB_NAME(list.get(0).getJOB_NAME());
@@ -38,25 +46,32 @@ public class QuartzServiceImpl implements QuartzService {
 		return quartzModel;
 	}
 
-	
+	//TODO
 	@Override
 	public boolean setPermanentStorage(String jobName) {
-		return quartzMapper.setPermanentStorage(jobName)==0?false:true;
+		
+		//quartzMapper.setPermanentStorage(jobName)==0?false:true;
+				
+		return false;
 	}
 	
 	@Override
 	public QrtzJobDetails getJobData(String jobName) {
-		return quartzMapper.getJobData(jobName);
+		String sql = "select JOB_DATA from qrtz_job_details where JOB_NAME = ?";
+		return hqlService.getEntityBySql(QrtzJobDetails.class, sql, jobName);
 	}
 	
 	@Override
 	public boolean insertSelfDifined(QuartzModel model) {
-		return quartzMapper.insertSelfDifined(model)==0?false:true;
+		String sql = "insert into qrtz_self_defined(JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME) values(?,?,?,?,?,?)";
+		return hqlService.updateBySql(sql, model.getJOB_NAME(),model.getSTART_TIME(),model.getEND_TIME(),model.getCRON_EXPRESSION(),model.getTRIGGER_STATE(),model.getJOB_CLASS_NAME());
 	}
 	
 	@Override
 	public List<QuartzModel> getALlFromMyDefine() {
-		List<QuartzModel> list = quartzMapper.getALlFromMyDefine();
+		String sql = "select JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME"
+				+ " from qrtz_self_defined";
+		List<QuartzModel> list = hqlService.getEntitiesBySql(QuartzModel.class, sql, null);
 		for(QuartzModel model:list){
 			MyCacheUtils.addItem(model.getJOB_NAME());
 		}
@@ -71,9 +86,11 @@ public class QuartzServiceImpl implements QuartzService {
 		for(String name:names){
 			MyCacheUtils.removeItem(name);
 			if(scheduleMethod.deleJobDetails(new QuartzModel(name,name))){
-				if(quartzMapper.deleteJobDetails(name)==0)
+				String sql = "delete from qrtz_self_defined where JOB_NAME = ?";
+				if(hqlService.updateBySql(sql, name))
 					return false;
-				quartzMapper.deleteDataByJobName(name);
+				sql = "delete from qrtz_self_data where JOBNAME = ?";
+				hqlService.updateBySql(sql,name);
 			}
 				
 		}
@@ -82,7 +99,38 @@ public class QuartzServiceImpl implements QuartzService {
 	
 	@Override
 	public boolean updateSelfDefined(QuartzModel model) {
-		return quartzMapper.updateSelfDefined(model)==0?false:true;
+		StringBuffer sql = new StringBuffer("update qrtz_self_defined set 1=1 ");
+		Object[] args = new Object[6];
+		if(null != model.getJOB_NAME()&&!"".equals(model.getJOB_NAME()))
+			{	sql.append(",JOB_NAME=?");
+				args[0] = model.getJOB_NAME();
+			}
+		if(null != model.getSTART_TIME()&&!"".equals(model.getSTART_TIME()))
+			{
+				sql.append(",START_TIME=?");
+				args[1] = model.getSTART_TIME();
+			}
+		if(null != model.getEND_TIME()&&!"".equals(model.getEND_TIME()))
+			{
+				sql.append(",END_TIME=?");
+				args[2] = model.getEND_TIME();
+			}
+		if(null != model.getCRON_EXPRESSION()&&!"".equals(model.getCRON_EXPRESSION()))
+			{
+				sql.append(",CRON_EXPRESSION=?");
+				args[3] = model.getCRON_EXPRESSION();
+			}
+		if(null != model.getTRIGGER_STATE()&&!"".equals(model.getTRIGGER_STATE()))
+			{
+				sql.append(",TRIGGER_STATE=?");
+				args[4] = model.getTRIGGER_STATE();
+			}
+		if(null != model.getJOB_CLASS_NAME()&&!"".equals(model.getJOB_CLASS_NAME()))
+			{
+				sql.append(",JOB_CLASS_NAME=?");
+				args[5] = model.getJOB_CLASS_NAME();
+			}
+		return hqlService.updateBySql(sql.toString(), args);
 	}
 	
 	@Override
@@ -91,7 +139,7 @@ public class QuartzServiceImpl implements QuartzService {
 		QuartzModel model = new QuartzModel();
 		model.setJOB_NAME(name);
 		model.setSTART_TIME("PAUSED");
-		quartzMapper.updateSelfDefined(model);
+		updateSelfDefined(model);
 	}
 	
 	@Override
@@ -101,29 +149,23 @@ public class QuartzServiceImpl implements QuartzService {
 	
 	@Override
 	public QrtzJobDetails seeTasksDetais(String name) {
-		return quartzMapper.getJobData(name);
+		return getJobData(name);
 	}
 	
 	@Override
 	public boolean insertJobData(QrtzJobData model) {
-		if(model.getDATAID()==-1){
-			QrtzJobData maxId = quartzMapper.getMaxDataId();
-			if(null == maxId){
-				System.out.println("NULL");
-				model.setDATAID(1);
-			}else{
-				model.setDATAID(maxId.getDATAID()+1);
-			}
-		}
-		return quartzMapper.insertJobData(model)==0?false:true;
+		String sql = "insert into qrtz_self_data(JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS)"
+				+ "values(?,?,?,?)";
+		return hqlService.updateBySql(sql, model.getJOBNAME(),model.getEXCUTETIME(),model.getJOBDATA(),model.getJOBCLASS());
 	}
 	
 	@Override
 	public JSONObject getJobDataByJobName(String jobName,String jobClass) {
-		List<QrtzJobData> list = quartzMapper.getJobDataByJobName(jobName);
-		if(list == null||list.size()==0)
-		return null;
-		JSONObject obj = (JSONObject)JobDataUtils.translate(jobClass, list);
+		String sql = "select DATAID,JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS from qrtz_self_data where JOBNAME = ? GROUP BY EXCUTETIME";
+		List<QrtzJobData> list = hqlService.getEntitiesBySql(QrtzJobData.class, sql, jobName);
+		if(list == null||list.size()==0) return null;
+		JSONObject obj = new JSONObject();
+		obj.put("result", list);
 		return obj;
 	}
 	
@@ -157,4 +199,3 @@ public class QuartzServiceImpl implements QuartzService {
 		return obj;	
 	}
 }
-*/

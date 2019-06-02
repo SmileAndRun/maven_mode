@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style type="text/css">
+	img{
+		position: absolute;
+		top:50%;
+		left:50%;
+		margin-top: -123px;
+		margin-left: -145px;
+	}
+	.operate{
+		position: absolute;
+		top:75%;
+		left:35%;
+	}
+	a{
+		margin-right: 200px;
+	}
+	a:hover{
+		text-decoration: none;
+	}
+</style>
+</head>
+<body>
+	<div>
+		<img alt="" th:src="@{/img/404.png}" >
+	</div>
+	<div class="operate">
+		<a class="fa fa-reply" aria-hidden="true" th:text="' '+#{return.back}" href="javascript:history.back(-1)"></a>
+		<a class="fa fa-refresh" aria-hidden="true" th:text="' '+#{refresh}" href="javascript:void(0)" onclick="location.reload()"></a>
+	</div>
+</body>
+</html>

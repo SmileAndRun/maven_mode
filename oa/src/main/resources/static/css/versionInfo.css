@@ -1,0 +1,23 @@
+.title{
+	margin-top: 20px;
+	margin-left:10px;
+	margin-bottom: 10px;
+}
+.title input{
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	padding-left: 10px;
+}
+.search{
+	background-color: #0044cc;
+	height: 30px;
+	width: 60px;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	color: white;
+	cursor: pointer;
+}
+.dataTable thead tr:FIRST-CHILD{
+	background-color: #EAEAEA;
+}

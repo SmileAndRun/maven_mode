@@ -1,5 +1,6 @@
 package com.hws.oa.model;
 
+
 public class QrtzCronTriggers {
 	private String SCHED_NAME;
 	private String TRIGGER_NAME;

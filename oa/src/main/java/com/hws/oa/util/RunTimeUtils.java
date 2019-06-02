@@ -37,21 +37,25 @@ public class RunTimeUtils {
 		}else{
 			process= runtime.exec("cd "+pomPath+" &&"+command);
 		}
-		String line = null;
-		InputStream input = process.getInputStream();
-		BufferedReader read = new BufferedReader(new InputStreamReader(input,"GB2312"));
-		boolean packageFlag = true;
-		boolean isFinish = false;
-		String message = "";
-		while((line= read.readLine())!=null){
-			if(line.indexOf("ERROR")!= -1)packageFlag = false;
-			logger.info("打包完成状态："+isFinish);
-			message = "{type:'package',isFinish:"+isFinish+",value:'"+line+"',flag:'"+packageFlag+"'}";
+		if(null != session){
+			String line = null;
+			InputStream input = process.getInputStream();
+			BufferedReader read = new BufferedReader(new InputStreamReader(input,"GB2312"));
+			boolean packageFlag = true;
+			boolean isFinish = false;
+			String message = "";
+			while((line= read.readLine())!=null){
+				if(line.indexOf("ERROR")!= -1)packageFlag = false;
+				logger.info("打包完成状态："+isFinish);
+				//解决前台json格式数据解析失败问题
+				line = line.replace("'", "");
+				message = "{type:'package',isFinish:"+isFinish+",value:'"+line+"',flag:'"+packageFlag+"'}";
+				session.getBasicRemote().sendText(message);
+			}
+			isFinish = true;
+			message = "{type:'package',isFinish:"+isFinish+",value:'',flag:'"+packageFlag+"'}";
 			session.getBasicRemote().sendText(message);
 		}
-		isFinish = true;
-		message = "{type:'package',isFinish:"+isFinish+",value:'',flag:'"+packageFlag+"'}";
-		session.getBasicRemote().sendText(message);
 		process.waitFor();
 	    process.destroy();
 	}

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -67,7 +68,6 @@ public class GitController {
 			obj.put("updateFlag", false);
 		} catch (CommonException e) {
 			e.printStackTrace();
-			obj.put("updateFlag", false);
 		} catch (IOException e) {
 			e.printStackTrace();
 			obj.put("updateFlag", false);
@@ -166,7 +166,6 @@ public class GitController {
 		}
 		obj.put("flag",true);
 		//更新数据库
-		
 		VersionModel versionModel = new VersionModel();
 		versionModel.setVersionId(Long.valueOf(version));
 		Timestamp createTime = new Timestamp(System.currentTimeMillis());
@@ -176,6 +175,37 @@ public class GitController {
 		mysqlService.addVersionModel(versionModel);
 		return obj;
 	}
+	@RequestMapping(value="/downZip")
+	@ResponseBody
+	public void downZip(HttpServletRequest request,HttpServletResponse response,String versionId){
+		logger.info("zip下载开始");
+		response.setContentType("application/zip");
+		response.setHeader("Content-Disposition", "attachment; filename="+versionId+".zip");  
+		
+		try {
+			DownUtils.downZip(response.getOutputStream(), versionId, zipAddress);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		logger.info("zip下载结束");
+	}
+	@RequestMapping(value="/getZipDatails")
+	@ResponseBody
+	public JSONObject getZipDatails(String versionId){
+		JSONObject obj = new JSONObject();
+		VersionModel model = mysqlService.getVersionModelById(Long.valueOf(versionId));
+		obj.put("versionModel", model);
+		return obj;
+	}
+	@RequestMapping(value="/searchVersion")
+	@ResponseBody
+	public JSONObject searchVersion(String versionId){
+		JSONObject obj = new JSONObject();
+		VersionModel model = mysqlService.getVersionModelById(Long.valueOf(versionId));
+		obj.put("versionModel", model);
+		return obj;
+	}
+	
 	@RequestMapping(value="/test")
 	@ResponseBody
 	public JSONObject test(){

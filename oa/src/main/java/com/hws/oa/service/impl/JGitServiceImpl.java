@@ -87,9 +87,11 @@ public class JGitServiceImpl implements JGitService{
 			}
 			
 			obj.put("updateFlag", true);
-			ThreadPoolExecutor executor = MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor();
-			
-			executor.submit(new UpdateTask(list,git,time,WebSocketServer.getMapCache().get(jessionId)));
+			//当jessionId 为空不执行线程池
+			if(null != jessionId&&!"".equals(jessionId)){
+				ThreadPoolExecutor executor = MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor();
+				executor.submit(new UpdateTask(list,git,time,WebSocketServer.getMapCache().get(jessionId)));
+			}
 			git.reset().setMode(ResetType.HARD).call();
 			git.pull().call();
 			

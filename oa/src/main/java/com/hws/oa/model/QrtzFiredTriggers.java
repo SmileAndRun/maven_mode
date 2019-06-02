@@ -2,6 +2,7 @@ package com.hws.oa.model;
 
 import java.math.BigInteger;
 
+
 public class QrtzFiredTriggers {
 	
 	private String SCHED_NAME;

@@ -1,0 +1,179 @@
+.clear{
+	clear: both;
+}
+.titleButton{
+	margin-top: 20px;
+	margin-bottom: 5px;
+	float: right;
+}
+.dataTable thead tr:FIRST-CHILD{
+	background-color: #EAEAEA;
+	
+}
+.dataTable tbody tr td:last-child{
+	color: #005580;
+	cursor: pointer;
+}
+.createButton,.deleteButton{
+	height: 30px;
+	width: 54px;
+	line-height: 30px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+}
+.createButton{
+	background-color: #5bb75b;
+	color: white;
+}
+.deleteButton{
+	background-color: red;
+	color: white;
+}
+.shadeDiv{
+	position: absolute;
+	top: 0px;
+	background-color: #333;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	display: none;
+}
+.addDiv{
+	background-color: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	position: absolute;
+	z-index: 1000;
+	top: 50px;
+	left: 10%;
+	width: 900px;
+	height: 350px;
+	display: none;
+}
+.addJobTable{
+	margin-left: 20px;
+}
+.addJobTable tr:first{
+	margin-top: 20px;
+}
+.addJobTable tr lable{
+	font-weight: bold;
+}
+.addJobTable tr td{
+	height: 32px;
+}
+.addJobTable tr input,.addJobTable tr select{
+	border-radius: 5px;
+	border: 1px solid #c0c0c0;
+	height: 32px;
+	padding-left: 5px;
+}
+.addJobTable tr{
+	display: block;
+	margin-top: 20px;
+}
+.taskNameVal,.jobTypeVal,.createTimeVal,.finishedTimeVal,.executionFrequencyVal{
+	margin-left: 60px;
+	width: 650px;
+}
+.hws-icon{
+	margin-left: 5px;
+	font-size: 16px;
+	cursor: pointer;
+}
+.confirm,.cancel{
+	border-radius: 5px;
+	width: 70px;
+	height: 30px;
+	margin-left: 200px;
+}
+.confirm{
+	background-color: #179ee8;
+	color: white;
+}
+.executionFrequencyDiv .executionType button{
+	width: 40px;
+	height: 40px;
+	color: #179ee8;
+	background-color: white;
+	border: none;
+}
+#activeBtn{
+	background-color: #179ee8;
+	border-radius: 5px;
+	color: white;
+	outline: none;
+}
+.executionSelect{
+	width: 450px;
+}
+.executionSelect input{
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	color: #179ee8;
+	cursor: pointer;
+	outline: none;
+	border: none;
+}
+#activeBut-1{
+	background-color: #179ee8;
+	color: white;
+}
+.unactiveBut{
+	background-color: #ddd;
+}
+.confirm-common-btn{
+	width: 50px;
+	height: 30px;
+	color: white;
+	outline: none;
+	border-radius: 5px;
+	background-color: #179ee8;
+}
+.cancel-common-btn{
+	width: 50px;
+	height: 30px;
+	color: grey;
+	outline: none;
+	border-radius: 5px;
+	background-color: white;
+}
+.executionFrequencyDiv{
+	border: 1px solid #ddd;
+	background-color: white;
+	position: absolute;
+	top: 265px;
+	left: 140px;
+	z-index: 1001;
+	padding: 15px;
+}
+.location-right{
+	float: right;
+}
+.executionSelect{
+	margin-top: 10px;
+}
+.executionFrequencyDiv{
+	display: none;
+}
+.active-tr{
+	background-color: #ddd;
+}
+.editMenu{
+	position: absolute;
+	background-color: white;
+	border: 1px solid #ddd;
+	width: 100px;
+	z-index: 1001;
+	border-radius: 5px;
+}
+.editMenu li{
+	list-style: none;
+	text-align: center;
+	line-height: 25px;
+	cursor: pointer;
+}
+.editMenu li:hover{
+	background-color: #ddd;
+}

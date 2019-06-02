@@ -12,11 +12,12 @@
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!-- CSS Files -->
-  <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link th:href="@{/assets/demo/demo.css}" rel="stylesheet" />
-  <link th:href="@{/css/Settings.css}" rel="stylesheet" />
+  <link th:href="@{/css/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/versionInfo.css}" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -31,8 +32,7 @@
             <div class="col-md-12">
 	            <div class="showTab">
 					<div class="title">
-						<input type="text"/>
-						<input type="text"/>
+						<label th:text="#{version.id}"></label>:&nbsp;<input type="text" class="versionId"/>&nbsp;&nbsp;
 						<button th:text="#{search}" class="search"></button>
 					</div> 
 					<div class="data">
@@ -50,55 +50,12 @@
 		                        	<td th:text="${versionStat.index+1}"></td>
 		                        	<td th:text="${version.versionId}"></td>
 		                        	<td th:text="${version.createTime}"></td>
-		                        	<td></td>
+		                        	<td>&nbsp;<i class="fa fa-eye" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i></td>
 		                        </tr>
 							</tbody>
 							
 						</table>
 					</div>
-				</div>
-				<div class="showEdit">
-					<table class="table table-bordered table-hover definewidth m10 editTable">
-						<tr>
-							<td th:text="#{serial.number}"></td>
-							<td><input type="text" class="addNum" readonly="readonly"/></td>
-						</tr>
-						<tr>
-							<td th:text="#{local.warehouse.address}"></td>
-							<td><input type="text" class="addLocalAddress"/></td>
-						</tr>
-						<tr>
-							<td th:text="#{remote.repository.address}"></td>
-							<td><input type="text" class="addRepoAddress"/></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<button type="button" class="btn btn-primary saveChange" th:text="#{save}"></button>
-								<button type="button" class="btn btn-success return" th:text="#{return.list}"></button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				<div class="showADD">
-					<table class="table table-bordered table-hover definewidth m10 addTable">
-						
-						<tr>
-							<td th:text="#{local.warehouse.address}"></td>
-							<td><input type="text" class="edditLocalAddress"/></td>
-						</tr>
-						<tr>
-							<td th:text="#{remote.repository.address}"></td>
-							<td><input type="text" class="edditRepoAddress"/></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td>
-								<button type="button" class="btn btn-primary save" th:text="#{save}"></button>
-								<button type="button" class="btn btn-success return" th:text="#{return.list}"></button>
-							</td>
-						</tr>
-					</table>
 				</div>
             </div>
           </div>
@@ -112,5 +69,5 @@
 	
 
   <block th:replace="~{common::js}"></block>
-  <script th:src="@{/js/Settings.js}"></script>
+  <script th:src="@{/js/versionInfo.js}"></script>
 </html>

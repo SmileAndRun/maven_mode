@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" th:href="@{/assets/img/apple-icon.png}">
+  <link rel="icon" type="image/png" th:href="@{/assets/img/favicon.png}">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Oa System
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!-- CSS Files -->
+  <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
+  <link th:href="@{/css/bootstrap-datetimepicker.min.css}" rel="stylesheet" type="text/css">
+   <link th:href="@{/css/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/timedtask.css}" rel="stylesheet" />
+</head>
+
+<body class="">
+  <div class="commonMenu" th:replace="~{common::menu}"></div>
+    <div class="main-panel">
+      <!-- Navbar -->
+      <div class="commonTop" th:replace="~{common::top}"></div>
+      <!-- End Navbar -->
+     	<div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+            	 <div class="container">
+					<div class="titleButton">
+						<input class="createButton" type="button" th:value="#{add}"/>
+						<input class="deleteButton" type="button" th:value="#{delete}"/>
+					</div>
+					<div class="clear"></div>
+					<div class="data">
+							<table class="table table-bordered table-hover definewidth m10 dataTable" >
+								<thead>
+									<tr>
+										<th th:text="#{task.name}"></th>
+										<th th:text="#{create.time}"></th>
+										<th th:text="#{finished.time}"></th>
+										<th th:text="#{run.status}"></th>
+										<th th:text="#{operater}"></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${result}" th:each="model : ${result}">
+										<td style="display:none;" th:text="${model.JOB_CLASS_NAME}"></td>
+										<td th:text="${model.JOB_NAME}"></td>
+										<td th:text="${model.START_TIME}"></td>
+										<td th:text="${model.END_TIME}"></td>
+										<td th:text="#{${model.TRIGGER_STATE}}"></td>
+										<td th:text="#{edit}" class="edit"></td>
+									</tr>
+								</tbody>
+							</table>
+							<div th:unless="${result}" class="nodata" th:text="#{no.data}" align="center">
+							
+							</div>
+						</div>
+				</div>
+				<div class="shadeDiv"></div>
+				<div class="addDiv">
+					<table class='addJobTable'>
+						<tr><td><lable for='taskNameVal' th:text="#{task.name}"></lable></td>
+							<td><input type='text' class='taskNameVal'/></td>
+						</tr>
+						<tr><td><lable for='jobTypeVal' th:text="#{create.time}"></lable></td>
+							<td>
+								<select type='text' class='jobTypeVal'>
+									<option th:each="type:${typeList}" th:value="${type.class}" th:text="#{${type.name}}"></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td><lable for='createTimeVal' th:text="#{create.time}"></lable></td>
+							<td>
+								<div class="input-append date form_datetime startTimeDiv">
+			    					<input type="text" class="createTimeVal" readonly>
+			    					<span class="add-on"><i class='fa fa-calendar hws-icon' aria-hidden='true'></i></span>
+								</div>
+							</td>
+						</tr>
+						<tr><td><lable for='finishedTimeVal' th:text="#{finished.time}"></lable></td>
+							<td>
+								<div class="input-append date form_datetime endTimeDiv">
+			    					<input type="text" class="finishedTimeVal" readonly>
+			    					<span class="add-on"><i class='fa fa-calendar hws-icon' aria-hidden='true'></i></span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<lable for='executionFrequencyVal' th:text="#{execution.frequency}"></lable></td>
+							<td>
+								<input type='text' class='executionFrequencyVal' readonly/>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<button class="confirm" th:text="#{confirm}"></button>
+								<button class="cancel" th:text="#{cancel}"></button>
+							</td>
+						</tr>
+					</table>
+					<div class="executionFrequencyDiv">
+						<div class="executionType">
+							<button class="secend" id="activeBtn" th:text="#{secend}" value="0"></button>
+							<button class="minute" th:text="#{minute}" value="1"></button>
+							<button class="hour" th:text="#{hour}" value="2"></button>
+							<button class="day" th:text="#{day}" value="3"></button>
+							<button class="month" th:text="#{month}" value="4"></button>
+							<button class="week" th:text="#{week}" value="5"></button>
+						</div>
+						<div class="executionTitle">
+							<input type="radio" name="title" value="0" th:text="#{not.appoint}"/>
+							<input type="radio" name="title" value="1" th:text="#{appoint}"/>
+							<input type="radio" name="title" value="2" th:text="#{cycle}"/>:
+							<span th:text=#{startTime}></span>
+							<select>
+								<option th:each="num:${#numbers.sequence(0,59)}" th:text="${num}" th:value="${num}"></option>
+							</select>
+							<span th:text=#{every}></span>
+							<!-- 特殊需求使用   -->
+							<span></span>
+							<select>
+								<option th:each="num:${#numbers.sequence(1,59)}" th:text="${num}" th:value="${num}"></option>
+							</select>
+							<span th:text="#{secend}"></span>
+							<span th:text="#{once}"></span>
+						</div>
+						<div class="executionSelect">
+							<input th:each="num:${#numbers.sequence(0,59)}" th:value="${num}" readonly/>
+						</div>
+						<div>
+							<button class="cancel-common-btn location-right" th:text="#{cancel}"></button>
+							<button class="confirm-common-btn location-right" th:text="#{confirm}"></button>
+							
+						</div>
+					</div>
+				</div>
+            </div>
+          </div>
+         </div>
+       <div   th:replace="~{common::foot}"></div>
+       <div   th:replace="~{common::i18n}"></div>
+    </div>
+ 	<div   th:replace="~{common::plugin}"></div>
+ 	<div class="i18n">
+			<input class="edit-il8n" type="hidden" th:value="#{edit}"/>
+			<input class="name_already_exists-il8n" type="hidden" th:value="#{task.name.already.exists}"/>
+			<input class="add_failed-il8n" type="hidden" th:value="#{add.failure}"/>
+			<input class="tip1-il8n" type="hidden" th:value="#{Please.fill.in.the.data.completely}"/>
+			<input class="ACQUIRED-il8n" type="hidden" th:value="#{ACQUIRED}"/>
+			<input class="WAITING-il8n" type="hidden" th:value="#{WAITING}"/>
+			<input class="PAUSED-il8n" type="hidden" th:value="#{PAUSED}"/>
+			<input class="BLOCKED-il8n" type="hidden" th:value="#{BLOCKED}"/>
+			<input class="ERROR-il8n" type="hidden" th:value="#{ERROR}"/>
+			<input class="deleteFailure-il8n" type="hidden" th:value="#{delete.failure}"/>
+			<input class="pSelectTask-il8n" type="hidden" th:value="#{please.select.task}"/>
+			<input class="COMPLETE-il8n" type="hidden" th:value="#{COMPLETE}"/>
+			<input class="SCHEDULING-il8n" type="hidden" th:value="#{SCHEDULING}"/>
+			<input class="seeDetails-il8n" type="hidden" th:value="#{see.details}"/>
+			<input class="delete-il8n" type="hidden" th:value="#{delete}"/>
+			<input class="open-il8n" type="hidden" th:value="#{open}"/>
+			<input class="failure-il8n" type="hidden" th:value="#{failure}"/>
+			<input class="dataDisplay-il8n" type="hidden" th:value="#{data.display}"/>
+			<input class="countBulletScreenTask-il8n" type="hidden" th:value="#{Count.bullet.screen.tasks}"/>
+			<input class="nodata-il8n" type="hidden" th:value="#{no.data}"/>
+			<input class="number-il8n" type="hidden" th:value="#{number}"/>
+		</div>
+</body>
+	
+
+  <block th:replace="~{common::js}"></block>
+  <script th:src="@{/js/bootstrap-datetimepicker.min.js}" type="text/javascript"></script>
+  <script th:src="@{/js/highcharts.js}" type="text/javascript"></script>
+  <script th:src="@{/js/timedtask.js}" type="text/javascript"></script>
+</html>

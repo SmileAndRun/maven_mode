@@ -1,5 +1,6 @@
 package com.hws.oa.util;
 
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,11 +51,23 @@ public class DownUtils {
 		if(!tempFile.exists())tempFile.mkdirs();
 		String fileName = targetLocation+File.separator+name+ZIPSUFFIX;
 		File file = new File(fileName);
-		if(file.exists())fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
+		while(!file.exists())fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
 		OutputStream out = new FileOutputStream(new File(fileName));
 		ZipOutputStream zos = new ZipOutputStream(out);
 		compress(path, zos);
 		zos.close();
 	}
+	//下载
+	public static boolean downZip(OutputStream out,String versionId,String location) throws IOException{
+		File file = new File(location+File.separator+versionId+".zip");
+		if(!file.exists())return false;
+		int len;
+		DataInputStream  in = new DataInputStream( new FileInputStream(file));
+        while ((len = in.read(buf)) != -1){
+            out.write(buf, 0, len);
+        }
+        in.close();
+        return true;
+	} 
 
 }

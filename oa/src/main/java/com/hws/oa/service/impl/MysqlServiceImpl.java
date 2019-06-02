@@ -9,7 +9,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.hws.oa.model.LogModel;
 import com.hws.oa.model.VersionModel;
+import com.hws.oa.repository.MyLogRepository;
 import com.hws.oa.repository.VersionRepository;
 import com.hws.oa.service.HQLService;
 import com.hws.oa.service.MysqlService;
@@ -19,6 +21,8 @@ public class MysqlServiceImpl implements MysqlService {
 
 	@Autowired
 	private VersionRepository vr;
+	@Autowired
+	private MyLogRepository mr;
 	@Autowired
 	private HQLService hs;
 	@Override
@@ -55,6 +59,11 @@ public class MysqlServiceImpl implements MysqlService {
 		if(versionId == null)return false;
 		vr.deleteById(versionId);
 		return true;
+	}
+
+	@Override
+	public boolean insertLog(LogModel model) {
+		return mr.save(model)==null?false:true;
 	}
 
 }

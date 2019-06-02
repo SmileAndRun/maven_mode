@@ -1,6 +1,6 @@
 $(function(){
-	$(".sidebar").on("click","ul li",function(){
-		$(".sidebar ul li").find(".active").removeClass("active");
+	$(".menu").on("click","ul li",function(){
+		$(".menu ul li").find(".active").removeClass("active");
 		$(this).addClass("active");
 	})
 })

@@ -1,6 +1,7 @@
 package com.hws.oa.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,8 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hws.oa.core.LoadConf;
 import com.hws.oa.core.quartz.ScheduleMethod;
+import com.hws.oa.exception.CommonException;
 import com.hws.oa.model.QuartzModel;
+import com.hws.oa.model.SystemModel;
+import com.hws.oa.service.JGitService;
 import com.hws.oa.service.QuartzService;
 import com.hws.oa.util.MyCacheUtils;
 import com.hws.oa.util.ReadResourceUtils;
@@ -69,11 +77,22 @@ public class TimedTaskController {
 	@Autowired
 	ScheduleMethod scheduleMethod ;
 	
+	@Autowired
+	JGitService js;
+	
 	@RequestMapping(value="/addNewTask")
 	@ResponseBody
-	public JSONObject addNewJob(QuartzModel model){
+	public JSONObject addNewJob(QuartzModel model,Integer num,String[] addressArr,String command){
 		JSONObject obj = new JSONObject();
 		obj.put("flag", false);
+		if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.UpdateCodeJob")){
+			
+		}else if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.DeleteJob")){
+			
+		}else if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.PackageJob")){
+			
+		}
+		
 		if(MyCacheUtils.isContain(model.getJOB_NAME())){
 			obj.put("message", "name_already_exists");
 			return obj;

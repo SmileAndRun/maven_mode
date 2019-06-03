@@ -181,6 +181,7 @@
 	width: 100px;
 	z-index: 1001;
 	border-radius: 5px;
+	padding:0px;
 }
 .editMenu li{
 	list-style: none;

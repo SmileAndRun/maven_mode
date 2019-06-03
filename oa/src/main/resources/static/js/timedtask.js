@@ -223,6 +223,47 @@ $(function(){
 			layer.msg($(".tip1-il8n").val());
 			return;
 		}
+		//TODO
+		if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.UpdateCodeJob"){
+			
+			var dataValue = "<div><table class='table table-bordered table-hover definewidth m10'><tr><td>"+$(".serialNumber-i18n").val()
+			+"</td><td>"+$(".localAddress-i18n").val()+"</td><td>"+$(".remoteAddress-i18n").val()+"</td><td></td></tr>";
+			for(var i=0;i<data.Settings.length;i++){
+				dataValue += "<tr><td>"+(i+1)+"</td><td>"+data.Settings[i].localRepo+"</td><td>"
+				+data.Settings[i].remoteRepo+"</td><td><input type='radio'  name='settings' value='"+(i+1)+"' ></td></tr>"
+			}
+			dataValue += "</table></div>";
+			layer.open({
+				  title: $(".sysSet-i18n").val(),
+				  content: dataValue,
+				  area: ['700px', '400px'],
+				  type: 1,
+				  maxmin: true,            //最大化按钮
+			  	  anim:3,                    //动画
+			  	  shade: [0.8, '#393D49'],//遮罩层
+			  	  btn: [$(".confirm-i18n").val()],
+			  	  yes: function(index, layero){
+			  		var num = $('input[name="settings"]:checked').val();
+			  		if(num != undefined){
+			  			layer.close(index);
+			  			
+			  		}else{
+			  			layer.msg($(".pleaseSelect-i18n").val());
+			  		}
+			  		
+				  },
+			  	  cancel: function(index, layero){ 
+			  	    layer.close(index);
+			  	  }
+				});
+			
+			
+		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.DeleteJob"){
+			
+		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.PackageJob"){
+			
+		}
+		
 		var data = {
 			JOB_NAME:$(".taskNameVal").val(),
 			JOB_CLASS_NAME:$(".jobTypeVal").val(),
@@ -280,7 +321,7 @@ $(function(){
 		$(".container").append("<ul class='editMenu'>"+data+"</ul>");
 		$(".editMenu").css({
 			   top: e.pageY,
-			   left: e.pageX,
+			   left: e.pageX - 260,
 			  });
 		jobName = $(this).prev().prev().prev().prev().text();
 		jobClass = $(this).prev().prev().prev().prev().prev().text();

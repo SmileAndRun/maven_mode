@@ -40,7 +40,11 @@ public class DownUtils {
 						 }
 					 }
 				 }else{
-					 compress(parentFile.list(), zos);
+					 if(list.contains("pom.xml")){
+						 compress(parentFile.list(), zos); 
+					 }else{
+						 continue;
+					 }
 				 }
 			 }
 		 }

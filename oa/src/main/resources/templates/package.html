@@ -14,9 +14,9 @@
   <!-- CSS Files -->
   <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
   <!-- CSS Just for demo purpose, don't include it in your project -->
-   <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
+  <link th:href="@{/assets/css/material-dashboard.css?v=2.1.1}" rel="stylesheet" />
   <link th:href="@{/css/Settings.css}" rel="stylesheet" />
-   <link th:href="@{/css/common.css}" rel="stylesheet" />
+  <link th:href="@{/css/common.css}" rel="stylesheet" />
   <link th:href="@{/css/package.css}" rel="stylesheet" />
 </head>
 
@@ -24,7 +24,7 @@
   <div class="commonMenu" th:replace="~{common::menu}"></div>
     <div class="main-panel">
       <!-- Navbar -->
-      <div class="commonTop" th:replace="~{common::top}"></div>
+     <!--  <div class="commonTop" th:replace="~{common::top}"></div> -->
       <!-- End Navbar -->
       <div class="content">
            	<div>
@@ -62,9 +62,6 @@
     </div>
     <div   th:replace="~{common::plugin}"></div>
     <div style="display:none;">
-    	<input type="hidden" class="websocketIp" th:value="${websocketIp}">
-    	<input type="hidden" class="serverPort" th:value="${serverPort}">
-    	<input type="hidden" class="jsessionId" th:value="${jsessionId}">
     	<input type="hidden" class="serialNumber-i18n" th:value="#{serial.number}">
     	<input type="hidden" class="localAddress-i18n" th:value="#{local.warehouse.address}">
     	<input type="hidden" class="remoteAddress-i18n" th:value="#{remote.repository.address}">

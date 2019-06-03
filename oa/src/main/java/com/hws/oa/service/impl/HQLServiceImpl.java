@@ -7,9 +7,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.hibernate.Session;
+import org.hibernate.query.internal.NativeQueryImpl;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Service;
 
-import com.hws.oa.model.QuartzModel;
 import com.hws.oa.service.HQLService;
 
 @Service
@@ -33,6 +34,8 @@ public class HQLServiceImpl implements HQLService {
 				sqlQuery.setParameter(i+1, args[i]);
 			}
 		}
+		sqlQuery.unwrap(NativeQueryImpl.class).setResultTransformer(Transformers.aliasToBean(entitClazz));
+		@SuppressWarnings("unchecked")
 		List<T> list = sqlQuery.getResultList();
 		if(null == list || list.size()==0)return null;
 		return list;
@@ -52,7 +55,7 @@ public class HQLServiceImpl implements HQLService {
 	@Override
 	public <T> T getEntityBySql(Class<T> clazz, String sql, Object... params) {
 		List<T> list =getEntitiesBySql(clazz, sql, params);
-		if(null == list)return null;
+		if(null == list||list.size()!=0)return null;
 		return list.get(0);
 	}
 	

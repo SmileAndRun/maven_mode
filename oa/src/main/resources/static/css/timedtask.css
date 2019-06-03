@@ -1,3 +1,10 @@
+.container{
+	background-color: white;
+	margin-bottom: 10px;
+	margin-top: 70px;
+	min-height: calc(100vh - 70px);
+	max-width: calc(80vw);
+}
 .clear{
 	clear: both;
 }
@@ -43,12 +50,15 @@
 	border: 1px solid #ddd;
 	border-radius: 8px;
 	position: absolute;
-	z-index: 1000;
+	z-index: 10000;
 	top: 50px;
 	left: 10%;
 	width: 900px;
 	height: 350px;
 	display: none;
+}
+.startTimeDiv,.endTimeDiv{
+	z-index: 10001;
 }
 .addJobTable{
 	margin-left: 20px;
@@ -62,6 +72,9 @@
 .addJobTable tr td{
 	height: 32px;
 }
+.addJobTable tr td:FIRST-CHILD{
+	width: 160px;
+}
 .addJobTable tr input,.addJobTable tr select{
 	border-radius: 5px;
 	border: 1px solid #c0c0c0;
@@ -74,7 +87,7 @@
 }
 .taskNameVal,.jobTypeVal,.createTimeVal,.finishedTimeVal,.executionFrequencyVal{
 	margin-left: 60px;
-	width: 650px;
+	width: 600px;
 }
 .hws-icon{
 	margin-left: 5px;
@@ -92,7 +105,7 @@
 	color: white;
 }
 .executionFrequencyDiv .executionType button{
-	width: 40px;
+	width: 60px;
 	height: 40px;
 	color: #179ee8;
 	background-color: white;
@@ -150,6 +163,7 @@
 }
 .location-right{
 	float: right;
+	width: 80px;
 }
 .executionSelect{
 	margin-top: 10px;
@@ -176,4 +190,7 @@
 }
 .editMenu li:hover{
 	background-color: #ddd;
+}
+.language{
+	margin-top: -80px;
 }

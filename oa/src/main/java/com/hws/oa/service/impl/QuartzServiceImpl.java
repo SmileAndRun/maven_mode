@@ -28,7 +28,7 @@ public class QuartzServiceImpl implements QuartzService {
 	public List<QrtzJobDetails> getJobDetails() {
 		String sql = "select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE,JOB_CLASS_NAME"
 				+ " from qrtz_job_details d,qrtz_triggers t where d.JOB_NAME = t.JOB_NAME";
-		List<QrtzJobDetails> list = hqlService.getEntitiesBySql(QrtzJobDetails.class, sql, null);
+		List<QrtzJobDetails> list = hqlService.getEntitiesBySql(QrtzJobDetails.class, sql);
 		return list;
 	}
 	@Override
@@ -46,13 +46,11 @@ public class QuartzServiceImpl implements QuartzService {
 		return quartzModel;
 	}
 
-	//TODO
 	@Override
 	public boolean setPermanentStorage(String jobName) {
-		
-		//quartzMapper.setPermanentStorage(jobName)==0?false:true;
-				
-		return false;
+		String sql = "update qrtz_job_details set IS_DURABLE = 1 where JOB_NAME = ?";
+		return hqlService.updateBySql(sql, jobName);
+
 	}
 	
 	@Override
@@ -71,11 +69,11 @@ public class QuartzServiceImpl implements QuartzService {
 	public List<QuartzModel> getALlFromMyDefine() {
 		String sql = "select JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME"
 				+ " from qrtz_self_defined";
-		List<QuartzModel> list = hqlService.getEntitiesBySql(QuartzModel.class, sql, null);
+		List<QuartzModel> list = hqlService.getEntitiesBySql(QuartzModel.class, sql);
+		if(null == list ||list.size()<=0)return null;
 		for(QuartzModel model:list){
 			MyCacheUtils.addItem(model.getJOB_NAME());
 		}
-		if(list.size()<=0)list = null;
 		return list;
 	}
 	@Autowired

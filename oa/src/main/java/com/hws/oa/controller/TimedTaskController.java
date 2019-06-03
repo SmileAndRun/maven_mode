@@ -44,7 +44,7 @@ public class TimedTaskController {
 	public String initPage(HttpServletRequest request){
 		logger.info("初始化定时管理界面开始");
 		//待定  未完成对象映射关系
-		/*//获取已经存在的job
+		//获取已经存在的job
 		List<QuartzModel> list = quartzService.getALlFromMyDefine();
 		request.setAttribute("result", list);
 		//获取job类型
@@ -56,12 +56,13 @@ public class TimedTaskController {
 			Element rootElement = ReadResourceUtils.getXmlRootElement(new File(path));
 			List<Map<String, String>> typeList = ReadResourceUtils.getAttributeValues(attribute, rootElement);
 			request.setAttribute("typeList", typeList);
+			request.setAttribute("websocketIp", websocketIp);
+			request.setAttribute("serverPort", serverPort);
+			request.setAttribute("jsessionId", request.getSession().getId());
 		} catch (DocumentException e) {
 			logger.error("初始化定时管理界面发生DocumentException异常");
 			e.printStackTrace();
-		} */
-		request.setAttribute("websocketIp", websocketIp);
-		request.setAttribute("serverPort", serverPort);
+		} 
 		logger.info("初始化定时管理界面结束");
 		return "timedtask";
 	}

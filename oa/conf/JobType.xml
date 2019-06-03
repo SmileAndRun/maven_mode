@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<types>
+	<type name="Update_Code_Job"  class="com.hws.oa.core.quartz.model.UpdateCodeJob"></type>
+	<type name="Delete_File_Job"  class="com.hws.oa.core.quartz.model.DeleteJob"></type>
+	<type name="Package_Job"  class="com.hws.oa.core.quartz.model.PackageJob"></type>
+</types>

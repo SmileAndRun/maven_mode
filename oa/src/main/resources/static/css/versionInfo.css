@@ -1,3 +1,8 @@
+.showTab{
+	background-color: white;
+	padding: 10px;
+	box-shadow: 10px 10px 5px #888888;
+}
 .title{
 	margin-top: 20px;
 	margin-left:10px;
@@ -17,6 +22,11 @@
 	border: 1px solid #ddd;
 	color: white;
 	cursor: pointer;
+}
+.data{
+	max-height: calc(70vh);
+	overflow-x: hidden;
+	overflow-y: auto; 
 }
 .dataTable thead tr:FIRST-CHILD{
 	background-color: #EAEAEA;

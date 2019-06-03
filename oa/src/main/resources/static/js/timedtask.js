@@ -432,7 +432,8 @@ $(function(){
 	});
 	//websocket 初始化
 	if ("WebSocket" in window){
-		websocket = new WebSocket("ws://"+$(".websocketIp").val()+":"+$(".serverPort").val()+"/websocket/0");
+		var jsessionId = $(".jsessionId").val();
+		websocket = new WebSocket("ws://"+$(".websocketIp").val()+":"+$(".serverPort").val()+"/websocket/"+jsessionId);
 		//连接发生错误的回调方法
 	    websocket.onerror = function(){
 	    	layer.msg("the websocket server is error!");

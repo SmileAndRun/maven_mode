@@ -3,17 +3,15 @@ $(function(){
 	
 	
 	//初始化页面
-	
+	dateFormateTime();
 	function dateFormateTime(){
 		$(".data tbody tr").each(function(){
-			var startTime = $(this).find("td")[2].val();
-			var endTime = $(this).find("td")[3].val();
+			var startTime = $(this).find("td").eq(2).text();
+			var endTime = $(this).find("td").eq(3).text();
+			$(this).find("td").eq(2).text(getSmpFormatDateByLong(parseInt(startTime),true));
+			$(this).find("td").eq(3).text(getSmpFormatDateByLong(parseInt(endTime),true));
 		});
 	}
-	
-	
-	
-	
 	
 	$(".titleButton").on("click",".createButton",function(){
 		$(".shadeDiv").css("display","block");
@@ -441,6 +439,7 @@ $(function(){
 				END_TIME:endTime,
 				CRON_EXPRESSION:$(".executionFrequencyVal").val(),
 				num:confNum,
+				numArr:numArr,
 				addressArr:addressArr,
 				command:$(".mvnCommand").val()
 			};
@@ -531,13 +530,24 @@ $(function(){
 				}else if(type == "3"){
 					obj.next().next().next().text(operate);
 				}else if(type == "1"){
-					//openFlag++;
 					if(data.dataJson == null){
 						alert($(".nodata-il8n").val());
 						return;
 					}
-					var dataValue="<div style='margin-left:20px;' class='jobDataVal'></div>";
-					//if(openFlag == 1){
+					var json  = eval("("+data.dataJson.JOBDATA+")");
+					var dataValue="<div style='margin-left:20px;' class='jobDataVal'>";
+					if(json.type=="delete"){
+						dataValue = "<div>"+json.deleteInfo+"</div>"+
+						"</div>";
+					}else if(json.type=="update"){
+						dataValue = "<div>"+json.updateInfo+"</div>"+
+						"</div>";
+					}else if(json.type=="package"){
+						dataValue = "<div>"+json.updateInfo+"</div>"+
+						"<div>"+json.packageInfo+"</div>"+
+						"</div>";
+					}
+					 
 						layer.open({
 							  title: $(".dataDisplay-il8n").val(),
 							  content: dataValue,
@@ -547,49 +557,9 @@ $(function(){
 						  	  anim:3,                    //动画
 						  	  shade: [0.8, '#393D49'],//遮罩层
 						  	  cancel: function(index, layero){ 
-						  		//jobName = null;
 						  	    layer.close(index);
 						  	  }
 							});
-					//}
-					var title = {
-						      text: $("."+data.dataJson.title+"-il8n").val()  
-						   };
-				   var xAxis = {
-				      categories: data.dataJson.time
-				   };
-				   var yAxis = {
-				      title: {
-				         text: $("."+data.dataJson.yTitle+"-il8n").val()
-				      },lineWidth: 2
-				   };
-				   var plotOptions = {
-				      spline: {
-				          marker: {
-				              radius: 4,
-				              lineColor: '#666666',
-				              lineWidth: 1
-				           }
-				        }
-				   };
-				   var series= [];
-				   $.each(data.dataJson.datas,function(key,val){
-					   var seriesJson = {};
-					   seriesJson["name"] = $("."+key+"-il8n").val();
-					   seriesJson["data"] = val;
-					   series.push(seriesJson);
-				   });
-				   var credits = {//去掉默认的highcharts.com
-			               enabled: false
-			           }
-				   var json = {};
-				   json.credits = credits;
-				   json.title = title;
-				   json.xAxis = xAxis;
-				   json.yAxis = yAxis;  
-				   json.series = series;
-				   json.plotOptions = plotOptions;
-				   $('.jobDataVal').highcharts(json);
 				} 
 			}else{
 				layer.msg(operate+$(".failure-il8n").val());
@@ -599,19 +569,6 @@ $(function(){
 			layer.msg("The server is error!!!");
 		}
 		$.arrayAjax(url,data,s_function,e_function);
-		/*if(type=="1"){
-			if(jobState != $(".COMPLETE-il8n").val()){
-				//每隔一秒请求数据
-				time = setInterval(function(){
-					$.arrayAjax(url,data,s_function,e_function);
-				}, 1000);
-			}else{
-				$.arrayAjax(url,data,s_function,e_function);
-			}
-			  			
-		}else{
-			$.arrayAjax(url,data,s_function,e_function);
-		}*/
 	});
 	//datatable 样式
 	$(".dataTable tbody").on("click","tr",function(){
@@ -664,7 +621,6 @@ $(function(){
 	    }
 	    websocket.onmessage = function(event){
 	    	var json = eval("("+event.data+")");
-	    	console.log(json);
 	    	if(null != json.name){
 	    		$(".dataTable tr td:contains('"+json.name+"')").next().next().next().text($("."+json.state+"-il8n").val());
 	    	}

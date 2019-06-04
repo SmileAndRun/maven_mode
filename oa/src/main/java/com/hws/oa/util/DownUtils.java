@@ -49,20 +49,23 @@ public class DownUtils {
 			 }
 		 }
     }
-	public static void zipData(String[] path,String name,String targetLocation) throws FileNotFoundException, IOException{
+	public static String zipData(String[] path,String name,String targetLocation) throws FileNotFoundException, IOException{
 		File tempFile = new File(targetLocation);
 		//如果目录不存在则新建
 		if(!tempFile.exists())tempFile.mkdirs();
 		String fileName = targetLocation+File.separator+name+ZIPSUFFIX;
 		File file = new File(fileName);
+		String versionId ="";
 		while(file.exists()){
-			fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
+			versionId = String.valueOf(MyCommonConstants.codeVersion.getAndIncrement());
+			fileName = targetLocation+File.separator+versionId+ZIPSUFFIX;
 			file = new File(fileName);
 		}
 		OutputStream out = new FileOutputStream(new File(fileName));
 		ZipOutputStream zos = new ZipOutputStream(out);
 		compress(path, zos);
 		zos.close();
+		return versionId;
 	}
 	//下载
 	public static boolean downZip(OutputStream out,String versionId,String location) throws IOException{

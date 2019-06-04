@@ -91,6 +91,7 @@ public class TimedTaskController {
 				jobDataMap.put("startTime", model.getSTART_TIME().longValue());
 				jobDataMap.put("endTime", model.getEND_TIME().longValue());
 		}else if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.PackageJob")){
+			jobDataMap.put("num", num);
 			jobDataMap.put("nums", numArr);
 			jobDataMap.put("poms", addressArr);
 			jobDataMap.put("command", command);

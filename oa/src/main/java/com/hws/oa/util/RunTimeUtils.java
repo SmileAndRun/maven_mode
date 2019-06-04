@@ -59,4 +59,34 @@ public class RunTimeUtils {
 		process.waitFor();
 	    process.destroy();
 	}
+	
+	
+	public static String excute(String pomPath,String command) throws IOException, InterruptedException{
+		Runtime runtime=Runtime.getRuntime();
+		Process process=null; 
+		if(isWindows()){
+			//修复window无法切换路径的问题
+			if(pomPath.indexOf(":")!=-1){
+				String temp = pomPath.split(":")[0];
+				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" &&"+command);
+			}else{
+				process= runtime.exec("cmd /c   cd "+pomPath+" &&"+command);
+			}
+			
+		}else{
+			process= runtime.exec("cd "+pomPath+" &&"+command);
+		}
+		String line = null;
+		InputStream input = process.getInputStream();
+		BufferedReader read = new BufferedReader(new InputStreamReader(input,"GB2312"));
+		String message = "";
+		while((line= read.readLine())!=null){
+			//解决前台json格式数据解析失败问题
+			line = line.replace("'", "");
+			message += line + "<br/>";
+		}
+		process.waitFor();
+	    process.destroy();
+	    return message;
+	}
 }

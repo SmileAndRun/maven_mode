@@ -86,7 +86,6 @@ public class JGitServiceImpl implements JGitService{
 				obj.put("hasDiff",false);
 				return obj;
 			}
-			
 			obj.put("updateFlag", true);
 			//当jessionId 为空不执行线程池
 			if(null != jessionId&&!"".equals(jessionId)){
@@ -110,5 +109,52 @@ public class JGitServiceImpl implements JGitService{
 	    if(null == remoteRepo || null == localRepo)throw new CommonException("remoteRepo/localRepo canot be null[initGitRepo]");
     	Git.cloneRepository().setURI(remoteRepo).setDirectory(new File(localRepo)).call();
     }
+
+	@Override
+	public String update(Integer num)
+			throws CommonException, IOException, InvalidRemoteException, TransportException, GitAPIException {
+		//step0 检查是否已经初始化
+    	List<SystemModel> listSet = LoadConf.getSystems();
+    	String remoteRepo = null;
+    	String localRepo = null;
+    	if(null != listSet&&listSet.size()>0){
+    		SystemModel model = listSet.get(num);
+    		if(null == model)return null;
+			remoteRepo = model.getRemoteRepo();
+			localRepo = model.getLocalRepo();
+		}
+    	String[] temp = remoteRepo.split("/");
+    	String repoName = temp[temp.length-1].split("\\.")[0];
+    	File repo = new File(localRepo+File.separator+repoName);
+    	if(!repo.exists())repo.mkdirs();
+    	String message="";
+    	if(repo.isDirectory()){
+    		if(!Arrays.asList(repo.list()).contains(GITFILENAME))initGitRepo(remoteRepo,repo.getPath());
+		
+			String localRepoGitConfig = repo.getPath() + File.separator + GITFILENAME;
+			Git git = Git.open(new File(localRepoGitConfig));
+			Repository repository = git.getRepository();
+			//step1 git fetch --all 
+	    	//step2 git reset --hard origin/master
+	    	//step3 git pull
+			git.fetch().call();
+			Ref local = repository.findRef("refs/heads/master");
+			Ref origin = repository.findRef("refs/remotes/origin/master");
+			ObjectReader reader = repository.newObjectReader();
+			CanonicalTreeParser oldTree = new CanonicalTreeParser();
+			CanonicalTreeParser newTree = new CanonicalTreeParser();
+			oldTree.reset(reader,repository.resolve(local.getObjectId().name()+"^{tree}"));
+			newTree.reset(reader, repository.resolve(origin.getObjectId().name()+"^{tree}"));
+			List<DiffEntry> list = git.diff().setOldTree(oldTree).setNewTree(newTree).call();
+			if(null == list || list.size() == 0) return null;
+			git.reset().setMode(ResetType.HARD).call();
+			git.pull().call();
+			for(DiffEntry diff:list){
+				message += diff.getChangeType() +"      "+diff.getNewPath()+"<br/>";
+			}
+			
+    	}
+    	return message;
+	}
 
 }

@@ -34,7 +34,10 @@ public class UpdateTask implements ITask, Callable<JSONObject> {
 			boolean flag = true;
 			while(flag){
 				//修复github中删除文件无法获取路径
-				if(diff.getNewPath().equals("/dev/null"))break;
+				if(diff.getNewPath().equals("/dev/null")){
+					session.getBasicRemote().sendText("{type:'update',isFinish:"+isFinish+",value:'"+diff.getChangeType() +"      "+diff.getOldPath()+"'}");
+					break;
+				}
 				File file = new File(rootPath+File.separator+diff.getNewPath());
 				if(file.lastModified()>time){
 					String message = "{type:'update',isFinish:"+isFinish+",value:'"+diff.getChangeType() +"      "+diff.getNewPath()+"'}";

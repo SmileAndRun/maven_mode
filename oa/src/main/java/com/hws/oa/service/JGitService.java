@@ -13,4 +13,6 @@ import com.hws.oa.exception.CommonException;
 public interface JGitService {
 
 	public JSONObject update(Integer num,String jessionId)throws  CommonException, IOException, InvalidRemoteException, TransportException, GitAPIException;
+	public String update(Integer num)throws  CommonException, IOException, InvalidRemoteException, TransportException, GitAPIException;
+
 }

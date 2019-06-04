@@ -154,13 +154,10 @@ public class QuartzServiceImpl implements QuartzService {
 	}
 	
 	@Override
-	public JSONObject getJobDataByJobName(String jobName,String jobClass) {
+	public QrtzJobData getJobDataByJobName(String jobName,String jobClass) {
 		String sql = "select DATAID,JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS from qrtz_self_data where JOBNAME = ? GROUP BY EXCUTETIME";
-		List<QrtzJobData> list = hqlService.getEntitiesBySql(QrtzJobData.class, sql, jobName);
-		if(list == null||list.size()==0) return null;
-		JSONObject obj = new JSONObject();
-		obj.put("result", list);
-		return obj;
+		QrtzJobData model = hqlService.getEntityBySql(QrtzJobData.class, sql, jobName);
+		return model;
 	}
 	
 	@Override
@@ -170,9 +167,8 @@ public class QuartzServiceImpl implements QuartzService {
 		boolean flag = false;
 		switch (type) {
 			case "1":
-				//此处调用方法不会触发getJobDataByJobName的aop
-				JSONObject dataJson = getJobDataByJobName(names[0], jobClass);
-				obj.put("dataJson", dataJson);
+				QrtzJobData QrtzJobData = getJobDataByJobName(names[0], jobClass);
+				obj.put("dataJson", QrtzJobData);
 				flag = true;
 				break;
 			case "2":

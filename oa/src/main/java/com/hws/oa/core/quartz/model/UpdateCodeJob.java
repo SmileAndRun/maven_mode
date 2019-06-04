@@ -1,6 +1,7 @@
 package com.hws.oa.core.quartz.model;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -13,7 +14,9 @@ import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hws.oa.exception.CommonException;
+import com.hws.oa.model.QrtzJobData;
 import com.hws.oa.service.JGitService;
+import com.hws.oa.service.QuartzService;
 
 
 
@@ -23,7 +26,8 @@ public class UpdateCodeJob implements Job{
 	
 	@Autowired
 	JGitService js;
-	
+	@Autowired
+	QuartzService quartzService;
 	
 	@Override
 	public void execute(JobExecutionContext context)
@@ -33,7 +37,15 @@ public class UpdateCodeJob implements Job{
 		Integer num = jobDataMap.getInt("num");
 		
 		try {
-			js.update(num, null);
+			String updateInfo = js.update(num);
+			
+			QrtzJobData jobData = new QrtzJobData();
+			jobData.setJOBNAME(context.getJobDetail().getKey().getName());
+			jobData.setJOBCLASS(PackageJob.class.getName());
+			jobData.setEXCUTETIME(new Timestamp(System.currentTimeMillis()));
+			String data="{updateInfo:'"+ updateInfo+"',type:'update'}";
+			jobData.setJOBDATA(data);
+			quartzService.insertJobData(jobData);
 		} catch (InvalidRemoteException e) {
 			e.printStackTrace();
 		} catch (TransportException e) {

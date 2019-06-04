@@ -55,7 +55,10 @@ public class DownUtils {
 		if(!tempFile.exists())tempFile.mkdirs();
 		String fileName = targetLocation+File.separator+name+ZIPSUFFIX;
 		File file = new File(fileName);
-		while(!file.exists())fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
+		while(file.exists()){
+			fileName = targetLocation+File.separator+MyCommonConstants.codeVersion.getAndIncrement()+ZIPSUFFIX;
+			file = new File(fileName);
+		}
 		OutputStream out = new FileOutputStream(new File(fileName));
 		ZipOutputStream zos = new ZipOutputStream(out);
 		compress(path, zos);

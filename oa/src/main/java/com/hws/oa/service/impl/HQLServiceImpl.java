@@ -45,8 +45,14 @@ public class HQLServiceImpl implements HQLService {
 			Object... args){
 		Query sqlQuery = em.createNativeQuery(sql);
 		if( args != null ){
+			int j = 0;
 			for( int i=0; i<args.length ;i++ ){
-				sqlQuery.setParameter(i+1, args[i]);
+				j++;
+				if(null == args[i]){
+					j--;
+					continue;
+				} 
+				sqlQuery.setParameter(j, args[i]);
 			}
 		}
 		int num = sqlQuery.executeUpdate();
@@ -55,7 +61,7 @@ public class HQLServiceImpl implements HQLService {
 	@Override
 	public <T> T getEntityBySql(Class<T> clazz, String sql, Object... params) {
 		List<T> list =getEntitiesBySql(clazz, sql, params);
-		if(null == list||list.size()!=0)return null;
+		if(null == list||list.size()==0)return null;
 		return list.get(0);
 	}
 	

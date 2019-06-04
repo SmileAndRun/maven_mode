@@ -85,7 +85,7 @@
 	display: block;
 	margin-top: 20px;
 }
-.taskNameVal,.jobTypeVal,.createTimeVal,.finishedTimeVal,.executionFrequencyVal{
+.taskNameVal,.jobTypeVal,.createTimeVal,.finishedTimeVal,.executionFrequencyVal,.mvnCommand{
 	margin-left: 60px;
 	width: 600px;
 }

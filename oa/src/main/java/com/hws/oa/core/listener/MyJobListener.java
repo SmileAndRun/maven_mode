@@ -57,15 +57,12 @@ public class MyJobListener implements JobListener {
 			JobExecutionException jobException) {
 		System.out.println("start:jobWasExecuted");
 		String jobName = context.getJobDetail().getKey().getName();
-		QuartzModel model = quartzService.getJobDetailForJobName(jobName);
-		if(null == model){
-			model = new QuartzModel();
-			model.setJOB_NAME(jobName);
-			model.setTRIGGER_STATE("COMPLETE");
-			quartzService.updateSelfDefined(model);
-		}else{
-			quartzService.updateSelfDefined(model);
-		}
+		
+		QuartzModel model  = new QuartzModel();
+		model.setJOB_NAME(jobName);
+		model.setTRIGGER_STATE("COMPLETE");
+		quartzService.updateSelfDefined(model);
+		
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		String jsessionId = jobDataMap.getString("jsessionId");
 		String message = "{name:'"+jobName+"',state:'"+model.getTRIGGER_STATE()+"'}";

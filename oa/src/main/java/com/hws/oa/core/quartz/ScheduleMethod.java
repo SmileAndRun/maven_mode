@@ -1,13 +1,13 @@
 package com.hws.oa.core.quartz;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
@@ -26,9 +26,8 @@ public class ScheduleMethod {
 	@Autowired
 	Scheduler myScheduler;
 	public  CronTrigger getCronTrigger(QuartzModel model) throws ParseException{
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date startTime= sdf.parse(model.getSTART_TIME());
-		Date endTime = sdf.parse(model.getEND_TIME());
+		Date startTime= new Date(model.getSTART_TIME().longValue());
+		Date endTime = new Date(model.getEND_TIME().longValue());
 				
 		CronTrigger trigger = TriggerBuilder.newTrigger().
                 withSchedule(CronScheduleBuilder.cronSchedule(model.getCRON_EXPRESSION())).withIdentity(model.getTRIGGER_NAME(), model.getTRIGGER_GROUP()).startAt(startTime).endAt(endTime).build();
@@ -43,10 +42,10 @@ public class ScheduleMethod {
 	 * @throws SchedulerException
 	 * @throws ParseException
 	 */
-	public void addJobDetails(@SuppressWarnings("rawtypes") Class name,QuartzModel model) throws SchedulerException, ParseException{
+	public void addJobDetails(@SuppressWarnings("rawtypes") Class name,QuartzModel model,JobDataMap newJobDataMap) throws SchedulerException, ParseException{
 		Scheduler scheduler = myScheduler;
 		@SuppressWarnings("unchecked")
-		JobDetail myjob = JobBuilder.newJob(name).withIdentity(model.getJOB_NAME(), model.getJOB_GROUP()).build();
+		JobDetail myjob = JobBuilder.newJob(name).withIdentity(model.getJOB_NAME(), model.getJOB_GROUP()).usingJobData(newJobDataMap).build();
 		scheduler.scheduleJob(myjob, getCronTrigger(model));
 		scheduler.start();
 		

@@ -1,12 +1,46 @@
 var websocket ;
 $(function(){
+	
+	
+	//初始化页面
+	
+	function dateFormateTime(){
+		$(".data tbody tr").each(function(){
+			var startTime = $(this).find("td")[2].val();
+			var endTime = $(this).find("td")[3].val();
+		});
+	}
+	
+	
+	
+	
+	
 	$(".titleButton").on("click",".createButton",function(){
 		$(".shadeDiv").css("display","block");
 		$(".addDiv").css("display","block");
 	});
 	$(".addJobTable").on("click",".cancel",function(){
 		removeAddPanel();
-	})
+	});
+	
+	$(".addJobTable").on("click",".jobTypeVal",function(){
+		if($(this).val()=="com.hws.oa.core.quartz.model.PackageJob"){
+			$(".mvnCommandTr").css({
+				display:"block",
+			})
+			$(".addDiv").css({
+				height: "400px",
+			});
+		}else{
+			$(".mvnCommandTr").css({
+				display:"none",
+			})
+			$(".addDiv").css({
+				height: "350px",
+			});
+		}
+	});
+	
 	initDateTimePicker(".startTimeDiv");
 	initDateTimePicker(".endTimeDiv");
 	function removeAddPanel(){
@@ -217,86 +251,232 @@ $(function(){
 		$(".executionTitle select:last").find("option[value='1']").attr("selected",true);
 		
 	});
+	
+	
+	var confNum;
+	var numArr = [];
+	var addressArr = [];
+	var command;
 	$(".addJobTable").on("click",".confirm",function(){
 		if($(".taskNameVal").val()==""||$(".jobTypeVal").val()==""||$(".createTimeVal").val()==""||
 				$(".finishedTimeVal").val()==""||$(".executionFrequencyVal").val()==""){
 			layer.msg($(".tip1-il8n").val());
 			return;
 		}
-		//TODO
 		if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.UpdateCodeJob"){
-			
-			var dataValue = "<div><table class='table table-bordered table-hover definewidth m10'><tr><td>"+$(".serialNumber-i18n").val()
-			+"</td><td>"+$(".localAddress-i18n").val()+"</td><td>"+$(".remoteAddress-i18n").val()+"</td><td></td></tr>";
-			for(var i=0;i<data.Settings.length;i++){
-				dataValue += "<tr><td>"+(i+1)+"</td><td>"+data.Settings[i].localRepo+"</td><td>"
-				+data.Settings[i].remoteRepo+"</td><td><input type='radio'  name='settings' value='"+(i+1)+"' ></td></tr>"
-			}
-			dataValue += "</table></div>";
-			layer.open({
-				  title: $(".sysSet-i18n").val(),
-				  content: dataValue,
-				  area: ['700px', '400px'],
-				  type: 1,
-				  maxmin: true,            //最大化按钮
-			  	  anim:3,                    //动画
-			  	  shade: [0.8, '#393D49'],//遮罩层
-			  	  btn: [$(".confirm-i18n").val()],
-			  	  yes: function(index, layero){
-			  		var num = $('input[name="settings"]:checked').val();
-			  		if(num != undefined){
-			  			layer.close(index);
-			  			
-			  		}else{
-			  			layer.msg($(".pleaseSelect-i18n").val());
-			  		}
-			  		
-				  },
-			  	  cancel: function(index, layero){ 
-			  	    layer.close(index);
-			  	  }
-				});
-			
-			
-		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.DeleteJob"){
-			
-		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.PackageJob"){
-			
-		}
-		
-		var data = {
-			JOB_NAME:$(".taskNameVal").val(),
-			JOB_CLASS_NAME:$(".jobTypeVal").val(),
-			START_TIME:$(".createTimeVal").val(),
-			END_TIME:$(".finishedTimeVal").val(),
-			CRON_EXPRESSION:$(".executionFrequencyVal").val(),
-		};
-		
-		var url = "/timedtask/addNewTask";
-		var s_function = function(data){
-			if(data.flag){
-				$(".nodata").css("display","none");
-				$(".dataTable tbody").append("<tr> " +
-						"<td style='display:none;'>"+data.result.job_CLASS_NAME+"</td>" +
-						"<td>"+data.result.job_NAME+"</td>" +
-						"<td>"+data.result.start_TIME+"</td>" +
-						"<td>"+data.result.end_TIME+"</td>" +
-						"<td>"+$("."+data.result.trigger_STATE+"-il8n").val()+"</td>" +
-						"<td class='edit'>"+$(".edit-il8n").val()+"</td></tr>");
-			}else{
-				if(null != data.message){
-					layer.msg($("."+data.message+"-il8n").val());
+			var data = {
+			};
+			var url = "/getSettings";
+			var s_function = function(data){
+				if(data.flag){
+					var dataValue = "<div><table class='table table-bordered table-hover definewidth m10'><tr><td>"+$(".serialNumber-i18n").val()
+					+"</td><td>"+$(".localAddress-i18n").val()+"</td><td>"+$(".remoteAddress-i18n").val()+"</td><td></td></tr>";
+					for(var i=0;i<data.Settings.length;i++){
+						dataValue += "<tr><td>"+(i+1)+"</td><td>"+data.Settings[i].localRepo+"</td><td>"
+						+data.Settings[i].remoteRepo+"</td><td><input type='radio'  name='settings' value='"+(i+1)+"' ></td></tr>"
+					}
+					dataValue += "</table></div>";
+					layer.open({
+					  title: $(".sysSet-i18n").val(),
+					  content: dataValue,
+					  area: ['700px', '400px'],
+					  type: 1,
+					  maxmin: true,            //最大化按钮
+				  	  anim:3,                    //动画
+				  	  shade: [0.8, '#393D49'],//遮罩层
+				  	  btn: [$(".confirm-i18n").val()],
+				  	  yes: function(index, layero){
+				  		var num = $('input[name="settings"]:checked').val();
+				  		if(num != undefined){
+				  			layer.close(index);
+				  			confNum = num-1;
+				  			addTask();
+				  		}else{
+				  			layer.msg($(".pleaseSelect-i18n").val());
+				  		}
+				  		
+					  },
+				  	  cancel: function(index, layero){ 
+				  	    layer.close(index);
+				  	  }
+					});
 				}else{
-					layer.msg("The server is error!!!");
+					
 				}
 			}
+			var e_function = function(){
+				layer.msg("The server is error!!!");
+			}
+			$.commonAjax(url,data,s_function,e_function);
+
+			
+		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.DeleteJob"){
+			addTask();
+		}else if($(".jobTypeVal").val()=="com.hws.oa.core.quartz.model.PackageJob"){
+			var data = {
+			};
+			var url = "/getSettings";
+			var s_function = function(data){
+				if(data.flag){
+					var dataValue = "<div><table class='table table-bordered table-hover definewidth m10'><tr><td>"+$(".serialNumber-i18n").val()
+					+"</td><td>"+$(".localAddress-i18n").val()+"</td><td>"+$(".remoteAddress-i18n").val()+"</td><td></td></tr>";
+					for(var i=0;i<data.Settings.length;i++){
+						dataValue += "<tr><td>"+(i+1)+"</td><td>"+data.Settings[i].localRepo+"</td><td>"
+						+data.Settings[i].remoteRepo+"</td><td><input type='radio'  name='settings' value='"+(i+1)+"' ></td></tr>"
+					}
+					dataValue += "</table></div>";
+					layer.open({
+					  title: $(".sysSet-i18n").val(),
+					  content: dataValue,
+					  area: ['700px', '400px'],
+					  type: 1,
+					  maxmin: true,            //最大化按钮
+				  	  anim:3,                    //动画
+				  	  shade: [0.8, '#393D49'],//遮罩层
+				  	  btn: [$(".confirm-i18n").val()],
+				  	  yes: function(index, layero){
+				  		var num = $('input[name="settings"]:checked').val();
+				  		if(num != undefined){
+				  			layer.close(index);
+				  			confNum = num-1;
+				  			
+				  			var data = {
+				  					num :confNum,
+				  				};
+				  			var url = "/getPoms";
+				  			var s_function = function(data){
+				  				if(data.flag){
+				  					var dataValue = "<div><table class='table table-bordered table-hover definewidth m10'><tr><td>"+$(".serialNumber-i18n").val()
+				  					+"</td><td>POM</td><td></td></tr>";
+				  					for(var i=0;i<data.pomList.length;i++){
+				  						dataValue += "<tr><td></td><td>"+data.pomList[i]+"</td>"
+				  						+"<td><input type='checkbox'  name='pom'></td></tr>"
+				  					}
+				  					dataValue += "</table></div>";
+				  					layer.open({
+				  					  title: "POM",
+				  					  content: dataValue,
+				  					  area: ['700px', '400px'],
+				  					  type: 1,
+				  					  maxmin: true,            //最大化按钮
+				  				  	  anim:3,                    //动画
+				  				  	  shade: [0.8, '#393D49'],//遮罩层
+				  				  	  btn: [$(".confirm-i18n").val()],
+				  				  	  yes: function(index, layero){
+				  				  		if(pomFlag==0){
+				  				  			layer.msg($(".pleaseSelect-i18n").val());
+				  				  		}else{
+				  				  			numArr = [];
+				  				  			addressArr = [];
+				  							$("table input:checkbox").each(function(){
+				  								if($(this).prop("checked")){
+				  									numArr.push($(this).parent().prev().prev().text());
+				  									addressArr.push($(this).parent().prev().text());
+				  								}
+				  							});
+				  				  			addTask();
+				  				  			layer.close(index);
+				  				  		}
+				  				  		
+				  					  },
+				  				  	  cancel: function(index, layero){ 
+				  				  		pomNum = 0;
+				  				  	    layer.close(index);
+				  				  	  }
+				  					});
+				  				}else{
+				  					layer.msg("NO POM File");
+				  				}
+				  			}
+				  			var e_function = function(){
+				  				layer.msg("The server is error!!!");
+				  			}
+				  			$.commonAjax(url,data,s_function,e_function);
+				  			
+				  			
+				  			
+				  		}else{
+				  			layer.msg($(".pleaseSelect-i18n").val());
+				  		}
+				  		
+					  },
+				  	  cancel: function(index, layero){ 
+				  	    layer.close(index);
+				  	  }
+					});
+				}else{
+					
+				}
+			}
+			var e_function = function(){
+				layer.msg("The server is error!!!");
+			}
+			$.commonAjax(url,data,s_function,e_function);
+		
 		}
-		var e_function = function(){
-			layer.msg("The server is error!!!");
-		}
-		$.commonAjax(url,data,s_function,e_function);
-		removeAddPanel();
+		
+		
 	});
+	
+	var pomNum=0;
+	var pomFlag = 0;
+	$(this).on("click",":checkbox",function(){
+		if($(this).prop("checked")){
+			pomNum++;
+			pomFlag++;
+			$(this).parent().prev().prev().text(pomNum);
+		}else{
+			$(this).parent().prev().prev().text("");
+			pomFlag--;
+		}
+	});
+	
+	function addTask(){
+		var startTime =  Date.parse(new Date($(".createTimeVal").val()));
+		var endTime =  Date.parse(new Date($(".finishedTimeVal").val()));
+		var data = {
+				JOB_NAME:$(".taskNameVal").val(),
+				JOB_CLASS_NAME:$(".jobTypeVal").val(),
+				START_TIME:startTime,
+				END_TIME:endTime,
+				CRON_EXPRESSION:$(".executionFrequencyVal").val(),
+				num:confNum,
+				addressArr:addressArr,
+				command:$(".mvnCommand").val()
+			};
+			var url = "/timedtask/addNewTask";
+			var s_function = function(data){
+				if(data.flag){
+					$(".nodata").css("display","none");
+					
+					$(".dataTable tbody").append("<tr> " +
+							"<td style='display:none;'>"+data.result.job_CLASS_NAME+"</td>" +
+							"<td>"+data.result.job_NAME+"</td>" +
+							"<td>"+getSmpFormatDateByLong(data.result.start_TIME,true)+"</td>" +
+							"<td>"+getSmpFormatDateByLong(data.result.end_TIME,true)+"</td>" +
+							"<td>"+$("."+data.result.trigger_STATE+"-il8n").val()+"</td>" +
+							"<td class='edit'>"+$(".edit-il8n").val()+"</td></tr>");
+				}else{
+					if(null != data.message){
+						layer.msg($("."+data.message+"-il8n").val());
+					}else{
+						layer.msg("The server is error!!!");
+					}
+				}
+			}
+			var e_function = function(){
+				layer.msg("The server is error!!!");
+			}
+			$.arrayAjax(url,data,s_function,e_function);
+			removeAddPanel();
+	}
+	
+	
+	
+	
+	
+	
+	
 	//点击菜单外菜单消失
 	var jobName;
 	$(this).click(function(e){

@@ -1,5 +1,8 @@
 package com.hws.oa.model;
 
+import java.math.BigInteger;
+
+
 
 public class QuartzModel {
 	//QuartzModel
@@ -7,8 +10,8 @@ public class QuartzModel {
 	private String JOB_GROUP;
 	private String TRIGGER_NAME;
 	private String TRIGGER_GROUP;
-	private String START_TIME;
-	private String END_TIME;
+	private BigInteger START_TIME;
+	private BigInteger END_TIME;
 	private String CRON_EXPRESSION;
 	private String TRIGGER_STATE;
 	private String JOB_CLASS_NAME;
@@ -45,16 +48,18 @@ public class QuartzModel {
 	public void setTRIGGER_GROUP(String tRIGGER_GROUP) {
 		TRIGGER_GROUP = tRIGGER_GROUP;
 	}
-	public String getSTART_TIME() {
+	public BigInteger getSTART_TIME() {
 		return START_TIME;
 	}
-	public void setSTART_TIME(String sTART_TIME) {
+	public void setSTART_TIME(BigInteger sTART_TIME) {
+		
 		START_TIME = sTART_TIME;
 	}
-	public String getEND_TIME() {
+	public BigInteger getEND_TIME() {
 		return END_TIME;
 	}
-	public void setEND_TIME(String eND_TIME) {
+	public void setEND_TIME(BigInteger eND_TIME) {
+		//TimeUtils.get(null).format(new Date(eND_TIME.longValue()))
 		END_TIME = eND_TIME;
 	}
 	public String getCRON_EXPRESSION() {

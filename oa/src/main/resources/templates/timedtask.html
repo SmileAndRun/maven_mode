@@ -97,6 +97,14 @@
 								<input type='text' class='executionFrequencyVal' readonly/>
 							</td>
 						</tr>
+						<tr class="mvnCommandTr" style="display: none;" >
+							<td>
+								<lable for='mvnCommand' th:text="#{command}"></lable></td>
+							</td>
+							<td>
+								<input type='text' class='mvnCommand' />
+							</td>
+						</tr>
 						<tr>
 							<td style="width:100%;" colspan="2" align="center">
 								<button class="confirm" th:text="#{confirm}"></button>
@@ -168,6 +176,7 @@
     		<input type="hidden" class="serialNumber-i18n" th:value="#{serial.number}">
     		<input type="hidden" class="localAddress-i18n" th:value="#{local.warehouse.address}">
     		<input type="hidden" class="remoteAddress-i18n" th:value="#{remote.repository.address}">
+    		<input type="hidden" class="edit-il8n" th:value="#{edit}">
 		</div>
 </body>
 	

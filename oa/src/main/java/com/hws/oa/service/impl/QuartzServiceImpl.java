@@ -2,6 +2,8 @@ package com.hws.oa.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +37,12 @@ public class QuartzServiceImpl implements QuartzService {
 	public QuartzModel getJobDetailForJobName(String jobName){
 		String sql = "select d.JOB_NAME,START_TIME,END_TIME,TRIGGER_STATE,JOB_CLASS_NAME"
 				+ " from qrtz_job_details d,qrtz_triggers t where d.JOB_NAME = t.JOB_NAME and d.JOB_NAME = ?";
-		List<QrtzJobDetails> list = hqlService.getEntitiesBySql(QrtzJobDetails.class, sql, jobName);
-		if(list.size()<=0)return null;
-		QuartzModel quartzModel = new QuartzModel();
-		quartzModel.setJOB_NAME(list.get(0).getJOB_NAME());
-		quartzModel.setSTART_TIME(list.get(0).getQrtzTriggers().getSTART_TIME());
-		quartzModel.setEND_TIME(list.get(0).getQrtzTriggers().getEND_TIME());
-		quartzModel.setTRIGGER_STATE(list.get(0).getQrtzTriggers().getTRIGGER_STATE());
-		quartzModel.setJOB_CLASS_NAME(list.get(0).getJOB_CLASS_NAME());
+		QuartzModel quartzModel = hqlService.getEntityBySql(QuartzModel.class, sql, jobName);
+		
 		return quartzModel;
 	}
 
+	@Transactional
 	@Override
 	public boolean setPermanentStorage(String jobName) {
 		String sql = "update qrtz_job_details set IS_DURABLE = 1 where JOB_NAME = ?";
@@ -58,7 +55,7 @@ public class QuartzServiceImpl implements QuartzService {
 		String sql = "select JOB_DATA from qrtz_job_details where JOB_NAME = ?";
 		return hqlService.getEntityBySql(QrtzJobDetails.class, sql, jobName);
 	}
-	
+	@Transactional
 	@Override
 	public boolean insertSelfDifined(QuartzModel model) {
 		String sql = "insert into qrtz_self_defined(JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME) values(?,?,?,?,?,?)";
@@ -79,6 +76,7 @@ public class QuartzServiceImpl implements QuartzService {
 	@Autowired
 	ScheduleMethod scheduleMethod;
 	
+	@Transactional
 	@Override
 	public boolean deleteTasks(String[] names) throws SchedulerException {
 		for(String name:names){
@@ -94,40 +92,37 @@ public class QuartzServiceImpl implements QuartzService {
 		}
 		return true;
 	}
-	
+	@Transactional
 	@Override
 	public boolean updateSelfDefined(QuartzModel model) {
-		StringBuffer sql = new StringBuffer("update qrtz_self_defined set 1=1 ");
-		Object[] args = new Object[6];
-		if(null != model.getJOB_NAME()&&!"".equals(model.getJOB_NAME()))
-			{	sql.append(",JOB_NAME=?");
-				args[0] = model.getJOB_NAME();
-			}
+		StringBuffer sql = new StringBuffer("update qrtz_self_defined set ");
+		Object[] args = new Object[5];
 		if(null != model.getSTART_TIME()&&!"".equals(model.getSTART_TIME()))
 			{
-				sql.append(",START_TIME=?");
-				args[1] = model.getSTART_TIME();
+				sql.append("START_TIME=? ,");
+				args[0] = model.getSTART_TIME();
 			}
 		if(null != model.getEND_TIME()&&!"".equals(model.getEND_TIME()))
 			{
-				sql.append(",END_TIME=?");
-				args[2] = model.getEND_TIME();
+				sql.append("END_TIME=? ,");
+				args[1] = model.getEND_TIME();
 			}
 		if(null != model.getCRON_EXPRESSION()&&!"".equals(model.getCRON_EXPRESSION()))
 			{
-				sql.append(",CRON_EXPRESSION=?");
-				args[3] = model.getCRON_EXPRESSION();
+				sql.append("CRON_EXPRESSION=? ,");
+				args[2] = model.getCRON_EXPRESSION();
 			}
 		if(null != model.getTRIGGER_STATE()&&!"".equals(model.getTRIGGER_STATE()))
 			{
-				sql.append(",TRIGGER_STATE=?");
-				args[4] = model.getTRIGGER_STATE();
+				sql.append("TRIGGER_STATE=? ,");
+				args[3] = model.getTRIGGER_STATE();
 			}
-		if(null != model.getJOB_CLASS_NAME()&&!"".equals(model.getJOB_CLASS_NAME()))
-			{
-				sql.append(",JOB_CLASS_NAME=?");
-				args[5] = model.getJOB_CLASS_NAME();
-			}
+		sql = sql.replace(sql.lastIndexOf(","), sql.lastIndexOf(",")+1, "");
+		if(null != model.getJOB_NAME()&&!"".equals(model.getJOB_NAME()))
+		{	
+			sql.append(" where JOB_NAME=?");
+			args[4] = model.getJOB_NAME();
+		}
 		return hqlService.updateBySql(sql.toString(), args);
 	}
 	
@@ -136,7 +131,7 @@ public class QuartzServiceImpl implements QuartzService {
 		scheduleMethod.stopJobDetails(new JobKey(name,name));
 		QuartzModel model = new QuartzModel();
 		model.setJOB_NAME(name);
-		model.setSTART_TIME("PAUSED");
+		model.setTRIGGER_STATE("PAUSED");
 		updateSelfDefined(model);
 	}
 	
@@ -150,6 +145,7 @@ public class QuartzServiceImpl implements QuartzService {
 		return getJobData(name);
 	}
 	
+	@Transactional
 	@Override
 	public boolean insertJobData(QrtzJobData model) {
 		String sql = "insert into qrtz_self_data(JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS)"

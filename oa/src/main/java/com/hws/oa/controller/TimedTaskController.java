@@ -1,7 +1,6 @@
 package com.hws.oa.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.TransportException;
+import org.quartz.JobDataMap;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.hws.oa.core.LoadConf;
 import com.hws.oa.core.quartz.ScheduleMethod;
-import com.hws.oa.exception.CommonException;
 import com.hws.oa.model.QuartzModel;
-import com.hws.oa.model.SystemModel;
 import com.hws.oa.service.JGitService;
 import com.hws.oa.service.QuartzService;
 import com.hws.oa.util.MyCacheUtils;
@@ -82,17 +77,24 @@ public class TimedTaskController {
 	
 	@RequestMapping(value="/addNewTask")
 	@ResponseBody
-	public JSONObject addNewJob(QuartzModel model,Integer num,String[] addressArr,String command){
+	public JSONObject addNewJob(HttpServletRequest request,QuartzModel model,Integer num,Integer[] numArr,String[] addressArr,String command){
 		JSONObject obj = new JSONObject();
 		obj.put("flag", false);
+		JobDataMap jobDataMap = new JobDataMap();
+		jobDataMap.put("jsessionId", request.getSession().getId());
+		 
 		if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.UpdateCodeJob")){
-			
+			//检查是否存在不存在则不执行定时任务
+			if(null == LoadConf.getSystems().get(num)) return obj;
+			jobDataMap.put("num", num);
 		}else if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.DeleteJob")){
-			
+				jobDataMap.put("startTime", model.getSTART_TIME().longValue());
+				jobDataMap.put("endTime", model.getEND_TIME().longValue());
 		}else if(model.getJOB_CLASS_NAME().equals("com.hws.oa.core.quartz.model.PackageJob")){
-			
+			jobDataMap.put("nums", numArr);
+			jobDataMap.put("poms", addressArr);
+			jobDataMap.put("command", command);
 		}
-		
 		if(MyCacheUtils.isContain(model.getJOB_NAME())){
 			obj.put("message", "name_already_exists");
 			return obj;
@@ -101,7 +103,8 @@ public class TimedTaskController {
 			model.setJOB_GROUP(model.getJOB_NAME());
 			model.setTRIGGER_NAME(model.getJOB_NAME());
 			model.setTRIGGER_GROUP(model.getJOB_NAME());
-			scheduleMethod.addJobDetails( Class.forName(model.getJOB_CLASS_NAME()), model);
+			
+			scheduleMethod.addJobDetails( Class.forName(model.getJOB_CLASS_NAME()), model,jobDataMap);
 			//设置任务永久存储
 			boolean isStroe = quartzService.setPermanentStorage(model.getJOB_NAME());
 			logger.info("stroe:"+isStroe);

@@ -88,7 +88,9 @@ public class GitController {
 		JSONObject obj = new JSONObject();
 		for(Integer temp : numArr){
 			try {
-				 ms.mvn(map.get(temp).replace("pom.xml", ""), command,request.getSession().getId());
+				logger.info("开始打包");
+				ms.mvn(map.get(temp).replace("pom.xml", ""), command,request.getSession().getId());
+				logger.info("打包完成");
 				if(!obj.getBooleanValue("flag"))return obj;
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -33,6 +33,8 @@ public class UpdateTask implements ITask, Callable<JSONObject> {
 			logger.info("代码更新状态："+isFinish);
 			boolean flag = true;
 			while(flag){
+				//修复github中删除文件无法获取路径
+				if(diff.getNewPath().equals("/dev/null"))break;
 				File file = new File(rootPath+File.separator+diff.getNewPath());
 				if(file.lastModified()>time){
 					String message = "{type:'update',isFinish:"+isFinish+",value:'"+diff.getChangeType() +"      "+diff.getNewPath()+"'}";

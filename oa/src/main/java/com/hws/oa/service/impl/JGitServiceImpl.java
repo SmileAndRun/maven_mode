@@ -55,6 +55,7 @@ public class JGitServiceImpl implements JGitService{
     	obj.put("updateFlag", false);
     	if(null != listSet&&listSet.size()>0){
     		SystemModel model = listSet.get(num);
+    		if(null == model)return obj;
 			remoteRepo = model.getRemoteRepo();
 			localRepo = model.getLocalRepo();
 		}

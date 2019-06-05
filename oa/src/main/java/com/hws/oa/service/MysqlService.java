@@ -8,10 +8,10 @@ import com.hws.oa.model.VersionModel;
 
 public interface MysqlService {
 	public List<VersionModel> getAllVersionModel();
-	public VersionModel getVersionModelById(Long versionId);
+	public VersionModel getVersionModelById(Integer versionId);
 	public List<VersionModel> getListVersionModelByTime(Timestamp startTime,Timestamp endTime);
 	public boolean addVersionModel(VersionModel versionModel);
-	public boolean deleteVersionModel(Long versionId);
+	public boolean deleteVersionModel(Integer versionId);
 	
 	public boolean insertLog(LogModel model);
 }

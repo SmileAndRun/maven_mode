@@ -55,7 +55,7 @@ public class DownUtils {
 		if(!tempFile.exists())tempFile.mkdirs();
 		String fileName = targetLocation+File.separator+name+ZIPSUFFIX;
 		File file = new File(fileName);
-		String versionId ="";
+		String versionId =name;
 		while(file.exists()){
 			versionId = String.valueOf(MyCommonConstants.codeVersion.getAndIncrement());
 			fileName = targetLocation+File.separator+versionId+ZIPSUFFIX;

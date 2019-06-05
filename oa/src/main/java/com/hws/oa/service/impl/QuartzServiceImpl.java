@@ -2,7 +2,6 @@ package com.hws.oa.service.impl;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
 
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
@@ -41,8 +40,6 @@ public class QuartzServiceImpl implements QuartzService {
 		
 		return quartzModel;
 	}
-
-	@Transactional
 	@Override
 	public boolean setPermanentStorage(String jobName) {
 		String sql = "update qrtz_job_details set IS_DURABLE = 1 where JOB_NAME = ?";
@@ -55,7 +52,6 @@ public class QuartzServiceImpl implements QuartzService {
 		String sql = "select JOB_DATA from qrtz_job_details where JOB_NAME = ?";
 		return hqlService.getEntityBySql(QrtzJobDetails.class, sql, jobName);
 	}
-	@Transactional
 	@Override
 	public boolean insertSelfDifined(QuartzModel model) {
 		String sql = "insert into qrtz_self_defined(JOB_NAME,START_TIME,END_TIME,CRON_EXPRESSION,TRIGGER_STATE,JOB_CLASS_NAME) values(?,?,?,?,?,?)";
@@ -76,15 +72,13 @@ public class QuartzServiceImpl implements QuartzService {
 	@Autowired
 	ScheduleMethod scheduleMethod;
 	
-	@Transactional
 	@Override
 	public boolean deleteTasks(String[] names) throws SchedulerException {
 		for(String name:names){
 			MyCacheUtils.removeItem(name);
 			if(scheduleMethod.deleJobDetails(new QuartzModel(name,name))){
 				String sql = "delete from qrtz_self_defined where JOB_NAME = ?";
-				if(hqlService.updateBySql(sql, name))
-					return false;
+				if(!hqlService.updateBySql(sql, name)) return false;
 				sql = "delete from qrtz_self_data where JOBNAME = ?";
 				hqlService.updateBySql(sql,name);
 			}
@@ -92,7 +86,6 @@ public class QuartzServiceImpl implements QuartzService {
 		}
 		return true;
 	}
-	@Transactional
 	@Override
 	public boolean updateSelfDefined(QuartzModel model) {
 		StringBuffer sql = new StringBuffer("update qrtz_self_defined set ");
@@ -145,7 +138,6 @@ public class QuartzServiceImpl implements QuartzService {
 		return getJobData(name);
 	}
 	
-	@Transactional
 	@Override
 	public boolean insertJobData(QrtzJobData model) {
 		String sql = "insert into qrtz_self_data(JOBNAME,EXCUTETIME,JOBDATA,JOBCLASS)"

@@ -59,6 +59,7 @@ public class PackageJob implements Job{
 		String updateInfo = "";
 		try {
 			updateInfo = js.update(confNum);
+			if(null == updateInfo)updateInfo ="";
 		} catch (InvalidRemoteException e1) {
 			e1.printStackTrace();
 		} catch (TransportException e1) {
@@ -77,11 +78,11 @@ public class PackageJob implements Job{
 			map.put(nums[i],poms[i]);
 		}
 		Arrays.sort(nums);
-		if(null == command || "".equals(command))command = "mvn clean package install";
+		if(null == command || "".equals(command))command = " mvn clean package install";
 		String totalMessage = "";
 		for(Integer num:nums){
 			try {
-				String message = RunTimeUtils.excute(map.get(num), command);
+				String message = RunTimeUtils.excute(map.get(num).replace("pom.xml", ""), command);
 				totalMessage += message;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -98,7 +99,7 @@ public class PackageJob implements Job{
 			String versionId = DownUtils.zipData(poms,String.valueOf(MyCommonConstants.codeVersion.getAndIncrement()), zipAddress);
 			//插入数据库
 			VersionModel versionModel = new VersionModel();
-			versionModel.setVersionId(Long.parseLong(versionId));
+			versionModel.setVersionId(Integer.parseInt(versionId));
 			Timestamp createTime = new Timestamp(System.currentTimeMillis());
 			versionModel.setCreateTime(createTime);
 			versionModel.setUpdateInfo(updateInfo);

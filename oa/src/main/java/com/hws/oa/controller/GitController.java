@@ -169,7 +169,7 @@ public class GitController {
 		obj.put("flag",true);
 		//更新数据库
 		VersionModel versionModel = new VersionModel();
-		versionModel.setVersionId(Long.valueOf(version));
+		versionModel.setVersionId(Integer.parseInt(version));
 		Timestamp createTime = new Timestamp(System.currentTimeMillis());
 		versionModel.setCreateTime(createTime);
 		versionModel.setUpdateInfo(updateInfo);
@@ -195,7 +195,7 @@ public class GitController {
 	@ResponseBody
 	public JSONObject getZipDatails(String versionId){
 		JSONObject obj = new JSONObject();
-		VersionModel model = mysqlService.getVersionModelById(Long.valueOf(versionId));
+		VersionModel model = mysqlService.getVersionModelById(Integer.parseInt(versionId));
 		obj.put("versionModel", model);
 		return obj;
 	}
@@ -203,7 +203,7 @@ public class GitController {
 	@ResponseBody
 	public JSONObject searchVersion(String versionId){
 		JSONObject obj = new JSONObject();
-		VersionModel model = mysqlService.getVersionModelById(Long.valueOf(versionId));
+		VersionModel model = mysqlService.getVersionModelById(Integer.parseInt(versionId));
 		obj.put("versionModel", model);
 		return obj;
 	}

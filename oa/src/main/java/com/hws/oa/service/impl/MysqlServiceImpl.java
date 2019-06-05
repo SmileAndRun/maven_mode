@@ -2,7 +2,6 @@ package com.hws.oa.service.impl;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -34,16 +33,18 @@ public class MysqlServiceImpl implements MysqlService {
 	}
 
 	@Override
-	public VersionModel getVersionModelById(Long versionId) {
-		Optional<VersionModel>  temp = vr.findById(versionId);
-		return temp.orElse(null);
+	public VersionModel getVersionModelById(Integer versionId) {
+		
+		String sql = "select versionId,updateInfo,packageInfo,createTime from t_version where versionId = ?";
+		VersionModel model = hs.getEntityBySql(VersionModel.class, sql,versionId);
+		return model;
 	}
 
 	@Override
 	public List<VersionModel> getListVersionModelByTime(Timestamp startTime,
 			Timestamp endTime) {
 		String sql = "select versionId,updateInfo,packageInfo,createTime from t_version where createTime > ? and createTime < ?";
-		List<VersionModel> list = hs.getEntitiesBySql(VersionModel.class, sql, startTime,endTime);
+		List<VersionModel> list = hs.getEntitiesBySqlByProx(VersionModel.class, sql, startTime,endTime);
 		return list;
 	}
 
@@ -55,10 +56,10 @@ public class MysqlServiceImpl implements MysqlService {
 	}
 
 	@Override
-	public boolean deleteVersionModel(Long versionId) {
+	public boolean deleteVersionModel(Integer versionId) {
 		if(versionId == null)return false;
-		vr.deleteById(versionId);
-		return true;
+		String sql = "delete from t_version where versionId = ?";
+		return hs.updateBySql( sql,versionId);
 	}
 
 	@Override

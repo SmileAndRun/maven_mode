@@ -15,7 +15,7 @@ public class VersionModel implements Serializable {
 	 */
 	private static final long serialVersionUID = 4524592412155664048L;
 	@Id
-	private Long versionId;
+	private Integer versionId;
 	private Timestamp createTime;
 	private String updateInfo;
 	private String packageInfo;
@@ -32,10 +32,11 @@ public class VersionModel implements Serializable {
 	public void setPackageInfo(String packageInfo) {
 		this.packageInfo = packageInfo;
 	}
-	public Long getVersionId() {
+	
+	public Integer getVersionId() {
 		return versionId;
 	}
-	public void setVersionId(Long versionId) {
+	public void setVersionId(Integer versionId) {
 		this.versionId = versionId;
 	}
 	public Timestamp getCreateTime() {

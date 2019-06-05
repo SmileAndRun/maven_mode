@@ -29,9 +29,9 @@ public class RunTimeUtils {
 			//修复window无法切换路径的问题
 			if(pomPath.indexOf(":")!=-1){
 				String temp = pomPath.split(":")[0];
-				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" &&"+command);
+				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" && "+command);
 			}else{
-				process= runtime.exec("cmd /c   cd "+pomPath+" &&"+command);
+				process= runtime.exec("cmd /c   cd "+pomPath+" &&  "+command);
 			}
 			
 		}else{
@@ -68,9 +68,9 @@ public class RunTimeUtils {
 			//修复window无法切换路径的问题
 			if(pomPath.indexOf(":")!=-1){
 				String temp = pomPath.split(":")[0];
-				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" &&"+command);
+				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" && "+command);
 			}else{
-				process= runtime.exec("cmd /c   cd "+pomPath+" &&"+command);
+				process= runtime.exec("cmd /c   cd "+pomPath+" && "+command);
 			}
 			
 		}else{

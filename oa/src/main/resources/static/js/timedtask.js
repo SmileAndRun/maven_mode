@@ -534,16 +534,16 @@ $(function(){
 						alert($(".nodata-il8n").val());
 						return;
 					}
-					var json  = eval("("+data.dataJson.JOBDATA+")");
+					var json  = eval("("+data.dataJson.jobdata+")");
 					var dataValue="<div style='margin-left:20px;' class='jobDataVal'>";
 					if(json.type=="delete"){
-						dataValue = "<div>"+json.deleteInfo+"</div>"+
+						dataValue += "<div>"+json.deleteInfo+"</div>"+
 						"</div>";
 					}else if(json.type=="update"){
-						dataValue = "<div>"+json.updateInfo+"</div>"+
+						dataValue += "<div>"+json.updateInfo+"</div>"+
 						"</div>";
 					}else if(json.type=="package"){
-						dataValue = "<div>"+json.updateInfo+"</div>"+
+						dataValue += "<div>"+json.updateInfo+"</div>"+
 						"<div>"+json.packageInfo+"</div>"+
 						"</div>";
 					}

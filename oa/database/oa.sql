@@ -11,7 +11,7 @@
  Target Server Version : 50173
  File Encoding         : 65001
 
- Date: 05/06/2019 10:00:31
+ Date: 05/06/2019 14:16:16
 */
 
 SET NAMES utf8mb4;
@@ -154,7 +154,7 @@ CREATE TABLE `qrtz_self_data`  (
   `JOBDATA` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `JOBCLASS` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`DATAID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for qrtz_self_defined
@@ -262,7 +262,7 @@ CREATE TABLE `t_log`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_version`;
 CREATE TABLE `t_version`  (
-  `versionId` bigint(20) NOT NULL,
+  `versionId` int(20) NOT NULL,
   `createTime` datetime NULL DEFAULT NULL,
   `packageInfo` text CHARACTER SET utf8 COLLATE utf8_bin NULL,
   `updateInfo` text CHARACTER SET utf8 COLLATE utf8_bin NULL,

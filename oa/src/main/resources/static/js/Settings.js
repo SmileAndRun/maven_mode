@@ -47,6 +47,10 @@ $(function(){
 		$(".showADD").css("display","none");
 		var local = $(".addLocalAddress").val();
 		var repo = $(".addRepoAddress").val();
+		
+		console.log(local);
+		console.log(repo);
+		
 		if(local !="" && repo !=""){
 			var url = "/addSystemSet";
 			var data = {
@@ -54,6 +58,7 @@ $(function(){
 					remoteRepo: repo,
 			};
 			var s_function = function(result){
+				
 				if(result.flag){
 					var id = $(".dataTable tbody tr").length+1;
 					$(".dataTable tbody").append("<tr>" +

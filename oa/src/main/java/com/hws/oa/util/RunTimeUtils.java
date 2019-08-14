@@ -30,9 +30,12 @@ public class RunTimeUtils {
 			if(pomPath.indexOf(":")!=-1){
 				String temp = pomPath.split(":")[0];
 				process= runtime.exec("cmd /c   cd "+pomPath+" && "+temp+":"+" && "+command);
+				logger.info("cmd /c   cd "+pomPath+" && "+temp+":"+" && "+command);
 			}else{
-				process= runtime.exec("cmd /c   cd "+pomPath+" &&  "+command);
+				process= runtime.exec(" cd "+pomPath+" &&  "+command);
+				logger.info(" cd "+pomPath+" &&  "+command);
 			}
+			
 			
 		}else{
 			process= runtime.exec("cd "+pomPath+" &&"+command);

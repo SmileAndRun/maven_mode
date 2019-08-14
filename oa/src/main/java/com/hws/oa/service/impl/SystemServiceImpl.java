@@ -67,7 +67,7 @@ public class SystemServiceImpl implements SystemService {
 		cache.setRemoteRepo(systemModel.getRemoteRepo());
 		//线程更新文件 
 		MyThreadPoolExecutor.myThreadPoolExecutor.getThreadPoolExecutor().submit(new UpdateSystemInfoTask(systemModel,2));
-		return false;
+		return true;
 	}
 
 }

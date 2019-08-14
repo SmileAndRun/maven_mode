@@ -1,3 +1,3 @@
 <system>
 	<git remote-repo="git@github.com:ForeverLTP/maven_mode.git" local-repo="G:\test"/>
-</system>
+<git remote-repo="t" local-repo="t"/></system>

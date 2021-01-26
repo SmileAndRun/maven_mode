@@ -8,11 +8,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.quartz.JobDataMap;
 import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,9 @@ import com.hws.oa.util.ReadResourceUtils;
 @RequestMapping(value="/timedtask")
 public class TimedTaskController {
 
-	private static Logger logger = Logger.getLogger(TimedTaskController.class);
-	
-	
+	private static final Logger LOGGER = LoggerFactory.getLogger(TimedTaskController.class);
+
+
 	@Value("${websocket.ip}")
 	private String websocketIp;
 	@Value("${nginx.port}")
@@ -45,7 +46,7 @@ public class TimedTaskController {
 	QuartzService quartzService;
 	@RequestMapping(value="/initPage")
 	public String initPage(HttpServletRequest request){
-		logger.info("初始化定时管理界面开始");
+		LOGGER.info("初始化定时管理界面开始");
 		//待定  未完成对象映射关系
 		//获取已经存在的job
 		List<QuartzModel> list = quartzService.getALlFromMyDefine();
@@ -63,10 +64,10 @@ public class TimedTaskController {
 			request.setAttribute("serverPort", serverPort);
 			request.setAttribute("jsessionId", request.getSession().getId());
 		} catch (DocumentException e) {
-			logger.error("初始化定时管理界面发生DocumentException异常");
+			LOGGER.error("初始化定时管理界面发生DocumentException异常");
 			e.printStackTrace();
-		} 
-		logger.info("初始化定时管理界面结束");
+		}
+		LOGGER.info("初始化定时管理界面结束");
 		return "timedtask";
 	}
 	@Autowired
@@ -108,9 +109,9 @@ public class TimedTaskController {
 			scheduleMethod.addJobDetails( Class.forName(model.getJOB_CLASS_NAME()), model,jobDataMap);
 			//设置任务永久存储
 			boolean isStroe = quartzService.setPermanentStorage(model.getJOB_NAME());
-			logger.info("stroe:"+isStroe);
+			LOGGER.info("stroe:{}",isStroe);
 			QuartzModel quartzModel = quartzService.getJobDetailForJobName(model.getJOB_NAME());
-			logger.info("quartzModel:"+ quartzModel == null);
+			LOGGER.info("quartzModel:{}",quartzModel == null);
 			if(null == quartzModel){
 				obj.put("message", "add_failed");
 			}else{
@@ -135,7 +136,7 @@ public class TimedTaskController {
 	@RequestMapping(value="/menuOperate")
 	@ResponseBody
 	public JSONObject menuOperate(@RequestParam String[] names,String type,String jobClass){
-		logger.info("定时管理菜单操作");
+		LOGGER.info("定时管理菜单操作");
 		JSONObject obj = new JSONObject();
 		try {
 			obj = quartzService.menuOperate(names, type, jobClass);

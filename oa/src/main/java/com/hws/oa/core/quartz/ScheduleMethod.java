@@ -31,7 +31,7 @@ public class ScheduleMethod {
 				
 		CronTrigger trigger = TriggerBuilder.newTrigger().
                 withSchedule(CronScheduleBuilder.cronSchedule(model.getCRON_EXPRESSION())).withIdentity(model.getTRIGGER_NAME(), model.getTRIGGER_GROUP()).startAt(startTime).endAt(endTime).build();
-		
+
 		return trigger;
 	}
 	/**
@@ -48,7 +48,6 @@ public class ScheduleMethod {
 		JobDetail myjob = JobBuilder.newJob(name).withIdentity(model.getJOB_NAME(), model.getJOB_GROUP()).usingJobData(newJobDataMap).build();
 		scheduler.scheduleJob(myjob, getCronTrigger(model));
 		scheduler.start();
-		
 	}
 	/**
 	 * 删除一个任务

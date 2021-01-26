@@ -1,0 +1,51 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+#*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# ignore the eclipse project files.
+target
+bin
+logs
+.gradle
+.classpath
+.project
+.settings
+
+# ignore intellij project files.
+.idea
+*.iml
+
+# ignore vs code project files.
+.vscode
+
+# ignore the release properties created by maven release plugin.
+release.properties
+.DS_Store
+.~*
+keystore*
+
+# spring file.
+.springBeans
+
+# maven files.
+.factorypath

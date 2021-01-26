@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import io.swagger.annotations.Api;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
@@ -32,7 +31,6 @@ import com.bdcom.hws.service.ImagesService;
 import com.bdcom.hws.service.UserService;
 import com.bdcom.server.service.BarrageService;
 
-@Api(value="用户模块")
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
@@ -84,10 +82,7 @@ public class UserController {
 	
 	/**
 	 * 跳转到此路径表示已经认证成功
-	 * @param req
-	 * @param userName 用户名
-	 * @param isRemenberMe 是否使用cookie
-	 * @return 
+	 * @return
 	 */
 	@RequestMapping(value="/index")
 	public ModelAndView initIndexPage(){

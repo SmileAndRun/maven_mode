@@ -1,11 +1,13 @@
 package com.bdcom.hws.exception;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CommonException extends Exception{
 	 
 	private static final long serialVersionUID = 4391247397386158310L;
-	private static Logger log = Logger.getLogger(CommonException.class.getClass());
+	private static Logger log = LoggerFactory.getLogger(CommonException.class.getClass());
 	 
 	 /**
 	  * 常见异常方法
